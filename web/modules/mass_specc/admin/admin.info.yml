@@ -1,0 +1,6 @@
+name: Admin
+description: Admin Portal
+package: MassSpecc
+
+type: module
+core_version_requirement: ^10.3 || ^11

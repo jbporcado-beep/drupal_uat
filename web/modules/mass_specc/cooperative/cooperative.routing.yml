@@ -1,0 +1,15 @@
+cooperative.home:
+  path: '/cooperative'
+  defaults:
+    _controller: '\Drupal\cooperative\Controller\HomeController::view'
+    _title: 'Home'
+  requirements:
+    _permission: 'access content'
+
+cooperative.upload:
+  path: '/cooperative/upload/form'
+  defaults:
+    _controller: '\Drupal\cooperative\Controller\UploadController::form'
+    _title: 'Upload'
+  requirements:
+    _permission: 'access content'

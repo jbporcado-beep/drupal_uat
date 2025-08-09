@@ -1,0 +1,6 @@
+name: Cooperative
+description: Cooperative Portal
+package: MassSpecc
+
+type: module
+core_version_requirement: ^10.3 || ^11
