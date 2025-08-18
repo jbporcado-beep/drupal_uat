@@ -1,0 +1,18 @@
+uuid: 07f2e662-2f7f-4361-b1c4-b9196208d539
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.cooperative
+id: node.cooperative.title
+field_name: title
+entity_type: node
+bundle: cooperative
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

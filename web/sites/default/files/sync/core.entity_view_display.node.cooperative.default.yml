@@ -1,0 +1,37 @@
+uuid: 48f94d1a-8313-4341-8bfb-40d357a80bcc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.cooperative.field_code
+    - field.field.node.cooperative.field_users
+    - node.type.cooperative
+  module:
+    - user
+id: node.cooperative.default
+targetEntityType: node
+bundle: cooperative
+mode: default
+content:
+  field_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_users:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

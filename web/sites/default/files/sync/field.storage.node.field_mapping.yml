@@ -1,0 +1,24 @@
+uuid: 403ceee0-2850-4631-bc13-80ae4c2e65f7
+langcode: en
+status: true
+dependencies:
+  module:
+    - key_value_field
+    - node
+id: node.field_mapping
+field_name: field_mapping
+entity_type: node
+type: key_value
+settings:
+  key_max_length: 255
+  key_is_ascii: false
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: key_value_field
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

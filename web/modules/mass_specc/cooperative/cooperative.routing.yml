@@ -2,7 +2,23 @@ cooperative.home:
   path: '/cooperative'
   defaults:
     _controller: '\Drupal\cooperative\Controller\HomeController::view'
-    _title: 'Home'
+    _title: 'Cooperative Portal'
+  requirements:
+    _permission: 'access content'
+
+cooperative.members:
+  path: '/cooperative/members'
+  defaults:
+    _controller: '\Drupal\cooperative\Controller\MembersController::list'
+    _title: 'Members'
+  requirements:
+    _permission: 'access content'
+
+cooperative.members.view:
+  path: '/cooperative/members/{id}'
+  defaults:
+    _controller: '\Drupal\cooperative\Controller\MembersController::view'
+    _title: 'Members'
   requirements:
     _permission: 'access content'
 

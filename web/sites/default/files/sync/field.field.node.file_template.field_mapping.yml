@@ -1,0 +1,21 @@
+uuid: 2867ba60-86e0-4e58-87b5-8b293cd8f491
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_mapping
+    - node.type.file_template
+  module:
+    - key_value_field
+id: node.file_template.field_mapping
+field_name: field_mapping
+entity_type: node
+bundle: file_template
+label: Mapping
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: key_value

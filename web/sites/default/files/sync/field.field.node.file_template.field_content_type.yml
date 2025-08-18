@@ -1,0 +1,21 @@
+uuid: cd198a84-65ac-40cc-8f2f-ecebe657eee0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content_type
+    - node.type.file_template
+  module:
+    - options
+id: node.file_template.field_content_type
+field_name: field_content_type
+entity_type: node
+bundle: file_template
+label: 'Content Type'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

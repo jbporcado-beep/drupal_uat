@@ -1,0 +1,9 @@
+uuid: e55c782e-3c74-4544-9a4a-ec09f4bf2fa9
+langcode: en
+status: true
+dependencies: {  }
+id: cooperative
+label: Cooperative
+weight: 4
+is_admin: false
+permissions: {  }

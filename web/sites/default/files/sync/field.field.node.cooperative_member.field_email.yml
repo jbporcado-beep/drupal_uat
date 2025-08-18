@@ -1,0 +1,19 @@
+uuid: 85b2a930-eadd-4aa1-bb82-b62cc11b4587
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email
+    - node.type.cooperative_member
+id: node.cooperative_member.field_email
+field_name: field_email
+entity_type: node
+bundle: cooperative_member
+label: Email
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email
