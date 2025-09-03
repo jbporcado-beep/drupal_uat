@@ -1,0 +1,130 @@
+uuid: a5cfaeab-41b2-453b-ad54-118848958af5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.cooperative.field_assigned_report_templates
+    - field.field.node.cooperative.field_cbs_branch_code
+    - field.field.node.cooperative.field_cda_firm_size
+    - field.field.node.cooperative.field_cda_registration_date
+    - field.field.node.cooperative.field_cic_provider_code
+    - field.field.node.cooperative.field_contact_number
+    - field.field.node.cooperative.field_contact_person
+    - field.field.node.cooperative.field_coop_code
+    - field.field.node.cooperative.field_email
+    - field.field.node.cooperative.field_head_office_address
+    - field.field.node.cooperative.field_name_of_cooperative
+    - field.field.node.cooperative.field_number_of_employees
+    - node.type.cooperative
+  module:
+    - datetime
+    - user
+id: node.cooperative.default
+targetEntityType: node
+bundle: cooperative
+mode: default
+content:
+  field_assigned_report_templates:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_cbs_branch_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_cda_firm_size:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_cda_registration_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_cic_provider_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_contact_number:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_contact_person:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_coop_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_head_office_address:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_name_of_cooperative:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_number_of_employees:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

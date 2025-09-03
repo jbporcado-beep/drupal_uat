@@ -1,0 +1,8 @@
+<?php
+function admin_mail($key, &$message, $params) {
+  if ($key == 'custom_password_reset') {
+    $message['subject'] = $params['subject'];
+    $message['body'] = $params['body'];
+    $message['headers']['Content-Type'] = 'text/html; charset=UTF-8';
+  }
+}

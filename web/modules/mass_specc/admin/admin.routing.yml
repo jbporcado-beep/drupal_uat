@@ -1,0 +1,84 @@
+admin.home:
+  path: "/admin"
+  defaults:
+    _controller: '\Drupal\admin\Controller\HomeController::view'
+    _title: "Admin Home"
+  requirements:
+    _permission: "access content"
+
+user.add:
+  path: "/admin/user/add"
+  defaults:
+    _controller: '\Drupal\admin\Controller\UserController::createUser'
+  requirements:
+    _permission: "administer users"
+
+user.list:
+  path: "/admin/user"
+  defaults:
+    _controller: '\Drupal\admin\Controller\UserController::viewAllUsers'
+  requirements:
+    _permission: "administer users"
+
+user.view:
+  path: "/admin/user/{id}"
+  defaults:
+    _controller: '\Drupal\admin\Controller\UserController::viewUser'
+  requirements:
+    _permission: "administer users"
+
+reports.add:
+  path: "/admin/reports/add"
+  defaults:
+    _controller: '\Drupal\admin\Controller\ReportsController::createReport'
+    _title: "Create Report"
+  requirements:
+    _permission: "administer reports"
+
+reports.member-credit:
+  path: "/admin/reports/member-credit"
+  defaults:
+    _controller: '\Drupal\admin\Controller\ReportsController::memberCredit'
+    _title: "Member Credit"
+  requirements:
+    _permission: "view reports"
+
+reports.credit-risk-bureau:
+  path: "/admin/reports/credit-risk-bureau"
+  defaults:
+    _controller: '\Drupal\admin\Controller\ReportsController::creditRiskBureau'
+    _title: "Credit Risk Bureau"
+  requirements:
+    _permission: "view reports"
+
+reports.general-report-viewer:
+  path: "/admin/reports/general-report-viewer"
+  defaults:
+    _controller: '\Drupal\admin\Controller\ReportsController::generalReportViewer'
+    _title: "General Report Viewer"
+  requirements:
+    _permission: "view reports"
+
+reports.system-login-reports:
+  path: "/admin/reports/system-login-reports"
+  defaults:
+    _controller: '\Drupal\admin\Controller\ReportsController::systemLoginReports'
+    _title: "System Login Reports"
+  requirements:
+    _permission: "view reports"
+
+cic.generate:
+  path: "/admin/cic-report-generation"
+  defaults:
+    _controller: '\Drupal\admin\Controller\CicController::generateCic'
+    _title: "Generate CIC"
+  requirements:
+    _permission: "administer cic"
+
+cic.view:
+  path: "/admin/cic-files"
+  defaults:
+    _controller: '\Drupal\admin\Controller\CicController::viewCicFiles'
+    _title: "View CIC Files"
+  requirements:
+    _permission: "administer cic"

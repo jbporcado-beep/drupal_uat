@@ -1,0 +1,20 @@
+uuid: 9cadbe57-36bf-4965-ab38-f1e72db09879
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_number_of_employees
+field_name: field_number_of_employees
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

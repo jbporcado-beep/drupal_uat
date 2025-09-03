@@ -1,0 +1,19 @@
+uuid: 0742fe9f-0886-44d7-ad2c-41c524af48e0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contact_person
+    - node.type.cooperative
+id: node.cooperative.field_contact_person
+field_name: field_contact_person
+entity_type: node
+bundle: cooperative
+label: 'Contact Person'
+description: 'Name of Contact person'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,9 @@
+uuid: 1e5a115a-4489-4c47-9a93-894aa0847e46
+langcode: en
+status: true
+dependencies: {  }
+id: uploader
+label: Uploader
+weight: 7
+is_admin: false
+permissions: {  }

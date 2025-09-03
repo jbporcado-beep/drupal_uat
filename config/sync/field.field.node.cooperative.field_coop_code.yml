@@ -1,0 +1,19 @@
+uuid: b5236491-e070-477c-a9e6-84b54506e9a7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_coop_code
+    - node.type.cooperative
+id: node.cooperative.field_coop_code
+field_name: field_coop_code
+entity_type: node
+bundle: cooperative
+label: 'Coop code'
+description: 'This is the cood code'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

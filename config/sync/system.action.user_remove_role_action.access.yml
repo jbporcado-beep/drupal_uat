@@ -1,0 +1,14 @@
+uuid: 3c7304ad-325a-4d43-aeb1-a24dff879332
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.access
+  module:
+    - user
+id: user_remove_role_action.access
+label: 'Remove the Access role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: access

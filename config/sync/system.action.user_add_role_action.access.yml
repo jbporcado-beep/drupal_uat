@@ -1,0 +1,14 @@
+uuid: e15fdd42-6b56-49d7-9748-9d548c7f7888
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.access
+  module:
+    - user
+id: user_add_role_action.access
+label: 'Add the Access role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: access

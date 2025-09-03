@@ -1,0 +1,14 @@
+uuid: efe85aa7-8cf3-4ac1-8772-4b1154171847
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.uploader
+  module:
+    - user
+id: user_remove_role_action.uploader
+label: 'Remove the Uploader role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: uploader

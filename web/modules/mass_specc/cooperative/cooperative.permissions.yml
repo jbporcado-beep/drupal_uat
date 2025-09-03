@@ -1,0 +1,15 @@
+add member:
+  title: "Add member"
+  description: "Create a new member."
+
+view members:
+  title: "View members"
+  description: "View member details."
+
+view reports:
+  title: "View reports"
+  description: "View and download report templates."
+
+upload file:
+  title: "Upload files"
+  description: "Upload files for reports."

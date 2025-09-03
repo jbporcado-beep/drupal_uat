@@ -1,0 +1,14 @@
+uuid: 7a04d23c-55d1-449c-a304-c99d61614881
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.mass_specc_admin
+  module:
+    - user
+id: user_add_role_action.mass_specc_admin
+label: 'Add the Mass-Specc admin role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: mass_specc_admin

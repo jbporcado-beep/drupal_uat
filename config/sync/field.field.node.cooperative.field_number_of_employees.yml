@@ -1,0 +1,23 @@
+uuid: 75d9c46f-0b6f-49eb-b580-8fa429683a9a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_number_of_employees
+    - node.type.cooperative
+id: node.cooperative.field_number_of_employees
+field_name: field_number_of_employees
+entity_type: node
+bundle: cooperative
+label: 'Number of Employees'
+description: 'Number of employees in head office'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,14 @@
+uuid: 786de614-2021-467d-8308-13204b403d57
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.mass_specc_admin
+  module:
+    - user
+id: user_remove_role_action.mass_specc_admin
+label: 'Remove the Mass-Specc admin role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: mass_specc_admin

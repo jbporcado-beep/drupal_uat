@@ -1,0 +1,11 @@
+add user:
+  title: "Add a user"
+  description: "Allow users to add new users to the system."
+
+administer cic:
+  title: "Administer CIC"
+  description: "Administer the CIC report"
+
+administer reports:
+  title: "Administer reports"
+  description: "Create and manage report templates."

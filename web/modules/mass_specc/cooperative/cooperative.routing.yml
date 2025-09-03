@@ -1,31 +1,31 @@
 cooperative.home:
-  path: '/cooperative'
+  path: "/cooperative"
   defaults:
     _controller: '\Drupal\cooperative\Controller\HomeController::view'
-    _title: 'Cooperative Portal'
+    _title: "Cooperative Portal"
   requirements:
-    _permission: 'access content'
+    _permission: "access content"
 
 cooperative.members:
-  path: '/cooperative/members'
+  path: "/cooperative/members"
   defaults:
     _controller: '\Drupal\cooperative\Controller\MembersController::list'
-    _title: 'Members'
+    _title: "Members"
   requirements:
-    _permission: 'access content'
+    _permission: "view members"
 
 cooperative.members.view:
-  path: '/cooperative/members/{id}'
+  path: "/cooperative/members/{id}"
   defaults:
     _controller: '\Drupal\cooperative\Controller\MembersController::view'
-    _title: 'Members'
+    _title: "Members"
   requirements:
-    _permission: 'access content'
+    _permission: "view members"
 
 cooperative.upload:
-  path: '/cooperative/upload/form'
+  path: "/cooperative/upload/form"
   defaults:
     _controller: '\Drupal\cooperative\Controller\UploadController::form'
-    _title: 'Upload'
+    _title: "Upload"
   requirements:
-    _permission: 'access content'
+    _permission: "upload file"

@@ -1,0 +1,19 @@
+uuid: fe27dd44-0de9-405b-891c-cc5c5303b342
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_name_of_cooperative
+    - node.type.cooperative
+id: node.cooperative.field_name_of_cooperative
+field_name: field_name_of_cooperative
+entity_type: node
+bundle: cooperative
+label: 'Name of Cooperative'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

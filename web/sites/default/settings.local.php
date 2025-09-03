@@ -34,3 +34,4 @@ $config['twig.config']['debug'] = TRUE;
 $config['twig.config']['cache'] = FALSE;
 $config['twig.config']['auto_reload'] = TRUE;
 
+$settings['config_sync_directory'] = '../config/sync';
