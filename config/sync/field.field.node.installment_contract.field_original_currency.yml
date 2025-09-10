@@ -1,0 +1,19 @@
+uuid: 123c7937-eade-4c46-9575-34b54ba95469
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_original_currency
+    - node.type.installment_contract
+id: node.installment_contract.field_original_currency
+field_name: field_original_currency
+entity_type: node
+bundle: installment_contract
+label: original_currency
+description: 'Value must be consistent with "CurrencyDomain" list'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

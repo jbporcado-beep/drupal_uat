@@ -1,0 +1,22 @@
+uuid: 0fbb1a70-5c3c-4cbb-a3f7-ccf59e95a411
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.header
+id: node.header.status
+field_name: status
+entity_type: node
+bundle: header
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

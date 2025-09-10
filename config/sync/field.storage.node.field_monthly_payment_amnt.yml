@@ -1,0 +1,20 @@
+uuid: 438f73fd-c801-41e4-8b98-d0081792d9ae
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_monthly_payment_amnt
+field_name: field_monthly_payment_amnt
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

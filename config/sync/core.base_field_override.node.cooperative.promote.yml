@@ -1,0 +1,22 @@
+uuid: 778b74a1-9d71-4d46-8e7a-4badd30769e4
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.cooperative
+id: node.cooperative.promote
+field_name: promote
+entity_type: node
+bundle: cooperative
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

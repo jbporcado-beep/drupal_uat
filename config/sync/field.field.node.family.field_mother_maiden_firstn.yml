@@ -1,0 +1,19 @@
+uuid: b3178a89-cacf-4b49-8884-c4b5934da3c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_mother_maiden_firstn
+    - node.type.family
+id: node.family.field_mother_maiden_firstn
+field_name: field_mother_maiden_firstn
+entity_type: node
+bundle: family
+label: mother_maiden_firstn
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,19 @@
+uuid: bd0713ca-3f20-4e32-96ea-8aa4fc4e7be7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cid
+    - node.type.customer
+id: node.customer.field_cid
+field_name: field_cid
+entity_type: node
+bundle: customer
+label: cid
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

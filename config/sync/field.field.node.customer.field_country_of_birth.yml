@@ -1,0 +1,19 @@
+uuid: 1e878519-96ce-422d-902e-2b69f037942b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_country_of_birth
+    - node.type.customer
+id: node.customer.field_country_of_birth
+field_name: field_country_of_birth
+entity_type: node
+bundle: customer
+label: country_of_birth
+description: 'Value must be consistent with "CountryDomain" list'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

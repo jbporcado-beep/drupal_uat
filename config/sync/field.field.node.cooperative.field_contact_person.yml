@@ -1,4 +1,4 @@
-uuid: 0742fe9f-0886-44d7-ad2c-41c524af48e0
+uuid: ad8e46e7-ff8c-4dc6-abdf-f87106769032
 langcode: en
 status: true
 dependencies:
@@ -9,9 +9,9 @@ id: node.cooperative.field_contact_person
 field_name: field_contact_person
 entity_type: node
 bundle: cooperative
-label: 'Contact Person'
-description: 'Name of Contact person'
-required: false
+label: contact_person
+description: ''
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

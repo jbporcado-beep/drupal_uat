@@ -1,0 +1,22 @@
+uuid: 8319d48c-5654-4160-922e-9819caf26c9b
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.installment_contract
+id: node.installment_contract.status
+field_name: status
+entity_type: node
+bundle: installment_contract
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

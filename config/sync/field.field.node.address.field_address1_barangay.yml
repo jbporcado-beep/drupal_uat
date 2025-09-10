@@ -1,0 +1,19 @@
+uuid: aef26c7f-83ae-4a40-8639-97b494e109b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_address1_barangay
+    - node.type.address
+id: node.address.field_address1_barangay
+field_name: field_address1_barangay
+entity_type: node
+bundle: address
+label: address1_barangay
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

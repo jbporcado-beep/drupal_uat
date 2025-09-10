@@ -1,0 +1,19 @@
+uuid: 98b17657-fe99-4fe4-929c-4b964b3b343b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contact_type
+    - node.type.customer
+id: node.customer.field_contact_type
+field_name: field_contact_type
+entity_type: node
+bundle: customer
+label: contact_type
+description: 'Value must be consistent with "ContactTypeDomain" list (1-9)'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

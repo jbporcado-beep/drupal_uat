@@ -1,0 +1,22 @@
+uuid: d3aa98bb-e5f2-4b77-951f-72bd7745f386
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.employment
+id: node.employment.status
+field_name: status
+entity_type: node
+bundle: employment
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

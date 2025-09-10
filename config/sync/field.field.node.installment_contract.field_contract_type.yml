@@ -1,0 +1,19 @@
+uuid: 79c0adcd-512f-456e-befc-b15b0bfc9ae4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contract_type
+    - node.type.installment_contract
+id: node.installment_contract.field_contract_type
+field_name: field_contract_type
+entity_type: node
+bundle: installment_contract
+label: contract_type
+description: 'Value must be consistent with "ContractTypeDomain" list'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

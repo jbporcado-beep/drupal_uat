@@ -1,0 +1,20 @@
+uuid: 8a6521c4-dd02-4f38-9700-3a43a6d42b9f
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime
+    - node
+id: node.field_date_of_birth
+field_name: field_date_of_birth
+entity_type: node
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

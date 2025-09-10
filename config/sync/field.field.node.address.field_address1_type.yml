@@ -1,0 +1,19 @@
+uuid: 338942c0-cb6b-4633-98c1-a164a43dc74a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_address1_type
+    - node.type.address
+id: node.address.field_address1_type
+field_name: field_address1_type
+entity_type: node
+bundle: address
+label: address1_type
+description: 'Value must be consistent with "AddressTypeDomain" list'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

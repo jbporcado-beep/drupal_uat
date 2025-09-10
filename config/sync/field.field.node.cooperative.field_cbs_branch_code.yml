@@ -1,4 +1,4 @@
-uuid: 5db4ac27-e047-4c43-a924-4e5a73462c36
+uuid: 32dc2a67-5729-4ac1-86af-6683a622fc2e
 langcode: en
 status: true
 dependencies:
@@ -9,9 +9,9 @@ id: node.cooperative.field_cbs_branch_code
 field_name: field_cbs_branch_code
 entity_type: node
 bundle: cooperative
-label: 'CBS Branch Code'
+label: cbs_branch_code
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

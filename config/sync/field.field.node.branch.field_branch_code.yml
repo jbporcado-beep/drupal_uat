@@ -1,0 +1,19 @@
+uuid: 0ebe08f0-1f1d-448a-aa52-3ec5ff4b84fa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_branch_code
+    - node.type.branch
+id: node.branch.field_branch_code
+field_name: field_branch_code
+entity_type: node
+bundle: branch
+label: branch_code
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

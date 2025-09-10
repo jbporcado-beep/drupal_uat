@@ -1,0 +1,19 @@
+uuid: 22f0c9c6-7bf4-4560-838e-744d7532d4c2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_psoc
+    - node.type.employment
+id: node.employment.field_psoc
+field_name: field_psoc
+entity_type: node
+bundle: employment
+label: psoc
+description: 'Value must be consistent with "PSOCDomain" list'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

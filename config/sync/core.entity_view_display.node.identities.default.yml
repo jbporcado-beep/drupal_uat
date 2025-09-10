@@ -1,0 +1,168 @@
+uuid: 5cbef558-a49d-47ae-9cc8-a41caf317eba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.identities.field_id1_expirydate
+    - field.field.node.identities.field_id1_issuecountry
+    - field.field.node.identities.field_id1_issuedate
+    - field.field.node.identities.field_id1_issuedby
+    - field.field.node.identities.field_id1_number
+    - field.field.node.identities.field_id1_number_secondary
+    - field.field.node.identities.field_id1_type
+    - field.field.node.identities.field_id1_type_secondary
+    - field.field.node.identities.field_id2_expirydate
+    - field.field.node.identities.field_id2_issuecountry
+    - field.field.node.identities.field_id2_issuedate
+    - field.field.node.identities.field_id2_issuedby
+    - field.field.node.identities.field_id2_number
+    - field.field.node.identities.field_id2_number_secondary
+    - field.field.node.identities.field_id2_type
+    - field.field.node.identities.field_id2_type_secondary
+    - node.type.identities
+  module:
+    - datetime
+    - user
+id: node.identities.default
+targetEntityType: node
+bundle: identities
+mode: default
+content:
+  field_id1_expirydate:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_id1_issuecountry:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_id1_issuedate:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_id1_issuedby:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_id1_number:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_id1_number_secondary:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_id1_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_id1_type_secondary:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_id2_expirydate:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 115
+    region: content
+  field_id2_issuecountry:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_id2_issuedate:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  field_id2_issuedby:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 116
+    region: content
+  field_id2_number:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_id2_number_secondary:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_id2_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_id2_type_secondary:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

@@ -1,0 +1,23 @@
+uuid: 50958d4e-eb67-42c4-8a97-6a2e10dc4e3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_number_of_dep
+    - node.type.customer
+id: node.customer.field_number_of_dep
+field_name: field_number_of_dep
+entity_type: node
+bundle: customer
+label: number_of_dep
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: 99
+  prefix: ''
+  suffix: ''
+field_type: integer

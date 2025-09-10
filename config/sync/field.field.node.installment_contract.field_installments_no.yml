@@ -1,0 +1,23 @@
+uuid: f3f38903-9b1f-4d51-8e54-78be88ca092c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_installments_no
+    - node.type.installment_contract
+id: node.installment_contract.field_installments_no
+field_name: field_installments_no
+entity_type: node
+bundle: installment_contract
+label: installments_no
+description: 'Must be greater than 0 and must be an integer. No commas, no dots.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1
+  max: 999
+  prefix: ''
+  suffix: ''
+field_type: integer

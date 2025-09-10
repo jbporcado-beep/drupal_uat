@@ -1,0 +1,20 @@
+uuid: ba537ea1-4ce3-4382-9c2a-98b0d0d27e22
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime
+    - node
+id: node.field_id1_expirydate
+field_name: field_id1_expirydate
+entity_type: node
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

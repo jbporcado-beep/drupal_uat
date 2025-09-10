@@ -1,4 +1,4 @@
-uuid: 13a3b1e4-a283-4d26-a64a-403360ba5d49
+uuid: 75b5f59b-4579-4de8-9883-0a13da903065
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ field_name: field_cbs_branch_code
 entity_type: node
 type: string
 settings:
-  max_length: 255
+  max_length: 5
   case_sensitive: false
   is_ascii: false
 module: core

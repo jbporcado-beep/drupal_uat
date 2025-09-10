@@ -1,0 +1,23 @@
+uuid: 2017c364-4029-4384-819f-9fe432731e5e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_outstanding_balance
+    - node.type.installment_contract
+id: node.installment_contract.field_outstanding_balance
+field_name: field_outstanding_balance
+entity_type: node
+bundle: installment_contract
+label: outstanding_balance
+description: "This field represents the remaining amount, it includes any interest of fee accrued on the amount.\r\n\r\nValue must be integer. No commas, no dots.\r\n\r\nThis field is required if contract_phase field is active and Contract Reference Date is less than Contract End Planned Date\r\n\r\nThis field must be left empty if contract_phase field is either closed or closed in advance\r\n\r\nIf this field is filled in, then outstanding_payment_no must also be filled in and vice versa"
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: 999999999999999
+  prefix: ''
+  suffix: ''
+field_type: integer

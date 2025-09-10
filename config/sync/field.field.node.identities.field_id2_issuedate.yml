@@ -1,0 +1,21 @@
+uuid: c9bf0226-660b-410e-afa4-696641e01022
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_id2_issuedate
+    - node.type.identities
+  module:
+    - datetime
+id: node.identities.field_id2_issuedate
+field_name: field_id2_issuedate
+entity_type: node
+bundle: identities
+label: id2_issuedate
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

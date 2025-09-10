@@ -16,10 +16,13 @@
     ],
     "require": {
         "composer/installers": "^2.3",
+        "drupal/bootstrap_barrio": "^5.5",
+        "drupal/bootstrap_sass": "^5.0",
         "drupal/core-composer-scaffold": "^11.2",
         "drupal/core-project-message": "^11.2",
         "drupal/core-recipe-unpack": "^11.2",
         "drupal/core-recommended": "^11.2",
+        "drupal/devel": "^5.4",
         "drupal/jquery_ui": "^1.7",
         "drupal/jquery_ui_draggable": "^2.1",
         "drupal/jquery_ui_resizable": "^2.1",

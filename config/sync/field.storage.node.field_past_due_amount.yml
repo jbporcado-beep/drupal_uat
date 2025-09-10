@@ -1,0 +1,20 @@
+uuid: 4a38aa90-a9b4-41ce-a12c-cc084ae5080d
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_past_due_amount
+field_name: field_past_due_amount
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

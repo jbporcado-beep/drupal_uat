@@ -1,4 +1,4 @@
-uuid: 1a645b07-bf54-4e18-a5d0-10ee559c1efb
+uuid: 2e7920cb-821d-4f75-b187-1dc8d8a74288
 langcode: en
 status: true
 dependencies:
@@ -6,13 +6,12 @@ dependencies:
     - menu_ui
 third_party_settings:
   menu_ui:
-    available_menus:
-      - main
-    parent: 'main:'
+    available_menus: {  }
+    parent: ''
 name: Cooperative
 type: cooperative
-description: 'Contains the crucial information about a cooperative.'
+description: null
 help: null
-new_revision: true
+new_revision: false
 preview_mode: 1
-display_submitted: true
+display_submitted: false

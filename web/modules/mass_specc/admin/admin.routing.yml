@@ -6,6 +6,14 @@ admin.home:
   requirements:
     _permission: "access content"
 
+cooperative.add:
+  path: "/admin/cooperative/add"
+  defaults:
+    _controller: '\Drupal\admin\Controller\CooperativeController::addCooperative'
+    _title: "Add Cooperative"
+  requirements:
+    _permission: "administer cooperatives"
+
 user.add:
   path: "/admin/user/add"
   defaults:

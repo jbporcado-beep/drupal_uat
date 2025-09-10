@@ -1,4 +1,4 @@
-uuid: 07d20d25-d0d8-4eb2-a926-adc3c436f5d4
+uuid: de31b803-386a-45db-93db-3abde35c2aa9
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ field_name: field_contact_person
 entity_type: node
 type: string
 settings:
-  max_length: 255
+  max_length: 100
   case_sensitive: false
   is_ascii: false
 module: core

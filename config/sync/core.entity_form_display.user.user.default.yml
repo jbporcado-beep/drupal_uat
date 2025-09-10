@@ -1,4 +1,4 @@
-uuid: 962f0721-df56-48a4-ae67-571e422322d9
+uuid: 33e7a3c9-2f63-46da-8f33-6e1aabbbb31a
 langcode: en
 status: true
 dependencies:
@@ -17,14 +17,18 @@ bundle: user
 mode: default
 content:
   account:
-    weight: -10
+    weight: 0
     region: content
+    settings: {  }
+    third_party_settings: {  }
   contact:
-    weight: 5
+    weight: 3
     region: content
+    settings: {  }
+    third_party_settings: {  }
   field_cooperative:
     type: entity_reference_autocomplete
-    weight: 7
+    weight: 5
     region: content
     settings:
       match_operator: CONTAINS
@@ -33,14 +37,18 @@ content:
       placeholder: ''
     third_party_settings: {  }
   language:
-    weight: 0
+    weight: 2
     region: content
+    settings: {  }
+    third_party_settings: {  }
   timezone:
-    weight: 6
+    weight: 4
     region: content
+    settings: {  }
+    third_party_settings: {  }
   user_picture:
     type: image_image
-    weight: -1
+    weight: 1
     region: content
     settings:
       progress_indicator: throbber

@@ -1,4 +1,4 @@
-uuid: e1a39bb8-b199-4d87-bf82-519cfbab57e2
+uuid: c71622d1-a257-480e-8b97-03668f122cd6
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ id: node.cooperative.field_email
 field_name: field_email
 entity_type: node
 bundle: cooperative
-label: Email
+label: email
 description: ''
 required: true
 translatable: false

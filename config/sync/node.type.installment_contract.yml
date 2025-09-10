@@ -1,0 +1,17 @@
+uuid: 1c188642-8f96-4630-a0d1-e21be7418bcb
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Installment Contract'
+type: installment_contract
+description: null
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false

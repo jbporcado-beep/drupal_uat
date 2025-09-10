@@ -1,0 +1,163 @@
+uuid: dde8edc3-282b-436d-a22c-3c26831829e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.address.field_address1_barangay
+    - field.field.node.address.field_address1_city
+    - field.field.node.address.field_address1_country
+    - field.field.node.address.field_address1_postal_code
+    - field.field.node.address.field_address1_province
+    - field.field.node.address.field_address1_streetno
+    - field.field.node.address.field_address1_subdivision
+    - field.field.node.address.field_address1_type
+    - field.field.node.address.field_address2_barangay
+    - field.field.node.address.field_address2_city
+    - field.field.node.address.field_address2_country
+    - field.field.node.address.field_address2_postal_code
+    - field.field.node.address.field_address2_province
+    - field.field.node.address.field_address2_streetno
+    - field.field.node.address.field_address2_subdivision
+    - field.field.node.address.field_address2_type
+    - node.type.address
+  module:
+    - user
+id: node.address.default
+targetEntityType: node
+bundle: address
+mode: default
+content:
+  field_address1_barangay:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_address1_city:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_address1_country:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_address1_postal_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_address1_province:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_address1_streetno:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_address1_subdivision:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_address1_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_address2_barangay:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  field_address2_city:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_address2_country:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 116
+    region: content
+  field_address2_postal_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_address2_province:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 115
+    region: content
+  field_address2_streetno:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_address2_subdivision:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_address2_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

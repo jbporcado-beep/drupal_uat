@@ -1,0 +1,19 @@
+uuid: 0eeceb0c-1dea-4cad-af69-232ccba06632
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ho_address
+    - node.type.cooperative
+id: node.cooperative.field_ho_address
+field_name: field_ho_address
+entity_type: node
+bundle: cooperative
+label: ho_address
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

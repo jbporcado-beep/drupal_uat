@@ -1,0 +1,29 @@
+uuid: b86d4d4a-f976-406b-ad1a-ef446a0ca210
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cid2
+    - node.type.customer
+    - node.type.installment_contract
+id: node.installment_contract.field_cid2
+field_name: field_cid2
+entity_type: node
+bundle: installment_contract
+label: cid2
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      customer: customer
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

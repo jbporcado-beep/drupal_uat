@@ -1,4 +1,4 @@
-uuid: a33273b3-5dcd-4fa3-ab19-d4934264106e
+uuid: 93c7cd68-b67a-4465-90d7-d4e20edd02cf
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ field_name: field_coop_code
 entity_type: node
 type: string
 settings:
-  max_length: 255
+  max_length: 50
   case_sensitive: false
   is_ascii: false
 module: core

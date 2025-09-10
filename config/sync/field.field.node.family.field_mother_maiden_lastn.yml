@@ -1,0 +1,19 @@
+uuid: aac6076e-a31f-490d-9458-9bba3e20b6d2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_mother_maiden_lastn
+    - node.type.family
+id: node.family.field_mother_maiden_lastn
+field_name: field_mother_maiden_lastn
+entity_type: node
+bundle: family
+label: mother_maiden_lastn
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

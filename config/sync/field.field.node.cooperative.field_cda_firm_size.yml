@@ -1,4 +1,4 @@
-uuid: f261e7d5-9a35-4277-8b53-1e885f207adc
+uuid: 5872e11b-3e77-4eb0-afe1-3d313b7b49cf
 langcode: en
 status: true
 dependencies:
@@ -9,15 +9,15 @@ id: node.cooperative.field_cda_firm_size
 field_name: field_cda_firm_size
 entity_type: node
 bundle: cooperative
-label: 'CDA Firm Size'
+label: cda_firm_size
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
   min: 1
-  max: null
+  max: 9999
   prefix: ''
   suffix: ''
 field_type: integer

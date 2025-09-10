@@ -1,0 +1,17 @@
+uuid: ccd67895-d40d-4495-876c-46dbc9fce39e
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Identities
+type: identities
+description: null
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false

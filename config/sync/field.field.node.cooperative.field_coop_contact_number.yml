@@ -1,0 +1,19 @@
+uuid: 9de555ec-04b1-4a25-9a56-475d5d67a732
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_coop_contact_number
+    - node.type.cooperative
+id: node.cooperative.field_coop_contact_number
+field_name: field_coop_contact_number
+entity_type: node
+bundle: cooperative
+label: coop_contact_number
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

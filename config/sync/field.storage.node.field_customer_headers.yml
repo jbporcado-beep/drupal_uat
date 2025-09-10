@@ -1,0 +1,19 @@
+uuid: 1618f32d-f8c9-446d-ad49-337b6167edc1
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_customer_headers
+field_name: field_customer_headers
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

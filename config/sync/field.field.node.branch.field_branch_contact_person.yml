@@ -1,0 +1,19 @@
+uuid: 4f20613e-f80a-4c2f-89cb-0ce680a397bf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_branch_contact_person
+    - node.type.branch
+id: node.branch.field_branch_contact_person
+field_name: field_branch_contact_person
+entity_type: node
+bundle: branch
+label: branch_contact_person
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

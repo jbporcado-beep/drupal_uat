@@ -1,4 +1,4 @@
-uuid: 76c9e50c-db18-4c2e-a4fe-abbc2a51fbf1
+uuid: 647a8d1c-3e92-4bfb-b8a6-3210c9be49c5
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ field_name: field_cic_provider_code
 entity_type: node
 type: string
 settings:
-  max_length: 255
+  max_length: 8
   case_sensitive: false
   is_ascii: false
 module: core

@@ -1,0 +1,21 @@
+uuid: 65564222-11c9-4949-8220-15e2f6c23259
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_branch_code
+field_name: field_branch_code
+entity_type: node
+type: string
+settings:
+  max_length: 5
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

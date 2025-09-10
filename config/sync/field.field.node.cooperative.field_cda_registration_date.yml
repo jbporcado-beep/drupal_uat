@@ -1,4 +1,4 @@
-uuid: 078dc9c5-669f-4706-94ad-86bf093299a3
+uuid: 413b6a3a-096b-483e-8e4b-c855516a7a1b
 langcode: en
 status: true
 dependencies:
@@ -11,7 +11,7 @@ id: node.cooperative.field_cda_registration_date
 field_name: field_cda_registration_date
 entity_type: node
 bundle: cooperative
-label: 'CDA Registration Date'
+label: cda_registration_date
 description: ''
 required: true
 translatable: false

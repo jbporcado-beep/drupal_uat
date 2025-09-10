@@ -1,0 +1,23 @@
+uuid: 3c4dc292-26cc-4c6d-a2bf-c4aa3a673042
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_monthly_payment_amnt
+    - node.type.installment_contract
+id: node.installment_contract.field_monthly_payment_amnt
+field_name: field_monthly_payment_amnt
+entity_type: node
+bundle: installment_contract
+label: monthly_payment_amnt
+description: "This field must be an integer. No commas, no dots.\r\n\r\nThis field is required if contract_phase field is either active, closed, or closed in advance"
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: 999999999999999
+  prefix: ''
+  suffix: ''
+field_type: integer

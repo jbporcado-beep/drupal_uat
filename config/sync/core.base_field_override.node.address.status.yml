@@ -1,0 +1,22 @@
+uuid: f4611610-988d-45ae-9c15-be23c32e72cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.address
+id: node.address.status
+field_name: status
+entity_type: node
+bundle: address
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

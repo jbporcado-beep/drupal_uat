@@ -1,0 +1,19 @@
+uuid: b05ff7db-d850-49cf-9cfb-219ce598cf74
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_id2_type
+    - node.type.identities
+id: node.identities.field_id2_type
+field_name: field_id2_type
+entity_type: node
+bundle: identities
+label: id2_type
+description: 'Value must be consistent with "IDTypeDomain" list'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

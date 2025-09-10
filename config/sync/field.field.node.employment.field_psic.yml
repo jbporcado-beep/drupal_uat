@@ -1,0 +1,19 @@
+uuid: acb1bf62-2bba-430d-8d56-c9a7ad042608
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_psic
+    - node.type.employment
+id: node.employment.field_psic
+field_name: field_psic
+entity_type: node
+bundle: employment
+label: psic
+description: 'Value must be consistent with "PSICDomain" list'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

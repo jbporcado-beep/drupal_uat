@@ -1,0 +1,20 @@
+uuid: b9b2301f-893c-44f4-a73c-fa2ab52810cd
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_last_payment
+field_name: field_last_payment
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

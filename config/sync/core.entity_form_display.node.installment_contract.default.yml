@@ -1,0 +1,261 @@
+uuid: 9c7e3900-2a4b-4b6a-ad27-2dc1fe44042f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.installment_contract.field_ci
+    - field.field.node.installment_contract.field_cid2
+    - field.field.node.installment_contract.field_contract_end_actl_date
+    - field.field.node.installment_contract.field_contract_end_plnd_date
+    - field.field.node.installment_contract.field_contract_negative_stat
+    - field.field.node.installment_contract.field_contract_phase
+    - field.field.node.installment_contract.field_contract_start_date
+    - field.field.node.installment_contract.field_contract_type
+    - field.field.node.installment_contract.field_currency
+    - field.field.node.installment_contract.field_days_past_due
+    - field.field.node.installment_contract.field_financed_amount
+    - field.field.node.installment_contract.field_frequency_of_paymt
+    - field.field.node.installment_contract.field_installments_no
+    - field.field.node.installment_contract.field_last_payment
+    - field.field.node.installment_contract.field_loan_acct_no
+    - field.field.node.installment_contract.field_monthly_payment_amnt
+    - field.field.node.installment_contract.field_original_currency
+    - field.field.node.installment_contract.field_outstanding_balance
+    - field.field.node.installment_contract.field_outstanding_payment_no
+    - field.field.node.installment_contract.field_past_due_amount
+    - field.field.node.installment_contract.field_past_due_no
+    - field.field.node.installment_contract.field_role
+    - field.field.node.installment_contract.field_type
+    - node.type.installment_contract
+  module:
+    - datetime
+    - path
+id: node.installment_contract.default
+targetEntityType: node
+bundle: installment_contract
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_ci:
+    type: string_textfield
+    weight: 122
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_cid2:
+    type: entity_reference_autocomplete
+    weight: 121
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_contract_end_actl_date:
+    type: datetime_default
+    weight: 132
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_contract_end_plnd_date:
+    type: datetime_default
+    weight: 131
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_contract_negative_stat:
+    type: string_textfield
+    weight: 127
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_contract_phase:
+    type: string_textfield
+    weight: 126
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_contract_start_date:
+    type: datetime_default
+    weight: 130
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_contract_type:
+    type: string_textfield
+    weight: 125
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_currency:
+    type: string_textfield
+    weight: 128
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_days_past_due:
+    type: string_textfield
+    weight: 142
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_financed_amount:
+    type: number
+    weight: 133
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_frequency_of_paymt:
+    type: string_textfield
+    weight: 136
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_installments_no:
+    type: number
+    weight: 134
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_last_payment:
+    type: number
+    weight: 143
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_loan_acct_no:
+    type: string_textfield
+    weight: 124
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_monthly_payment_amnt:
+    type: number
+    weight: 137
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_original_currency:
+    type: string_textfield
+    weight: 129
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_outstanding_balance:
+    type: number
+    weight: 139
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_outstanding_payment_no:
+    type: number
+    weight: 138
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_past_due_amount:
+    type: number
+    weight: 141
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_past_due_no:
+    type: number
+    weight: 140
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_role:
+    type: string_textfield
+    weight: 123
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_type:
+    type: string_textfield
+    weight: 135
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 15
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 120
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 16
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

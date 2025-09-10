@@ -1,20 +1,19 @@
-uuid: 83933fee-0741-4415-8ab0-c2cf34547182
+uuid: 1986d90e-cd87-4094-8303-1905522ab05d
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.cooperative.field_assigned_report_templates
     - field.field.node.cooperative.field_cbs_branch_code
     - field.field.node.cooperative.field_cda_firm_size
     - field.field.node.cooperative.field_cda_registration_date
     - field.field.node.cooperative.field_cic_provider_code
-    - field.field.node.cooperative.field_contact_number
     - field.field.node.cooperative.field_contact_person
     - field.field.node.cooperative.field_coop_code
+    - field.field.node.cooperative.field_coop_contact_number
+    - field.field.node.cooperative.field_coop_name
     - field.field.node.cooperative.field_email
-    - field.field.node.cooperative.field_head_office_address
-    - field.field.node.cooperative.field_name_of_cooperative
-    - field.field.node.cooperative.field_number_of_employees
+    - field.field.node.cooperative.field_ho_address
+    - field.field.node.cooperative.field_no_of_employees
     - node.type.cooperative
   module:
     - datetime
@@ -30,19 +29,9 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_assigned_report_templates:
-    type: entity_reference_autocomplete
-    weight: 132
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_cbs_branch_code:
     type: string_textfield
-    weight: 123
+    weight: 131
     region: content
     settings:
       size: 60
@@ -50,28 +39,20 @@ content:
     third_party_settings: {  }
   field_cda_firm_size:
     type: number
-    weight: 131
+    weight: 128
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_cda_registration_date:
     type: datetime_default
-    weight: 130
+    weight: 127
     region: content
     settings: {  }
     third_party_settings: {  }
   field_cic_provider_code:
     type: string_textfield
-    weight: 122
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_contact_number:
-    type: string_textfield
-    weight: 128
+    weight: 130
     region: content
     settings:
       size: 60
@@ -79,7 +60,7 @@ content:
     third_party_settings: {  }
   field_contact_person:
     type: string_textfield
-    weight: 127
+    weight: 124
     region: content
     settings:
       size: 60
@@ -93,33 +74,41 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_email:
-    type: email_default
-    weight: 129
+  field_coop_contact_number:
+    type: string_textfield
+    weight: 126
     region: content
     settings:
-      placeholder: ''
       size: 60
+      placeholder: ''
     third_party_settings: {  }
-  field_head_office_address:
+  field_coop_name:
     type: string_textfield
+    weight: 122
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_email:
+    type: email_default
     weight: 125
     region: content
     settings:
-      size: 60
       placeholder: ''
+      size: 60
     third_party_settings: {  }
-  field_name_of_cooperative:
+  field_ho_address:
     type: string_textfield
-    weight: 124
+    weight: 123
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_number_of_employees:
+  field_no_of_employees:
     type: number
-    weight: 126
+    weight: 129
     region: content
     settings:
       placeholder: ''
@@ -169,4 +158,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_assigned_report_templates: true
+  field_contact_number: true
+  field_head_office_address: true
+  field_name_of_cooperative: true
+  field_number_of_employees: true

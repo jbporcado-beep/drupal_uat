@@ -1,0 +1,19 @@
+uuid: f05b4481-912e-414d-8b9b-df9bd3683047
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_father_middlename
+    - node.type.family
+id: node.family.field_father_middlename
+field_name: field_father_middlename
+entity_type: node
+bundle: family
+label: father_middlename
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

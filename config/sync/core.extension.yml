@@ -16,6 +16,7 @@ module:
   cooperative: 0
   datetime: 0
   dblog: 0
+  devel: 0
   dynamic_page_cache: 0
   editor: 0
   field: 0
@@ -25,12 +26,9 @@ module:
   help: 0
   history: 0
   image: 0
-  layout_builder: 0
-  layout_discovery: 0
   link: 0
   menu_link_content: 0
   menu_ui: 0
-  navigation: 0
   node: 0
   options: 0
   page_cache: 0
@@ -51,4 +49,7 @@ module:
 theme:
   olivero: 0
   claro: 0
+  bootstrap_barrio: 0
+  bootstrap_sass: 0
+  mass_specc_bootstrap_sass: 0
 profile: standard

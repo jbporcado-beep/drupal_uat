@@ -1,4 +1,4 @@
-uuid: 8ad46798-9fb0-4759-9330-c4235b42fb91
+uuid: 223c86dc-7d4b-44ee-bff3-6ddff8272fed
 langcode: en
 status: true
 dependencies:
@@ -23,7 +23,7 @@ settings:
     target_bundles:
       cooperative: cooperative
     sort:
-      field: _none
+      field: field_coop_name
       direction: ASC
     auto_create: false
     auto_create_bundle: ''

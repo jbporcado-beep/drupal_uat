@@ -1,0 +1,21 @@
+uuid: 8521c628-c37b-483f-bf4b-b1ab029955cd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_id2_expirydate
+    - node.type.identities
+  module:
+    - datetime
+id: node.identities.field_id2_expirydate
+field_name: field_id2_expirydate
+entity_type: node
+bundle: identities
+label: id2_expirydate
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

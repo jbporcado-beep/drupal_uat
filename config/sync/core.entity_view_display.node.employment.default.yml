@@ -1,0 +1,64 @@
+uuid: 9c5d5bac-10c0-4913-ac43-eb36cb6b1e66
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.employment.field_occupation_status
+    - field.field.node.employment.field_phone_no
+    - field.field.node.employment.field_psic
+    - field.field.node.employment.field_psoc
+    - field.field.node.employment.field_trade_name
+    - node.type.employment
+  module:
+    - user
+id: node.employment.default
+targetEntityType: node
+bundle: employment
+mode: default
+content:
+  field_occupation_status:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_phone_no:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_psic:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_psoc:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_trade_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

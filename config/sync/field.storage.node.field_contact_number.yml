@@ -1,4 +1,4 @@
-uuid: 3ba1f79b-b60d-47db-a5a5-28d780c3ad27
+uuid: fdfabb40-8c6c-4f9a-9564-bccf38ec1985
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ field_name: field_contact_number
 entity_type: node
 type: string
 settings:
-  max_length: 255
+  max_length: 100
   case_sensitive: false
   is_ascii: false
 module: core

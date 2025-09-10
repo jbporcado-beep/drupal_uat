@@ -1,0 +1,19 @@
+uuid: feefcc9c-88a9-46af-9152-0be88f61e35a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_type
+    - node.type.installment_contract
+id: node.installment_contract.field_type
+field_name: field_type
+entity_type: node
+bundle: installment_contract
+label: type
+description: 'Value must be consistent with "TransactionTypeDomain" list'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
