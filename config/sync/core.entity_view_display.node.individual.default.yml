@@ -1,0 +1,165 @@
+uuid: b94f46a6-e839-4a8d-b72b-1e6482d826b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.individual.field_cars_owned
+    - field.field.node.individual.field_civil_status
+    - field.field.node.individual.field_country_of_birth_code
+    - field.field.node.individual.field_date_of_birth
+    - field.field.node.individual.field_first_name
+    - field.field.node.individual.field_gender
+    - field.field.node.individual.field_last_name
+    - field.field.node.individual.field_middle_name
+    - field.field.node.individual.field_nationality
+    - field.field.node.individual.field_number_of_dependants
+    - field.field.node.individual.field_place_of_birth
+    - field.field.node.individual.field_previous_last_name
+    - field.field.node.individual.field_provider_subject_no
+    - field.field.node.individual.field_resident
+    - field.field.node.individual.field_suffix
+    - field.field.node.individual.field_title
+    - node.type.individual
+  module:
+    - user
+id: node.individual.default
+targetEntityType: node
+bundle: individual
+mode: default
+content:
+  field_cars_owned:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 116
+    region: content
+  field_civil_status:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_country_of_birth_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_date_of_birth:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_first_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_gender:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_last_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_middle_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_nationality:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_number_of_dependants:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 115
+    region: content
+  field_place_of_birth:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_previous_last_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_provider_subject_no:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_resident:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  field_suffix:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

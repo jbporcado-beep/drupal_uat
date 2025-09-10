@@ -1,0 +1,19 @@
+uuid: 5f92aea7-cb90-4619-9b6b-c9b2c848f9a2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_id1_issuecountry
+    - node.type.identification
+id: node.identification.field_id1_issuecountry
+field_name: field_id1_issuecountry
+entity_type: node
+bundle: identification
+label: id1_issuecountry
+description: 'Value must be consistent with "CountryDomain" list'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

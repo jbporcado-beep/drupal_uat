@@ -1,0 +1,17 @@
+uuid: 72c61f60-d5f4-401b-8bd4-abf4269ff8e3
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Identification
+type: identification
+description: 'Personal identification for individuals'
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false

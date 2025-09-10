@@ -10,7 +10,7 @@ third_party_settings:
     parent: ''
 name: Address
 type: address
-description: null
+description: "An individual's address/es"
 help: null
 new_revision: false
 preview_mode: 1

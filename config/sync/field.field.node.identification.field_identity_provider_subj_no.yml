@@ -1,0 +1,19 @@
+uuid: 9960c6ee-33af-42fa-bdf1-e851121b87d3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_identity_provider_subj_no
+    - node.type.identification
+id: node.identification.field_identity_provider_subj_no
+field_name: field_identity_provider_subj_no
+entity_type: node
+bundle: identification
+label: provider_subject_no
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

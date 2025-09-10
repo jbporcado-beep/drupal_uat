@@ -1,0 +1,19 @@
+uuid: bfed4e4b-d353-430c-89fa-8ec785a2aa79
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contact1_value
+    - node.type.contact
+id: node.contact.field_contact1_value
+field_name: field_contact1_value
+entity_type: node
+bundle: contact
+label: field_contact1_value
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

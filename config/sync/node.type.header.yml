@@ -10,7 +10,7 @@ third_party_settings:
     parent: ''
 name: Header
 type: header
-description: null
+description: 'Transaction header'
 help: null
 new_revision: false
 preview_mode: 1

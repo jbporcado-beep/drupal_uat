@@ -1,0 +1,19 @@
+uuid: fb3c81d5-8374-407c-b652-d86b8135c444
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_employ_trade_name
+    - node.type.employment
+id: node.employment.field_employ_trade_name
+field_name: field_employ_trade_name
+entity_type: node
+bundle: employment
+label: employment_trade_name
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

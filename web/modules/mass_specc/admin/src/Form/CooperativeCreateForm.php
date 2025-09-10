@@ -22,7 +22,7 @@ class CooperativeCreateForm extends FormBase {
         // Fetch articles for the entity reference field.
         $article_options = [];
         $nids = \Drupal::entityQuery('node')
-            ->condition('type', 'article')
+            ->condition('type', 'report')
             ->accessCheck(FALSE)
             ->execute();
         if (!empty($nids)) {
@@ -145,11 +145,10 @@ class CooperativeCreateForm extends FormBase {
             '#required' => TRUE,
         ];
         $form['assigned_report_templates'] = [
-            '#type' => 'select',
+            '#type' => 'checkboxes',
             '#title' => $this->t('Assigned Report Templates'),
             '#options' => $article_options,
             '#required' => TRUE,
-            '#multiple' => TRUE,
         ];
 
         $form['actions'] = [

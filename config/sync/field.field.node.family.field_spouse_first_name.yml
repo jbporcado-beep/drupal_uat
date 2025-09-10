@@ -1,0 +1,19 @@
+uuid: 68d1186b-2377-4fe7-a7a8-70c2c868607d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_spouse_first_name
+    - node.type.family
+id: node.family.field_spouse_first_name
+field_name: field_spouse_first_name
+entity_type: node
+bundle: family
+label: spouse_first_name
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

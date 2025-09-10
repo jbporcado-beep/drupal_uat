@@ -1,0 +1,21 @@
+uuid: 87d8d7a6-d2d7-4e5d-9522-d5db4baeca0b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cda_registration_date
+    - node.type.report
+  module:
+    - datetime
+id: node.report.field_cda_registration_date
+field_name: field_cda_registration_date
+entity_type: node
+bundle: report
+label: 'CDA Regitration Date'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

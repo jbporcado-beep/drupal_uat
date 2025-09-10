@@ -1,0 +1,172 @@
+uuid: 23c772a8-ed28-4cad-b828-8fb99b527f1c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.identification.field_id1_expirydate
+    - field.field.node.identification.field_id1_issuecountry
+    - field.field.node.identification.field_id1_issuedate
+    - field.field.node.identification.field_id1_issuedby
+    - field.field.node.identification.field_id1_number
+    - field.field.node.identification.field_id1_type
+    - field.field.node.identification.field_id2_expirydate
+    - field.field.node.identification.field_id2_issuecountry
+    - field.field.node.identification.field_id2_issuedate
+    - field.field.node.identification.field_id2_issuedby
+    - field.field.node.identification.field_id2_number
+    - field.field.node.identification.field_id2_type
+    - field.field.node.identification.field_identification1_number
+    - field.field.node.identification.field_identification1_type
+    - field.field.node.identification.field_identification2_number
+    - field.field.node.identification.field_identification2_type
+    - field.field.node.identification.field_identity_provider_subj_no
+    - node.type.identification
+  module:
+    - user
+id: node.identification.default
+targetEntityType: node
+bundle: identification
+mode: default
+content:
+  field_id1_expirydate:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 120
+    region: content
+  field_id1_issuecountry:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_id1_issuedate:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 119
+    region: content
+  field_id1_issuedby:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_id1_number:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_id1_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_id2_expirydate:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 121
+    region: content
+  field_id2_issuecountry:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_id2_issuedate:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 118
+    region: content
+  field_id2_issuedby:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 116
+    region: content
+  field_id2_number:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_id2_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_identification1_number:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_identification1_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_identification2_number:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_identification2_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_identity_provider_subj_no:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 117
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

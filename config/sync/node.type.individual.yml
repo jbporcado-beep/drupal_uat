@@ -1,0 +1,17 @@
+uuid: 6590548d-ab98-4dc2-a0c7-bb13fe6b6f7d
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Individual
+type: individual
+description: 'A customer'
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false

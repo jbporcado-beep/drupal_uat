@@ -1,0 +1,19 @@
+uuid: 72e785f0-4b9e-4f14-b030-fa37fbda7a01
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_middle_name
+    - node.type.individual
+id: node.individual.field_middle_name
+field_name: field_middle_name
+entity_type: node
+bundle: individual
+label: middle_name
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

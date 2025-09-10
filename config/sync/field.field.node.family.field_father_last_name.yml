@@ -1,0 +1,19 @@
+uuid: 1c66af4f-030b-4280-8fc7-1b9ae407f0d3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_father_last_name
+    - node.type.family
+id: node.family.field_father_last_name
+field_name: field_father_last_name
+entity_type: node
+bundle: family
+label: father_last_name
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

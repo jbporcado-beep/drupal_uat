@@ -9,5 +9,4 @@ label: Access
 weight: 9
 is_admin: false
 permissions:
-  - 'upload file'
   - 'view reports'

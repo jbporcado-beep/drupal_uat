@@ -1,0 +1,19 @@
+uuid: f7ad9e31-2ec0-4ac0-92fc-fa28805f6682
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_previous_last_name
+    - node.type.individual
+id: node.individual.field_previous_last_name
+field_name: field_previous_last_name
+entity_type: node
+bundle: individual
+label: previous_last_name
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

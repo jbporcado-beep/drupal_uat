@@ -12,7 +12,7 @@ dependencies:
 id: mass_specc_bootstrap_sass_coopmenu
 theme: mass_specc_bootstrap_sass
 region: sticky_left_nav
-weight: 0
+weight: -1
 provider: null
 plugin: 'system_menu_block:coop-menu'
 settings:

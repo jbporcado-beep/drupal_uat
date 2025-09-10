@@ -12,7 +12,7 @@ dependencies:
 id: mass_specc_bootstrap_sass_massspeccmenu
 theme: mass_specc_bootstrap_sass
 region: sticky_left_nav
-weight: 1
+weight: 0
 provider: null
 plugin: 'system_menu_block:mass-specc-menu'
 settings:

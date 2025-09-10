@@ -1,0 +1,19 @@
+uuid: f73f1caf-1edd-4b68-9d6c-cbbaae393ae6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_employ_occupation
+    - node.type.employment
+id: node.employment.field_employ_occupation
+field_name: field_employ_occupation
+entity_type: node
+bundle: employment
+label: employment_occupation
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

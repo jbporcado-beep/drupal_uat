@@ -1,0 +1,19 @@
+uuid: 350621bd-310a-4d56-8fe5-84c641f99d5c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_identification2_number
+    - node.type.identification
+id: node.identification.field_identification2_number
+field_name: field_identification2_number
+entity_type: node
+bundle: identification
+label: identification2_number
+description: 'Must be filled in if identification2_type is filled in'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,19 @@
+uuid: d3feec3d-e3cb-4890-89f5-ac57f6609e4b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contact1_type
+    - node.type.contact
+id: node.contact.field_contact1_type
+field_name: field_contact1_type
+entity_type: node
+bundle: contact
+label: field_contact1_type
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

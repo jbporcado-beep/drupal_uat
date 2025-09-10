@@ -1,0 +1,19 @@
+uuid: d5498a17-1fb4-461a-ae82-d08c43683930
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_address1_fulladdress
+    - node.type.address
+id: node.address.field_address1_fulladdress
+field_name: field_address1_fulladdress
+entity_type: node
+bundle: address
+label: address1_fulladdress
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_cid2
-    - node.type.customer
     - node.type.installment_contract
 id: node.installment_contract.field_cid2
 field_name: field_cid2
@@ -19,8 +18,7 @@ default_value_callback: ''
 settings:
   handler: 'default:node'
   handler_settings:
-    target_bundles:
-      customer: customer
+    target_bundles: {  }
     sort:
       field: _none
       direction: ASC

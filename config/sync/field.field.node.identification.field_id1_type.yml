@@ -1,0 +1,19 @@
+uuid: a9feae0d-19e8-4ed2-9231-c1306b84bcef
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_id1_type
+    - node.type.identification
+id: node.identification.field_id1_type
+field_name: field_id1_type
+entity_type: node
+bundle: identification
+label: id1_type
+description: "Value must be consistent with \"IDTypeDomain\" list\r\n\r\nIf this field is filled in, then also the fields id1_number must also be filled in"
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

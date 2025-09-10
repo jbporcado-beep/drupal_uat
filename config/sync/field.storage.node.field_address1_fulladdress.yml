@@ -1,0 +1,21 @@
+uuid: 603d2bbf-07ea-4337-8c45-4087fd2f5558
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_address1_fulladdress
+field_name: field_address1_fulladdress
+entity_type: node
+type: string
+settings:
+  max_length: 400
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

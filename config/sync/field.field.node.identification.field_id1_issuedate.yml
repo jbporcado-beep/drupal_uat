@@ -1,0 +1,19 @@
+uuid: 4e058640-573e-4871-91d9-3a7321f53087
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_id1_issuedate
+    - node.type.identification
+id: node.identification.field_id1_issuedate
+field_name: field_id1_issuedate
+entity_type: node
+bundle: identification
+label: id1_issuedate
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

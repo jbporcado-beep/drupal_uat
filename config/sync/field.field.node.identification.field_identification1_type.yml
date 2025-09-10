@@ -1,0 +1,19 @@
+uuid: 48f220b9-774b-4cd5-a449-0563f016fc0e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_identification1_type
+    - node.type.identification
+id: node.identification.field_identification1_type
+field_name: field_identification1_type
+entity_type: node
+bundle: identification
+label: identification1_type
+description: "Value must be consistent with \"IdentificationTypeDomain\" \r\n\r\nIf this field is filled in, then identification1_number must also be filled in\r\n\r\nAt least one between identification1_type, identification2_type, or identification3_type must be filled in\r\n\r\nShould be TIN, SSS, or GSIS"
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

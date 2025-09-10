@@ -1,0 +1,23 @@
+uuid: cf1fa9ff-d7b9-4da9-aa47-5da9e6906729
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cars_owned
+    - node.type.individual
+id: node.individual.field_cars_owned
+field_name: field_cars_owned
+entity_type: node
+bundle: individual
+label: cars_owned
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: 999
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,19 @@
+uuid: 12ea4394-b5ad-487d-8dff-98eef8feb5d2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_spouse_middle_name
+    - node.type.family
+id: node.family.field_spouse_middle_name
+field_name: field_spouse_middle_name
+entity_type: node
+bundle: family
+label: spouse_middle_name
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

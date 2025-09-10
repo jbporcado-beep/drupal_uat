@@ -1,0 +1,19 @@
+uuid: 4532624e-27fc-4de5-9646-38602943272e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_spouse_last_name
+    - node.type.family
+id: node.family.field_spouse_last_name
+field_name: field_spouse_last_name
+entity_type: node
+bundle: family
+label: spouse_last_name
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

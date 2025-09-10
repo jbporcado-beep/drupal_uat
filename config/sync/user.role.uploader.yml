@@ -9,4 +9,4 @@ label: Uploader
 weight: 7
 is_admin: false
 permissions:
-  - 'view reports'
+  - 'upload file'

@@ -35,3 +35,13 @@ $config['twig.config']['cache'] = FALSE;
 $config['twig.config']['auto_reload'] = TRUE;
 
 $settings['config_sync_directory'] = '../config/sync';
+
+$settings['trusted_host_patterns'] = [
+    '^mass-specc\.ddev\.site$',
+];
+$settings['reverse_proxy'] = TRUE;
+$settings['reverse_proxy_addresses'] = ['127.0.0.1'];
+
+if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+  $_SERVER['HTTPS'] = 'on';
+}

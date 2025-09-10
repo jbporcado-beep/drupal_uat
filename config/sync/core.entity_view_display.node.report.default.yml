@@ -1,0 +1,59 @@
+uuid: f6f144b7-81df-47b2-8d38-8a1ea0729cfd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.report.field_branch_cda_registration_da
+    - field.field.node.report.field_cda_registration_date
+    - field.field.node.report.field_contract_end_actl_date
+    - field.field.node.report.field_name
+    - node.type.report
+  module:
+    - datetime
+    - user
+id: node.report.default
+targetEntityType: node
+bundle: report
+mode: default
+content:
+  field_branch_cda_registration_da:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_cda_registration_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_contract_end_actl_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

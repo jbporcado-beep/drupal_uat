@@ -1,17 +1,18 @@
-uuid: 365ed1ab-38b1-4439-b3ae-f32bbddd8069
+uuid: f3d6b1a6-79b9-4bb7-a94b-8b6d691057a6
 langcode: en
 status: true
 dependencies:
   module:
-    - datetime
     - node
 id: node.field_id2_expirydate
 field_name: field_id2_expirydate
 entity_type: node
-type: datetime
+type: string
 settings:
-  datetime_type: date
-module: datetime
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
 locked: false
 cardinality: 1
 translatable: true

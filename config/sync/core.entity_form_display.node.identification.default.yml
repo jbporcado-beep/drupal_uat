@@ -1,0 +1,218 @@
+uuid: f997a099-7742-474c-860c-4a8f62bfa537
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.identification.field_id1_expirydate
+    - field.field.node.identification.field_id1_issuecountry
+    - field.field.node.identification.field_id1_issuedate
+    - field.field.node.identification.field_id1_issuedby
+    - field.field.node.identification.field_id1_number
+    - field.field.node.identification.field_id1_type
+    - field.field.node.identification.field_id2_expirydate
+    - field.field.node.identification.field_id2_issuecountry
+    - field.field.node.identification.field_id2_issuedate
+    - field.field.node.identification.field_id2_issuedby
+    - field.field.node.identification.field_id2_number
+    - field.field.node.identification.field_id2_type
+    - field.field.node.identification.field_identification1_number
+    - field.field.node.identification.field_identification1_type
+    - field.field.node.identification.field_identification2_number
+    - field.field.node.identification.field_identification2_type
+    - field.field.node.identification.field_identity_provider_subj_no
+    - node.type.identification
+  module:
+    - path
+id: node.identification.default
+targetEntityType: node
+bundle: identification
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_id1_expirydate:
+    type: string_textfield
+    weight: 140
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_id1_issuecountry:
+    type: string_textfield
+    weight: 128
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_id1_issuedate:
+    type: string_textfield
+    weight: 139
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_id1_issuedby:
+    type: string_textfield
+    weight: 130
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_id1_number:
+    type: string_textfield
+    weight: 126
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_id1_type:
+    type: string_textfield
+    weight: 125
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_id2_expirydate:
+    type: string_textfield
+    weight: 141
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_id2_issuecountry:
+    type: string_textfield
+    weight: 134
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_id2_issuedate:
+    type: string_textfield
+    weight: 138
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_id2_issuedby:
+    type: string_textfield
+    weight: 136
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_id2_number:
+    type: string_textfield
+    weight: 132
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_id2_type:
+    type: string_textfield
+    weight: 131
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_identification1_number:
+    type: string_textfield
+    weight: 122
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_identification1_type:
+    type: string_textfield
+    weight: 121
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_identification2_number:
+    type: string_textfield
+    weight: 124
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_identification2_type:
+    type: string_textfield
+    weight: 123
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_identity_provider_subj_no:
+    type: string_textfield
+    weight: 137
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 15
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 120
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 16
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

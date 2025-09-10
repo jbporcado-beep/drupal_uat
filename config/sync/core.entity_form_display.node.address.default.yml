@@ -3,22 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.address.field_address1_barangay
-    - field.field.node.address.field_address1_city
-    - field.field.node.address.field_address1_country
-    - field.field.node.address.field_address1_postal_code
-    - field.field.node.address.field_address1_province
-    - field.field.node.address.field_address1_streetno
-    - field.field.node.address.field_address1_subdivision
+    - field.field.node.address.field_address1_fulladdress
     - field.field.node.address.field_address1_type
-    - field.field.node.address.field_address2_barangay
-    - field.field.node.address.field_address2_city
-    - field.field.node.address.field_address2_country
-    - field.field.node.address.field_address2_postal_code
-    - field.field.node.address.field_address2_province
-    - field.field.node.address.field_address2_streetno
-    - field.field.node.address.field_address2_subdivision
+    - field.field.node.address.field_address2_fulladdress
     - field.field.node.address.field_address2_type
+    - field.field.node.address.field_address_provider_subj_no
     - node.type.address
   module:
     - path
@@ -33,121 +22,9 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_address1_barangay:
-    type: string_textfield
-    weight: 125
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_address1_city:
-    type: string_textfield
-    weight: 126
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_address1_country:
-    type: string_textfield
-    weight: 128
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_address1_postal_code:
-    type: string_textfield
-    weight: 123
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_address1_province:
-    type: string_textfield
-    weight: 127
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_address1_streetno:
-    type: string_textfield
-    weight: 122
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_address1_subdivision:
-    type: string_textfield
-    weight: 124
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_address1_type:
     type: string_textfield
     weight: 121
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_address2_barangay:
-    type: string_textfield
-    weight: 133
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_address2_city:
-    type: string_textfield
-    weight: 134
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_address2_country:
-    type: string_textfield
-    weight: 136
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_address2_postal_code:
-    type: string_textfield
-    weight: 131
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_address2_province:
-    type: string_textfield
-    weight: 135
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_address2_streetno:
-    type: string_textfield
-    weight: 130
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_address2_subdivision:
-    type: string_textfield
-    weight: 132
     region: content
     settings:
       size: 60
@@ -206,4 +83,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_address1_fulladdress: true
+  field_address2_fulladdress: true
+  field_address_provider_subj_no: true

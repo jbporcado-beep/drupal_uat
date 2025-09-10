@@ -3,15 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.header.field_cic_no_of_records
-    - field.field.node.header.field_cu_id
     - field.field.node.header.field_header_branch_code
-    - field.field.node.header.field_header_customers
-    - field.field.node.header.field_provider_comments
-    - field.field.node.header.field_record_day
-    - field.field.node.header.field_record_month
-    - field.field.node.header.field_record_year
-    - field.field.node.header.field_submission_type
+    - field.field.node.header.field_provider_code
+    - field.field.node.header.field_subject_reference_date
     - node.type.header
   module:
     - path
@@ -26,71 +20,9 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_cic_no_of_records:
-    type: number
-    weight: 122
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_cu_id:
-    type: string_textfield
-    weight: 121
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_header_branch_code:
     type: string_textfield
     weight: 134
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_header_customers:
-    type: entity_reference_autocomplete
-    weight: 135
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_provider_comments:
-    type: string_textfield
-    weight: 133
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_record_day:
-    type: number
-    weight: 129
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_record_month:
-    type: number
-    weight: 128
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_record_year:
-    type: number
-    weight: 127
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_submission_type:
-    type: string_textfield
-    weight: 132
     region: content
     settings:
       size: 60
@@ -141,4 +73,6 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_provider_code: true
+  field_subject_reference_date: true

@@ -1,0 +1,19 @@
+uuid: 96aae56e-a101-403e-942c-35c8a86a289a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_name
+    - node.type.report
+id: node.report.field_name
+field_name: field_name
+entity_type: node
+bundle: report
+label: Name
+description: 'Name of the Report Template'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
