@@ -9,7 +9,7 @@ id: node.cooperative.field_no_of_employees
 field_name: field_no_of_employees
 entity_type: node
 bundle: cooperative
-label: no_of_employees
+label: 'Number of Employees in Head Office'
 description: ''
 required: true
 translatable: false

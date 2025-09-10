@@ -1,0 +1,39 @@
+uuid: 6105f049-032e-4799-a7e1-b1612c65b884
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.coop-menu
+  module:
+    - system
+    - user
+  theme:
+    - mass_specc_bootstrap_sass
+id: mass_specc_bootstrap_sass_coopmenu
+theme: mass_specc_bootstrap_sass
+region: sticky_left_nav
+weight: 0
+provider: null
+plugin: 'system_menu_block:coop-menu'
+settings:
+  id: 'system_menu_block:coop-menu'
+  label: 'Coop Menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: null
+  expand_all_items: false
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/cooperative\r\n/cooperative/*"
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      uploader: uploader
+      approver: approver
+      access: access

@@ -1,0 +1,8 @@
+uuid: 362d1a78-d0ce-4318-a957-0c9b8db59fa5
+langcode: en
+status: true
+dependencies: {  }
+id: coop-menu
+label: 'Coop Menu'
+description: 'Menu for Cooperative'
+locked: false

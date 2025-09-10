@@ -9,7 +9,7 @@ id: node.cooperative.field_cic_provider_code
 field_name: field_cic_provider_code
 entity_type: node
 bundle: cooperative
-label: cic_provider_code
+label: 'CIC Provider Code'
 description: ''
 required: true
 translatable: false

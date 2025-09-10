@@ -1,0 +1,36 @@
+uuid: dff5f714-a446-40f5-bec9-ac2333544624
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:26de24f8-0c20-4855-9803-d66273fdb259'
+  module:
+    - block_content
+    - user
+  theme:
+    - mass_specc_bootstrap_sass
+id: mass_specc_bootstrap_sass_logoblock
+theme: mass_specc_bootstrap_sass
+region: sticky_left_nav
+weight: -1
+provider: null
+plugin: 'block_content:26de24f8-0c20-4855-9803-d66273fdb259'
+settings:
+  id: 'block_content:26de24f8-0c20-4855-9803-d66273fdb259'
+  label: 'Logo Block'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      mass_specc_admin: mass_specc_admin
+      uploader: uploader
+      approver: approver
+      access: access

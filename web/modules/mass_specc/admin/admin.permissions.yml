@@ -9,3 +9,7 @@ administer cic:
 administer reports:
   title: "Administer reports"
   description: "Create and manage report templates."
+
+administer cooperatives:
+  title: "Administer cooperatives"
+  description: "Create and manage cooperatives."

@@ -20,6 +20,7 @@ class UserCreateForm extends FormBase {
      */
     public function buildForm(array $form, FormStateInterface $form_state) {
         $role = $form_state->getValue('role', 'approver');
+        $form['#attached']['library'][] = 'common/char-count';
 
         $form['email'] = [
             '#type' => 'email',
@@ -31,12 +32,28 @@ class UserCreateForm extends FormBase {
             '#type' => 'textfield',
             '#title' => $this->t('Full Name'),
             '#required' => TRUE,
+            '#attributes' => [
+                'class' => ['js-char-count'],
+                'data-maxlength' => 100,
+            ],
+            '#description' => [
+                '#markup' => '<span class="char-counter">0/100</span>',
+            ],
+            "#maxlength" => 100,
         ];
 
         $form['contact_number'] = [
             '#type' => 'textfield',
             '#title' => $this->t('Contact Number'),
             '#required' => TRUE,
+            '#attributes' => [
+                'class' => ['js-char-count'],
+                'data-maxlength' => 13,
+            ],
+            '#description' => [
+                '#markup' => '<span class="char-counter">0/13</span>',
+            ],
+            "#maxlength" => 13,
         ];
 
         $form['role'] = [
@@ -48,11 +65,6 @@ class UserCreateForm extends FormBase {
                 'uploader' => $this->t('Uploader'),
             ],
             '#default_value' => $role,
-            '#ajax' => [
-                'callback' => '::updateCoopBranchFields',
-                'event' => 'change',
-                'wrapper' => 'coop-branch-fields-wrapper',
-            ],
             '#required' => TRUE,
         ];
 
@@ -99,54 +111,59 @@ class UserCreateForm extends FormBase {
         $role = $form_state->getValue('role');
         $assigned_coop = $form_state->getValue(['coop_branch_fields', 'assigned_cooperative']);
 
-        $user = User::create([
-            'name' => $email,
-            'mail' => $email,
-            'field_full_name' => $fullname,
-            'field_contact_number' => $contact,
-            'field_cooperative' => ['target_id' => $assigned_coop],
-            'status' => 1,
-        ]);
+        try {
+            $user = User::create([
+                'name' => $email,
+                'mail' => $email,
+                'field_full_name' => $fullname,
+                'field_contact_number' => $contact,
+                'field_cooperative' => ['target_id' => $assigned_coop],
+                'status' => 1,
+            ]);
 
-        $user->addRole($role);
-        $user->save();
+            $user->addRole($role);
+            $user->save();
 
-        $timestamp = \Drupal::time()->getRequestTime();
-        $hash = user_pass_rehash($user, $timestamp);
+            $timestamp = \Drupal::time()->getRequestTime();
+            $hash = user_pass_rehash($user, $timestamp);
 
-        $set_password_link = Url::fromRoute('user.reset', [
-        'uid' => $user->id(),
-        'timestamp' => $timestamp,
-        'hash' => $hash,
-        ], ['absolute' => TRUE])->toString();
+            $set_password_link = Url::fromRoute('user.reset', [
+                'uid' => $user->id(),
+                'timestamp' => $timestamp,
+                'hash' => $hash,
+            ], ['absolute' => TRUE])->toString();
 
-        $site_name = \Drupal::config('system.site')->get('name');
-        $username = $user->getAccountName();
+            $site_name = \Drupal::config('system.site')->get('name');
+            $username = $user->getAccountName();
 
-        $subject = t('Set your password for @site', ['@site' => $site_name]);
+            $subject = t('Set your password for @site', ['@site' => $site_name]);
 
-        $body = t('
-            <p>Hello,</p>
-            <p>An account has been created for you on <strong>@site</strong>.</p>
-            <p>Your username: <strong>@username</strong></p>
-            <p>
-            <a href="@link" style="display:inline-block;padding:10px 20px;background-color:#0074bd;color:#fff;text-decoration:none;border-radius:4px;">
-                Set your password
-            </a>
-            </p>
-            <p>This link will expire after one use.</p>
-        ', [
-            '@site' => $site_name,
-            '@username' => $username,
-            '@link' => $set_password_link,
-        ]);
+            $body = t('
+                <p>Hello,</p>
+                <p>An account has been created for you on <strong>@site</strong>.</p>
+                <p>Your username: <strong>@username</strong></p>
+                <p>
+                <a href="@link" style="display:inline-block;padding:10px 20px;background-color:#0074bd;color:#fff;text-decoration:none;border-radius:4px;">
+                    Set your password
+                </a>
+                </p>
+                <p>This link will expire after one use.</p>
+            ', [
+                '@site' => $site_name,
+                '@username' => $username,
+                '@link' => $set_password_link,
+            ]);
 
-        $params['subject'] = $subject;
-        $params['body'][] = $body;
+            $params['subject'] = $subject;
+            $params['body'][] = $body;
 
-        $mailManager = \Drupal::service('plugin.manager.mail');
-        $mailManager->mail('admin', 'custom_password_reset', $user->getEmail(), $user->getPreferredLangcode(), $params, NULL, TRUE);
+            $mailManager = \Drupal::service('plugin.manager.mail');
+            $mailManager->mail('admin', 'custom_password_reset', $user->getEmail(), $user->getPreferredLangcode(), $params, NULL, TRUE);
 
-        \Drupal::messenger()->addMessage($this->t('User account created. Email sent to @email.', ['@email' => $email]));
+            \Drupal::messenger()->addMessage($this->t('User account created. Email sent to @email.', ['@email' => $email]));
+        } catch (\Exception $e) {
+            // Show the error as a toast (Drupal messenger).
+            \Drupal::messenger()->addError($this->t('Error: @message', ['@message' => $e->getMessage()]));
+        }
     }
 }

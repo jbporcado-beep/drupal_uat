@@ -9,7 +9,7 @@ id: node.cooperative.field_cda_firm_size
 field_name: field_cda_firm_size
 entity_type: node
 bundle: cooperative
-label: cda_firm_size
+label: 'CDA Firm Size'
 description: ''
 required: true
 translatable: false

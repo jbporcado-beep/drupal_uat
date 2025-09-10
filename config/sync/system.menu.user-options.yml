@@ -1,0 +1,8 @@
+uuid: 4a7db5cc-3cc0-4f08-869b-c3115e6cf76a
+langcode: en
+status: true
+dependencies: {  }
+id: user-options
+label: 'User options'
+description: 'User profile actions'
+locked: false

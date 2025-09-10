@@ -10,4 +10,7 @@ weight: 4
 is_admin: false
 permissions:
   - 'add user'
+  - 'administer cic'
+  - 'administer cooperatives'
+  - 'administer reports'
   - 'administer users'

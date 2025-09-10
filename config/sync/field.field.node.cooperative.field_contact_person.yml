@@ -9,7 +9,7 @@ id: node.cooperative.field_contact_person
 field_name: field_contact_person
 entity_type: node
 bundle: cooperative
-label: contact_person
+label: 'Contact Person'
 description: ''
 required: true
 translatable: false

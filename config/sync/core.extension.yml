@@ -10,6 +10,7 @@ module:
   breakpoint: 0
   ckeditor5: 0
   comment: 0
+  common: 0
   config: 0
   contact: 0
   contextual: 0
@@ -27,6 +28,7 @@ module:
   history: 0
   image: 0
   link: 0
+  login_destination: 0
   menu_link_content: 0
   menu_ui: 0
   node: 0
@@ -43,6 +45,7 @@ module:
   toolbar: 0
   update: 0
   user: 0
+  user_dropdown: 0
   views_ui: 0
   views: 10
   standard: 1000

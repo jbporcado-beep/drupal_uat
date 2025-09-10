@@ -1,0 +1,39 @@
+uuid: 280203ae-6b64-4058-af80-40cd64489d78
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.mass-specc-menu
+  module:
+    - system
+    - user
+  theme:
+    - mass_specc_bootstrap_sass
+id: mass_specc_bootstrap_sass_massspeccmenu
+theme: mass_specc_bootstrap_sass
+region: sticky_left_nav
+weight: 1
+provider: null
+plugin: 'system_menu_block:mass-specc-menu'
+settings:
+  id: 'system_menu_block:mass-specc-menu'
+  label: 'Mass Specc Menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: null
+  expand_all_items: true
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/admin\r\n/admin/*"
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
+      administrator: administrator
+      mass_specc_admin: mass_specc_admin

@@ -1,0 +1,5 @@
+name: "User Dropdown"
+type: module
+description: "Provides a user dropdown block for the header."
+core_version_requirement: ^8 || ^9 || ^10 || ^11
+package: Custom

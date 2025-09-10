@@ -9,7 +9,7 @@ id: node.cooperative.field_email
 field_name: field_email
 entity_type: node
 bundle: cooperative
-label: email
+label: Email
 description: ''
 required: true
 translatable: false

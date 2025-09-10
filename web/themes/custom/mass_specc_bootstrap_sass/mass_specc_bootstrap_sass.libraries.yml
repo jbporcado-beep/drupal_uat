@@ -1,6 +1,6 @@
 global-styling:
   version: VERSION
-  js: 
+  js:
     js/popper.min.js: { weight: -49 }
     js/bootstrap.min.js: { weight: -48 }
     js/barrio.js: {}
@@ -12,3 +12,8 @@ global-styling:
   dependencies:
     - core/jquery
     - core/drupal
+
+login-page:
+  css:
+    component:
+      css/login.css: {}

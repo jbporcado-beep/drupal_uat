@@ -1,0 +1,28 @@
+uuid: e925155d-068e-4bae-b501-b64a6b9c7823
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+    - user_dropdown
+  theme:
+    - mass_specc_bootstrap_sass
+id: mass_specc_bootstrap_sass_userdropdown
+theme: mass_specc_bootstrap_sass
+region: main_header
+weight: 0
+provider: null
+plugin: user_dropdown_block
+settings:
+  id: user_dropdown_block
+  label: 'User Dropdown'
+  label_display: '0'
+  provider: user_dropdown
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

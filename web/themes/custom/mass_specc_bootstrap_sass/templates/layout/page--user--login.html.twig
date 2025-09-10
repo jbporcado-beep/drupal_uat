@@ -1,0 +1,25 @@
+{# filepath: web/themes/custom/mass_specc_bootstrap_sass/templates/user-login.html.twig #}
+<!DOCTYPE html>
+<html{{ html_attributes }}>
+  <head>
+    {{ head }}
+    <title>{{ head_title }}</title>
+    {{ styles }}
+    {{ scripts }}
+  </head>
+  <body{{ attributes }}>
+    {{ attach_library('mass_specc_bootstrap_sass/login-page') }}
+    <header class="login-header">
+      <div class="logo-wrapper">
+        <img src="/sites/default/files/inline-images/logo.png" alt="Site Logo" class="site-logo" />
+      </div>
+    </header>
+    <main class="login-main">
+      <div class="login-container">
+        <h2 class="welcome-message">Welcome back!</h2>
+        <p class="login-subtext">PinoyCoop Credit Bureau System</p>
+        {{ page.content }}
+      </div>
+    </main>
+  </body>
+</html>

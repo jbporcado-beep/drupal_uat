@@ -9,7 +9,7 @@ id: node.cooperative.field_cbs_branch_code
 field_name: field_cbs_branch_code
 entity_type: node
 bundle: cooperative
-label: cbs_branch_code
+label: 'CBS Branch Code'
 description: ''
 required: true
 translatable: false

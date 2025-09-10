@@ -9,7 +9,7 @@ id: node.cooperative.field_ho_address
 field_name: field_ho_address
 entity_type: node
 bundle: cooperative
-label: ho_address
+label: 'Head Office Address'
 description: ''
 required: true
 translatable: false

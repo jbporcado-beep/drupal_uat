@@ -1,0 +1,8 @@
+uuid: 939bc13d-7d96-4ad9-a651-90d0fe937750
+langcode: en
+status: true
+dependencies: {  }
+id: mass-specc-menu
+label: 'Mass Specc Menu'
+description: 'Menu for Mass Specc Admin'
+locked: false

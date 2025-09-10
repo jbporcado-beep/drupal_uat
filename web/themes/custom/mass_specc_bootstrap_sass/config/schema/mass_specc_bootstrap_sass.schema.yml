@@ -342,3 +342,117 @@ mass_specc_bootstrap_sass.settings:
     bootstrap_barrio_region_width_secondary_menu:
       type: text
       label: "Region width secondary menu"
+    bootstrap_barrio_region_width_page_top:
+      type: text
+      label: "Region width page top"
+    bootstrap_barrio_region_width_page_bottom:
+      type: text
+      label: "Region width page bottom"
+    bootstrap_barrio_region_width_highlighted:
+      type: text
+      label: "Region width highlighted"
+    bootstrap_barrio_region_width_featured_top:
+      type: text
+      label: "Region width featured top"
+    bootstrap_barrio_region_width_breadcrumb:
+      type: text
+      label: "Region width breadcrumb"
+    bootstrap_barrio_region_width_content:
+      type: text
+      label: "Region width content"
+    bootstrap_barrio_region_width_sidebar_first:
+      type: text
+      label: "Region width sidebar first"
+    bootstrap_barrio_region_width_sidebar_second:
+      type: text
+      label: "Region width sidebar second"
+    bootstrap_barrio_region_width_featured_bottom_first:
+      type: text
+      label: "Region width featured bottom first"
+    bootstrap_barrio_region_width_featured_bottom_second:
+      type: text
+      label: "Region width featured bottom second"
+    bootstrap_barrio_region_width_featured_bottom_third:
+      type: text
+      label: "Region width featured bottom third"
+    bootstrap_barrio_region_width_footer_first:
+      type: text
+      label: "Region width footer first"
+    bootstrap_barrio_region_width_footer_second:
+      type: text
+      label: "Region width footer second"
+    bootstrap_barrio_region_width_footer_third:
+      type: text
+      label: "Region width footer third"
+    bootstrap_barrio_region_width_footer_fourth:
+      type: text
+      label: "Region width footer fourth"
+    bootstrap_barrio_region_width_footer_fifth:
+      type: text
+      label: "Region width footer fifth"
+    bootstrap_barrio_region_clean_none:
+      type: text
+      label: "Clean wrapper for None region"
+    bootstrap_barrio_region_width_none:
+      type: text
+      label: "Region width none"
+    bootstrap_barrio_region_class_none:
+      type: text
+      label: "Classes for None region"
+    bootstrap_barrio_hide_node_label:
+      type: boolean
+      label: "Hide node label"
+    bootstrap_barrio_breadcrumb_divider:
+      type: text
+      label: "Breadcrumb divider"
+    bootstrap_barrio_button_type:
+      type: text
+      label: "Button type"
+    bootstrap_barrio_image_fluid:
+      type: boolean
+      label: "Image fluid"
+    bootstrap_barrio_navbar_top_class:
+      type: text
+      label: "Navbar top class"
+    bootstrap_barrio_navbar_class:
+      type: text
+      label: "Navbar class"
+    bootstrap_barrio_navbar_offcanvas:
+      type: boolean
+      label: "Navbar offcanvas"
+    bootstrap_barrio_navbar_flyout:
+      type: boolean
+      label: "Navbar flyout"
+    bootstrap_barrio_navbar_slide:
+      type: boolean
+      label: "Navbar slide"
+    bootstrap_barrio_tabs_style:
+      type: text
+      label: "Tabs style"
+    bootstrap_barrio_messages_widget_toast_delay:
+      type: integer
+      label: "Messages widget toast delay"
+    bootstrap_barrio_float_label:
+      type: boolean
+      label: "Float label"
+    bootstrap_barrio_bootstrap_icons:
+      type: boolean
+      label: "Bootstrap icons"
+    bootstrap_barrio_region_clean_sticky_left_nav:
+      type: text
+      label: "Clean wrapper for Sticky Left Nav region"
+    bootstrap_barrio_region_width_sticky_left_nav:
+      type: text
+      label: "Region width Sticky Left Nav"
+    bootstrap_barrio_region_class_sticky_left_nav:
+      type: text
+      label: "Classes for Sticky Left Nav region"
+    bootstrap_barrio_region_clean_main_header:
+      type: text
+      label: "Clean wrapper for Main Header region"
+    bootstrap_barrio_region_width_main_header:
+      type: text
+      label: "Region width Main Header"
+    bootstrap_barrio_region_class_main_header:
+      type: text
+      label: "Classes for Main Header region"

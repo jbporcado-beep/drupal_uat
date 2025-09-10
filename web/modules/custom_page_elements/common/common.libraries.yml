@@ -1,0 +1,5 @@
+char-count:
+  js:
+    js/char-count.js: {}
+  dependencies:
+    - core/jquery

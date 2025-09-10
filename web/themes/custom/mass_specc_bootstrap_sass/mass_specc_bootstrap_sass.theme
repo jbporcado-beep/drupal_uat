@@ -30,3 +30,21 @@ function mass_specc_bootstrap_sass_form_system_theme_settings_alter(&$form, Form
     'bg-transparent' => t('Transparent'),
   );
 }
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function mass_specc_bootstrap_sass_preprocess_page(&$variables) {
+  // Get the title for the current page.
+  $route_match = \Drupal::routeMatch();
+  $title = \Drupal::service('title_resolver')->getTitle(\Drupal::request(), $route_match->getRouteObject());
+  if (!$title && !empty($variables['node'])) {
+    $title = $variables['node']->getTitle();
+  }
+  $variables['title'] = $title;
+
+  // Add theme suggestion for user login page.
+  if ($route_match->getRouteName() == 'user.login') {
+    $variables['theme_hook_suggestions'][] = 'page__user__login';
+  }
+}
