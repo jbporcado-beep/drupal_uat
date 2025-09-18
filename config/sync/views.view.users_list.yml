@@ -3,13 +3,14 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.user.field_branch
-    - field.storage.user.field_cooperative
+    - field.storage.node.field_branch_name
+    - field.storage.node.field_coop_name
     - field.storage.user.field_full_name
     - user.role.administrator
     - user.role.mass_specc_admin
   module:
     - better_exposed_filters
+    - node
     - user
 id: users_list
 label: 'Users List'
@@ -90,11 +91,11 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_cooperative:
-          id: field_cooperative
-          table: user__field_cooperative
-          field: field_cooperative
-          relationship: none
+        field_coop_name:
+          id: field_coop_name
+          table: node__field_coop_name
+          field: field_coop_name
+          relationship: field_cooperative
           group_type: group
           admin_label: ''
           plugin_id: field
@@ -139,11 +140,11 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
+          click_sort_column: value
+          type: string
           settings:
-            link: false
-          group_column: target_id
+            link_to_entity: false
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -153,11 +154,11 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_branch:
-          id: field_branch
-          table: user__field_branch
-          field: field_branch
-          relationship: none
+        field_branch_name:
+          id: field_branch_name
+          table: node__field_branch_name
+          field: field_branch_name
+          relationship: field_branch
           group_type: group
           admin_label: ''
           plugin_id: field
@@ -202,11 +203,11 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
+          click_sort_column: value
+          type: string
           settings:
-            link: false
-          group_column: target_id
+            link_to_entity: false
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -619,7 +620,7 @@ display:
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
-              secondary_open: false
+              secondary_open: true
               reset_button_always_show: false
             filter:
               combine:
@@ -706,10 +707,14 @@ display:
             group_items: {  }
           fields:
             field_full_name: field_full_name
-            field_cooperative: field_cooperative
-            field_branch: field_branch
+            field_coop_name: field_coop_name
+            field_branch_name: field_branch_name
             roles_target_id: roles_target_id
             mail: mail
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       style:
         type: table
       row:
@@ -722,7 +727,25 @@ display:
           distinct: false
           replica: false
           query_tags: {  }
-      relationships: {  }
+      relationships:
+        field_branch:
+          id: field_branch
+          table: user__field_branch
+          field: field_branch
+          relationship: none
+          group_type: group
+          admin_label: 'field_branch: Content'
+          plugin_id: standard
+          required: false
+        field_cooperative:
+          id: field_cooperative
+          table: user__field_cooperative
+          field: field_cooperative
+          relationship: none
+          group_type: group
+          admin_label: 'field_cooperative: Content'
+          plugin_id: standard
+          required: false
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -735,8 +758,8 @@ display:
         - url.query_args
         - user.roles
       tags:
-        - 'config:field.storage.user.field_branch'
-        - 'config:field.storage.user.field_cooperative'
+        - 'config:field.storage.node.field_branch_name'
+        - 'config:field.storage.node.field_coop_name'
         - 'config:field.storage.user.field_full_name'
   users_table:
     id: users_table
@@ -756,6 +779,6 @@ display:
         - url.query_args
         - user.roles
       tags:
-        - 'config:field.storage.user.field_branch'
-        - 'config:field.storage.user.field_cooperative'
+        - 'config:field.storage.node.field_branch_name'
+        - 'config:field.storage.node.field_coop_name'
         - 'config:field.storage.user.field_full_name'
