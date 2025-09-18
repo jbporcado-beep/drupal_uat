@@ -159,20 +159,18 @@ class UserCreateForm extends FormBase {
         $assigned_branch_id = $user ? $user->get('field_branch')->target_id : NULL;
         $selected_branch = $form_state->getValue(['coop_branch_fields', 'assigned_branch'], $assigned_branch_id);
 
-        $role = $form_state->getValue('role', $default_role);
-        $branch_disabled = ($role === 'approver' || !$selected_coop);
-        $branch_required = !$branch_disabled;
-
+        $isApprover = $form_state->getValue('role', $default_role) === 'approver';
+        
         $form['coop_branch_fields']['assigned_branch'] = [
             '#type' => 'select',
             '#title' => $this->t('Assigned Branch'),
             '#options' => $branch_options,
-            '#default_value' => $selected_branch,
-            '#required' => $branch_required,
+            '#default_value' => $isApprover ? '' : $selected_branch,
+            '#required' => !$isApprover,
             '#empty_option' => $this->t('- Select a branch -'),
             '#prefix' => '<div id="assigned-branch-wrapper">',
             '#suffix' => '</div>',
-            '#attributes' => $branch_disabled ? ['disabled' => 'disabled'] : [],
+            '#attributes' => $isApprover ? ['disabled' => 'disabled'] : [],
         ];
 
         $form['actions'] = ['#type' => 'actions'];
