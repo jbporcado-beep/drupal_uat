@@ -1,0 +1,19 @@
+uuid: c91df803-5608-449a-8be6-699a0f9c6078
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_transaction_type
+    - node.type.noninstallment_contract
+id: node.noninstallment_contract.field_transaction_type
+field_name: field_transaction_type
+entity_type: node
+bundle: noninstallment_contract
+label: 'Transaction type subfacility'
+description: 'The value reported should be consistent with "TransactionTypeDomain" list'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

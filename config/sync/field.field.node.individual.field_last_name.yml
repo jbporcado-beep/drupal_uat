@@ -9,7 +9,7 @@ id: node.individual.field_last_name
 field_name: field_last_name
 entity_type: node
 bundle: individual
-label: last_name
+label: 'Last name'
 description: ''
 required: true
 translatable: false

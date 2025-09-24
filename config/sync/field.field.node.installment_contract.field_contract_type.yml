@@ -9,7 +9,7 @@ id: node.installment_contract.field_contract_type
 field_name: field_contract_type
 entity_type: node
 bundle: installment_contract
-label: contract_type
+label: 'Contract type'
 description: 'Value must be consistent with "ContractTypeDomain" list'
 required: true
 translatable: false

@@ -9,7 +9,7 @@ id: node.identification.field_identification2_type
 field_name: field_identification2_type
 entity_type: node
 bundle: identification
-label: identification2_type
+label: 'Identification 2: Type'
 description: "Value must be consistent with \"IdentificationTypeDomain\" \r\n\r\nIf this field is filled in, then identification2_number must also be filled in\r\n\r\nAt least one between identification1_type, identification2_type, or identification3_type must be filled in\r\n\r\nShould be TIN, SSS, or GSIS"
 required: false
 translatable: false

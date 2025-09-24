@@ -9,7 +9,7 @@ id: node.individual.field_previous_last_name
 field_name: field_previous_last_name
 entity_type: node
 bundle: individual
-label: previous_last_name
+label: 'Previous last name'
 description: ''
 required: false
 translatable: false

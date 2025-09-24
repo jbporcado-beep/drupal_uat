@@ -1,0 +1,19 @@
+uuid: be6dfa30-d720-431e-9eac-f327d8422eda
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_overdue_days
+    - node.type.installment_contract
+id: node.installment_contract.field_overdue_days
+field_name: field_overdue_days
+entity_type: node
+bundle: installment_contract
+label: 'Overdue days'
+description: "The value reported should be consistent with \"OverdueDaysDomain\" list\r\n\r\nIt is mandatory if the Contract Phase is Active, Closed or Closed in Advance"
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

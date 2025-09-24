@@ -5,7 +5,7 @@ dependencies:
   config:
     - field.field.node.header.field_header_branch_code
     - field.field.node.header.field_provider_code
-    - field.field.node.header.field_subject_reference_date
+    - field.field.node.header.field_reference_date
     - node.type.header
   module:
     - path
@@ -22,7 +22,23 @@ content:
     third_party_settings: {  }
   field_header_branch_code:
     type: string_textfield
-    weight: 134
+    weight: 136
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_provider_code:
+    type: string_textfield
+    weight: 137
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_reference_date:
+    type: string_textfield
+    weight: 135
     region: content
     settings:
       size: 60

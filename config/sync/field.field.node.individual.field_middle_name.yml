@@ -9,7 +9,7 @@ id: node.individual.field_middle_name
 field_name: field_middle_name
 entity_type: node
 bundle: individual
-label: middle_name
+label: 'Middle name'
 description: ''
 required: false
 translatable: false

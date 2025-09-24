@@ -9,7 +9,7 @@ id: node.individual.field_nationality
 field_name: field_nationality
 entity_type: node
 bundle: individual
-label: nationality
+label: Nationality
 description: 'Value must be consistent with "CountryDomain" list'
 required: false
 translatable: false

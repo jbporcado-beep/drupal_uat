@@ -1,0 +1,17 @@
+uuid: b9808091-c646-424b-a9f2-383dece09f24
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Noninstallment Contract'
+type: noninstallment_contract
+description: null
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false

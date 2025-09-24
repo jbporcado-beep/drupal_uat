@@ -19,7 +19,7 @@ dependencies:
     - field.field.node.identification.field_identification1_type
     - field.field.node.identification.field_identification2_number
     - field.field.node.identification.field_identification2_type
-    - field.field.node.identification.field_identity_provider_subj_no
+    - field.field.node.identification.field_provider_subject_no
     - node.type.identification
   module:
     - user
@@ -34,7 +34,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 120
+    weight: 119
     region: content
   field_id1_issuecountry:
     type: string
@@ -50,7 +50,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 119
+    weight: 118
     region: content
   field_id1_issuedby:
     type: string
@@ -82,7 +82,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 121
+    weight: 120
     region: content
   field_id2_issuecountry:
     type: string
@@ -98,7 +98,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 118
+    weight: 121
     region: content
   field_id2_issuedby:
     type: string
@@ -156,13 +156,13 @@ content:
     third_party_settings: {  }
     weight: 103
     region: content
-  field_identity_provider_subj_no:
+  field_provider_subject_no:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 117
+    weight: 101
     region: content
   links:
     settings: {  }

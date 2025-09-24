@@ -1,0 +1,29 @@
+uuid: df98d7e1-85e9-4ddd-bce0-aac3d46bc3e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_header
+    - node.type.header
+    - node.type.installment_contract
+id: node.installment_contract.field_header
+field_name: field_header
+entity_type: node
+bundle: installment_contract
+label: Header
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      header: header
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

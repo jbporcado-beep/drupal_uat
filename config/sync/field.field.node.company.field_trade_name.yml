@@ -1,0 +1,19 @@
+uuid: 9faf492c-8bec-47a8-ab87-276a4427e44e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_trade_name
+    - node.type.company
+id: node.company.field_trade_name
+field_name: field_trade_name
+entity_type: node
+bundle: company
+label: 'Trade name'
+description: 'Full name of the company'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -9,7 +9,7 @@ id: node.address.field_address1_fulladdress
 field_name: field_address1_fulladdress
 entity_type: node
 bundle: address
-label: address1_fulladdress
+label: 'Address 1: Full address'
 description: ''
 required: true
 translatable: false

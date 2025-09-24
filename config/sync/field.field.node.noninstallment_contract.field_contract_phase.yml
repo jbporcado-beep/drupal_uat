@@ -1,0 +1,19 @@
+uuid: ff372564-20ef-4d38-8822-4f5c02d63bee
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contract_phase
+    - node.type.noninstallment_contract
+id: node.noninstallment_contract.field_contract_phase
+field_name: field_contract_phase
+entity_type: node
+bundle: noninstallment_contract
+label: 'Contract phase'
+description: 'Value must be consistent with "ContractPhaseDomain" list'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

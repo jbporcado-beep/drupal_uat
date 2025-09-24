@@ -9,7 +9,7 @@ id: node.address.field_address2_type
 field_name: field_address2_type
 entity_type: node
 bundle: address
-label: address2_type
+label: 'Address 2: Type'
 description: 'Must be "AI" (Individual - Additional Address)'
 required: false
 translatable: false

@@ -1,4 +1,4 @@
-uuid: 94148d0f-ef0b-4779-b8bf-6d535f245ee8
+uuid: bdbd5866-e8be-4159-84f8-f83721b0a29b
 langcode: en
 status: true
 dependencies:
@@ -10,7 +10,7 @@ third_party_settings:
     parent: ''
 name: Contact
 type: contact
-description: null
+description: 'Contact information of an individual'
 help: null
 new_revision: false
 preview_mode: 1

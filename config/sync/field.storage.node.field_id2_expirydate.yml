@@ -1,4 +1,4 @@
-uuid: f3d6b1a6-79b9-4bb7-a94b-8b6d691057a6
+uuid: d32a26c3-2292-4f82-b410-f895ebbf36f4
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ field_name: field_id2_expirydate
 entity_type: node
 type: string
 settings:
-  max_length: 255
+  max_length: 8
   case_sensitive: false
   is_ascii: false
 module: core

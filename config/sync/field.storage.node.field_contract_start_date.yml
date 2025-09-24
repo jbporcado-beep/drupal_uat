@@ -1,17 +1,18 @@
-uuid: c6dc5813-2791-4460-b4fc-03df9469dd18
+uuid: 0f4acfd5-b327-4d1f-80a3-c69e5d822e01
 langcode: en
 status: true
 dependencies:
   module:
-    - datetime
     - node
 id: node.field_contract_start_date
 field_name: field_contract_start_date
 entity_type: node
-type: datetime
+type: string
 settings:
-  datetime_type: date
-module: datetime
+  max_length: 8
+  case_sensitive: false
+  is_ascii: false
+module: core
 locked: false
 cardinality: 1
 translatable: true

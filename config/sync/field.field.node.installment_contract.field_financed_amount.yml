@@ -1,4 +1,4 @@
-uuid: 56461ecb-ecbc-4b04-a34f-e0bda2f794d8
+uuid: b29c101a-98f3-4d0c-bedd-23acaf90836f
 langcode: en
 status: true
 dependencies:
@@ -9,15 +9,11 @@ id: node.installment_contract.field_financed_amount
 field_name: field_financed_amount
 entity_type: node
 bundle: installment_contract
-label: financed_amount
-description: 'Value must be an integer. No commas, no dots.'
+label: 'Financed amount'
+description: ''
 required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
-settings:
-  min: 0
-  max: 999999999999999
-  prefix: ''
-  suffix: ''
-field_type: integer
+settings: {  }
+field_type: string

@@ -1,0 +1,19 @@
+uuid: 5f89bfb3-ef8e-4560-8ada-c18113fb0f89
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contract_end_actual_date
+    - node.type.installment_contract
+id: node.installment_contract.field_contract_end_actual_date
+field_name: field_contract_end_actual_date
+entity_type: node
+bundle: installment_contract
+label: 'Contract end actual date'
+description: 'The field is Mandatory only if Contract Phase=Closed / Closed in Advance'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

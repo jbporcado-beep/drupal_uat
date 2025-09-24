@@ -1,4 +1,4 @@
-uuid: 5b6e41af-9eff-4f03-b905-a3cf179e8a94
+uuid: 98708d91-d2ee-43e3-a165-b11505516df5
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ id: node.individual.field_date_of_birth
 field_name: field_date_of_birth
 entity_type: node
 bundle: individual
-label: date_of_birth
+label: 'Date of birth'
 description: ''
 required: true
 translatable: false

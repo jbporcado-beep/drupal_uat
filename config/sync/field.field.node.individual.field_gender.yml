@@ -9,7 +9,7 @@ id: node.individual.field_gender
 field_name: field_gender
 entity_type: node
 bundle: individual
-label: gender
+label: Gender
 description: ''
 required: true
 translatable: false

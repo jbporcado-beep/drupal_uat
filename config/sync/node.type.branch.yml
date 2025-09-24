@@ -1,4 +1,4 @@
-uuid: 04d11263-978f-49d0-b935-a6a614999b12
+uuid: a712d5c2-7b84-4598-8907-e2bc0155afe9
 langcode: en
 status: true
 dependencies:
@@ -6,8 +6,8 @@ dependencies:
     - menu_ui
 third_party_settings:
   menu_ui:
-    available_menus: {  }
-    parent: ''
+    available_menus: {}
+    parent: ""
 name: Branch
 type: branch
 description: null

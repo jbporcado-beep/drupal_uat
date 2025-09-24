@@ -9,7 +9,7 @@ id: node.identification.field_id1_issuecountry
 field_name: field_id1_issuecountry
 entity_type: node
 bundle: identification
-label: id1_issuecountry
+label: 'ID 1: Issue country'
 description: 'Value must be consistent with "CountryDomain" list'
 required: false
 translatable: false

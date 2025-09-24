@@ -9,7 +9,7 @@ id: node.family.field_spouse_middle_name
 field_name: field_spouse_middle_name
 entity_type: node
 bundle: family
-label: spouse_middle_name
+label: 'Spouse middle name'
 description: ''
 required: false
 translatable: false

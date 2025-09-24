@@ -9,7 +9,7 @@ id: node.installment_contract.field_contract_phase
 field_name: field_contract_phase
 entity_type: node
 bundle: installment_contract
-label: contract_phase
+label: 'Contract phase'
 description: 'Value must be consistent with "ContractPhaseDomain" list'
 required: true
 translatable: false

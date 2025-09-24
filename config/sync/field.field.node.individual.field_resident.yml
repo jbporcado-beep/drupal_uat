@@ -9,7 +9,7 @@ id: node.individual.field_resident
 field_name: field_resident
 entity_type: node
 bundle: individual
-label: resident
+label: Resident
 description: 'Value must be consistent with "YesNoDomain" list'
 required: false
 translatable: false

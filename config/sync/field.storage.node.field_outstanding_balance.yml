@@ -1,4 +1,4 @@
-uuid: de671cf0-2148-416d-80bd-76f812ddce95
+uuid: eac723ac-1b15-4ad5-ad3a-aa1fe4663827
 langcode: en
 status: true
 dependencies:
@@ -7,10 +7,11 @@ dependencies:
 id: node.field_outstanding_balance
 field_name: field_outstanding_balance
 entity_type: node
-type: integer
+type: string
 settings:
-  unsigned: false
-  size: normal
+  max_length: 15
+  case_sensitive: false
+  is_ascii: false
 module: core
 locked: false
 cardinality: 1

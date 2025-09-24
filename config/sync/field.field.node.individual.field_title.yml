@@ -9,7 +9,7 @@ id: node.individual.field_title
 field_name: field_title
 entity_type: node
 bundle: individual
-label: title
+label: Title
 description: ''
 required: false
 translatable: false

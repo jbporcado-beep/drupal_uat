@@ -3,79 +3,52 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.installment_contract.field_ci
-    - field.field.node.installment_contract.field_cid2
-    - field.field.node.installment_contract.field_contract_end_actl_date
-    - field.field.node.installment_contract.field_contract_end_plnd_date
-    - field.field.node.installment_contract.field_contract_negative_stat
+    - field.field.node.installment_contract.field_contract_end_actual_date
+    - field.field.node.installment_contract.field_contract_end_planned_date
     - field.field.node.installment_contract.field_contract_phase
     - field.field.node.installment_contract.field_contract_start_date
     - field.field.node.installment_contract.field_contract_type
     - field.field.node.installment_contract.field_currency
-    - field.field.node.installment_contract.field_days_past_due
     - field.field.node.installment_contract.field_financed_amount
-    - field.field.node.installment_contract.field_frequency_of_paymt
+    - field.field.node.installment_contract.field_header
     - field.field.node.installment_contract.field_installments_no
-    - field.field.node.installment_contract.field_last_payment
-    - field.field.node.installment_contract.field_loan_acct_no
-    - field.field.node.installment_contract.field_monthly_payment_amnt
+    - field.field.node.installment_contract.field_last_payment_amount
+    - field.field.node.installment_contract.field_monthly_payment_amount
+    - field.field.node.installment_contract.field_next_payment_date
     - field.field.node.installment_contract.field_original_currency
     - field.field.node.installment_contract.field_outstanding_balance
     - field.field.node.installment_contract.field_outstanding_payment_no
-    - field.field.node.installment_contract.field_past_due_amount
-    - field.field.node.installment_contract.field_past_due_no
+    - field.field.node.installment_contract.field_overdue_days
+    - field.field.node.installment_contract.field_overdue_payments_amount
+    - field.field.node.installment_contract.field_overdue_payments_number
+    - field.field.node.installment_contract.field_payment_periodicity
+    - field.field.node.installment_contract.field_provider_contract_no
+    - field.field.node.installment_contract.field_provider_subject_no
     - field.field.node.installment_contract.field_role
-    - field.field.node.installment_contract.field_type
+    - field.field.node.installment_contract.field_transaction_type
     - node.type.installment_contract
   module:
-    - datetime
     - user
 id: node.installment_contract.default
 targetEntityType: node
 bundle: installment_contract
 mode: default
 content:
-  field_ci:
+  field_contract_end_actual_date:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 102
+    weight: 127
     region: content
-  field_cid2:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 101
-    region: content
-  field_contract_end_actl_date:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 112
-    region: content
-  field_contract_end_plnd_date:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 111
-    region: content
-  field_contract_negative_stat:
+  field_contract_end_planned_date:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 107
+    weight: 126
     region: content
   field_contract_phase:
     type: string
@@ -86,13 +59,12 @@ content:
     weight: 106
     region: content
   field_contract_start_date:
-    type: datetime_default
+    type: string
     label: above
     settings:
-      timezone_override: ''
-      format_type: medium
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 110
+    weight: 125
     region: content
   field_contract_type:
     type: string
@@ -110,30 +82,21 @@ content:
     third_party_settings: {  }
     weight: 108
     region: content
-  field_days_past_due:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 122
-    region: content
   field_financed_amount:
-    type: number_integer
-    label: above
-    settings:
-      thousand_separator: ''
-      prefix_suffix: true
-    third_party_settings: {  }
-    weight: 113
-    region: content
-  field_frequency_of_paymt:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 116
+    weight: 138
+    region: content
+  field_header:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 137
     region: content
   field_installments_no:
     type: number_integer
@@ -144,31 +107,29 @@ content:
     third_party_settings: {  }
     weight: 114
     region: content
-  field_last_payment:
-    type: number_integer
-    label: above
-    settings:
-      thousand_separator: ''
-      prefix_suffix: true
-    third_party_settings: {  }
-    weight: 123
-    region: content
-  field_loan_acct_no:
+  field_last_payment_amount:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 104
+    weight: 139
     region: content
-  field_monthly_payment_amnt:
-    type: number_integer
+  field_monthly_payment_amount:
+    type: string
     label: above
     settings:
-      thousand_separator: ''
-      prefix_suffix: true
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 117
+    weight: 141
+    region: content
+  field_next_payment_date:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 132
     region: content
   field_original_currency:
     type: string
@@ -179,13 +140,12 @@ content:
     weight: 109
     region: content
   field_outstanding_balance:
-    type: number_integer
+    type: string
     label: above
     settings:
-      thousand_separator: ''
-      prefix_suffix: true
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 119
+    weight: 142
     region: content
   field_outstanding_payment_no:
     type: number_integer
@@ -196,23 +156,54 @@ content:
     third_party_settings: {  }
     weight: 118
     region: content
-  field_past_due_amount:
-    type: number_integer
+  field_overdue_days:
+    type: string
     label: above
     settings:
-      thousand_separator: ''
-      prefix_suffix: true
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 121
+    weight: 135
     region: content
-  field_past_due_no:
+  field_overdue_payments_amount:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 140
+    region: content
+  field_overdue_payments_number:
     type: number_integer
     label: above
     settings:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: 120
+    weight: 133
+    region: content
+  field_payment_periodicity:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 129
+    region: content
+  field_provider_contract_no:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 124
+    region: content
+  field_provider_subject_no:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
     region: content
   field_role:
     type: string
@@ -222,13 +213,13 @@ content:
     third_party_settings: {  }
     weight: 103
     region: content
-  field_type:
+  field_transaction_type:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 115
+    weight: 136
     region: content
   links:
     settings: {  }

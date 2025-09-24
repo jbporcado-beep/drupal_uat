@@ -9,7 +9,7 @@ id: node.individual.field_country_of_birth_code
 field_name: field_country_of_birth_code
 entity_type: node
 bundle: individual
-label: country_of_birth_code
+label: 'Country of birth code'
 description: 'Value must be consistent with "CountryDomain" list'
 required: false
 translatable: false

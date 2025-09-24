@@ -9,7 +9,7 @@ id: node.installment_contract.field_role
 field_name: field_role
 entity_type: node
 bundle: installment_contract
-label: role
+label: Role
 description: 'Value must be consistent with "RoleDomain" list'
 required: true
 translatable: false

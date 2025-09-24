@@ -19,7 +19,7 @@ dependencies:
     - field.field.node.identification.field_identification1_type
     - field.field.node.identification.field_identification2_number
     - field.field.node.identification.field_identification2_type
-    - field.field.node.identification.field_identity_provider_subj_no
+    - field.field.node.identification.field_provider_subject_no
     - node.type.identification
   module:
     - path
@@ -36,7 +36,7 @@ content:
     third_party_settings: {  }
   field_id1_expirydate:
     type: string_textfield
-    weight: 140
+    weight: 139
     region: content
     settings:
       size: 60
@@ -52,7 +52,7 @@ content:
     third_party_settings: {  }
   field_id1_issuedate:
     type: string_textfield
-    weight: 139
+    weight: 138
     region: content
     settings:
       size: 60
@@ -84,7 +84,7 @@ content:
     third_party_settings: {  }
   field_id2_expirydate:
     type: string_textfield
-    weight: 141
+    weight: 140
     region: content
     settings:
       size: 60
@@ -100,7 +100,7 @@ content:
     third_party_settings: {  }
   field_id2_issuedate:
     type: string_textfield
-    weight: 138
+    weight: 141
     region: content
     settings:
       size: 60
@@ -162,9 +162,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_identity_provider_subj_no:
+  field_provider_subject_no:
     type: string_textfield
-    weight: 137
+    weight: 121
     region: content
     settings:
       size: 60

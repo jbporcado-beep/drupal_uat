@@ -9,7 +9,7 @@ id: node.family.field_father_suffix
 field_name: field_father_suffix
 entity_type: node
 bundle: family
-label: father_suffix
+label: 'Father suffix'
 description: ''
 required: false
 translatable: false

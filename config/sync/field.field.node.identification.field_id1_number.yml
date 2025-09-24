@@ -9,7 +9,7 @@ id: node.identification.field_id1_number
 field_name: field_id1_number
 entity_type: node
 bundle: identification
-label: id1_number
+label: 'ID 1: Number'
 description: 'This field must be filled in if id1_type is filled in'
 required: false
 translatable: false

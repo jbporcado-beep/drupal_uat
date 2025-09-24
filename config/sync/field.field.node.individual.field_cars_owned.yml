@@ -9,7 +9,7 @@ id: node.individual.field_cars_owned
 field_name: field_cars_owned
 entity_type: node
 bundle: individual
-label: cars_owned
+label: 'Cars owned'
 description: ''
 required: false
 translatable: false

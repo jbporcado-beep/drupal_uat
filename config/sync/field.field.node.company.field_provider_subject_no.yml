@@ -1,0 +1,19 @@
+uuid: 88bdd7be-1e8c-4e7c-8d9a-c39df8ea4b4a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_provider_subject_no
+    - node.type.company
+id: node.company.field_provider_subject_no
+field_name: field_provider_subject_no
+entity_type: node
+bundle: company
+label: 'Provider subject no'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

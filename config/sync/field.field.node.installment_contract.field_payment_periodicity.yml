@@ -1,0 +1,19 @@
+uuid: fb828c92-5698-408c-9f11-689cef2c4540
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_payment_periodicity
+    - node.type.installment_contract
+id: node.installment_contract.field_payment_periodicity
+field_name: field_payment_periodicity
+entity_type: node
+bundle: installment_contract
+label: 'Payment periodicity'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,19 @@
+uuid: 20301ef6-32c4-4a0e-8300-d2126a314e0f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_currency
+    - node.type.noninstallment_contract
+id: node.noninstallment_contract.field_currency
+field_name: field_currency
+entity_type: node
+bundle: noninstallment_contract
+label: Currency
+description: 'Value must strictly be PHP'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

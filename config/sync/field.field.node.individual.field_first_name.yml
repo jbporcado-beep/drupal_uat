@@ -9,7 +9,7 @@ id: node.individual.field_first_name
 field_name: field_first_name
 entity_type: node
 bundle: individual
-label: first_name
+label: 'First name'
 description: ''
 required: true
 translatable: false

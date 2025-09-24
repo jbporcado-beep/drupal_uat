@@ -9,7 +9,7 @@ id: node.employment.field_employ_occupation_status
 field_name: field_employ_occupation_status
 entity_type: node
 bundle: employment
-label: employment_occupation_status
+label: 'Employment: Occupation status'
 description: ''
 required: false
 translatable: false

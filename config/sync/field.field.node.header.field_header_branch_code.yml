@@ -1,4 +1,4 @@
-uuid: e6648727-5f5e-41ae-9c2e-f4b491837bb0
+uuid: 7989bc7a-b4ae-4419-b27c-c1a51f6ed1ad
 langcode: en
 status: true
 dependencies:
@@ -9,9 +9,9 @@ id: node.header.field_header_branch_code
 field_name: field_header_branch_code
 entity_type: node
 bundle: header
-label: branch_code
+label: 'Branch code'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''

@@ -5,9 +5,9 @@ dependencies:
   config:
     - field.field.node.employment.field_employ_occupation
     - field.field.node.employment.field_employ_occupation_status
-    - field.field.node.employment.field_employ_provider_subj_no
     - field.field.node.employment.field_employ_psic
     - field.field.node.employment.field_employ_trade_name
+    - field.field.node.employment.field_provider_subject_no
     - node.type.employment
   module:
     - path
@@ -21,6 +21,14 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_provider_subject_no:
+    type: string_textfield
+    weight: 121
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   path:
     type: path
@@ -70,6 +78,5 @@ content:
 hidden:
   field_employ_occupation: true
   field_employ_occupation_status: true
-  field_employ_provider_subj_no: true
   field_employ_psic: true
   field_employ_trade_name: true

@@ -9,7 +9,7 @@ id: node.individual.field_provider_subject_no
 field_name: field_provider_subject_no
 entity_type: node
 bundle: individual
-label: provider_subject_no
+label: 'Provider subject no'
 description: ''
 required: true
 translatable: false

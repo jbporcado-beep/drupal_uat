@@ -1,4 +1,4 @@
-uuid: 46738fed-02e3-4dc4-8b78-a68d960313a6
+uuid: d993442d-604e-45cf-a342-e5223ef0659b
 langcode: en
 status: true
 dependencies:
@@ -22,7 +22,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 103
+    weight: 101
     region: content
   field_contact1_value:
     type: string
@@ -30,7 +30,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 101
+    weight: 102
     region: content
   field_contact2_type:
     type: string
@@ -38,7 +38,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 104
+    weight: 103
     region: content
   field_contact2_value:
     type: string
@@ -46,7 +46,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 102
+    weight: 104
     region: content
   field_provider_subject_no:
     type: string

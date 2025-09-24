@@ -1,4 +1,4 @@
-uuid: bb581496-02de-4088-a150-58c2a55d9de0
+uuid: ed60928d-a34a-4a0a-81e9-95c81628a92a
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ id: node.identification.field_id2_issuedate
 field_name: field_id2_issuedate
 entity_type: node
 bundle: identification
-label: id2_issuedate
+label: 'ID 2: Issue date'
 description: ''
 required: false
 translatable: false

@@ -1,0 +1,3 @@
+services:
+  cooperative.file_content_service:
+    class: 'Drupal\cooperative\Service\FileContentService'

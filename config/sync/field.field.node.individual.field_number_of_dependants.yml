@@ -9,7 +9,7 @@ id: node.individual.field_number_of_dependants
 field_name: field_number_of_dependants
 entity_type: node
 bundle: individual
-label: number_of_dependants
+label: 'Number of dependants'
 description: ''
 required: false
 translatable: false

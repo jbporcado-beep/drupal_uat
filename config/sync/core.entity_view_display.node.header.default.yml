@@ -5,7 +5,7 @@ dependencies:
   config:
     - field.field.node.header.field_header_branch_code
     - field.field.node.header.field_provider_code
-    - field.field.node.header.field_subject_reference_date
+    - field.field.node.header.field_reference_date
     - node.type.header
   module:
     - user
@@ -20,7 +20,23 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 114
+    weight: 116
+    region: content
+  field_provider_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 117
+    region: content
+  field_reference_date:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 115
     region: content
   links:
     settings: {  }

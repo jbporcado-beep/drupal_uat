@@ -9,7 +9,7 @@ id: node.family.field_father_first_name
 field_name: field_father_first_name
 entity_type: node
 bundle: family
-label: father_first_name
+label: 'Father first name'
 description: ''
 required: false
 translatable: false

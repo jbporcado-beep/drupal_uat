@@ -1,4 +1,4 @@
-uuid: f3f8f65f-f7c3-4672-abab-a3a45ddcc37d
+uuid: 99b5bef3-7032-454e-a019-b14de63efa2f
 langcode: en
 status: true
 dependencies:
@@ -24,7 +24,7 @@ content:
     third_party_settings: {  }
   field_contact1_type:
     type: string_textfield
-    weight: 123
+    weight: 121
     region: content
     settings:
       size: 60
@@ -32,7 +32,7 @@ content:
     third_party_settings: {  }
   field_contact1_value:
     type: string_textfield
-    weight: 121
+    weight: 122
     region: content
     settings:
       size: 60
@@ -40,7 +40,7 @@ content:
     third_party_settings: {  }
   field_contact2_type:
     type: string_textfield
-    weight: 124
+    weight: 123
     region: content
     settings:
       size: 60
@@ -48,7 +48,7 @@ content:
     third_party_settings: {  }
   field_contact2_value:
     type: string_textfield
-    weight: 122
+    weight: 124
     region: content
     settings:
       size: 60

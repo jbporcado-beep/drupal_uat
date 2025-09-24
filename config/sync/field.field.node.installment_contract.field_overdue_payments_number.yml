@@ -1,0 +1,23 @@
+uuid: 76d9aa96-f4ea-43d3-9b4d-0ba006ebb84a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_overdue_payments_number
+    - node.type.installment_contract
+id: node.installment_contract.field_overdue_payments_number
+field_name: field_overdue_payments_number
+entity_type: node
+bundle: installment_contract
+label: 'Overdue payments number'
+description: "It should be left empty if the Contract Phase=Requested, Renounced, Rejected.\r\n\r\nIf Overdue Payments Number is reported, then also Overdue Payments Amount should be reported, and viceversa."
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: 999
+  prefix: ''
+  suffix: ''
+field_type: integer

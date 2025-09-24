@@ -9,7 +9,7 @@ id: node.family.field_mother_maiden_full_name
 field_name: field_mother_maiden_full_name
 entity_type: node
 bundle: family
-label: mother_maiden_full_name
+label: 'Mother maiden full name'
 description: ''
 required: false
 translatable: false

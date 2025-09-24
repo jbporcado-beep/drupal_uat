@@ -3,32 +3,31 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.installment_contract.field_ci
-    - field.field.node.installment_contract.field_cid2
-    - field.field.node.installment_contract.field_contract_end_actl_date
-    - field.field.node.installment_contract.field_contract_end_plnd_date
-    - field.field.node.installment_contract.field_contract_negative_stat
+    - field.field.node.installment_contract.field_contract_end_actual_date
+    - field.field.node.installment_contract.field_contract_end_planned_date
     - field.field.node.installment_contract.field_contract_phase
     - field.field.node.installment_contract.field_contract_start_date
     - field.field.node.installment_contract.field_contract_type
     - field.field.node.installment_contract.field_currency
-    - field.field.node.installment_contract.field_days_past_due
     - field.field.node.installment_contract.field_financed_amount
-    - field.field.node.installment_contract.field_frequency_of_paymt
+    - field.field.node.installment_contract.field_header
     - field.field.node.installment_contract.field_installments_no
-    - field.field.node.installment_contract.field_last_payment
-    - field.field.node.installment_contract.field_loan_acct_no
-    - field.field.node.installment_contract.field_monthly_payment_amnt
+    - field.field.node.installment_contract.field_last_payment_amount
+    - field.field.node.installment_contract.field_monthly_payment_amount
+    - field.field.node.installment_contract.field_next_payment_date
     - field.field.node.installment_contract.field_original_currency
     - field.field.node.installment_contract.field_outstanding_balance
     - field.field.node.installment_contract.field_outstanding_payment_no
-    - field.field.node.installment_contract.field_past_due_amount
-    - field.field.node.installment_contract.field_past_due_no
+    - field.field.node.installment_contract.field_overdue_days
+    - field.field.node.installment_contract.field_overdue_payments_amount
+    - field.field.node.installment_contract.field_overdue_payments_number
+    - field.field.node.installment_contract.field_payment_periodicity
+    - field.field.node.installment_contract.field_provider_contract_no
+    - field.field.node.installment_contract.field_provider_subject_no
     - field.field.node.installment_contract.field_role
-    - field.field.node.installment_contract.field_type
+    - field.field.node.installment_contract.field_transaction_type
     - node.type.installment_contract
   module:
-    - datetime
     - path
 id: node.installment_contract.default
 targetEntityType: node
@@ -41,39 +40,17 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_ci:
+  field_contract_end_actual_date:
     type: string_textfield
-    weight: 122
+    weight: 147
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_cid2:
-    type: entity_reference_autocomplete
-    weight: 121
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_contract_end_actl_date:
-    type: datetime_default
-    weight: 132
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_contract_end_plnd_date:
-    type: datetime_default
-    weight: 131
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_contract_negative_stat:
+  field_contract_end_planned_date:
     type: string_textfield
-    weight: 127
+    weight: 146
     region: content
     settings:
       size: 60
@@ -88,10 +65,12 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_contract_start_date:
-    type: datetime_default
-    weight: 130
+    type: string_textfield
+    weight: 145
     region: content
-    settings: {  }
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_contract_type:
     type: string_textfield
@@ -109,26 +88,21 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_days_past_due:
+  field_financed_amount:
     type: string_textfield
-    weight: 142
+    weight: 158
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_financed_amount:
-    type: number
-    weight: 133
+  field_header:
+    type: entity_reference_autocomplete
+    weight: 157
     region: content
     settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_frequency_of_paymt:
-    type: string_textfield
-    weight: 136
-    region: content
-    settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
@@ -139,26 +113,28 @@ content:
     settings:
       placeholder: ''
     third_party_settings: {  }
-  field_last_payment:
-    type: number
-    weight: 143
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_loan_acct_no:
+  field_last_payment_amount:
     type: string_textfield
-    weight: 124
+    weight: 159
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_monthly_payment_amnt:
-    type: number
-    weight: 137
+  field_monthly_payment_amount:
+    type: string_textfield
+    weight: 161
     region: content
     settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_next_payment_date:
+    type: string_textfield
+    weight: 152
+    region: content
+    settings:
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_original_currency:
@@ -170,10 +146,11 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_outstanding_balance:
-    type: number
-    weight: 139
+    type: string_textfield
+    weight: 162
     region: content
     settings:
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_outstanding_payment_no:
@@ -183,18 +160,51 @@ content:
     settings:
       placeholder: ''
     third_party_settings: {  }
-  field_past_due_amount:
+  field_overdue_days:
+    type: string_textfield
+    weight: 155
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_overdue_payments_amount:
+    type: string_textfield
+    weight: 160
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_overdue_payments_number:
     type: number
-    weight: 141
+    weight: 153
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
-  field_past_due_no:
-    type: number
-    weight: 140
+  field_payment_periodicity:
+    type: string_textfield
+    weight: 149
     region: content
     settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_provider_contract_no:
+    type: string_textfield
+    weight: 144
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_provider_subject_no:
+    type: string_textfield
+    weight: 121
+    region: content
+    settings:
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_role:
@@ -205,9 +215,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_type:
+  field_transaction_type:
     type: string_textfield
-    weight: 135
+    weight: 156
     region: content
     settings:
       size: 60

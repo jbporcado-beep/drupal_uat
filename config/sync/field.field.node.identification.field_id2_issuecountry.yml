@@ -9,7 +9,7 @@ id: node.identification.field_id2_issuecountry
 field_name: field_id2_issuecountry
 entity_type: node
 bundle: identification
-label: id2_issuecountry
+label: 'ID 2: Issue country'
 description: ''
 required: false
 translatable: false

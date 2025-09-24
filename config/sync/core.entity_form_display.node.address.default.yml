@@ -7,7 +7,7 @@ dependencies:
     - field.field.node.address.field_address1_type
     - field.field.node.address.field_address2_fulladdress
     - field.field.node.address.field_address2_type
-    - field.field.node.address.field_address_provider_subj_no
+    - field.field.node.address.field_provider_subject_no
     - node.type.address
   module:
     - path
@@ -33,6 +33,14 @@ content:
   field_address2_type:
     type: string_textfield
     weight: 129
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_provider_subject_no:
+    type: string_textfield
+    weight: 121
     region: content
     settings:
       size: 60
@@ -86,4 +94,3 @@ content:
 hidden:
   field_address1_fulladdress: true
   field_address2_fulladdress: true
-  field_address_provider_subj_no: true

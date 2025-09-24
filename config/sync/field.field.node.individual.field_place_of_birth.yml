@@ -9,7 +9,7 @@ id: node.individual.field_place_of_birth
 field_name: field_place_of_birth
 entity_type: node
 bundle: individual
-label: place_of_birth
+label: 'Place of birth'
 description: ''
 required: false
 translatable: false

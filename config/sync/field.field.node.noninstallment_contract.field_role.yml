@@ -1,0 +1,19 @@
+uuid: 5b34d50c-2ff6-46c1-8a4f-eb200a4d061a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_role
+    - node.type.noninstallment_contract
+id: node.noninstallment_contract.field_role
+field_name: field_role
+entity_type: node
+bundle: noninstallment_contract
+label: Role
+description: 'Value must be consistent with "RoleDomain" list'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

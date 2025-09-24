@@ -1,4 +1,4 @@
-uuid: 97366d62-75e9-4351-a549-e09f2f94446e
+uuid: 13c31f85-ebd3-4ff5-b18c-73098850db9d
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ id: node.identification.field_id2_expirydate
 field_name: field_id2_expirydate
 entity_type: node
 bundle: identification
-label: id2_expirydate
+label: 'ID 2: Expiry date'
 description: ''
 required: false
 translatable: false

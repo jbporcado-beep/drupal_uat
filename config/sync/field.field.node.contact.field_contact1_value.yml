@@ -1,4 +1,4 @@
-uuid: bfed4e4b-d353-430c-89fa-8ec785a2aa79
+uuid: 77070549-a1aa-4e81-9ab3-5db9f61d7458
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ id: node.contact.field_contact1_value
 field_name: field_contact1_value
 entity_type: node
 bundle: contact
-label: field_contact1_value
+label: 'Contact 1: Value'
 description: ''
 required: false
 translatable: false

@@ -9,7 +9,7 @@ id: node.identification.field_id2_issuedby
 field_name: field_id2_issuedby
 entity_type: node
 bundle: identification
-label: id2_issuedby
+label: 'ID 2: Issued by'
 description: ''
 required: false
 translatable: false

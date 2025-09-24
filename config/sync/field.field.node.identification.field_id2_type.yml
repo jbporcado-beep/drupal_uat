@@ -9,7 +9,7 @@ id: node.identification.field_id2_type
 field_name: field_id2_type
 entity_type: node
 bundle: identification
-label: id2_type
+label: 'ID 2: Type'
 description: ''
 required: false
 translatable: false

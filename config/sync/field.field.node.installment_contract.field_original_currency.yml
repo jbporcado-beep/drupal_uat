@@ -9,7 +9,7 @@ id: node.installment_contract.field_original_currency
 field_name: field_original_currency
 entity_type: node
 bundle: installment_contract
-label: original_currency
+label: 'Original currency'
 description: 'Value must be consistent with "CurrencyDomain" list'
 required: true
 translatable: false

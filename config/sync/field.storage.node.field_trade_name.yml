@@ -1,0 +1,21 @@
+uuid: 57c3042d-b469-4dc3-a22c-3ddeb0416644
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_trade_name
+field_name: field_trade_name
+entity_type: node
+type: string
+settings:
+  max_length: 120
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

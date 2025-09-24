@@ -9,7 +9,7 @@ id: node.identification.field_id1_type
 field_name: field_id1_type
 entity_type: node
 bundle: identification
-label: id1_type
+label: 'ID 1: Type'
 description: "Value must be consistent with \"IDTypeDomain\" list\r\n\r\nIf this field is filled in, then also the fields id1_number must also be filled in"
 required: false
 translatable: false

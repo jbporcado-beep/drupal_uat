@@ -1,4 +1,4 @@
-uuid: 82b3d5a6-60b1-44b6-af33-d9409f38eda4
+uuid: 35cbffd3-2df4-4a1a-9808-44289e6d9126
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ id: node.contact.field_provider_subject_no
 field_name: field_provider_subject_no
 entity_type: node
 bundle: contact
-label: provider_subject_no
+label: 'Provider subject no'
 description: ''
 required: true
 translatable: false

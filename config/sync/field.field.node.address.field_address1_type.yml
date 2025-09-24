@@ -9,7 +9,7 @@ id: node.address.field_address1_type
 field_name: field_address1_type
 entity_type: node
 bundle: address
-label: address1_type
+label: 'Address 1: Type'
 description: 'Value must be consistent with "AddressTypeDomain" list'
 required: true
 translatable: false

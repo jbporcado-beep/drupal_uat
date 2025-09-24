@@ -1,0 +1,22 @@
+uuid: 8530e4e2-68a5-4bec-809d-65d2238aed2d
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.noninstallment_contract
+id: node.noninstallment_contract.promote
+field_name: promote
+entity_type: node
+bundle: noninstallment_contract
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,19 @@
+uuid: 28a8b8b9-69b5-4c78-8846-1534d6f5e6c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_monthly_payment_amount
+    - node.type.installment_contract
+id: node.installment_contract.field_monthly_payment_amount
+field_name: field_monthly_payment_amount
+entity_type: node
+bundle: installment_contract
+label: 'Monthly payment amount'
+description: 'The field is Mandatory if Contract Phase=Active, Closed, Closed in advance'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

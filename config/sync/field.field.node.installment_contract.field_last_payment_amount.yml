@@ -1,0 +1,19 @@
+uuid: 03d821e8-b058-4dca-b80a-3a3e07a7bda0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_last_payment_amount
+    - node.type.installment_contract
+id: node.installment_contract.field_last_payment_amount
+field_name: field_last_payment_amount
+entity_type: node
+bundle: installment_contract
+label: 'Last payment amount'
+description: 'It is mandatory if the Contract Phase is Active, Closed or Closed in Advance'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

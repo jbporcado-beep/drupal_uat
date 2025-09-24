@@ -1,0 +1,19 @@
+uuid: bcc54ae6-d8d8-40c9-8c1f-70aec1c0f450
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_credit_limit
+    - node.type.noninstallment_contract
+id: node.noninstallment_contract.field_credit_limit
+field_name: field_credit_limit
+entity_type: node
+bundle: noninstallment_contract
+label: 'Credit limit'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

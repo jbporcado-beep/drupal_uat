@@ -1,0 +1,154 @@
+uuid: b61b81d7-fe21-433e-bc2c-b7f4458d120f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.noninstallment_contract.field_contract_end_actual_date
+    - field.field.node.noninstallment_contract.field_contract_end_planned_date
+    - field.field.node.noninstallment_contract.field_contract_phase
+    - field.field.node.noninstallment_contract.field_contract_start_date
+    - field.field.node.noninstallment_contract.field_contract_type
+    - field.field.node.noninstallment_contract.field_credit_limit
+    - field.field.node.noninstallment_contract.field_currency
+    - field.field.node.noninstallment_contract.field_header
+    - field.field.node.noninstallment_contract.field_original_currency
+    - field.field.node.noninstallment_contract.field_outstanding_balance
+    - field.field.node.noninstallment_contract.field_overdue_payments_amount
+    - field.field.node.noninstallment_contract.field_provider_contract_no
+    - field.field.node.noninstallment_contract.field_provider_subject_no
+    - field.field.node.noninstallment_contract.field_role
+    - field.field.node.noninstallment_contract.field_transaction_type
+    - node.type.noninstallment_contract
+  module:
+    - user
+id: node.noninstallment_contract.default
+targetEntityType: node
+bundle: noninstallment_contract
+mode: default
+content:
+  field_contract_end_actual_date:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 127
+    region: content
+  field_contract_end_planned_date:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 126
+    region: content
+  field_contract_phase:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_contract_start_date:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 125
+    region: content
+  field_contract_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_credit_limit:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 143
+    region: content
+  field_currency:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_header:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 137
+    region: content
+  field_original_currency:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_outstanding_balance:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 142
+    region: content
+  field_overdue_payments_amount:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 140
+    region: content
+  field_provider_contract_no:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 124
+    region: content
+  field_provider_subject_no:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_role:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_transaction_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 136
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

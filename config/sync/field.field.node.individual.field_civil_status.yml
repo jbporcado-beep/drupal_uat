@@ -9,7 +9,7 @@ id: node.individual.field_civil_status
 field_name: field_civil_status
 entity_type: node
 bundle: individual
-label: civil_status
+label: 'Civil status'
 description: 'Value must be consistent with "CivilStatusDomain" list'
 required: false
 translatable: false

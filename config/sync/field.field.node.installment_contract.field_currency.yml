@@ -9,7 +9,7 @@ id: node.installment_contract.field_currency
 field_name: field_currency
 entity_type: node
 bundle: installment_contract
-label: currency
+label: Currency
 description: 'Value must strictly be PHP'
 required: true
 translatable: false

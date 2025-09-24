@@ -9,7 +9,7 @@ id: node.employment.field_employ_occupation
 field_name: field_employ_occupation
 entity_type: node
 bundle: employment
-label: employment_occupation
+label: 'Employment: Occupation'
 description: ''
 required: false
 translatable: false

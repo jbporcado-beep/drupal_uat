@@ -1,0 +1,202 @@
+uuid: 6420b32e-2652-4fb5-bb16-0ae64918dcb3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.noninstallment_contract.field_contract_end_actual_date
+    - field.field.node.noninstallment_contract.field_contract_end_planned_date
+    - field.field.node.noninstallment_contract.field_contract_phase
+    - field.field.node.noninstallment_contract.field_contract_start_date
+    - field.field.node.noninstallment_contract.field_contract_type
+    - field.field.node.noninstallment_contract.field_credit_limit
+    - field.field.node.noninstallment_contract.field_currency
+    - field.field.node.noninstallment_contract.field_header
+    - field.field.node.noninstallment_contract.field_original_currency
+    - field.field.node.noninstallment_contract.field_outstanding_balance
+    - field.field.node.noninstallment_contract.field_overdue_payments_amount
+    - field.field.node.noninstallment_contract.field_provider_contract_no
+    - field.field.node.noninstallment_contract.field_provider_subject_no
+    - field.field.node.noninstallment_contract.field_role
+    - field.field.node.noninstallment_contract.field_transaction_type
+    - node.type.noninstallment_contract
+  module:
+    - path
+id: node.noninstallment_contract.default
+targetEntityType: node
+bundle: noninstallment_contract
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_contract_end_actual_date:
+    type: string_textfield
+    weight: 147
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_contract_end_planned_date:
+    type: string_textfield
+    weight: 146
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_contract_phase:
+    type: string_textfield
+    weight: 126
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_contract_start_date:
+    type: string_textfield
+    weight: 145
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_contract_type:
+    type: string_textfield
+    weight: 125
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_credit_limit:
+    type: string_textfield
+    weight: 163
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_currency:
+    type: string_textfield
+    weight: 128
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_header:
+    type: entity_reference_autocomplete
+    weight: 157
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_original_currency:
+    type: string_textfield
+    weight: 129
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_outstanding_balance:
+    type: string_textfield
+    weight: 162
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_overdue_payments_amount:
+    type: string_textfield
+    weight: 160
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_provider_contract_no:
+    type: string_textfield
+    weight: 144
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_provider_subject_no:
+    type: string_textfield
+    weight: 121
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_role:
+    type: string_textfield
+    weight: 123
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_transaction_type:
+    type: string_textfield
+    weight: 156
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 15
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 120
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 16
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

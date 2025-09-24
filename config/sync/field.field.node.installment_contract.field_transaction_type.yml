@@ -1,0 +1,19 @@
+uuid: 0fef0f93-e3b0-4f5c-807a-bd81c3caa593
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_transaction_type
+    - node.type.installment_contract
+id: node.installment_contract.field_transaction_type
+field_name: field_transaction_type
+entity_type: node
+bundle: installment_contract
+label: 'Transaction type subfacility'
+description: 'The value reported should be consistent with "TransactionTypeDomain" list'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

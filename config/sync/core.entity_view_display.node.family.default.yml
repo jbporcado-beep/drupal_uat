@@ -3,13 +3,15 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.family.field_father_firstname
-    - field.field.node.family.field_father_lastname
-    - field.field.node.family.field_father_middlename
+    - field.field.node.family.field_father_first_name
+    - field.field.node.family.field_father_last_name
+    - field.field.node.family.field_father_middle_name
     - field.field.node.family.field_father_suffix
-    - field.field.node.family.field_mother_maiden_firstn
-    - field.field.node.family.field_mother_maiden_lastn
-    - field.field.node.family.field_mother_maiden_midn
+    - field.field.node.family.field_mother_maiden_full_name
+    - field.field.node.family.field_provider_subject_no
+    - field.field.node.family.field_spouse_first_name
+    - field.field.node.family.field_spouse_last_name
+    - field.field.node.family.field_spouse_middle_name
     - node.type.family
   module:
     - user
@@ -18,30 +20,6 @@ targetEntityType: node
 bundle: family
 mode: default
 content:
-  field_father_firstname:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 104
-    region: content
-  field_father_lastname:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 105
-    region: content
-  field_father_middlename:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 106
-    region: content
   field_father_suffix:
     type: string
     label: above
@@ -50,7 +28,7 @@ content:
     third_party_settings: {  }
     weight: 107
     region: content
-  field_mother_maiden_firstn:
+  field_provider_subject_no:
     type: string
     label: above
     settings:
@@ -58,25 +36,16 @@ content:
     third_party_settings: {  }
     weight: 101
     region: content
-  field_mother_maiden_lastn:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 102
-    region: content
-  field_mother_maiden_midn:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 103
-    region: content
   links:
     settings: {  }
     third_party_settings: {  }
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  field_father_first_name: true
+  field_father_last_name: true
+  field_father_middle_name: true
+  field_mother_maiden_full_name: true
+  field_spouse_first_name: true
+  field_spouse_last_name: true
+  field_spouse_middle_name: true

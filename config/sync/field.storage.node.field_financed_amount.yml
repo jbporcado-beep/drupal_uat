@@ -1,4 +1,4 @@
-uuid: b81c8ad2-60f6-4643-889e-cb44b81a06b8
+uuid: 00e901ce-1c8d-4f58-b7e0-bb5a5744e837
 langcode: en
 status: true
 dependencies:
@@ -7,10 +7,11 @@ dependencies:
 id: node.field_financed_amount
 field_name: field_financed_amount
 entity_type: node
-type: integer
+type: string
 settings:
-  unsigned: false
-  size: normal
+  max_length: 15
+  case_sensitive: false
+  is_ascii: false
 module: core
 locked: false
 cardinality: 1
