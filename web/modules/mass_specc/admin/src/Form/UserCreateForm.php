@@ -4,8 +4,9 @@ namespace Drupal\admin\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\user\Entity\User;
-use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Drupal\admin\Plugin\Validation\Constraint\AlphaNumericConstraintValidator;
+use Drupal\admin\Plugin\Validation\Constraint\EmailConstraintValidator;
 
 
 class UserCreateForm extends FormBase {
@@ -22,6 +23,7 @@ class UserCreateForm extends FormBase {
      */
     public function buildForm(array $form, FormStateInterface $form_state, $user = NULL) {
         $form['#attached']['library'][] = 'common/char-count';
+        $form['#attached']['library'][] = 'common/contact-number';
 
         $form['#title'] = $user ? $this->t('Edit User') : $this->t('Add User');
 
@@ -47,6 +49,9 @@ class UserCreateForm extends FormBase {
             '#title' => $this->t('Email'),
             '#required' => TRUE,
             '#default_value' => $user ? $user->getEmail() : '',
+            '#element_validate' => [
+                [EmailConstraintValidator::class, 'validate'],
+            ],
         ];
 
         $form['fullname'] = [
@@ -60,6 +65,9 @@ class UserCreateForm extends FormBase {
             '#description' => ['#markup' => '<span class="char-counter">0/100</span>'],
             '#maxlength' => 100,
             '#default_value' => $user ? ($user->get('field_full_name')->value ?? '') : '',
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
         ];
 
         $form['contact_number'] = [
@@ -67,7 +75,7 @@ class UserCreateForm extends FormBase {
             '#title' => $this->t('Contact Number'),
             '#required' => TRUE,
             '#attributes' => [
-                'class' => ['js-char-count'],
+                'class' => ['js-numeric-only'],
                 'data-maxlength' => 11,
                 'maxlength' => 11,
                 'inputmode' => 'numeric',

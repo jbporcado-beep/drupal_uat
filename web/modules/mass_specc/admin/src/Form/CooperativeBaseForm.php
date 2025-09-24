@@ -4,6 +4,8 @@ namespace Drupal\admin\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\Node;
+use Drupal\admin\Plugin\Validation\Constraint\AlphaNumericConstraintValidator;
+use Drupal\admin\Plugin\Validation\Constraint\EmailConstraintValidator;
 
 abstract class CooperativeBaseForm extends FormBase {
 
@@ -12,6 +14,7 @@ abstract class CooperativeBaseForm extends FormBase {
      */
     protected function buildCooperativeForm(array &$form, FormStateInterface $form_state, $existing_coop = NULL) {
         $form['#attached']['library'][] = 'common/char-count';
+        $form['#attached']['library'][] = 'common/contact-number';
 
         $article_options = [];
         $nids = \Drupal::entityQuery('node')
@@ -52,6 +55,9 @@ abstract class CooperativeBaseForm extends FormBase {
             '#markup' => '<span class="char-counter">0/20</span>',
             ],
             "#maxlength" => 20,
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
         ];
 
         $form['main_grid']['left_col']['code_group']['cic_provider_code'] = [
@@ -66,6 +72,9 @@ abstract class CooperativeBaseForm extends FormBase {
             '#markup' => '<span class="char-counter">0/20</span>',
             ],
             "#maxlength" => 20,
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
         ];
         unset($form['coop_code'], $form['cic_provider_code']);
 
@@ -86,6 +95,9 @@ abstract class CooperativeBaseForm extends FormBase {
             '#markup' => '<span class="char-counter">0/100</span>',
             ],
             "#maxlength" => 100,
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
         ];
 
         $form['main_grid']['right_col']['head_office_group'] = [
@@ -105,6 +117,9 @@ abstract class CooperativeBaseForm extends FormBase {
             '#markup' => '<span class="char-counter">0/255</span>',
             ],
             '#maxlength' => 255,
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
         ];
 
         $form['main_grid']['right_col']['head_office_group']['no_of_employees'] = [
@@ -127,6 +142,9 @@ abstract class CooperativeBaseForm extends FormBase {
             '#markup' => '<span class="char-counter">0/100</span>',
             ],
             "#maxlength" => 100,
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
         ];
 
         $form['main_grid']['right_col']['coop_contact_number'] = [
@@ -134,6 +152,7 @@ abstract class CooperativeBaseForm extends FormBase {
             '#title' => $this->t('Contact Number'),
             '#required' => TRUE,
             '#attributes' => [
+                'class' => ['js-numeric-only'],
                 'data-maxlength' => 11,
                 'maxlength' => 11,
                 'inputmode' => 'numeric',
@@ -150,6 +169,9 @@ abstract class CooperativeBaseForm extends FormBase {
             '#type' => 'email',
             '#title' => $this->t('Email'),
             '#required' => TRUE,
+            '#element_validate' => [
+                [EmailConstraintValidator::class, 'validate'],
+            ],
         ];
 
         $form['main_grid']['right_col']['cda_group'] = [
@@ -161,6 +183,7 @@ abstract class CooperativeBaseForm extends FormBase {
             '#type' => 'date',
             '#title' => $this->t('CDA Registration Date'),
             '#required' => TRUE,
+            '#max'=> date('Y-m-d'),
         ];
 
         $form['main_grid']['right_col']['cda_group']['cda_firm_size'] = [

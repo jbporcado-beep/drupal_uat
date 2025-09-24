@@ -1,15 +1,19 @@
-<?php 
+<?php
+
 namespace Drupal\admin\Plugin\Validation\Constraint;
 
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ConstraintValidator;
+use Drupal\Core\Form\FormStateInterface;
 
-class AlphanumericConstraintValidator extends ConstraintValidator {
-  public function validate($value, Constraint $constraint) {
-    if ($value !== NULL && $value !== '' && !ctype_alnum($value)) {
-      $this->context->buildViolation($constraint->message)
-        ->setParameter('%value', $value)
-        ->addViolation();
+class AlphaNumericConstraintValidator {
+
+  /**
+   * Form API validator to ensure value is alphanumeric plus allowed special chars and whitespace.
+   */
+  public static function validate(&$element, FormStateInterface $form_state, &$complete_form) {
+    $value = $element['#value'];
+    $pattern = '/^[a-zA-Z0-9\s!#$%&\'*+\-\/=?^_`{|}~\.]+$/';
+    if ($value !== NULL && $value !== '' && !preg_match($pattern, $value)) {
+      $form_state->setError($element, t('Only letters, numbers, spaces, and these special characters are allowed: ! # $ % & \' * + - / = ? ^ _ ` { | } ~ .'));
     }
   }
 }

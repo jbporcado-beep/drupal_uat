@@ -3,3 +3,11 @@ char-count:
     js/char-count.js: {}
   dependencies:
     - core/jquery
+
+contact-number:
+  js:
+    js/contact-number.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once

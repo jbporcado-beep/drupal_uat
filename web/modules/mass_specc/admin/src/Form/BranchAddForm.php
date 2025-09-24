@@ -9,6 +9,8 @@ use Drupal\Core\Ajax\MessageCommand;
 use Drupal\Core\Ajax\CloseDialogCommand;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Ajax\ReplaceCommand;
+use Drupal\admin\Plugin\Validation\Constraint\AlphaNumericConstraintValidator;
+use Drupal\admin\Plugin\Validation\Constraint\EmailConstraintValidator;
 
 class BranchAddForm extends FormBase {
 
@@ -20,6 +22,7 @@ class BranchAddForm extends FormBase {
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#attached']['library'][] = 'common/char-count';
     $form['#attached']['library'][] = 'admin/branch_save';
+    $form['#attached']['library'][] = 'common/contact-number';
 
     $form['#prefix'] = '<div id="branch-form-wrapper">';
 
@@ -37,6 +40,9 @@ class BranchAddForm extends FormBase {
         '#markup'=>'<span class="char-counter">0/20</span>',
       ],
       '#maxlength'=>20,
+      '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+      ],
     ];
 
     $form['branch_name'] = [
@@ -51,6 +57,9 @@ class BranchAddForm extends FormBase {
         '#markup'=>'<span class="char-counter">0/100</span>',
       ],
       '#maxlength'=>100,
+      '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+      ],
     ];
 
     $form['branch_address'] = [
@@ -65,6 +74,9 @@ class BranchAddForm extends FormBase {
         '#markup'=>'<span class="char-counter">0/200</span>',
       ],
       '#maxlength'=>200,
+      '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+      ],
     ];
 
     $form['contact_person'] = [
@@ -79,6 +91,9 @@ class BranchAddForm extends FormBase {
         '#markup'=>'<span class="char-counter">0/100</span>',
       ],
       '#maxlength'=>100,
+      '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+      ],
     ];
 
     $form['contact_number'] = [
@@ -86,6 +101,7 @@ class BranchAddForm extends FormBase {
       '#title'=>$this->t('Contact Number'),
       '#required'=>TRUE,
       '#attributes'=>[
+        'class' => ['js-numeric-only'],
         'data-maxlength' => 11,
         'maxlength' => 11,
         'inputmode' => 'numeric',
@@ -103,6 +119,9 @@ class BranchAddForm extends FormBase {
       '#type'=>'email',
       '#title'=>$this->t('Email'),
       '#required'=>TRUE,
+      '#element_validate' => [
+          [EmailConstraintValidator::class, 'validate'],
+      ],
     ];
 
     $form['cda_group'] = [
@@ -114,6 +133,7 @@ class BranchAddForm extends FormBase {
       '#type'=>'date',
       '#title'=>$this->t('CDA Registration Date'),
       '#required'=>TRUE,
+      '#max'=> date('Y-m-d'),
     ];
 
     $form['cda_group']['cda_firm_size'] = [
@@ -126,7 +146,7 @@ class BranchAddForm extends FormBase {
 
     $form['no_of_employees'] = [
       '#type'=>'number',
-      '#title'=>$this->t('Number of Employees in Head Office'),
+      '#title'=>$this->t('Number of Employees in Branch'),
       '#required'=>TRUE,
       '#min'=>0,
       '#max'=> 9999,
@@ -164,7 +184,6 @@ class BranchAddForm extends FormBase {
 
     $form['#suffix'] = '</div>';
 
-    // $form['#validate'][] = '::validateForm';
 
     return $form;
   }
