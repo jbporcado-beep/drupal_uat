@@ -1,0 +1,21 @@
+uuid: a72e783c-51d7-4a8f-8882-292601197e67
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_branch_cda_registration_da
+    - node.type.branch
+  module:
+    - datetime
+id: node.branch.field_branch_cda_registration_da
+field_name: field_branch_cda_registration_da
+entity_type: node
+bundle: branch
+label: 'Branch CDA Registration date'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

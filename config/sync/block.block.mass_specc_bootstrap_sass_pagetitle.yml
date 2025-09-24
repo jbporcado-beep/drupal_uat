@@ -1,0 +1,18 @@
+uuid: ad4ed7be-be75-4a8c-94e7-8a1611f1288d
+langcode: en
+status: true
+dependencies:
+  theme:
+    - mass_specc_bootstrap_sass
+id: mass_specc_bootstrap_sass_pagetitle
+theme: mass_specc_bootstrap_sass
+region: content
+weight: -1
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

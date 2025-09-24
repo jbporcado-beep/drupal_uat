@@ -17,3 +17,13 @@ login-page:
   css:
     component:
       css/login.css: {}
+
+views-styling:
+  css:
+    theme:
+      css/views.css: {}
+
+custom-overrides:
+  css:
+    theme:
+      css/custom-overrides.css: {}

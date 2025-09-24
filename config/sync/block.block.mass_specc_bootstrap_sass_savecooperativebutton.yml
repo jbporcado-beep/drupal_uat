@@ -1,0 +1,25 @@
+uuid: aedfa2e0-6621-4383-9708-7d4962aa1f50
+langcode: en
+status: false
+dependencies:
+  module:
+    - admin
+    - system
+  theme:
+    - mass_specc_bootstrap_sass
+id: mass_specc_bootstrap_sass_savecooperativebutton
+theme: mass_specc_bootstrap_sass
+region: content_bottom
+weight: -4
+provider: null
+plugin: save_coop_button
+settings:
+  id: save_coop_button
+  label: 'Save Cooperative Button'
+  label_display: '0'
+  provider: admin
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '/cooperatives/edit/*'

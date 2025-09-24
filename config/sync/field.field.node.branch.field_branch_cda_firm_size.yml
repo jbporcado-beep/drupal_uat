@@ -1,0 +1,23 @@
+uuid: 54a812df-c06b-4057-9079-1108d0cb9019
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_branch_cda_firm_size
+    - node.type.branch
+id: node.branch.field_branch_cda_firm_size
+field_name: field_branch_cda_firm_size
+entity_type: node
+bundle: branch
+label: 'Branch CDA Firm Size'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

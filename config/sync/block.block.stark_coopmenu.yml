@@ -1,0 +1,39 @@
+uuid: f9554abb-a64d-4c91-b048-780c08591f2b
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.coop-menu
+  module:
+    - system
+    - user
+  theme:
+    - stark
+id: stark_coopmenu
+theme: stark
+region: sidebar_first
+weight: -1
+provider: null
+plugin: 'system_menu_block:coop-menu'
+settings:
+  id: 'system_menu_block:coop-menu'
+  label: 'Coop Menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: null
+  expand_all_items: false
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/cooperative\r\n/cooperative/*"
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      uploader: uploader
+      approver: approver
+      access: access

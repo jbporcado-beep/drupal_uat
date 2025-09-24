@@ -2,16 +2,13 @@ uuid: 050ca90b-446c-4f45-82b9-5fbba61e6936
 langcode: en
 status: true
 dependencies:
-  content:
-    - 'block_content:basic:1e2b42f8-0346-40bc-bc62-885b149ab752'
   module:
-    - block_content
     - user
   theme:
     - mass_specc_bootstrap_sass
 id: mass_specc_bootstrap_sass_logoblock
 theme: mass_specc_bootstrap_sass
-region: sticky_left_nav
+region: top_header
 weight: -2
 provider: null
 plugin: 'block_content:1e2b42f8-0346-40bc-bc62-885b149ab752'

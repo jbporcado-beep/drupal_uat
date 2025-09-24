@@ -1,0 +1,28 @@
+uuid: 8f793025-05ff-4bde-b488-42e4044635e8
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+    - user_dropdown
+  theme:
+    - stark
+id: stark_userdropdown
+theme: stark
+region: sidebar_first
+weight: 0
+provider: null
+plugin: user_dropdown_block
+settings:
+  id: user_dropdown_block
+  label: 'User Dropdown'
+  label_display: '0'
+  provider: user_dropdown
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

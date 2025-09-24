@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.cooperative.field_cbs_branch_code
+    - field.field.node.cooperative.field_assigned_report_templates
     - field.field.node.cooperative.field_cda_firm_size
     - field.field.node.cooperative.field_cda_registration_date
     - field.field.node.cooperative.field_cic_provider_code
@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.cooperative.field_coop_code
     - field.field.node.cooperative.field_coop_contact_number
     - field.field.node.cooperative.field_coop_name
+    - field.field.node.cooperative.field_coop_status
     - field.field.node.cooperative.field_email
     - field.field.node.cooperative.field_ho_address
     - field.field.node.cooperative.field_no_of_employees
@@ -18,6 +19,7 @@ dependencies:
   module:
     - datetime
     - path
+    - selectify
 id: node.cooperative.default
 targetEntityType: node
 bundle: cooperative
@@ -29,13 +31,11 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_cbs_branch_code:
-    type: string_textfield
-    weight: 131
+  field_assigned_report_templates:
+    type: selectify_dropdown_checkbox
+    weight: 0
     region: content
-    settings:
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
   field_cda_firm_size:
     type: number
@@ -89,6 +89,13 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_coop_status:
+    type: boolean_checkbox
+    weight: 132
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_email:
     type: email_default
@@ -159,7 +166,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
 hidden:
-  field_assigned_report_templates: true
   field_contact_number: true
   field_head_office_address: true
   field_name_of_cooperative: true

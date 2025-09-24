@@ -1,0 +1,33 @@
+uuid: db33daab-5d04-45ff-877a-dfcf6c0f5ebc
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+  theme:
+    - stark
+id: stark_logoblock
+theme: stark
+region: sidebar_first
+weight: -2
+provider: null
+plugin: 'block_content:1e2b42f8-0346-40bc-bc62-885b149ab752'
+settings:
+  id: 'block_content:1e2b42f8-0346-40bc-bc62-885b149ab752'
+  label: 'Logo Block'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      mass_specc_admin: mass_specc_admin
+      uploader: uploader
+      approver: approver
+      access: access

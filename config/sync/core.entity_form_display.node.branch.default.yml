@@ -3,9 +3,19 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.branch.field_branch_address
+    - field.field.node.branch.field_branch_cda_firm_size
+    - field.field.node.branch.field_branch_cda_registration_da
     - field.field.node.branch.field_branch_code
+    - field.field.node.branch.field_branch_contact_number
+    - field.field.node.branch.field_branch_contact_person
+    - field.field.node.branch.field_branch_coop
+    - field.field.node.branch.field_branch_email
+    - field.field.node.branch.field_branch_name
+    - field.field.node.branch.field_branch_no_of_employees
     - node.type.branch
   module:
+    - datetime
     - path
 id: node.branch.default
 targetEntityType: node
@@ -18,12 +28,82 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_branch_address:
+    type: string_textfield
+    weight: 123
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_branch_cda_firm_size:
+    type: number
+    weight: 127
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_branch_cda_registration_da:
+    type: datetime_default
+    weight: 122
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_branch_code:
     type: string_textfield
     weight: 121
     region: content
     settings:
       size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_branch_contact_number:
+    type: string_textfield
+    weight: 126
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_branch_contact_person:
+    type: string_textfield
+    weight: 125
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_branch_coop:
+    type: entity_reference_autocomplete
+    weight: 129
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_branch_email:
+    type: email_default
+    weight: 124
+    region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
+  field_branch_name:
+    type: string_textfield
+    weight: 122
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_branch_no_of_employees:
+    type: number
+    weight: 128
+    region: content
+    settings:
       placeholder: ''
     third_party_settings: {  }
   path:

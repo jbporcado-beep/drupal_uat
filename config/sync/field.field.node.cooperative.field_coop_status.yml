@@ -1,0 +1,23 @@
+uuid: e4db1da4-be7b-4513-b7e0-e33f0cb79b83
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_coop_status
+    - node.type.cooperative
+id: node.cooperative.field_coop_status
+field_name: field_coop_status
+entity_type: node
+bundle: cooperative
+label: 'Set status to "Active"'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Active
+  off_label: Inactive
+field_type: boolean

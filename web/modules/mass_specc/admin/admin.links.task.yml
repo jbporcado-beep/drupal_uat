@@ -1,0 +1,11 @@
+cooperative.edit:
+  route_name: cooperative.edit
+  base_route: cooperative.edit
+  title: "General Information"
+  weight: 0
+
+cooperative.edit.branches:
+  route_name: cooperative.edit.branches
+  base_route: cooperative.edit
+  title: "Branches"
+  weight: 1

@@ -1,0 +1,19 @@
+uuid: 6637de44-dcac-463a-85df-b022259dad4e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_branch_address
+    - node.type.branch
+id: node.branch.field_branch_address
+field_name: field_branch_address
+entity_type: node
+bundle: branch
+label: 'Branch Address'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

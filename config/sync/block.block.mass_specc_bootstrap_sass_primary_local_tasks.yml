@@ -1,0 +1,20 @@
+uuid: 794aa6e0-457a-4b22-beb1-7fcc7c38bce5
+langcode: en
+status: false
+dependencies:
+  theme:
+    - mass_specc_bootstrap_sass
+id: mass_specc_bootstrap_sass_primary_local_tasks
+theme: mass_specc_bootstrap_sass
+region: content
+weight: -2
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Primary tabs'
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: false
+visibility: {  }

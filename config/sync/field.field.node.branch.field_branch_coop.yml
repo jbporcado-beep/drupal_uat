@@ -1,0 +1,29 @@
+uuid: b593db54-4961-4372-9e93-2c0a59a9b68d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_branch_coop
+    - node.type.branch
+    - node.type.cooperative
+id: node.branch.field_branch_coop
+field_name: field_branch_coop
+entity_type: node
+bundle: branch
+label: 'Branch Coop'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      cooperative: cooperative
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

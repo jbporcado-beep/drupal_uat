@@ -1,0 +1,7 @@
+enable_radio: true
+enable_checkbox: true
+disable_on_admin_routes: true
+accent_color: none
+apply_site_wide: true
+global_selectify_widget: selectify_searchable
+disable_views_widgets: false

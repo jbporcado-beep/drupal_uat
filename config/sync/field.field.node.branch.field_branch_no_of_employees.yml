@@ -1,0 +1,23 @@
+uuid: b942d9e5-28c7-47e5-b3f6-15ef5b63a862
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_branch_no_of_employees
+    - node.type.branch
+id: node.branch.field_branch_no_of_employees
+field_name: field_branch_no_of_employees
+entity_type: node
+bundle: branch
+label: 'Branch No. of Employees'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

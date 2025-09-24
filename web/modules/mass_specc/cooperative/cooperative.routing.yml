@@ -1,11 +1,3 @@
-cooperative.home:
-  path: "/cooperative"
-  defaults:
-    _controller: '\Drupal\cooperative\Controller\HomeController::view'
-    _title: "Cooperative Portal"
-  requirements:
-    _permission: "access content"
-
 cooperative.members:
   path: "/cooperative/members"
   defaults:

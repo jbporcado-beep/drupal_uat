@@ -9,7 +9,7 @@ id: node.branch.field_branch_code
 field_name: field_branch_code
 entity_type: node
 bundle: branch
-label: branch_code
+label: 'Branch Code'
 description: ''
 required: true
 translatable: false

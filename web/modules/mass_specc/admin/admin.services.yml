@@ -1,0 +1,3 @@
+services:
+  admin.cooperative_service:
+    class: Drupal\admin\Service\CooperativeService

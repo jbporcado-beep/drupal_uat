@@ -1,21 +1,58 @@
 admin.home:
-  path: "/admin"
+  path: "/"
   defaults:
     _controller: '\Drupal\admin\Controller\HomeController::view'
     _title: "Admin Home"
   requirements:
     _permission: "access content"
 
+cooperative.list:
+  path: "/cooperatives"
+  requirements:
+    _permission: "view cooperatives"
+
 cooperative.add:
-  path: "/admin/cooperative/add"
+  path: "/cooperatives/add"
   defaults:
     _controller: '\Drupal\admin\Controller\CooperativeController::addCooperative'
     _title: "Add Cooperative"
   requirements:
-    _permission: "administer cooperatives"
+    _permission: "add cooperatives"
+
+cooperative.edit:
+  path: "/cooperatives/edit/{id}"
+  defaults:
+    _controller: '\Drupal\admin\Controller\CooperativeController::editCooperative'
+    _title_callback: '\Drupal\admin\Controller\CooperativeController::title'
+  requirements:
+    _permission: "edit cooperatives"
+
+cooperative.branches:
+  path: "/cooperatives/edit/{id}/branches"
+  defaults:
+    _controller: '\Drupal\admin\Controller\CooperativeController::editCooperativeBranches'
+    _title: "Edit Cooperative Branches"
+  requirements:
+    _permission: "edit cooperatives"
+
+cooperative.branches.add:
+  path: "/cooperatives/edit/{id}/branches/add"
+  defaults:
+    _form: '\Drupal\admin\Form\BranchAddForm'
+    _title: "Add Branch"
+  requirements:
+    _permission: "edit cooperatives"
+
+cooperative.branches.edit:
+  path: "/cooperatives/edit/{id}/branches/edit/{branch_id}"
+  defaults:
+    _form: '\Drupal\admin\Form\BranchAddForm'
+    _title: "Edit Branch"
+  requirements:
+    _permission: "edit cooperatives"
 
 user.add:
-  path: "/admin/user/add"
+  path: "/users/add"
   defaults:
     _controller: '\Drupal\admin\Controller\UserController::createUser'
     _title: "Add User"
@@ -23,7 +60,7 @@ user.add:
     _permission: "administer users"
 
 user.list:
-  path: "/admin/user"
+  path: "/user"
   defaults:
     _controller: '\Drupal\admin\Controller\UserController::viewAllUsers'
     _title: "Users"
@@ -31,7 +68,7 @@ user.list:
     _permission: "administer users"
 
 user.view:
-  path: "/admin/user/{id}"
+  path: "/user/{id}"
   defaults:
     _controller: '\Drupal\admin\Controller\UserController::viewUser'
   requirements:
@@ -46,7 +83,7 @@ reports.add:
     _permission: "administer reports"
 
 reports.member-credit:
-  path: "/admin/reports/member-credit"
+  path: "/reports/member-credit"
   defaults:
     _controller: '\Drupal\admin\Controller\ReportsController::memberCredit'
     _title: "Member Credit"
@@ -54,7 +91,7 @@ reports.member-credit:
     _permission: "view reports"
 
 reports.credit-risk-bureau:
-  path: "/admin/reports/credit-risk-bureau"
+  path: "/reports/credit-risk-bureau"
   defaults:
     _controller: '\Drupal\admin\Controller\ReportsController::creditRiskBureau'
     _title: "Credit Risk Bureau"
@@ -62,7 +99,7 @@ reports.credit-risk-bureau:
     _permission: "view reports"
 
 reports.general-report-viewer:
-  path: "/admin/reports/general-report-viewer"
+  path: "/reports/general-report-viewer"
   defaults:
     _controller: '\Drupal\admin\Controller\ReportsController::generalReportViewer'
     _title: "General Report Viewer"
@@ -70,7 +107,7 @@ reports.general-report-viewer:
     _permission: "view reports"
 
 reports.system-login-reports:
-  path: "/admin/reports/system-login-reports"
+  path: "/reports/system-login-reports"
   defaults:
     _controller: '\Drupal\admin\Controller\ReportsController::systemLoginReports'
     _title: "System Login Reports"
@@ -78,7 +115,7 @@ reports.system-login-reports:
     _permission: "view reports"
 
 cic.generate:
-  path: "/admin/cic-report-generation"
+  path: "/cic-report-generation"
   defaults:
     _controller: '\Drupal\admin\Controller\CicController::generateCic'
     _title: "Generate CIC"
@@ -86,7 +123,7 @@ cic.generate:
     _permission: "administer cic"
 
 cic.view:
-  path: "/admin/cic-files"
+  path: "/cic-files"
   defaults:
     _controller: '\Drupal\admin\Controller\CicController::viewCicFiles'
     _title: "View CIC Files"

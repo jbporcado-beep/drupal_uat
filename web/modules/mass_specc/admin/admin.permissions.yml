@@ -10,6 +10,14 @@ administer reports:
   title: "Administer reports"
   description: "Create and manage report templates."
 
-administer cooperatives:
-  title: "Administer cooperatives"
-  description: "Create and manage cooperatives."
+add cooperatives:
+  title: "Add cooperatives"
+  description: "Create cooperatives."
+
+view cooperatives:
+  title: "View cooperatives"
+  description: "View the list of cooperatives."
+
+edit cooperatives:
+  title: "Edit cooperatives"
+  description: "Edit existing cooperatives."

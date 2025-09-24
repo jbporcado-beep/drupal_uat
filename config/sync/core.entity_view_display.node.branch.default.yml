@@ -3,15 +3,51 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.branch.field_branch_address
+    - field.field.node.branch.field_branch_cda_firm_size
+    - field.field.node.branch.field_branch_cda_registration_da
     - field.field.node.branch.field_branch_code
+    - field.field.node.branch.field_branch_contact_number
+    - field.field.node.branch.field_branch_contact_person
+    - field.field.node.branch.field_branch_coop
+    - field.field.node.branch.field_branch_email
+    - field.field.node.branch.field_branch_name
+    - field.field.node.branch.field_branch_no_of_employees
     - node.type.branch
   module:
+    - datetime
     - user
 id: node.branch.default
 targetEntityType: node
 bundle: branch
 mode: default
 content:
+  field_branch_address:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_branch_cda_firm_size:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_branch_cda_registration_da:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 102
+    region: content
   field_branch_code:
     type: string
     label: above
@@ -19,6 +55,54 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 101
+    region: content
+  field_branch_contact_number:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_branch_contact_person:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_branch_coop:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_branch_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_branch_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_branch_no_of_employees:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 108
     region: content
   links:
     settings: {  }

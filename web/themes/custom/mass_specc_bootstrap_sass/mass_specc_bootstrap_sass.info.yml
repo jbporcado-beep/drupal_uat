@@ -1,29 +1,30 @@
-name: MASS-SPECC Bootstrap Barrio Sass
+name: "MASS-SPECC Bootstrap Barrio Sass"
 type: theme
 description: "SASS starter kit for a Bootstrap Barrio SubTheme."
-# version: VERSION
 core_version_requirement: ^9 || ^10 || ^11
 base theme: bootstrap_barrio
 
 libraries:
   - mass_specc_bootstrap_sass/global-styling
+  - mass_specc_bootstrap_sass/custom-overrides
+
 libraries-override:
   bootstrap_barrio/global-styling: false
+
 regions:
   top_header: "Top header"
   top_header_form: "Top header form"
-  header: Header
+  header: "Header"
   header_form: "Header form"
   primary_menu: "Primary menu"
   secondary_menu: "Secondary menu"
   page_top: "Page top"
   page_bottom: "Page bottom"
-  highlighted: Highlighted
+  highlighted: "Highlighted"
   featured_top: "Featured top"
-  breadcrumb: Breadcrumb
-  content: Content
-  sidebar_first: "Sidebar first"
-  sidebar_second: "Sidebar second"
+  breadcrumb: "Breadcrumb"
+  content: "Content"
+  content_bottom: "Content Bottom"
   featured_bottom_first: "Featured bottom first"
   featured_bottom_second: "Featured bottom second"
   featured_bottom_third: "Featured bottom third"
@@ -34,9 +35,3 @@ regions:
   footer_fifth: "Footer fifth"
   sticky_left_nav: "Left Navigation Bar"
   main_header: "Main Header"
-  none: None
-
-# Information added by Drupal.org packaging script on 2025-06-10
-version: "5.0.12"
-project: "mass_specc_bootstrap_sass"
-datestamp: 1749521567

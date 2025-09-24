@@ -1,17 +1,15 @@
-uuid: 75b5f59b-4579-4de8-9883-0a13da903065
+uuid: 7d8f2300-0ef8-4754-87ef-868e5f7db7b8
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_cbs_branch_code
-field_name: field_cbs_branch_code
+id: node.field_branch_coop
+field_name: field_branch_coop
 entity_type: node
-type: string
+type: entity_reference
 settings:
-  max_length: 5
-  case_sensitive: false
-  is_ascii: false
+  target_type: node
 module: core
 locked: false
 cardinality: 1

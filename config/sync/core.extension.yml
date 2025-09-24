@@ -4,10 +4,13 @@ module:
   admin: 0
   announcements_feed: 0
   automated_cron: 0
+  better_exposed_filters: 0
   big_pipe: 0
   block: 0
   block_content: 0
   breakpoint: 0
+  chosen: 0
+  chosen_lib: 0
   ckeditor5: 0
   comment: 0
   common: 0
@@ -38,6 +41,7 @@ module:
   path_alias: 0
   pgsql: 0
   search: 0
+  selectify: 0
   shortcut: 0
   system: 0
   taxonomy: 0
@@ -55,4 +59,6 @@ theme:
   bootstrap_barrio: 0
   bootstrap_sass: 0
   mass_specc_bootstrap_sass: 0
+  bootstrap_barrio_subtheme: 0
+  stark: 0
 profile: standard

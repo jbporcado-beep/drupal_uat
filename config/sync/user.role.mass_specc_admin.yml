@@ -9,8 +9,10 @@ label: 'Mass-Specc admin'
 weight: 4
 is_admin: false
 permissions:
+  - 'add cooperatives'
   - 'add user'
   - 'administer cic'
-  - 'administer cooperatives'
   - 'administer reports'
   - 'administer users'
+  - 'edit cooperatives'
+  - 'view cooperatives'

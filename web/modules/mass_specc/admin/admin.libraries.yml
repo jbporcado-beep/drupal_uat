@@ -1,0 +1,37 @@
+coop_save_button:
+  version: 1.0
+  js:
+    js/coop_save_button.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+
+edit_coop_form_tabs:
+  version: 1.0
+  js:
+    js/edit_coop_form_tabs.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+
+branch_save:
+  version: 1.x
+  js:
+    js/branch_save.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/drupal.ajax
+    - core/once
+
+deactivate_coop:
+  version: 1.0
+  js:
+    js/deactivate_coop.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+    - core/confirmdialog

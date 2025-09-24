@@ -1,0 +1,20 @@
+uuid: f97c6f51-3af4-4bcb-ad92-bec67aa97183
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - mass_specc_bootstrap_sass
+id: mass_specc_bootstrap_sass_content
+theme: mass_specc_bootstrap_sass
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }
