@@ -1,10 +1,10 @@
-admin.home:
-  path: "/"
+massspecc.home:
+  path: "/dashboard/mass-specc"
   defaults:
     _controller: '\Drupal\admin\Controller\HomeController::view'
-    _title: "Admin Home"
+    _title: "Dashboard"
   requirements:
-    _permission: "access content"
+    _role: "mass_specc_admin"
 
 cooperative.list:
   path: "/cooperatives"
@@ -51,31 +51,31 @@ cooperative.branches.edit:
   requirements:
     _permission: "edit cooperatives"
 
-user.add:
+users.add:
   path: "/users/add"
   defaults:
     _controller: '\Drupal\admin\Controller\UserController::createUser'
     _title: "Add User"
   requirements:
-    _permission: "administer users"
+    _permission: "add users"
 
-user.list:
-  path: "/user"
+users.edit:
+  path: "/users/edit/{id}"
   defaults:
-    _controller: '\Drupal\admin\Controller\UserController::viewAllUsers'
+    _controller: '\Drupal\admin\Controller\UserController::editUser'
+    _title: "Edit User"
+  requirements:
+    _permission: "edit users"
+
+users.list:
+  path: "/users"
+  defaults:
     _title: "Users"
   requirements:
-    _permission: "administer users"
-
-user.view:
-  path: "/user/{id}"
-  defaults:
-    _controller: '\Drupal\admin\Controller\UserController::viewUser'
-  requirements:
-    _permission: "administer users"
+    _permission: "view users"
 
 reports.add:
-  path: "/admin/reports/add"
+  path: "/reports/add"
   defaults:
     _controller: '\Drupal\admin\Controller\ReportsController::createReport'
     _title: "Create Report"

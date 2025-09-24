@@ -27,3 +27,8 @@ custom-overrides:
   css:
     theme:
       css/custom-overrides.css: {}
+
+navigation:
+  css:
+    theme:
+      css/navigation.css: {}

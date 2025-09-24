@@ -1,0 +1,39 @@
+<div class="accordion w-100" id="coopSidebarMenu">
+  {% for item in items %}
+    {% if item.below %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading-{{ loop.index }}">
+          <button class="accordion-button collapsed fw-bold" type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapse-{{ loop.index }}"
+                  aria-expanded="false"
+                  aria-controls="collapse-{{ loop.index }}">
+            {{ item.title }}
+          </button>
+        </h2>
+        <div id="collapse-{{ loop.index }}" class="accordion-collapse collapse"
+             data-bs-parent="#coopSidebarMenu">
+          <div class="accordion-body p-0">
+            <ul class="list-unstyled m-0 w-100">
+              {% for child in item.below %}
+                <li class="w-100">
+                  <a href="{{ child.url }}" {{ child.attributes.addClass('d-block py-2 px-3 w-100') }}>
+                    {{ child.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          {{ link(item.title, item.url, {
+            'class': ['accordion-button', 'fw-bold', 'no-arrow', 'd-block']
+          }) }}
+        </h2>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>

@@ -1,0 +1,30 @@
+uuid: ec38ee00-50ff-40cf-ac21-a551b5b231ec
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_branch
+    - node.type.branch
+  module:
+    - user
+id: user.user.field_branch
+field_name: field_branch
+entity_type: user
+bundle: user
+label: Branch
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      branch: branch
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: contact
+field_type: entity_reference

@@ -9,10 +9,17 @@ label: 'Mass-Specc admin'
 weight: 4
 is_admin: false
 permissions:
+  - 'access user profiles'
   - 'add cooperatives'
-  - 'add user'
+  - 'add users'
+  - 'administer account settings'
   - 'administer cic'
+  - 'administer permissions'
   - 'administer reports'
   - 'administer users'
+  - 'cancel account'
   - 'edit cooperatives'
+  - 'edit users'
   - 'view cooperatives'
+  - 'view user email addresses'
+  - 'view users'

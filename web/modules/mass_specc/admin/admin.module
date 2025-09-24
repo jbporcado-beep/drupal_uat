@@ -1,8 +1,46 @@
 <?php
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
 function admin_mail($key, &$message, $params) {
   if ($key == 'custom_password_reset') {
     $message['subject'] = $params['subject'];
     $message['body'] = $params['body'];
     $message['headers']['Content-Type'] = 'text/html; charset=UTF-8';
+  }
+}
+
+/**
+ * Cooperative Fields Entity Validation.
+ */
+function admin_entity_bundle_field_info_alter(array &$fields, EntityTypeInterface $entity_type, $bundle) {
+  // Use ->id() to get machine name of the entity type.
+  if ($entity_type->id() === 'node' && $bundle === 'cooperative') {
+    // Fields that must be alphanumeric.
+    $alphanumeric_fields = [
+      'field_coop_code',
+      'field_cic_provider_code',
+    ];
+
+    foreach ($alphanumeric_fields as $field_name) {
+      if (isset($fields[$field_name])) {
+        $fields[$field_name]->setPropertyConstraints('value', [
+          'Alphanumeric' => [],
+        ]);
+      }
+    }
+
+    // Fields that must be valid PH mobile numbers.
+    $ph_mobile_fields = [
+      'field_coop_contact_number',
+    ];
+
+    foreach ($ph_mobile_fields as $field_name) {
+      if (isset($fields[$field_name])) {
+        $fields[$field_name]->setPropertyConstraints('value', [
+          'PhMobileNumber' => [],
+        ]);
+      }
+    }
   }
 }

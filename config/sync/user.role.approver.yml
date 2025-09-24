@@ -12,6 +12,7 @@ label: Approver
 weight: 8
 is_admin: false
 permissions:
+  - 'access cooperative dashboard'
   - 'add member'
   - 'create cooperative content'
   - 'delete any cooperative content'

@@ -9,4 +9,5 @@ label: Uploader
 weight: 7
 is_admin: false
 permissions:
+  - 'access cooperative dashboard'
   - 'upload file'

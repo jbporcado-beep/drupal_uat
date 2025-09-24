@@ -299,3 +299,87 @@ body.role-administrator #main-wrapper {
   border-radius: var(--bs-border-radius, 0.375rem);
   width: 100% !important;
 }
+
+/* chosen field */
+
+select.chosen-enable {
+  display: none !important;
+}
+
+.chosen-container.form-select {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  appearance: none !important;
+}
+
+.chosen-container {
+  width: 100% !important;
+  max-width: 100%;
+}
+
+.chosen-container .chosen-single {
+  height: 38px;
+  line-height: 36px;
+  padding: 0 12px;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  background-color: #fff;
+}
+
+select.chosen-enable.form-select {
+  background-image: none !important;
+  padding-right: 0.75rem;
+}
+
+.chosen-container-single .chosen-single div b {
+  margin-top: 6px;
+}
+
+.chosen-container-single .chosen-single div {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.chosen-container-single .chosen-single div b {
+  margin: 0 !important;
+  position: static !important;
+}
+
+/* vies add button */
+
+.views-table-actions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  margin-bottom: 0.5rem !important;
+  width: 100% !important;
+}
+
+/* forms header */
+.form-header {
+  color: #343a40;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem !important;
+}
+
+.form-header a {
+  font-size: xx-large;
+  text-decoration: none;
+  color: #343a40;
+  margin-right: 2rem;
+  transition: 0.2s;
+}
+
+.form-header a:hover {
+  color: #00a7e1;
+}
+
+form label {
+  font-weight: 600;
+}

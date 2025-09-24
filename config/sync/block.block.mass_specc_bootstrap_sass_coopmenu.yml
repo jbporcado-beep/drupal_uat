@@ -27,7 +27,7 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    pages: "/cooperative\r\n/cooperative/*"
+    pages: "/dashboard/cooperative\r\n/cooperative/*"
   user_role:
     id: user_role
     negate: false

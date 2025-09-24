@@ -1,21 +1,21 @@
-uuid: 647a8d1c-3e92-4bfb-b8a6-3210c9be49c5
+uuid: 805e381a-db09-48c9-b143-685d94d104c8
 langcode: en
 status: true
 dependencies:
   module:
-    - node
-id: node.field_cic_provider_code
-field_name: field_cic_provider_code
-entity_type: node
+    - user
+id: user.field_contact_number
+field_name: field_contact_number
+entity_type: user
 type: string
 settings:
-  max_length: 20
+  max_length: 13
   case_sensitive: false
   is_ascii: false
 module: core
 locked: false
 cardinality: 1
 translatable: true
-indexes: {}
+indexes: {  }
 persist_with_no_fields: false
 custom_storage: false

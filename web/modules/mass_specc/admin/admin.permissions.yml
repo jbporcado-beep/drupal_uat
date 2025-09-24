@@ -1,6 +1,14 @@
-add user:
+add users:
   title: "Add a user"
   description: "Allow users to add new users to the system."
+
+view users:
+  title: "View user"
+  description: "Allow users to view user profiles."
+
+edit users:
+  title: "Edit user"
+  description: "Allow users to edit user profiles."
 
 administer cic:
   title: "Administer CIC"

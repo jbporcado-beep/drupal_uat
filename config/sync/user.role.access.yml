@@ -9,4 +9,5 @@ label: Access
 weight: 9
 is_admin: false
 permissions:
+  - 'access cooperative dashboard'
   - 'view reports'

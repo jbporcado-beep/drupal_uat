@@ -27,7 +27,7 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    pages: "/cooperatives\r\n/cooperatives/*"
+    pages: "/cooperatives\r\n/cooperatives/*\r\n/users\r\n/users/*\r\n/dashboard/mass-specc"
   user_role:
     id: user_role
     negate: false

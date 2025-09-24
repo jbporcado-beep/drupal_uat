@@ -4,7 +4,9 @@ namespace Drupal\admin\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\user\Entity\User;
+use Drupal\Core\Link;
 use Drupal\Core\Url;
+
 
 class UserCreateForm extends FormBase {
 
@@ -18,14 +20,33 @@ class UserCreateForm extends FormBase {
     /**
      * {@inheritdoc}
      */
-    public function buildForm(array $form, FormStateInterface $form_state) {
-        $role = $form_state->getValue('role', 'approver');
+    public function buildForm(array $form, FormStateInterface $form_state, $user = NULL) {
         $form['#attached']['library'][] = 'common/char-count';
+
+        $form['#title'] = $user ? $this->t('Edit User') : $this->t('Add User');
+
+        $form['header'] = [
+            '#type' => 'container',
+            '#attributes' => [
+                'class' => ['form-header'],
+            ],
+            'back' => [
+                '#markup' => '<a href="' . Url::fromRoute('users.list')->toString() . '">
+                                <i class="fas fa-arrow-left"></i>
+                            </a>',
+                '#prefix' => '<div class="back-button>',
+                '#suffix' => '</div>',
+            ],
+            'title' => [
+                '#markup' => '<h2 class="mb-0">' . $form['#title'] . '</h2>',
+            ],
+        ];
 
         $form['email'] = [
             '#type' => 'email',
             '#title' => $this->t('Email'),
             '#required' => TRUE,
+            '#default_value' => $user ? $user->getEmail() : '',
         ];
 
         $form['fullname'] = [
@@ -33,13 +54,12 @@ class UserCreateForm extends FormBase {
             '#title' => $this->t('Full Name'),
             '#required' => TRUE,
             '#attributes' => [
-                'class' => ['js-char-count'],
-                'data-maxlength' => 100,
+            'class' => ['js-char-count'],
+            'data-maxlength' => 100,
             ],
-            '#description' => [
-                '#markup' => '<span class="char-counter">0/100</span>',
-            ],
-            "#maxlength" => 100,
+            '#description' => ['#markup' => '<span class="char-counter">0/100</span>'],
+            '#maxlength' => 100,
+            '#default_value' => $user ? ($user->get('field_full_name')->value ?? '') : '',
         ];
 
         $form['contact_number'] = [
@@ -48,24 +68,36 @@ class UserCreateForm extends FormBase {
             '#required' => TRUE,
             '#attributes' => [
                 'class' => ['js-char-count'],
-                'data-maxlength' => 13,
+                'data-maxlength' => 11,
+                'maxlength' => 11,
+                'inputmode' => 'numeric',
+                'pattern' => '[0-9]*',
             ],
-            '#description' => [
-                '#markup' => '<span class="char-counter">0/13</span>',
+            '#description' => $this->t('Format: 09XXXXXXXXX'),
+            '#default_value' => $user ? ($user->get('field_contact_number')->value ?? '') : '',
+            '#element_validate' => [
+                ['\Drupal\admin\Form\CooperativeBaseForm', 'validatePhMobileElement'],
             ],
-            "#maxlength" => 13,
         ];
 
+        $roles = $user ? $user->getRoles() : [];
+        $default_role = in_array('approver', $roles) ? 'approver' : (in_array('uploader', $roles) ? 'uploader' : 'access');
         $form['role'] = [
             '#type' => 'select',
             '#title' => $this->t('Role'),
             '#options' => [
-                'access' => $this->t('Access'),
-                'approver' => $this->t('Approver'),
-                'uploader' => $this->t('Uploader'),
+            'access' => $this->t('Access'),
+            'approver' => $this->t('Approver'),
+            'uploader' => $this->t('Uploader'),
             ],
-            '#default_value' => $role,
             '#required' => TRUE,
+            '#default_value' => $default_role,
+            '#ajax' => [
+            'callback' => '::updateBranchField',
+            'event' => 'change',
+            'wrapper' => 'assigned-branch-wrapper',
+            'progress' => ['type' => 'throbber', 'message' => NULL],
+            ],
         ];
 
         $form['coop_branch_fields'] = [
@@ -74,28 +106,71 @@ class UserCreateForm extends FormBase {
             '#attributes' => ['id' => 'coop-branch-fields-wrapper'],
         ];
 
+        $cooperative_options = [];
+        $nids = \Drupal::entityQuery('node')
+            ->condition('type', 'cooperative')
+            ->accessCheck(FALSE)
+            ->execute();
+        if ($nids) {
+            $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+            foreach ($nodes as $node) {
+            $cooperative_options[$node->id()] = $node->getTitle();
+            }
+        }
+
+        $assigned_coop_id = $user ? $user->get('field_cooperative')->target_id : NULL;
+        $selected_coop = $form_state->getValue(['coop_branch_fields', 'assigned_cooperative'], $assigned_coop_id);
+
         $form['coop_branch_fields']['assigned_cooperative'] = [
-            '#type' => 'entity_autocomplete',
+            '#type' => 'select',
             '#title' => $this->t('Assigned Cooperative'),
-            '#target_type' => 'node',
-            '#selection_settings' => [
-                'target_bundles' => ['cooperative'],
+            '#options' => $cooperative_options,
+            '#required' => FALSE,
+            '#empty_option' => $this->t('- Select a cooperative -'),
+            '#default_value' => $selected_coop,
+            '#ajax' => [
+            'callback' => '::updateBranchField',
+            'event' => 'change',
+            'wrapper' => 'assigned-branch-wrapper',
+            'progress' => ['type' => 'throbber', 'message' => NULL],
             ],
-            '#required' => TRUE,
+            '#chosen' => TRUE,
         ];
+
+        $branch_options = ['' => $this->t('- Select a branch -')];
+        if ($selected_coop) {
+            $branch_nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+            'type' => 'branch',
+            'field_branch_coop' => $selected_coop,
+            ]);
+            foreach ($branch_nodes as $bn) {
+            $branch_options[$bn->id()] = $bn->getTitle();
+            }
+        }
+
+        $assigned_branch_id = $user ? $user->get('field_branch')->target_id : NULL;
+        $selected_branch = $form_state->getValue(['coop_branch_fields', 'assigned_branch'], $assigned_branch_id);
+
+        $role = $form_state->getValue('role', $default_role);
+        $branch_disabled = ($role === 'approver' || !$selected_coop);
+        $branch_required = !$branch_disabled;
 
         $form['coop_branch_fields']['assigned_branch'] = [
-            '#type' => 'textfield',
+            '#type' => 'select',
             '#title' => $this->t('Assigned Branch'),
-            '#required' => TRUE,
+            '#options' => $branch_options,
+            '#default_value' => $selected_branch,
+            '#required' => $branch_required,
+            '#empty_option' => $this->t('- Select a branch -'),
+            '#prefix' => '<div id="assigned-branch-wrapper">',
+            '#suffix' => '</div>',
+            '#attributes' => $branch_disabled ? ['disabled' => 'disabled'] : [],
         ];
 
-        $form['actions'] = [
-            '#type' => 'actions',
-        ];
+        $form['actions'] = ['#type' => 'actions'];
         $form['actions']['submit'] = [
             '#type' => 'submit',
-            '#value' => $this->t('Create User'),
+            '#value' => $this->t($user ? 'Update User' : 'Create User'),
         ];
 
         return $form;
@@ -110,17 +185,40 @@ class UserCreateForm extends FormBase {
         $contact = $form_state->getValue('contact_number');
         $role = $form_state->getValue('role');
         $assigned_coop = $form_state->getValue(['coop_branch_fields', 'assigned_cooperative']);
+        $assigned_branch = $form_state->getValue(['coop_branch_fields', 'assigned_branch']);
+
+        $user = $form_state->getBuildInfo()['args'][0] ?? NULL;
 
         try {
+            if ($user) {
+                $user->setEmail($email);
+                $user->setUsername($email);
+                $user->set('field_full_name', $fullname);
+                $user->set('field_contact_number', $contact);
+                $user->set('field_cooperative', ['target_id' => $assigned_coop]);
+                $user->set('field_branch', ['target_id' => $assigned_branch]);
+
+                foreach ($user->getRoles() as $r) {
+                    if ($r !== 'authenticated') {
+                    $user->removeRole($r);
+                    }
+                }
+                $user->addRole($role);
+
+                $user->save();
+                \Drupal::messenger()->addMessage($this->t('User account updated.'));
+            }
+            else {
+
             $user = User::create([
                 'name' => $email,
                 'mail' => $email,
                 'field_full_name' => $fullname,
                 'field_contact_number' => $contact,
                 'field_cooperative' => ['target_id' => $assigned_coop],
+                'field_branch' => ['target_id' => $assigned_branch],
                 'status' => 1,
             ]);
-
             $user->addRole($role);
             $user->save();
 
@@ -137,7 +235,6 @@ class UserCreateForm extends FormBase {
             $username = $user->getAccountName();
 
             $subject = t('Set your password for @site', ['@site' => $site_name]);
-
             $body = t('
                 <p>Hello,</p>
                 <p>An account has been created for you on <strong>@site</strong>.</p>
@@ -161,9 +258,73 @@ class UserCreateForm extends FormBase {
             $mailManager->mail('admin', 'custom_password_reset', $user->getEmail(), $user->getPreferredLangcode(), $params, NULL, TRUE);
 
             \Drupal::messenger()->addMessage($this->t('User account created. Email sent to @email.', ['@email' => $email]));
-        } catch (\Exception $e) {
-            // Show the error as a toast (Drupal messenger).
+            }
+        }
+        catch (\Exception $e) {
             \Drupal::messenger()->addError($this->t('Error: @message', ['@message' => $e->getMessage()]));
         }
+
+        $form_state->setRedirect('users.list');
+    }   
+
+    public function updateBranchField(array &$form, FormStateInterface $form_state) {
+        \Drupal::messenger()->deleteAll();
+
+        $role = $form_state->getValue('role');
+        $coop_id = $form_state->getValue(['coop_branch_fields', 'assigned_cooperative']);
+
+        $options = ['' => $this->t('- Select a branch -')];
+        if (!empty($coop_id)) {
+            $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+                'type' => 'branch',
+                'field_branch_coop' => $coop_id,
+            ]);
+            foreach ($nodes as $node) {
+                $options[$node->id()] = $node->getTitle();
+            }
+        }
+
+        $form['coop_branch_fields']['assigned_branch']['#options'] = $options;
+
+        if ($role !== 'approver' && !empty($coop_id)) {
+            $form['coop_branch_fields']['assigned_branch']['#required'] = TRUE;
+            unset($form['coop_branch_fields']['assigned_branch']['#attributes']['disabled']);
+        } else {
+            $form['coop_branch_fields']['assigned_branch']['#required'] = FALSE;
+            $form['coop_branch_fields']['assigned_branch']['#attributes']['disabled'] = 'disabled';
+        }
+
+        return $form['coop_branch_fields']['assigned_branch'];
     }
+
+    public function validateForm(array &$form, FormStateInterface $form_state) {
+        $role = $form_state->getValue('role');
+        $branch = $form_state->getValue(['coop_branch_fields', 'assigned_branch']);
+        $email = trim($form_state->getValue('email'));
+
+        if ($role !== 'approver' && empty($branch)) {
+            $form_state->setErrorByName('coop_branch_fields][assigned_branch', $this->t('Branch is required for this role.'));
+        }
+
+        if ($email) {
+            $user = $form_state->getBuildInfo()['args'][0] ?? NULL;
+            $current_uid = $user ? $user->id() : NULL;
+
+            $query = \Drupal::entityQuery('user')
+                ->condition('mail', $email);
+
+            if ($current_uid) {
+                $query->condition('uid', $current_uid, '!=');
+            }
+
+            $existing = $query->accessCheck(FALSE)->execute();
+
+            if (!empty($existing)) {
+                $form_state->setErrorByName('email', $this->t('The email %email is already in use.', [
+                    '%email' => $email,
+                ]));
+            }
+        }
+    }
+
 }

@@ -10,7 +10,7 @@ dependencies:
 id: mass_specc_bootstrap_sass_userdropdown
 theme: mass_specc_bootstrap_sass
 region: main_header
-weight: -3
+weight: -1
 provider: null
 plugin: user_dropdown_block
 settings:

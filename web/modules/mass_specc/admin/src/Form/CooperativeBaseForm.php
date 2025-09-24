@@ -46,12 +46,12 @@ abstract class CooperativeBaseForm extends FormBase {
             '#required' => TRUE,
             '#attributes' => [
             'class' => ['js-char-count'],
-            'data-maxlength' => 50,
+            'data-maxlength' => 20,
             ],
             '#description' => [
-            '#markup' => '<span class="char-counter">0/50</span>',
+            '#markup' => '<span class="char-counter">0/20</span>',
             ],
-            "#maxlength" => 50,
+            "#maxlength" => 20,
         ];
 
         $form['main_grid']['left_col']['code_group']['cic_provider_code'] = [
@@ -60,12 +60,12 @@ abstract class CooperativeBaseForm extends FormBase {
             '#required' => TRUE,
             '#attributes' => [
             'class' => ['js-char-count'],
-            'data-maxlength' => 8,
+            'data-maxlength' => 20,
             ],
             '#description' => [
-            '#markup' => '<span class="char-counter">0/8</span>',
+            '#markup' => '<span class="char-counter">0/20</span>',
             ],
-            "#maxlength" => 8,
+            "#maxlength" => 20,
         ];
         unset($form['coop_code'], $form['cic_provider_code']);
 
@@ -111,6 +111,7 @@ abstract class CooperativeBaseForm extends FormBase {
             '#type' => 'number',
             '#title' => $this->t('Number of Employees in Head Office'),
             '#min' => 0,
+            '#max' => 9999,
             '#required' => TRUE,
         ];
 
@@ -133,13 +134,16 @@ abstract class CooperativeBaseForm extends FormBase {
             '#title' => $this->t('Contact Number'),
             '#required' => TRUE,
             '#attributes' => [
-            'class' => ['js-char-count'],
-            'data-maxlength' => 13,
+                'data-maxlength' => 11,
+                'maxlength' => 11,
+                'inputmode' => 'numeric',
+                'pattern' => '[0-9]*',
             ],
-            '#description' => [
-            '#markup' => '<span class="char-counter">0/13</span>',
+            '#description' => $this->t('Format: 09XXXXXXXXX'),
+            "#maxlength" => 11,
+            '#element_validate' => [
+                ['\Drupal\admin\Form\CooperativeBaseForm', 'validatePhMobileElement'],
             ],
-            "#maxlength" => 13,
         ];
 
         $form['main_grid']['right_col']['email'] = [
@@ -163,6 +167,8 @@ abstract class CooperativeBaseForm extends FormBase {
             '#type' => 'number',
             '#title' => $this->t('CDA Firm Size'),
             '#required' => TRUE,
+            '#min' => 0,
+            '#max' => 9999,
         ];
 
         $form['main_grid']['right_col']['assigned_report_templates'] = [
@@ -219,10 +225,55 @@ abstract class CooperativeBaseForm extends FormBase {
      * Shared validation logic for cooperative forms.
      */
     public function validateForm(array &$form, FormStateInterface $form_state) {
+        parent::validateForm($form, $form_state);
 
-        if (strlen($form_state->getValue('coop_code')) < 3) {
-            $form_state->setErrorByName('coop_code', $this->t('Cooperative code must be at least 3 characters.'));
+        $coop_id = $form_state->getValue('coop_id');
+        $coop_code = trim($form_state->getValue('coop_code'));
+        $cic_code = trim($form_state->getValue('cic_provider_code'));
+
+        if ($coop_code && strlen($coop_code) < 8) {
+            $form_state->setErrorByName('coop_code', $this->t('Cooperative code must be at least 8 characters.'));
         }
 
+        if ($coop_code && !preg_match('/^CO/', $coop_code)) {
+            $form_state->setErrorByName('coop_code', $this->t('Cooperative code must start with "CO".'));
+        }
+
+        if ($coop_code) {
+            $query = \Drupal::entityQuery('node')
+            ->condition('type', 'cooperative')
+            ->condition('field_coop_code', $coop_code);
+            if ($coop_id) {
+                $query->condition('nid', $coop_id, '<>');
+            }
+            $existing = $query->accessCheck(FALSE)->execute();
+            if (!empty($existing)) {
+                $form_state->setErrorByName('coop_code', $this->t('The Cooperative Code %code is already in use.', [
+                    '%code' => $coop_code,
+                ]));
+            }
+        }
+
+        if ($cic_code) {
+            $query = \Drupal::entityQuery('node')
+            ->condition('type', 'cooperative')
+            ->condition('field_cic_provider_code', $cic_code);
+            if ($coop_id) {
+            $query->condition('nid', $coop_id, '<>');
+            }
+            $existing = $query->accessCheck(FALSE)->execute();
+            if (!empty($existing)) {
+            $form_state->setErrorByName('cic_provider_code', $this->t('The CIC Provider Code %code is already in use.', [
+                '%code' => $cic_code,
+            ]));
+            }
+        }
+        }
+
+    public static function validatePhMobileElement($element, FormStateInterface $form_state, $form) {
+        $value = $element['#value'];
+        if (!preg_match('/^(08|09)[0-9]{9}$/', $value)) {
+            $form_state->setError($element, t('Contact number must start with 08 or 09 and be 11 digits long.'));
+        }
     }
 }

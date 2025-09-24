@@ -2,6 +2,9 @@ uuid: ad4ed7be-be75-4a8c-94e7-8a1611f1288d
 langcode: en
 status: true
 dependencies:
+  module:
+    - system
+    - user
   theme:
     - mass_specc_bootstrap_sass
 id: mass_specc_bootstrap_sass_pagetitle
@@ -15,4 +18,20 @@ settings:
   label: 'Page title'
   label_display: '0'
   provider: core
-visibility: {  }
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
+      administrator: administrator
+      mass_specc_admin: mass_specc_admin
+      uploader: uploader
+      approver: approver
+      access: access
+  request_path:
+    id: request_path
+    negate: true
+    pages: "/cooperatives/add\r\n/cooperatives/edit/*\r\n/cooperatives/edit/*/branches\r\n/cooperatives/edit/*/branches/add\r\n/cooperatives/edit/*/branches/edit/*\r\n/users/add\r\n/users/edit/*\r\n/reports/add"

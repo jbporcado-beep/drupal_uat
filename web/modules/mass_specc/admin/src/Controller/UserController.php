@@ -2,6 +2,7 @@
 namespace Drupal\admin\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\user\Entity\User;
 /**
  * Returns responses for user creation page.
  */
@@ -22,5 +23,10 @@ class UserController extends ControllerBase {
             '#title' => $this->t('User @id', ['@id' => $id]),
             '#plain_text' => $this->t('Details for user @id', ['@id' => $id]),
         ];
+    }
+
+    public function editUser(string $id): array {
+        $user = User::load($id);
+        return $this->formBuilder()->getForm(\Drupal\admin\Form\UserCreateForm::class, $user);
     }
 }

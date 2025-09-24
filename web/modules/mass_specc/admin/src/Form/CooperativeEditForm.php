@@ -5,6 +5,8 @@ use Drupal\node\Entity\Node;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\Views;
 use Drupal\user\Entity\User;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 
 class CooperativeEditForm extends CooperativeBaseForm
 {
@@ -18,7 +20,42 @@ class CooperativeEditForm extends CooperativeBaseForm
   {
     $form['#attached']['library'][] = 'admin/edit_coop_form_tabs';
 
+    $tempstore = \Drupal::service('tempstore.private')->get('coop_branches');
+    $request = \Drupal::request();
+    $is_get = $request->getMethod() === 'GET';
+    $is_ajax = $request->isXmlHttpRequest();
+
+    if ($is_get && !$is_ajax) {
+      $tempstore->delete((string) $id);
+    }
+
+    $form['#title'] = $this->t('Edit Cooperative');
+
+    $form['header'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => ['form-header'],
+      ],
+      'back' => [
+        '#markup' => '<a href="' . Url::fromRoute('cooperative.list')->toString() . '">
+                                <i class="fas fa-arrow-left"></i>
+                            </a>',
+        '#prefix' => '<div class="back-button>',
+        '#suffix' => '</div>',
+      ],
+      'title' => [
+        '#markup' => '<h2 class="mb-0">' . $form['#title'] . '</h2>',
+      ],
+    ];
+
     $existing_coop = $id ? Node::load($id) : NULL;
+
+    if ($existing_coop) {
+      $form['coop_id'] = [
+        '#type' => 'hidden',
+        '#value' => $id,
+      ];
+    }
 
     $form['nav'] = [
       '#type' => 'markup',
@@ -75,7 +112,6 @@ class CooperativeEditForm extends CooperativeBaseForm
       '#attributes' => [
         'class' => ['coop-save-btn'],
       ],
-
     ];
 
     $active_tab = isset($_POST['coop_active_tab']) ? $_POST['coop_active_tab'] : 'general';
@@ -122,100 +158,63 @@ class CooperativeEditForm extends CooperativeBaseForm
 
   public function submitForm(array &$form, FormStateInterface $form_state)
   {
-    $trigger = $form_state->getTriggeringElement();
+    $coop_id = $form_state->getValue('coop_id') ?? ($form_state->getBuildInfo()['args'][0] ?? NULL);
+    $node = $coop_id ? Node::load($coop_id) : NULL;
 
-    if ($trigger && $trigger['#name'] === 'save_action' && $form_state->getValue('save_action') === 'branches') {
-
-      $id = $form_state->getBuildInfo()['args'][0] ?? NULL;
-      $node = $id ? Node::load($id) : NULL;
-
-      if ($node) {
-        $tempstore = \Drupal::service('tempstore.private')->get('coop_branches');
-        $branches = $tempstore->get($node->id()) ?? [];
-        \Drupal::logger('mass_specc')->notice('Branch data: <pre>@data</pre>', ['@data' => print_r($branches, TRUE)]);
-        foreach ($branches as $branch_data) {
-          if (!empty($branch_data['branch_id'])) {
-            $branch = Node::load($branch_data['branch_id']);
-          } else {
-            $branch = Node::create(['type' => 'branch']);
-          }
-
-          $branch->setTitle($branch_data['branch_name']);
-          $branch->set('field_branch_code', $branch_data['branch_code']);
-          $branch->set('field_branch_name', $branch_data['branch_name']);
-          $branch->set('field_branch_address', $branch_data['branch_address']);
-          $branch->set('field_branch_contact_person', $branch_data['contact_person']);
-          $branch->set('field_branch_contact_number', $branch_data['contact_number']);
-          $branch->set('field_branch_email', $branch_data['email']);
-          $branch->set('field_branch_cda_registration_da', $branch_data['cda_registration_date']);
-          $branch->set('field_branch_cda_firm_size', $branch_data['cda_firm_size']);
-          $branch->set('field_branch_no_of_employees', $branch_data['no_of_employees']);
-          $branch->set('field_branch_coop', [['target_id' => $node->id()]]);
-          $branch->save();
-        }
-
-        $tempstore->delete($node->id());
-        \Drupal::messenger()->addMessage($this->t('Branches saved successfully.'));
-      }
+    if (!$node || $node->bundle() !== 'cooperative') {
+      \Drupal::messenger()->addError($this->t('Invalid cooperative node.'));
+      return;
     }
 
     $values = $form_state->getValues();
-    $id = $form_state->getBuildInfo()['args'][0] ?? NULL;
-    $node = $id ? Node::load($id) : NULL;
 
-    if ($node && $node->bundle() === 'cooperative') {
-      try {
-        $node->setTitle($values['coop_name']);
-        $node->set('field_coop_name', $values['coop_name']);
-        $node->set('field_coop_code', $values['coop_code']);
-        $node->set('field_cic_provider_code', $values['cic_provider_code']);
-        $node->set('field_ho_address', $values['ho_address']);
-        $node->set('field_no_of_employees', $values['no_of_employees']);
-        $node->set('field_contact_person', $values['contact_person']);
-        $node->set('field_coop_contact_number', $values['coop_contact_number']);
-        $node->set('field_email', $values['email']);
-        $node->set('field_cda_registration_date', $values['cda_registration_date']);
-        $node->set('field_cda_firm_size', $values['cda_firm_size']);
-        $node->set('field_assigned_report_templates', $values['assigned_report_templates']);
-        $node->save();
+    try {
+      $node->setTitle($values['coop_name'] ?? $node->getTitle());
+      $node->set('field_coop_name', $values['coop_name'] ?? NULL);
+      $node->set('field_coop_code', $values['coop_code'] ?? NULL);
+      $node->set('field_cic_provider_code', $values['cic_provider_code'] ?? NULL);
+      $node->set('field_ho_address', $values['ho_address'] ?? NULL);
+      $node->set('field_no_of_employees', $values['no_of_employees'] ?? NULL);
+      $node->set('field_contact_person', $values['contact_person'] ?? NULL);
+      $node->set('field_coop_contact_number', $values['coop_contact_number'] ?? NULL);
+      $node->set('field_email', $values['email'] ?? NULL);
+      $node->set('field_cda_registration_date', $values['cda_registration_date'] ?? NULL);
+      $node->set('field_cda_firm_size', $values['cda_firm_size'] ?? NULL);
+      $node->set('field_assigned_report_templates', $values['assigned_report_templates'] ?? NULL);
+      $node->save();
 
-        $tempstore = \Drupal::service('tempstore.private')->get('coop_branches');
-        $branches = $tempstore->get($node->id()) ?? [];
+      $tempstore = \Drupal::service('tempstore.private')->get('coop_branches');
+      $branches = $tempstore->get($coop_id) ?? [];
 
-        \Drupal::logger('mass_specc')->notice('Branch data: <pre>@data</pre>', ['@data' => print_r($branches, TRUE)]);
-        foreach ($branches as $branch_data) {
-          if (!empty($branch_data['branch_id']) && $branch = Node::load($branch_data['branch_id'])) {
-            $branch = Node::load($branch_data['branch_id']);
-          } else {
-            $branch = Node::create(['type' => 'branch']);
-          }
+      foreach ($branches as $branch_data) {
+        $branch_id = !empty($branch_data['branch_id']) ? $branch_data['branch_id'] : NULL;
+        $branch = $branch_id ? Node::load($branch_id) : Node::create(['type' => 'branch']);
 
-          $branch->setTitle($branch_data['branch_name']);
-          $branch->set('field_branch_code', $branch_data['branch_code']);
-          $branch->set('field_branch_name', $branch_data['branch_name']);
-          $branch->set('field_branch_address', $branch_data['branch_address']);
-          $branch->set('field_branch_contact_person', $branch_data['contact_person']);
-          $branch->set('field_branch_contact_number', $branch_data['contact_number']);
-          $branch->set('field_branch_email', $branch_data['email']);
-          $branch->set('field_branch_cda_registration_da', $branch_data['cda_registration_date']);
-          $branch->set('field_branch_cda_firm_size', $branch_data['cda_firm_size']);
-          $branch->set('field_branch_no_of_employees', $branch_data['no_of_employees']);
-          $branch->set('field_branch_coop', [['target_id' => $node->id()]]);
-          $branch->save();
-        }
-        $tempstore->delete($node->id());
-
-        \Drupal::messenger()->addMessage($this->t('Cooperative and branches saved successfully.'));
-      } catch (\Exception $e) {
-        \Drupal::messenger()->addError($this->t('Error: @message', ['@message' => $e->getMessage()]));
+        $branch->setTitle($branch_data['branch_name'] ?? '');
+        $branch->set('field_branch_code', $branch_data['branch_code'] ?? NULL);
+        $branch->set('field_branch_name', $branch_data['branch_name'] ?? NULL);
+        $branch->set('field_branch_address', $branch_data['branch_address'] ?? NULL);
+        $branch->set('field_branch_contact_person', $branch_data['contact_person'] ?? NULL);
+        $branch->set('field_branch_contact_number', $branch_data['contact_number'] ?? NULL);
+        $branch->set('field_branch_email', $branch_data['email'] ?? NULL);
+        $branch->set('field_branch_cda_registration_da', $branch_data['cda_registration_date'] ?? NULL);
+        $branch->set('field_branch_cda_firm_size', $branch_data['cda_firm_size'] ?? NULL);
+        $branch->set('field_branch_no_of_employees', $branch_data['no_of_employees'] ?? NULL);
+        $branch->set('field_branch_coop', [['target_id' => $node->id()]]);
+        $branch->save();
       }
-    } else {
-      \Drupal::messenger()->addError($this->t('Invalid cooperative node.'));
+
+      $tempstore->delete($coop_id);
+
+      \Drupal::messenger()->addMessage($this->t('Cooperative and branches saved successfully.'));
+    } catch (\Exception $e) {
+      \Drupal::messenger()->addError($this->t('Error: @message', ['@message' => $e->getMessage()]));
+      \Drupal::logger('mass_specc')->error('Error saving cooperative/branches: @msg', ['@msg' => $e->getMessage()]);
     }
 
     $form_state->setRedirect('cooperative.list');
-    return;
   }
+
 
   public function deactivateCooperative(array &$form, FormStateInterface $form_state)
   {
@@ -275,7 +274,6 @@ class CooperativeEditForm extends CooperativeBaseForm
       \Drupal::messenger()->addError($this->t('Invalid cooperative node.'));
     }
   }
-
   public function submitHandler(&$form, FormStateInterface $form_state)
   {
     $form_state->setRedirect('cooperative.list');

@@ -2,7 +2,7 @@
 namespace Drupal\admin\Form;
 
 use Drupal\node\Entity\Node;
-
+use Drupal\Core\Url;
 class CooperativeCreateForm extends CooperativeBaseForm {
 
     /**
@@ -16,6 +16,26 @@ class CooperativeCreateForm extends CooperativeBaseForm {
      * {@inheritdoc}
      */
     public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state) {
+
+        $form['#title'] = $this->t('Add Cooperative');
+
+        $form['header'] = [
+            '#type' => 'container',
+            '#attributes' => [
+                'class' => ['form-header'],
+            ],
+            'back' => [
+                '#markup' => '<a href="' . Url::fromRoute('cooperative.list')->toString() . '">
+                                <i class="fas fa-arrow-left"></i>
+                            </a>',
+                '#prefix' => '<div class="back-button>',
+                '#suffix' => '</div>',
+            ],
+            'title' => [
+                '#markup' => '<h2 class="mb-0">' . $form['#title'] . '</h2>',
+            ],
+        ];
+
         $this->buildCooperativeForm($form, $form_state, NULL);
 
         $form['actions'] = [
@@ -26,6 +46,11 @@ class CooperativeCreateForm extends CooperativeBaseForm {
             '#value' => $this->t('Save'),
             '#button_type' => 'primary',
             "#attributes" => ['class' => ['btn', 'btn-coop-save'] ],
+        ];
+
+        $form['coop_id'] = [
+            '#type' => 'hidden',
+            '#value' => NULL,
         ];
 
         return $form;

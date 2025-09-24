@@ -1,3 +1,11 @@
+cooperative.dashboard:
+  path: "/dashboard/cooperative"
+  defaults:
+    _controller: '\Drupal\cooperative\Controller\HomeController::view'
+    _title: "Dashboard"
+  requirements:
+    _permission: "access cooperative dashboard"
+
 cooperative.members:
   path: "/cooperative/members"
   defaults:
