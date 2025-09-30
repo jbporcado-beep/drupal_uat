@@ -1,0 +1,81 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\Entity\User;
+use Drupal\Core\Url;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\user\UserInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\password_reset\Form\ExpiredPasswordForm;
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function login_form_user_login_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['forgot_password'] = [
+    '#type' => 'markup',
+    '#markup' => '<div class="forgot-password-link"><a href="/forgot-password">Forgot Password?</a></div>',
+    '#weight' => 1,
+  ];
+
+  $form['name']['#attributes']['placeholder'] = t('Email address');
+  $form['pass']['#attributes']['placeholder'] = t('Password');
+
+  $form['name']['#title_display'] = 'invisible';
+  $form['pass']['#title_display'] = 'invisible';
+
+  $form['#validate'][] = 'login_user_login_validate';
+  $form['#validate'][] = 'login_user_login_authenticate_validate';
+   $form['#after_build'][] = 'login_login_replace_error_messages';
+}
+
+function login_user_login_validate($form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  \Drupal::service('module_handler')->invokeAll('form_validate', [$form, $form_state]);
+
+  foreach ($form_state->getErrors() as $field => $message) {
+    if (strpos($message, 'Unrecognized username or password') !== FALSE) {
+      $form_state->setErrorByName($field, t('Unrecognized username or password.'));
+    }
+  }
+}
+
+/**
+ * Custom login validator without "Forgot password?" link.
+ */
+function login_user_login_authenticate_validate($form, FormStateInterface $form_state) {
+  $name = $form_state->getValue('name');
+  $password = $form_state->getValue('pass');
+
+  $user_storage = \Drupal::entityTypeManager()->getStorage('user');
+
+  $users = $user_storage->loadByProperties(['name' => $name]);
+  $account = $users ? reset($users) : NULL;
+
+  if (!$account || !\Drupal::service('password')->check($password, $account->getPassword())) {
+    $form_state->setErrorByName('name', t('Unrecognized username or password.'));
+  }
+}
+
+
+function login_login_replace_error_messages($form, FormStateInterface $form_state) {
+  $errors = $form_state->getErrors();
+  if (!empty($errors)) {
+    foreach ($errors as $field => $message) {
+      $form_state->setErrorByName($field, t('Unrecognized username or password.'));
+    }
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function login_user_login(\Drupal\user\UserInterface $account) {
+  if ($account->get('field_password_expiration')->value == 1) {
+    $url = Url::fromRoute('expired_password.form', ['uid' => $account->id()])->toString();
+    $response = new RedirectResponse($url);
+    $response->send();
+    exit;
+  }
+}

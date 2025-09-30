@@ -10,7 +10,7 @@ dependencies:
 id: mass_specc_bootstrap_sass_pagetitle
 theme: mass_specc_bootstrap_sass
 region: content
-weight: -1
+weight: -4
 provider: null
 plugin: page_title_block
 settings:

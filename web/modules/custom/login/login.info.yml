@@ -1,0 +1,7 @@
+name: "Login Customizations"
+type: module
+description: "Adds tweaks like Forgot Password link and password reveal to user login form."
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - drupal:user

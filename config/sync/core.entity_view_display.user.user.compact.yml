@@ -8,6 +8,9 @@ dependencies:
     - field.field.user.user.field_contact_number
     - field.field.user.user.field_cooperative
     - field.field.user.user.field_full_name
+    - field.field.user.user.field_last_password_reset
+    - field.field.user.user.field_password_expiration
+    - field.field.user.user.field_pending_expire_sent
   module:
     - user
 _core:
@@ -22,4 +25,7 @@ hidden:
   field_contact_number: true
   field_cooperative: true
   field_full_name: true
+  field_last_password_reset: true
+  field_password_expiration: true
+  field_pending_expire_sent: true
   member_for: true

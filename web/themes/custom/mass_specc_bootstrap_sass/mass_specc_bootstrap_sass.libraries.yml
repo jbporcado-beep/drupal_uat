@@ -12,7 +12,10 @@ global-styling:
   dependencies:
     - core/jquery
     - core/drupal
-
+auth-styling:
+  css:
+    theme:
+      css/auth.css: {}
 login-page:
   css:
     component:

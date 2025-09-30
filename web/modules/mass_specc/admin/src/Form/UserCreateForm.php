@@ -9,19 +9,22 @@ use Drupal\admin\Plugin\Validation\Constraint\AlphaNumericConstraintValidator;
 use Drupal\admin\Plugin\Validation\Constraint\EmailConstraintValidator;
 
 
-class UserCreateForm extends FormBase {
+class UserCreateForm extends FormBase
+{
 
     /**
      * {@inheritdoc}
      */
-    public function getFormId() {
+    public function getFormId()
+    {
         return 'mass_specc_user_create_form';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function buildForm(array $form, FormStateInterface $form_state, $user = NULL) {
+    public function buildForm(array $form, FormStateInterface $form_state, $user = NULL)
+    {
         $form['#attached']['library'][] = 'common/char-count';
         $form['#attached']['library'][] = 'common/contact-number';
 
@@ -59,8 +62,8 @@ class UserCreateForm extends FormBase {
             '#title' => $this->t('Full Name'),
             '#required' => TRUE,
             '#attributes' => [
-            'class' => ['js-char-count'],
-            'data-maxlength' => 100,
+                'class' => ['js-char-count'],
+                'data-maxlength' => 100,
             ],
             '#description' => ['#markup' => '<span class="char-counter">0/100</span>'],
             '#maxlength' => 100,
@@ -94,17 +97,17 @@ class UserCreateForm extends FormBase {
             '#type' => 'select',
             '#title' => $this->t('Role'),
             '#options' => [
-            'access' => $this->t('Access'),
-            'approver' => $this->t('Approver'),
-            'uploader' => $this->t('Uploader'),
+                'access' => $this->t('Access'),
+                'approver' => $this->t('Approver'),
+                'uploader' => $this->t('Uploader'),
             ],
             '#required' => TRUE,
             '#default_value' => $default_role,
             '#ajax' => [
-            'callback' => '::updateBranchField',
-            'event' => 'change',
-            'wrapper' => 'assigned-branch-wrapper',
-            'progress' => ['type' => 'throbber', 'message' => NULL],
+                'callback' => '::updateBranchField',
+                'event' => 'change',
+                'wrapper' => 'assigned-branch-wrapper',
+                'progress' => ['type' => 'throbber', 'message' => NULL],
             ],
         ];
 
@@ -122,7 +125,7 @@ class UserCreateForm extends FormBase {
         if ($nids) {
             $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
             foreach ($nodes as $node) {
-            $cooperative_options[$node->id()] = $node->getTitle();
+                $cooperative_options[$node->id()] = $node->getTitle();
             }
         }
 
@@ -137,10 +140,10 @@ class UserCreateForm extends FormBase {
             '#empty_option' => $this->t('- Select a cooperative -'),
             '#default_value' => $selected_coop,
             '#ajax' => [
-            'callback' => '::updateBranchField',
-            'event' => 'change',
-            'wrapper' => 'assigned-branch-wrapper',
-            'progress' => ['type' => 'throbber', 'message' => NULL],
+                'callback' => '::updateBranchField',
+                'event' => 'change',
+                'wrapper' => 'assigned-branch-wrapper',
+                'progress' => ['type' => 'throbber', 'message' => NULL],
             ],
             '#chosen' => TRUE,
         ];
@@ -148,11 +151,11 @@ class UserCreateForm extends FormBase {
         $branch_options = ['' => $this->t('- Select a branch -')];
         if ($selected_coop) {
             $branch_nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-            'type' => 'branch',
-            'field_branch_coop' => $selected_coop,
+                'type' => 'branch',
+                'field_branch_coop' => $selected_coop,
             ]);
             foreach ($branch_nodes as $bn) {
-            $branch_options[$bn->id()] = $bn->getTitle();
+                $branch_options[$bn->id()] = $bn->getTitle();
             }
         }
 
@@ -185,7 +188,8 @@ class UserCreateForm extends FormBase {
     /**
      * {@inheritdoc}
      */
-    public function submitForm(array &$form, FormStateInterface $form_state) {
+    public function submitForm(array &$form, FormStateInterface $form_state)
+    {
         $email = $form_state->getValue('email');
         $fullname = $form_state->getValue('fullname');
         $contact = $form_state->getValue('contact_number');
@@ -211,74 +215,67 @@ class UserCreateForm extends FormBase {
 
                 foreach ($user->getRoles() as $r) {
                     if ($r !== 'authenticated') {
-                    $user->removeRole($r);
+                        $user->removeRole($r);
                     }
                 }
                 $user->addRole($role);
 
                 $user->save();
                 \Drupal::messenger()->addMessage($this->t('User account updated.'));
+            } else {
+
+                $user = User::create([
+                    'name' => $email,
+                    'mail' => $email,
+                    'field_full_name' => $fullname,
+                    'field_contact_number' => $contact,
+                    'field_cooperative' => ['target_id' => $assigned_coop],
+                    'field_branch' => ['target_id' => $assigned_branch],
+                    'status' => 1,
+                ]);
+                $user->addRole($role);
+                $user->save();
+
+                $timestamp = \Drupal::time()->getRequestTime();
+                $hash = user_pass_rehash($user, $timestamp);
+
+                $set_password_link = Url::fromRoute('set_password.form', [
+                    'uid' => $user->id(),
+                ], [
+                    'absolute' => TRUE,
+                    'query' => [
+                        'timestamp' => $timestamp,
+                        'hash' => $hash,
+                    ],
+                ])->toString();
+
+                $params = [
+                    'user' => $user,
+                    'link' => $set_password_link,
+                ];
+
+                $mailManager = \Drupal::service('plugin.manager.mail');
+                $mailManager->mail(
+                    'admin',
+                    'custom_password_reset',
+                    $user->getEmail(),
+                    $user->getPreferredLangcode(),
+                    $params,
+                    NULL,
+                    TRUE
+                );
+
+                \Drupal::messenger()->addMessage($this->t('User account created. Email sent to @email.', ['@email' => $email]));
             }
-            else {
-
-            $user = User::create([
-                'name' => $email,
-                'mail' => $email,
-                'field_full_name' => $fullname,
-                'field_contact_number' => $contact,
-                'field_cooperative' => ['target_id' => $assigned_coop],
-                'field_branch' => ['target_id' => $assigned_branch],
-                'status' => 1,
-            ]);
-            $user->addRole($role);
-            $user->save();
-
-            $timestamp = \Drupal::time()->getRequestTime();
-            $hash = user_pass_rehash($user, $timestamp);
-
-            $set_password_link = Url::fromRoute('user.reset', [
-                'uid' => $user->id(),
-                'timestamp' => $timestamp,
-                'hash' => $hash,
-            ], ['absolute' => TRUE])->toString();
-
-            $site_name = \Drupal::config('system.site')->get('name');
-            $username = $user->getAccountName();
-
-            $subject = t('Set your password for @site', ['@site' => $site_name]);
-            $body = t('
-                <p>Hello,</p>
-                <p>An account has been created for you on <strong>@site</strong>.</p>
-                <p>Your username: <strong>@username</strong></p>
-                <p>
-                <a href="@link" style="display:inline-block;padding:10px 20px;background-color:#0074bd;color:#fff;text-decoration:none;border-radius:4px;">
-                    Set your password
-                </a>
-                </p>
-                <p>This link will expire after one use.</p>
-            ', [
-                '@site' => $site_name,
-                '@username' => $username,
-                '@link' => $set_password_link,
-            ]);
-
-            $params['subject'] = $subject;
-            $params['body'][] = $body;
-
-            $mailManager = \Drupal::service('plugin.manager.mail');
-            $mailManager->mail('admin', 'custom_password_reset', $user->getEmail(), $user->getPreferredLangcode(), $params, NULL, TRUE);
-
-            \Drupal::messenger()->addMessage($this->t('User account created. Email sent to @email.', ['@email' => $email]));
-            }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             \Drupal::messenger()->addError($this->t('Error: @message', ['@message' => $e->getMessage()]));
         }
 
         $form_state->setRedirect('users.list');
-    }   
+    }
 
-    public function updateBranchField(array &$form, FormStateInterface $form_state) {
+    public function updateBranchField(array &$form, FormStateInterface $form_state)
+    {
         \Drupal::messenger()->deleteAll();
 
         $role = $form_state->getValue('role');
@@ -310,7 +307,8 @@ class UserCreateForm extends FormBase {
         return $form['coop_branch_fields']['assigned_branch'];
     }
 
-    public function validateForm(array &$form, FormStateInterface $form_state) {
+    public function validateForm(array &$form, FormStateInterface $form_state)
+    {
         $role = $form_state->getValue('role');
         $branch = $form_state->getValue(['coop_branch_fields', 'assigned_branch']);
         $email = trim($form_state->getValue('email'));
