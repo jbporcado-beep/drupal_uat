@@ -17,7 +17,7 @@ class CooperativeCreateForm extends CooperativeBaseForm {
      */
     public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state) {
 
-        $form['#title'] = $this->t('Add Cooperative');
+        $form['#title'] = $this->t('Add New Cooperative');
 
         $form['header'] = [
             '#type' => 'container',

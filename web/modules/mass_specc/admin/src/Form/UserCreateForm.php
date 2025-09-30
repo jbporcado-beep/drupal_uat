@@ -159,26 +159,24 @@ class UserCreateForm extends FormBase {
         $assigned_branch_id = $user ? $user->get('field_branch')->target_id : NULL;
         $selected_branch = $form_state->getValue(['coop_branch_fields', 'assigned_branch'], $assigned_branch_id);
 
-        $role = $form_state->getValue('role', $default_role);
-        $branch_disabled = ($role === 'approver' || !$selected_coop);
-        $branch_required = !$branch_disabled;
-
+        $isApprover = $form_state->getValue('role', $default_role) === 'approver';
+        
         $form['coop_branch_fields']['assigned_branch'] = [
             '#type' => 'select',
             '#title' => $this->t('Assigned Branch'),
             '#options' => $branch_options,
-            '#default_value' => $selected_branch,
-            '#required' => $branch_required,
+            '#default_value' => $isApprover ? '' : $selected_branch,
+            '#required' => !$isApprover,
             '#empty_option' => $this->t('- Select a branch -'),
             '#prefix' => '<div id="assigned-branch-wrapper">',
             '#suffix' => '</div>',
-            '#attributes' => $branch_disabled ? ['disabled' => 'disabled'] : [],
+            '#attributes' => $isApprover ? ['disabled' => 'disabled'] : [],
         ];
 
         $form['actions'] = ['#type' => 'actions'];
         $form['actions']['submit'] = [
             '#type' => 'submit',
-            '#value' => $this->t($user ? 'Update User' : 'Create User'),
+            '#value' => $this->t('Save'),
         ];
 
         return $form;
@@ -194,6 +192,11 @@ class UserCreateForm extends FormBase {
         $role = $form_state->getValue('role');
         $assigned_coop = $form_state->getValue(['coop_branch_fields', 'assigned_cooperative']);
         $assigned_branch = $form_state->getValue(['coop_branch_fields', 'assigned_branch']);
+
+        if ($role === 'approver') {
+            $assigned_branch = NULL;
+        }
+
 
         $user = $form_state->getBuildInfo()['args'][0] ?? NULL;
 
@@ -299,6 +302,8 @@ class UserCreateForm extends FormBase {
             unset($form['coop_branch_fields']['assigned_branch']['#attributes']['disabled']);
         } else {
             $form['coop_branch_fields']['assigned_branch']['#required'] = FALSE;
+            $form['coop_branch_fields']['assigned_branch']['#default_value'] = '';
+            $form['coop_branch_fields']['assigned_branch']['#value'] = ''; 
             $form['coop_branch_fields']['assigned_branch']['#attributes']['disabled'] = 'disabled';
         }
 
@@ -312,6 +317,10 @@ class UserCreateForm extends FormBase {
 
         if ($role !== 'approver' && empty($branch)) {
             $form_state->setErrorByName('coop_branch_fields][assigned_branch', $this->t('Branch is required for this role.'));
+        }
+
+        if (strlen($form_state->getValue('fullname')) < 3) {
+            $form_state->setErrorByName('fullname', $this->t('Full name must be at least 3 characters long.'));
         }
 
         if ($email) {
