@@ -30,14 +30,17 @@ $config['system.logging']['error_level'] = 'verbose';
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 
 // Enable development.services.yml overrides for twig debug and no cache.
-$config['twig.config']['debug'] = TRUE;
-$config['twig.config']['cache'] = FALSE;
-$config['twig.config']['auto_reload'] = TRUE;
+// $config['twig.config']['debug'] = TRUE;
+// $config['twig.config']['cache'] = FALSE;
+// $config['twig.config']['auto_reload'] = TRUE;
+
+$settings['twig_debug'] = TRUE;
+$settings['auto_reload'] = TRUE;
 
 $settings['config_sync_directory'] = '../config/sync';
 
 $settings['trusted_host_patterns'] = [
-    '^mass-specc\.ddev\.site$',
+  '^mass-specc\.ddev\.site$',
 ];
 $settings['reverse_proxy'] = TRUE;
 $settings['reverse_proxy_addresses'] = ['127.0.0.1'];

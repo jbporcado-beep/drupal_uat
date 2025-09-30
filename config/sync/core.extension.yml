@@ -4,6 +4,7 @@ module:
   admin: 0
   announcements_feed: 0
   automated_cron: 0
+  ban: 0
   better_exposed_filters: 0
   big_pipe: 0
   block: 0
@@ -21,25 +22,38 @@ module:
   datetime: 0
   dblog: 0
   devel: 0
+  disable_html5_validation: 0
   dynamic_page_cache: 0
   editor: 0
+  encrypt: 0
   field: 0
   field_ui: 0
   file: 0
   filter: 0
+  flood_control: 0
   help: 0
   history: 0
   image: 0
+  inline_form_errors: 0
+  key: 0
   link: 0
-  login_destination: 0
+  login: 0
+  login_security: 0
   menu_link_content: 0
   menu_ui: 0
   node: 0
   options: 0
   page_cache: 0
+  password_policy_character_types: 0
+  password_policy_characters: 0
+  password_policy_history: 0
+  password_policy_length: 0
+  password_policy_username: 0
+  password_reset: 0
   path: 0
   path_alias: 0
   pgsql: 0
+  phpass: 0
   search: 0
   selectify: 0
   shortcut: 0
@@ -47,12 +61,19 @@ module:
   system: 0
   taxonomy: 0
   text: 0
+  tfa: 0
+  tfa_email_otp: 0
   toolbar: 0
+  twig_tweak: 0
   update: 0
   user: 0
   user_dropdown: 0
+  user_redirect: 0
+  view_password: 0
   views_ui: 0
+  password_policy: 10
   views: 10
+  password_policy_extras: 20
   standard: 1000
 theme:
   olivero: 0

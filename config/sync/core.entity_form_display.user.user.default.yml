@@ -7,7 +7,11 @@ dependencies:
     - field.field.user.user.field_contact_number
     - field.field.user.user.field_cooperative
     - field.field.user.user.field_full_name
+    - field.field.user.user.field_last_password_reset
+    - field.field.user.user.field_password_expiration
+    - field.field.user.user.field_pending_expire_sent
   module:
+    - datetime
     - user
 _core:
   default_config_hash: FaQ9Ptcpxpg30AtiqRDtl_8zbJArHP1LPfug_s59TOA
@@ -26,31 +30,11 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_branch:
-    type: entity_reference_autocomplete
-    weight: 7
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_contact_number:
     type: string_textfield
     weight: 8
     region: content
     settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_cooperative:
-    type: entity_reference_autocomplete
-    weight: 5
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
@@ -62,6 +46,19 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_last_password_reset:
+    type: datetime_default
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_password_expiration:
+    type: boolean_checkbox
+    weight: 3
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   language:
     weight: 2
     region: content
@@ -72,4 +69,7 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_branch: true
+  field_cooperative: true
+  field_pending_expire_sent: true

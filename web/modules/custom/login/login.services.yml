@@ -1,0 +1,5 @@
+services:
+  login.expired_password_form:
+    class: Drupal\login\Form\ExpiredPasswordForm
+    tags:
+      - { name: form, id: user_pass_reset_form }

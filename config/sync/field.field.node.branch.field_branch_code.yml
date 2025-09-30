@@ -9,11 +9,11 @@ id: node.branch.field_branch_code
 field_name: field_branch_code
 entity_type: node
 bundle: branch
-label: "Branch Code"
-description: ""
+label: 'Branch Code'
+description: ''
 required: true
 translatable: false
-default_value: {}
-default_value_callback: ""
-settings: {}
+default_value: {  }
+default_value_callback: ''
+settings: {  }
 field_type: string

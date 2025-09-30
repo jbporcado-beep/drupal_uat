@@ -1,0 +1,167 @@
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+.auth-header {
+  flex: 0 0 auto;
+  margin: 3rem 3rem;
+}
+.auth-main {
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-main .title {
+  margin-bottom: 1rem !important;
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: #000;
+}
+
+.auth-main .subtext {
+  color: #acacac;
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem !important;
+}
+
+.logo-wrapper {
+  margin-left: 2rem;
+}
+
+.site-logo {
+  height: 60px;
+  width: auto;
+}
+
+.auth-container {
+  padding-top: 1.8rem;
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: none;
+  max-width: 25rem;
+  width: 100%;
+  text-align: center;
+}
+
+.auth-container input {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #000;
+  border-radius: 0.1rem;
+}
+
+.form-actions {
+  text-align: center;
+}
+
+#edit-new-password,
+#edit-confirm-password,
+#edit-current-password {
+  /* width: 400px; */
+  width: 25rem;
+}
+
+.password-reset-form .form-type-password .shwpd,
+.set-password-form .form-type-password .shwpd,
+.expired-password-form .form-type-password .shwpd {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  outline: none !important;
+  cursor: pointer;
+  width: 1.5rem;
+  height: 1.5rem;
+  z-index: 2;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #000 !important;
+}
+
+.password-reset-form .form-type-password .shwpd.eye-close::before,
+.set-password-form .form-type-password .shwpd.eye-close::before,
+.expired-password-form .form-type-password .shwpd.eye-close::before {
+  content: "\f070";
+}
+
+.password-reset-form .form-type-password .shwpd.eye-open::before,
+.set-password-form .form-type-password .shwpd.eye-open::before,
+.expired-password-form .form-type-password .shwpd.eye-open::before {
+  content: "\f06e";
+}
+
+.password-reset-form .form-type-password input[type="password"],
+.set-password-form .form-type-password input[type="password"],
+.expired-password-form .form-type-password input[type="password"] {
+  padding-right: 2.5rem;
+}
+
+.reset-pwd-email {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.reset-pwd-email input.with-icon {
+  padding-left: 2.3rem;
+}
+
+.reset-pwd-email .fa-envelope {
+  position: absolute;
+  left: 0.7rem;
+  top: 0.85rem;
+  color: #000;
+  pointer-events: none;
+}
+
+.submit-reset-password {
+  margin-top: 2.5rem;
+  width: 100%;
+  padding: 0.8rem 0rem;
+}
+
+.otp-btn-submit {
+  width: 100%;
+  padding: 0.7rem 0rem;
+  margin-top: 2.5rem;
+}
+
+.password-requirements {
+  color: #d9d9d9;
+  text-align: left;
+}
+
+.password-requirements strong {
+  margin-top: 2rem;
+  display: block;
+  font-weight: 600;
+}
+
+.password-requirements ul {
+  list-style: none;
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.js-form-item label {
+  display: block;
+  text-align: left !important;
+  margin-bottom: 0.5rem;
+}
+
+.submit-password {
+  margin-top: 2.5rem;
+  padding: 0.6rem 3rem;
+}
+
+.waive-password-btn {
+  margin: 1rem 0rem;
+  padding: 0.75rem 3rem;
+  width: 100%;
+  background-color: #fff !important;
+  color: #293990 !important;
+  border: 2px solid #293990 !important;
+}
