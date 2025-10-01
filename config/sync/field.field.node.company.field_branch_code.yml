@@ -1,0 +1,19 @@
+uuid: eca9e5ee-9db3-4ae0-a6d6-fb8cd53261af
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_branch_code
+    - node.type.company
+id: node.company.field_branch_code
+field_name: field_branch_code
+entity_type: node
+bundle: company
+label: 'Branch code'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -6,6 +6,8 @@ dependencies:
     - field.field.node.header.field_header_branch_code
     - field.field.node.header.field_provider_code
     - field.field.node.header.field_reference_date
+    - field.field.node.header.field_submission_type
+    - field.field.node.header.field_version
     - node.type.header
   module:
     - user
@@ -37,6 +39,22 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 115
+    region: content
+  field_submission_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 119
+    region: content
+  field_version:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 118
     region: content
   links:
     settings: {  }

@@ -1,0 +1,19 @@
+uuid: 14c79481-0571-49d8-8972-fbd3eda6b55a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_provider_code
+    - node.type.individual
+id: node.individual.field_provider_code
+field_name: field_provider_code
+entity_type: node
+bundle: individual
+label: 'Provider code'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

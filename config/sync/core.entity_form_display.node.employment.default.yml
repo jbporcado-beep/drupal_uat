@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.employment.field_employ_occupation_status
     - field.field.node.employment.field_employ_psic
     - field.field.node.employment.field_employ_trade_name
-    - field.field.node.employment.field_provider_subject_no
     - node.type.employment
   module:
     - path

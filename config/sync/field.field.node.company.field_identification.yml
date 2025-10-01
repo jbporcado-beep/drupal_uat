@@ -1,0 +1,29 @@
+uuid: 52974ad3-41f6-4e26-8285-0cd232c59103
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_identification
+    - node.type.company
+    - node.type.identification
+id: node.company.field_identification
+field_name: field_identification
+entity_type: node
+bundle: company
+label: Identification
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      identification: identification
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

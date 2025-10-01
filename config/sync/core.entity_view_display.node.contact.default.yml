@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.contact.field_contact1_value
     - field.field.node.contact.field_contact2_type
     - field.field.node.contact.field_contact2_value
-    - field.field.node.contact.field_provider_subject_no
     - node.type.contact
   module:
     - user
@@ -47,14 +46,6 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 104
-    region: content
-  field_provider_subject_no:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 101
     region: content
   links:
     settings: {  }

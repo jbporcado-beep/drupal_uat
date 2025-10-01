@@ -3,6 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.company.field_address
+    - field.field.node.company.field_branch_code
+    - field.field.node.company.field_contact
+    - field.field.node.company.field_identification
+    - field.field.node.company.field_provider_code
     - field.field.node.company.field_provider_subject_no
     - field.field.node.company.field_trade_name
     - node.type.company
@@ -13,6 +18,46 @@ targetEntityType: node
 bundle: company
 mode: default
 content:
+  field_address:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 118
+    region: content
+  field_branch_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_contact:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 121
+    region: content
+  field_identification:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 120
+    region: content
+  field_provider_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 117
+    region: content
   field_provider_subject_no:
     type: string
     label: above

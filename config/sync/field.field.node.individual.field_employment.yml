@@ -1,0 +1,29 @@
+uuid: 2c0bb9df-b9d1-43c9-bfd2-ba4111a1b60e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_employment
+    - node.type.employment
+    - node.type.individual
+id: node.individual.field_employment
+field_name: field_employment
+entity_type: node
+bundle: individual
+label: Employment
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      employment: employment
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -35,3 +35,8 @@ navigation:
   css:
     theme:
       css/navigation.css: {}
+
+file-upload-styles:
+  css:
+    theme:
+      css/file-upload-styles.css: {}

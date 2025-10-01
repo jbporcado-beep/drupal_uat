@@ -23,8 +23,8 @@ dependencies:
     - field.field.node.installment_contract.field_overdue_payments_number
     - field.field.node.installment_contract.field_payment_periodicity
     - field.field.node.installment_contract.field_provider_contract_no
-    - field.field.node.installment_contract.field_provider_subject_no
     - field.field.node.installment_contract.field_role
+    - field.field.node.installment_contract.field_subject
     - field.field.node.installment_contract.field_transaction_type
     - node.type.installment_contract
   module:
@@ -185,7 +185,7 @@ content:
     third_party_settings: {  }
   field_payment_periodicity:
     type: string_textfield
-    weight: 149
+    weight: 164
     region: content
     settings:
       size: 60
@@ -199,19 +199,21 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_provider_subject_no:
-    type: string_textfield
-    weight: 121
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_role:
     type: string_textfield
     weight: 123
     region: content
     settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_subject:
+    type: entity_reference_autocomplete
+    weight: 163
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
@@ -268,4 +270,5 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_provider_subject_no: true

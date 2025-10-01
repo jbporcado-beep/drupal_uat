@@ -8,7 +8,6 @@ dependencies:
     - field.field.node.family.field_father_middle_name
     - field.field.node.family.field_father_suffix
     - field.field.node.family.field_mother_maiden_full_name
-    - field.field.node.family.field_provider_subject_no
     - field.field.node.family.field_spouse_first_name
     - field.field.node.family.field_spouse_last_name
     - field.field.node.family.field_spouse_middle_name
@@ -22,21 +21,69 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 10
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_father_suffix:
+  field_father_first_name:
     type: string_textfield
-    weight: 127
+    weight: 9
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_provider_subject_no:
+  field_father_last_name:
     type: string_textfield
-    weight: 121
+    weight: 10
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_father_middle_name:
+    type: string_textfield
+    weight: 11
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_father_suffix:
+    type: string_textfield
+    weight: 8
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_mother_maiden_full_name:
+    type: string_textfield
+    weight: 12
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_spouse_first_name:
+    type: string_textfield
+    weight: 13
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_spouse_last_name:
+    type: string_textfield
+    weight: 14
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_spouse_middle_name:
+    type: string_textfield
+    weight: 15
     region: content
     settings:
       size: 60
@@ -44,34 +91,34 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 30
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
-    weight: 15
+    weight: 3
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 120
+    weight: 6
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
-    weight: 16
+    weight: 4
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: -5
+    weight: 0
     region: content
     settings:
       size: 60
@@ -79,7 +126,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 1
     region: content
     settings:
       match_operator: CONTAINS
@@ -87,11 +134,4 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden:
-  field_father_first_name: true
-  field_father_last_name: true
-  field_father_middle_name: true
-  field_mother_maiden_full_name: true
-  field_spouse_first_name: true
-  field_spouse_last_name: true
-  field_spouse_middle_name: true
+hidden: {  }

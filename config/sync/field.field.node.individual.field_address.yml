@@ -1,0 +1,29 @@
+uuid: dc08c25e-e6a7-4eb3-a3af-fed17a3a90d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_address
+    - node.type.address
+    - node.type.individual
+id: node.individual.field_address
+field_name: field_address
+entity_type: node
+bundle: individual
+label: Address
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      address: address
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
