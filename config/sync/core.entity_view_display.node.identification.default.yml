@@ -19,7 +19,6 @@ dependencies:
     - field.field.node.identification.field_identification1_type
     - field.field.node.identification.field_identification2_number
     - field.field.node.identification.field_identification2_type
-    - field.field.node.identification.field_provider_subject_no
     - node.type.identification
   module:
     - user
@@ -155,14 +154,6 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 103
-    region: content
-  field_provider_subject_no:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 101
     region: content
   links:
     settings: {  }

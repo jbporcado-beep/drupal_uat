@@ -8,7 +8,6 @@ dependencies:
     - field.field.node.family.field_father_middle_name
     - field.field.node.family.field_father_suffix
     - field.field.node.family.field_mother_maiden_full_name
-    - field.field.node.family.field_provider_subject_no
     - field.field.node.family.field_spouse_first_name
     - field.field.node.family.field_spouse_last_name
     - field.field.node.family.field_spouse_middle_name
@@ -20,32 +19,73 @@ targetEntityType: node
 bundle: family
 mode: default
 content:
+  field_father_first_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_father_last_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_father_middle_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
   field_father_suffix:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 107
+    weight: 2
     region: content
-  field_provider_subject_no:
+  field_mother_maiden_full_name:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 101
+    weight: 6
+    region: content
+  field_spouse_first_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_spouse_last_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_spouse_middle_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 9
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
-hidden:
-  field_father_first_name: true
-  field_father_last_name: true
-  field_father_middle_name: true
-  field_mother_maiden_full_name: true
-  field_spouse_first_name: true
-  field_spouse_last_name: true
-  field_spouse_middle_name: true
+hidden: {  }

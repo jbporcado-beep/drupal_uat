@@ -1,0 +1,75 @@
+<?php
+
+namespace Drupal\cooperative\Repository;
+
+use Drupal\node\Entity\Node;
+use Drupal\cooperative\Dto\NonInstallmentContractDto;
+
+class NonInstallmentContractRepository {
+    public function save(NonInstallmentContractDto $dto): Node {
+        $values = [
+            'type' => 'noninstallment_contract',
+            'title' => "[" . $dto->header->get('field_provider_code')->value . "- $dto->providerContractNo] Non-Installment Contract",
+            'status' => 1,
+            'field_header'                      => $dto->header,
+            'field_subject'                     => $dto->subject,
+            'field_provider_contract_no'        => $dto->providerContractNo,
+            'field_contract_end_actual_date'    => $dto->contractEndActualDate,
+            'field_contract_end_planned_date'   => $dto->contractEndPlannedDate,
+            'field_contract_phase'              => $dto->contractPhase,
+            'field_contract_start_date'         => $dto->contractStartDate,
+            'field_contract_type'               => $dto->contractType,
+            'field_credit_limit'                => $dto->creditLimit,
+            'field_currency'                    => $dto->currency,
+            'field_original_currency'           => $dto->originalCurrency,
+            'field_outstanding_balance'         => $dto->outstandingBalance,
+            'field_overdue_payments_amount'     => $dto->overduePaymentsAmount,
+            'field_role'                        => $dto->role,
+            'field_transaction_type'            => $dto->transactionType
+        ];
+        $node = \Drupal::entityTypeManager()->getStorage('node')->create($values);
+        $node->save();
+        return $node;
+    }
+    public function update(NonInstallmentContractDto $dto, Node $existingContract) {
+        $existingContract->set('field_header', $dto->header);
+        $existingContract->set('field_subject', $dto->subject);
+        $existingContract->set('field_contract_end_actual_date', $dto->contractEndActualDate);
+        $existingContract->set('field_contract_end_planned_date', $dto->contractEndPlannedDate);
+        $existingContract->set('field_contract_phase', $dto->contractPhase);
+        $existingContract->set('field_contract_start_date', $dto->contractStartDate);
+        $existingContract->set('field_contract_type', $dto->contractType);
+        $existingContract->set('field_credit_limit', $dto->creditLimit);
+        $existingContract->set('field_currency', $dto->currency);
+        $existingContract->set('field_original_currency', $dto->originalCurrency);
+        $existingContract->set('field_outstanding_balance', $dto->outstandingBalance);
+        $existingContract->set('field_overdue_payments_amount', $dto->overduePaymentsAmount);
+        $existingContract->set('field_role', $dto->role);
+        $existingContract->set('field_transaction_type', $dto->transactionType);
+        $existingContract->save();
+    }
+
+    public function findByCodes(
+        string $providerCode, string $providerContractNo, string $branchCode = ''
+    ): ?Node {
+        $query = \Drupal::entityQuery('node')
+        ->condition('type', 'noninstallment_contract')
+        ->condition('field_subject.entity.field_provider_code', $providerCode);
+
+        if (!empty($branchCode)) {
+            $query->condition('field_subject.entity.field_branch_code', $branchCode);
+        }
+        
+        $query->condition('field_provider_contract_no', $providerContractNo)
+            ->accessCheck(TRUE)
+            ->range(0, 1);
+        $result = $query->execute();
+        if (!empty($result)) {
+            $nid = reset($result);
+            $node = Node::load($nid);
+            return $node;
+        }
+        return null;
+    }
+}
+?>

@@ -26,6 +26,10 @@ cooperative.upload:
   path: "/cooperative/upload/form"
   defaults:
     _controller: '\Drupal\cooperative\Controller\UploadController::form'
-    _title: "Upload"
+  requirements:
+    _permission: "upload file"
+
+cooperative.upload.history:
+  path: "/cooperative/upload/history"
   requirements:
     _permission: "upload file"

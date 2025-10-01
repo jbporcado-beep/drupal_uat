@@ -1,16 +1,17 @@
-uuid: 28c042a9-8325-4be7-90fd-abeb00edf42f
+uuid: 1b040bb5-1f62-4e24-b858-56db1f2c104f
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_number_of_dependants
-field_name: field_number_of_dependants
+id: node.field_submission_type
+field_name: field_submission_type
 entity_type: node
-type: integer
+type: string
 settings:
-  unsigned: false
-  size: normal
+  max_length: 1
+  case_sensitive: false
+  is_ascii: false
 module: core
 locked: false
 cardinality: 1

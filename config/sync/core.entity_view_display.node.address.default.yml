@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.address.field_address1_type
     - field.field.node.address.field_address2_fulladdress
     - field.field.node.address.field_address2_type
-    - field.field.node.address.field_provider_subject_no
     - node.type.address
   module:
     - user
@@ -16,13 +15,29 @@ targetEntityType: node
 bundle: address
 mode: default
 content:
+  field_address1_fulladdress:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
   field_address1_type:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 101
+    weight: 2
+    region: content
+  field_address2_fulladdress:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
     region: content
   field_address2_type:
     type: string
@@ -30,21 +45,11 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
-    region: content
-  field_provider_subject_no:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 101
+    weight: 4
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
-hidden:
-  field_address1_fulladdress: true
-  field_address2_fulladdress: true
+hidden: {  }

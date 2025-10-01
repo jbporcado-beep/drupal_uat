@@ -3,18 +3,25 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.individual.field_address
+    - field.field.node.individual.field_branch_code
     - field.field.node.individual.field_cars_owned
     - field.field.node.individual.field_civil_status
+    - field.field.node.individual.field_contact
     - field.field.node.individual.field_country_of_birth_code
     - field.field.node.individual.field_date_of_birth
+    - field.field.node.individual.field_employment
+    - field.field.node.individual.field_family
     - field.field.node.individual.field_first_name
     - field.field.node.individual.field_gender
+    - field.field.node.individual.field_identification
     - field.field.node.individual.field_last_name
     - field.field.node.individual.field_middle_name
     - field.field.node.individual.field_nationality
-    - field.field.node.individual.field_number_of_dependants
+    - field.field.node.individual.field_number_of_dependents
     - field.field.node.individual.field_place_of_birth
     - field.field.node.individual.field_previous_last_name
+    - field.field.node.individual.field_provider_code
     - field.field.node.individual.field_provider_subject_no
     - field.field.node.individual.field_resident
     - field.field.node.individual.field_suffix
@@ -27,14 +34,29 @@ targetEntityType: node
 bundle: individual
 mode: default
 content:
-  field_cars_owned:
-    type: number_integer
+  field_address:
+    type: entity_reference_label
     label: above
     settings:
-      thousand_separator: ''
-      prefix_suffix: true
+      link: true
     third_party_settings: {  }
-    weight: 116
+    weight: 118
+    region: content
+  field_branch_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_cars_owned:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 124
     region: content
   field_civil_status:
     type: string
@@ -43,6 +65,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 114
+    region: content
+  field_contact:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 121
     region: content
   field_country_of_birth_code:
     type: string
@@ -60,6 +90,22 @@ content:
     third_party_settings: {  }
     weight: 117
     region: content
+  field_employment:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 122
+    region: content
+  field_family:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 119
+    region: content
   field_first_name:
     type: string
     label: above
@@ -75,6 +121,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 108
+    region: content
+  field_identification:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 120
     region: content
   field_last_name:
     type: string
@@ -100,14 +154,13 @@ content:
     third_party_settings: {  }
     weight: 112
     region: content
-  field_number_of_dependants:
-    type: number_integer
+  field_number_of_dependents:
+    type: string
     label: above
     settings:
-      thousand_separator: ''
-      prefix_suffix: true
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 115
+    weight: 123
     region: content
   field_place_of_birth:
     type: string
@@ -124,6 +177,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 107
+    region: content
+  field_provider_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 117
     region: content
   field_provider_subject_no:
     type: string

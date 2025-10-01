@@ -4,6 +4,7 @@ status: true
 dependencies:
   module:
     - admin
+    - cooperative
 id: mass_specc_admin
 label: 'Mass-Specc admin'
 weight: 4
@@ -20,6 +21,7 @@ permissions:
   - 'cancel account'
   - 'edit cooperatives'
   - 'edit users'
+  - 'upload file'
   - 'view cooperatives'
   - 'view user email addresses'
   - 'view users'

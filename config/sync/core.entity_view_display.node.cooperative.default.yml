@@ -24,6 +24,14 @@ targetEntityType: node
 bundle: cooperative
 mode: default
 content:
+  field_assigned_report_templates:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 12
+    region: content
   field_cda_firm_size:
     type: number_integer
     label: above
@@ -31,7 +39,7 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: 108
+    weight: 8
     region: content
   field_cda_registration_date:
     type: datetime_default
@@ -40,7 +48,7 @@ content:
       timezone_override: ''
       format_type: medium
     third_party_settings: {  }
-    weight: 107
+    weight: 7
     region: content
   field_cic_provider_code:
     type: string
@@ -48,7 +56,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 110
+    weight: 10
     region: content
   field_contact_person:
     type: string
@@ -56,7 +64,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 104
+    weight: 4
     region: content
   field_coop_code:
     type: string
@@ -64,7 +72,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 101
+    weight: 1
     region: content
   field_coop_contact_number:
     type: string
@@ -72,7 +80,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 106
+    weight: 6
     region: content
   field_coop_name:
     type: string
@@ -80,7 +88,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 102
+    weight: 2
     region: content
   field_coop_status:
     type: boolean
@@ -90,14 +98,14 @@ content:
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    weight: 112
+    weight: 11
     region: content
   field_email:
     type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 105
+    weight: 5
     region: content
   field_ho_address:
     type: string
@@ -105,7 +113,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 103
+    weight: 3
     region: content
   field_no_of_employees:
     type: number_integer
@@ -114,15 +122,14 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: 109
+    weight: 9
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
 hidden:
-  field_assigned_report_templates: true
   field_contact_number: true
   field_head_office_address: true
   field_name_of_cooperative: true

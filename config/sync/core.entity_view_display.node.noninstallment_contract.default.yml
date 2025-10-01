@@ -15,8 +15,8 @@ dependencies:
     - field.field.node.noninstallment_contract.field_outstanding_balance
     - field.field.node.noninstallment_contract.field_overdue_payments_amount
     - field.field.node.noninstallment_contract.field_provider_contract_no
-    - field.field.node.noninstallment_contract.field_provider_subject_no
     - field.field.node.noninstallment_contract.field_role
+    - field.field.node.noninstallment_contract.field_subject
     - field.field.node.noninstallment_contract.field_transaction_type
     - node.type.noninstallment_contract
   module:
@@ -122,14 +122,6 @@ content:
     third_party_settings: {  }
     weight: 124
     region: content
-  field_provider_subject_no:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 101
-    region: content
   field_role:
     type: string
     label: above
@@ -137,6 +129,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 103
+    region: content
+  field_subject:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 143
     region: content
   field_transaction_type:
     type: string

@@ -1,4 +1,4 @@
-uuid: 9321d7f5-f266-4a55-b7b4-21adaf696b52
+uuid: e2dbecbf-2f61-4d95-b3d5-77cd6da77c98
 langcode: en
 status: true
 dependencies:
@@ -7,10 +7,11 @@ dependencies:
 id: node.field_cars_owned
 field_name: field_cars_owned
 entity_type: node
-type: integer
+type: string
 settings:
-  unsigned: false
-  size: normal
+  max_length: 3
+  case_sensitive: false
+  is_ascii: false
 module: core
 locked: false
 cardinality: 1

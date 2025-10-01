@@ -3,18 +3,25 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.individual.field_address
+    - field.field.node.individual.field_branch_code
     - field.field.node.individual.field_cars_owned
     - field.field.node.individual.field_civil_status
+    - field.field.node.individual.field_contact
     - field.field.node.individual.field_country_of_birth_code
     - field.field.node.individual.field_date_of_birth
+    - field.field.node.individual.field_employment
+    - field.field.node.individual.field_family
     - field.field.node.individual.field_first_name
     - field.field.node.individual.field_gender
+    - field.field.node.individual.field_identification
     - field.field.node.individual.field_last_name
     - field.field.node.individual.field_middle_name
     - field.field.node.individual.field_nationality
-    - field.field.node.individual.field_number_of_dependants
+    - field.field.node.individual.field_number_of_dependents
     - field.field.node.individual.field_place_of_birth
     - field.field.node.individual.field_previous_last_name
+    - field.field.node.individual.field_provider_code
     - field.field.node.individual.field_provider_subject_no
     - field.field.node.individual.field_resident
     - field.field.node.individual.field_suffix
@@ -33,11 +40,30 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_cars_owned:
-    type: number
-    weight: 136
+  field_address:
+    type: entity_reference_autocomplete
+    weight: 138
     region: content
     settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_branch_code:
+    type: string_textfield
+    weight: 121
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_cars_owned:
+    type: string_textfield
+    weight: 144
+    region: content
+    settings:
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_civil_status:
@@ -45,6 +71,16 @@ content:
     weight: 134
     region: content
     settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_contact:
+    type: entity_reference_autocomplete
+    weight: 141
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
@@ -64,6 +100,26 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_employment:
+    type: entity_reference_autocomplete
+    weight: 142
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_family:
+    type: entity_reference_autocomplete
+    weight: 139
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_first_name:
     type: string_textfield
     weight: 123
@@ -77,6 +133,16 @@ content:
     weight: 128
     region: content
     settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_identification:
+    type: entity_reference_autocomplete
+    weight: 140
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
@@ -104,11 +170,12 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_number_of_dependants:
-    type: number
-    weight: 135
+  field_number_of_dependents:
+    type: string_textfield
+    weight: 143
     region: content
     settings:
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_place_of_birth:
@@ -122,6 +189,14 @@ content:
   field_previous_last_name:
     type: string_textfield
     weight: 127
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_provider_code:
+    type: string_textfield
+    weight: 137
     region: content
     settings:
       size: 60

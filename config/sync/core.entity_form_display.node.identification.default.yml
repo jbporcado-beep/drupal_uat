@@ -19,7 +19,6 @@ dependencies:
     - field.field.node.identification.field_identification1_type
     - field.field.node.identification.field_identification2_number
     - field.field.node.identification.field_identification2_type
-    - field.field.node.identification.field_provider_subject_no
     - node.type.identification
   module:
     - path
@@ -157,14 +156,6 @@ content:
   field_identification2_type:
     type: string_textfield
     weight: 123
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_provider_subject_no:
-    type: string_textfield
-    weight: 121
     region: content
     settings:
       size: 60

@@ -3,6 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.company.field_address
+    - field.field.node.company.field_branch_code
+    - field.field.node.company.field_contact
+    - field.field.node.company.field_identification
+    - field.field.node.company.field_provider_code
     - field.field.node.company.field_provider_subject_no
     - field.field.node.company.field_trade_name
     - node.type.company
@@ -18,6 +23,52 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_address:
+    type: entity_reference_autocomplete
+    weight: 138
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_branch_code:
+    type: string_textfield
+    weight: 121
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_contact:
+    type: entity_reference_autocomplete
+    weight: 141
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_identification:
+    type: entity_reference_autocomplete
+    weight: 140
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_provider_code:
+    type: string_textfield
+    weight: 137
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_provider_subject_no:
     type: string_textfield

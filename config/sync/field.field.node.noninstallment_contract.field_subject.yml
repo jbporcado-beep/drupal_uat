@@ -1,0 +1,31 @@
+uuid: 29e00170-928f-4ed7-9621-54742a876523
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_subject
+    - node.type.company
+    - node.type.individual
+    - node.type.noninstallment_contract
+id: node.noninstallment_contract.field_subject
+field_name: field_subject
+entity_type: node
+bundle: noninstallment_contract
+label: Subject
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      company: company
+      individual: individual
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: company
+field_type: entity_reference

@@ -1,0 +1,29 @@
+uuid: 5e64feff-b0a7-40ae-8ae3-e9d7bf97f9b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_family
+    - node.type.family
+    - node.type.individual
+id: node.individual.field_family
+field_name: field_family
+entity_type: node
+bundle: individual
+label: Family
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      family: family
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.contact.field_contact1_value
     - field.field.node.contact.field_contact2_type
     - field.field.node.contact.field_contact2_value
-    - field.field.node.contact.field_provider_subject_no
     - node.type.contact
   module:
     - path
@@ -49,14 +48,6 @@ content:
   field_contact2_value:
     type: string_textfield
     weight: 124
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_provider_subject_no:
-    type: string_textfield
-    weight: 121
     region: content
     settings:
       size: 60

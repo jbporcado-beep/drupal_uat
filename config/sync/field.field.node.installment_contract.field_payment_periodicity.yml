@@ -1,4 +1,4 @@
-uuid: fb828c92-5698-408c-9f11-689cef2c4540
+uuid: b5f8aebe-1ff2-4095-ad12-0350e3c8200e
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ id: node.installment_contract.field_payment_periodicity
 field_name: field_payment_periodicity
 entity_type: node
 bundle: installment_contract
-label: 'Payment periodicity'
+label: field_payment_periodicity
 description: ''
 required: true
 translatable: false

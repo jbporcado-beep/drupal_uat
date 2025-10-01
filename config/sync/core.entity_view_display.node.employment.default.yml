@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.employment.field_employ_occupation_status
     - field.field.node.employment.field_employ_psic
     - field.field.node.employment.field_employ_trade_name
-    - field.field.node.employment.field_provider_subject_no
     - node.type.employment
   module:
     - user
@@ -16,21 +15,41 @@ targetEntityType: node
 bundle: employment
 mode: default
 content:
-  field_provider_subject_no:
+  field_employ_occupation:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 101
+    weight: 2
+    region: content
+  field_employ_occupation_status:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_employ_psic:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_employ_trade_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
-hidden:
-  field_employ_occupation: true
-  field_employ_occupation_status: true
-  field_employ_psic: true
-  field_employ_trade_name: true
+hidden: {  }

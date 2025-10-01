@@ -1,3 +1,79 @@
 services:
-  cooperative.file_content_service:
-    class: 'Drupal\cooperative\Service\FileContentService'
+  cooperative.header_repository:
+    class: 'Drupal\cooperative\Repository\HeaderRepository'
+  cooperative.individual_repository:
+    class: 'Drupal\cooperative\Repository\IndividualRepository'
+  cooperative.company_repository:
+    class: 'Drupal\cooperative\Repository\CompanyRepository'
+  cooperative.installment_contract_repository:
+    class: 'Drupal\cooperative\Repository\InstallmentContractRepository'
+  cooperative.non_installment_contract_repository:
+    class: 'Drupal\cooperative\Repository\NonInstallmentContractRepository'
+
+  cooperative.individual_validator:
+    class: 'Drupal\cooperative\Validation\IndividualValidator'
+    arguments:
+      - '@cooperative.individual_repository'
+  cooperative.company_validator:
+    class: 'Drupal\cooperative\Validation\CompanyValidator'
+    arguments:
+      - '@cooperative.company_repository'
+  cooperative.installment_contract_validator:
+    class: 'Drupal\cooperative\Validation\InstallmentContractValidator'
+    arguments:
+      - '@cooperative.installment_contract_repository'
+      - '@cooperative.non_installment_contract_repository'
+  cooperative.non_installment_contract_validator:
+    class: 'Drupal\cooperative\Validation\NonInstallmentContractValidator'
+    arguments:
+      - '@cooperative.installment_contract_repository'
+      - '@cooperative.non_installment_contract_repository'
+
+  cooperative.family_validator:
+    class: 'Drupal\cooperative\Validation\FamilyValidator'
+  cooperative.address_validator:
+    class: 'Drupal\cooperative\Validation\AddressValidator'
+  cooperative.identification_validator:
+    class: 'Drupal\cooperative\Validation\IdentificationValidator'
+  cooperative.contact_validator:
+    class: 'Drupal\cooperative\Validation\ContactValidator'
+  cooperative.employment_validator:
+    class: 'Drupal\cooperative\Validation\EmploymentValidator'
+
+  cooperative.individual_service:
+    class: 'Drupal\cooperative\Service\IndividualService'
+    arguments:
+      - '@cooperative.individual_repository'
+      - '@cooperative.individual_validator'
+      - '@cooperative.family_validator'
+      - '@cooperative.address_validator'
+      - '@cooperative.identification_validator'
+      - '@cooperative.contact_validator'
+      - '@cooperative.employment_validator'
+
+  cooperative.company_service:
+    class: 'Drupal\cooperative\Service\CompanyService'
+    arguments:
+      - '@cooperative.company_repository'
+      - '@cooperative.company_validator'
+      - '@cooperative.address_validator'
+      - '@cooperative.identification_validator'
+      - '@cooperative.contact_validator'
+  
+  cooperative.installment_contract_service:
+    class: 'Drupal\cooperative\Service\InstallmentContractService'
+    arguments:
+      - '@cooperative.header_repository'
+      - '@cooperative.individual_repository'
+      - '@cooperative.company_repository'
+      - '@cooperative.installment_contract_repository'
+      - '@cooperative.installment_contract_validator'
+
+  cooperative.non_installment_contract_service:
+    class: 'Drupal\cooperative\Service\NonInstallmentContractService'
+    arguments:
+      - '@cooperative.header_repository'
+      - '@cooperative.individual_repository'
+      - '@cooperative.company_repository'
+      - '@cooperative.non_installment_contract_repository'
+      - '@cooperative.non_installment_contract_validator'

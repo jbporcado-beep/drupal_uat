@@ -1,0 +1,29 @@
+uuid: c6d50eac-7ff9-4cb2-b88b-e7ec004acca2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_address
+    - node.type.address
+    - node.type.company
+id: node.company.field_address
+field_name: field_address
+entity_type: node
+bundle: company
+label: Address
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      address: address
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

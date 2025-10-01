@@ -1,0 +1,19 @@
+uuid: c710d04a-0356-4099-ba2b-a0779bb8f4bf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_number_of_dependents
+    - node.type.individual
+id: node.individual.field_number_of_dependents
+field_name: field_number_of_dependents
+entity_type: node
+bundle: individual
+label: 'Number of dependents'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -10,6 +10,13 @@ class FieldMaps {
   ];
   public const INDIVIDUAL_FIELD_MAP = [
     'provider subject no'     => 'field_provider_subject_no',
+    'provider code'           => 'field_provider_code',
+    'branch code'             => 'field_branch_code',
+    'family'                  => 'field_family',
+    'address'                 => 'field_address',
+    'identification'          => 'field_identification',
+    'contact'                 => 'field_contact',
+    'employment'              => 'field_employment',
     'title'                   => 'field_title',
     'first name'              => 'field_first_name',
     'last name'               => 'field_last_name',
@@ -23,11 +30,10 @@ class FieldMaps {
     'nationality'             => 'field_nationality',
     'resident'                => 'field_resident',
     'civil status'            => 'field_civil_status',
-    'number of dependants'    => 'field_number_of_dependants',
+    'number of dependents'    => 'field_number_of_dependents',
     'cars owned'              => 'field_cars_owned',
   ];
   public const FAMILY_FIELD_MAP = [
-    'provider subject no'     => 'field_provider_subject_no',
     'spouse first name'       => 'field_spouse_first_name',
     'spouse last name'        => 'field_spouse_last_name',
     'spouse middle name'      => 'field_spouse_middle_name',
@@ -38,14 +44,12 @@ class FieldMaps {
     'father suffix'           => 'field_father_suffix',
   ];
   public const ADDRESS_FIELD_MAP = [
-    'provider subject no'     => 'field_provider_subject_no',
     'address 1 address type'  => 'field_address1_type',
     'address 1 fulladdress'   => 'field_address1_fulladdress',
     'address 2 address type'  => 'field_address2_type',
     'address 2 fulladdress'   => 'field_address2_fulladdress',
   ];
   public const IDENTIFICATION_FIELD_MAP = [
-    'provider subject no'     => 'field_provider_subject_no',
     'identification 1 type'   => 'field_identification1_type',
     'identification 1 number' => 'field_identification1_number',
     'identification 2 type'   => 'field_identification2_type',
@@ -64,21 +68,21 @@ class FieldMaps {
     'id 2 issued by'          => 'field_id2_issuedby',
   ];
   public const CONTACT_FIELD_MAP = [
-    'provider subject no'     => 'field_provider_subject_no',
     'contact 1 type'          => 'field_contact1_type',
     'contact 1 value'         => 'field_contact1_value',
     'contact 2 type'          => 'field_contact2_type',
     'contact 2 value'         => 'field_contact2_value',
   ];
   public const EMPLOYMENT_FIELD_MAP = [
-    'provider subject no'         => 'field_provider_subject_no',
     'employment trade name'       => 'field_employ_trade_name',
     'employment psic'             => 'field_employ_psic',
     'employment occupationstatus' => 'field_employ_occupation_status',
     'employment occupation'       => 'field_employ_occupation',
   ];
   public const INSTALLMENT_FIELD_MAP = [
-    'provider subject no'           => 'field_provider_subject_no',
+    'provider contract no'          => 'field_provider_contract_no',
+    'header'                        => 'field_header',
+    'subject'                       => 'field_subject',
     'contract end actual date'      => 'field_contract_end_actual_date',
     'contract end planned date'     => 'field_contract_end_planned_date',
     'contract phase'                => 'field_contract_phase',
@@ -86,7 +90,6 @@ class FieldMaps {
     'contract type'                 => 'field_contract_type',
     'currency'                      => 'field_currency',
     'financed amount'               => 'field_financed_amount',
-    'header'                        => 'field_header',
     'installments number'           => 'field_installments_no',
     'last payment amount'           => 'field_last_payment_amount',
     'monthly payment amount'        => 'field_monthly_payment_amount',
@@ -98,17 +101,20 @@ class FieldMaps {
     'overdue payments amount'       => 'field_overdue_payments_amount',
     'overdue payments number'       => 'field_overdue_payments_number',
     'payment periodicity'           => 'field_payment_periodicity',
-    'provider contract no'          => 'field_provider_contract_no',
     'role'                          => 'field_role',
     'transaction type sub facility' => 'field_transaction_type'
   ];
   public const COMPANY_FIELD_MAP = [
     'provider subject no'  => 'field_provider_subject_no',
-    'trade name'           => 'field_trade_name'
+    'trade name'           => 'field_trade_name',
+    'provider code'        => 'field_provider_code',
+    'branch code'          => 'field_branch_code',
+    'address'              => 'field_address',
+    'identification'       => 'field_identification',
+    'contact'              => 'field_contact',
   ];
   public const NONINSTALLMENT_FIELD_MAP = [
     'provider contract no'          => 'field_provider_contract_no',
-    'provider subject no'           => 'field_provider_subject_no',
     'header'                        => 'field_header',
     'contract end actual date'      => 'field_contract_end_actual_date',
     'contract end planned date'     => 'field_contract_end_planned_date',
