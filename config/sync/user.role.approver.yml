@@ -21,7 +21,7 @@ permissions:
   - 'edit any cooperative content'
   - 'edit own cooperative content'
   - 'revert cooperative revisions'
-  - 'upload file'
   - 'view cooperative revisions'
+  - 'view file'
   - 'view members'
   - 'view reports'

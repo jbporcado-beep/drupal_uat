@@ -3,6 +3,7 @@
 namespace Drupal\cooperative\Validation;
 
 use Drupal\node\Entity\Node;
+use Drupal\cooperative\Dto\HeaderDto;
 
 class HeaderValidator {
     private static function isValidDate(string $strDate): bool {
@@ -23,12 +24,17 @@ class HeaderValidator {
         return $providedDate < $currentDate;
     }
 
-    public static function validate(Node $node, array &$errors, int $row_number): void {
-        $provider_code      = $node->get('field_provider_code')->value;
-        $branch_code        = $node->get('field_header_branch_code')->value;
-        $reference_date     = $node->get('field_reference_date')->value;
-        $version            = $node->get('field_version')->value ?? '1.0';
-        $submission_type    = $node->get('field_submission_type')->value ?? '1';
+    private static function isValidProviderCode(string $providerCode): bool {
+        $pattern = '/^CO\d{6}$/';
+        return (bool) preg_match($pattern, $providerCode);
+    }
+
+    public function validate(HeaderDto $dto, array &$errors, int $row_number): void {
+        $provider_code      = $dto->providerCode;
+        $branch_code        = $dto->branchCode;
+        $reference_date     = $dto->referenceDate;
+        $version            = $dto->version;
+        $submission_type    = $dto->submissionType;
 
         if (empty($provider_code) && empty($reference_date)) {
             $errors[] = "Row $row_number | 30-013: HEADER IS NOT PRESENT";
@@ -37,15 +43,15 @@ class HeaderValidator {
         if (empty($provider_code)) {
             $errors[] = "Row $row_number | FIELD 'PROVIDER CODE' IS MANDATORY";
         }
-        if (strlen($provider_code) > 8) {
-            $errors[] = "Row $row_number | FIELD 'PROVIDER CODE' LENGTH MUST HAVE A LENGTH <= 8";
+        if (strlen($provider_code) !== 8) {
+            $errors[] = "Row $row_number | FIELD 'PROVIDER CODE' LENGTH MUST HAVE A LENGTH = 8";
         }
-        if (!empty($provider_code) && strtoupper(substr($provider_code, 0, 2)) !== 'CO') {
+        if (!empty($provider_code) && !self::isValidProviderCode($provider_code)) {
             $errors[] = "Row $row_number | FIELD 'PROVIDER CODE' IS NOT CORRECT";
         }
 
-        if (!empty($branch_code) && strlen($branch_code) > 5) {
-            $errors[] = "Row $row_number | FIELD 'BRANCH CODE' LENGTH MUST HAVE A LENGTH <= 5";
+        if (!empty($branch_code) && strlen($branch_code) > 20) {
+            $errors[] = "Row $row_number | FIELD 'BRANCH CODE' LENGTH MUST HAVE A LENGTH <= 20";
         }
 
         if (empty($reference_date)) {

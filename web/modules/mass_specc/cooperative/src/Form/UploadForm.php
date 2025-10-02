@@ -13,13 +13,11 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use Drupal\cooperative\Utility\FieldMaps;
-use Drupal\cooperative\Utility\NodeHelper;
+use Drupal\cooperative\Service\HeaderService;
 use Drupal\cooperative\Service\IndividualService;
 use Drupal\cooperative\Service\CompanyService;
 use Drupal\cooperative\Service\InstallmentContractService;
 use Drupal\cooperative\Service\NonInstallmentContractService;
-use Drupal\cooperative\Validation\HeaderValidator;
 
 
 /**
@@ -31,6 +29,10 @@ class UploadForm extends FormBase {
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
+  /**
+   * @var \Drupal\cooperative\Service\HeaderService
+   */
+  protected $headerService;
   /**
    * @var \Drupal\cooperative\Service\IndividualService
    */
@@ -50,12 +52,14 @@ class UploadForm extends FormBase {
 
   public function __construct(
     AccountProxyInterface $current_user, 
+    HeaderService $headerService,
     IndividualService $individualService,
     CompanyService $companyService,
     InstallmentContractService $installmentContractService,
     NonInstallmentContractService $nonInstallmentContractService
   ) {
     $this->currentUser = $current_user;
+    $this->headerService = $headerService;
     $this->individualService = $individualService;
     $this->companyService = $companyService;
     $this->installmentContractService = $installmentContractService;
@@ -65,6 +69,7 @@ class UploadForm extends FormBase {
   public static function create($container) {
     return new static(
       $container->get('current_user'),
+      $container->get('cooperative.header_service'),
       $container->get('cooperative.individual_service'),
       $container->get('cooperative.company_service'),
       $container->get('cooperative.installment_contract_service'),
@@ -84,25 +89,6 @@ class UploadForm extends FormBase {
     $result = $query->execute();
 
     return !empty($result);
-  }
-
-  private function getHeader(string $provider_code, string $branch_code, string $reference_date): ?Node {
-
-    $query = \Drupal::entityQuery('node')
-      ->condition('type', 'header')
-      ->condition('field_provider_code', $provider_code)
-      ->condition('field_header_branch_code', $branch_code)
-      ->condition('field_reference_date', $reference_date)
-      ->condition('field_reference_date', $reference_date)
-      ->accessCheck(TRUE)
-      ->range(0, 1);
-    $result = $query->execute();
-    if (!empty($result)) {
-      $nid = reset($result);
-      $node = Node::load($nid);
-      return $node;
-    }
-    return null;
   }
 
   private function getCooperatives(): array {
@@ -294,26 +280,16 @@ class UploadForm extends FormBase {
     ];
     $form['actions']['export'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Export Errors'),
+      '#value' => $this->t('Download Error Logs'),
       '#weight' => 10,
       '#attributes' => [
-        'class' => ['export-button'],
+        'class' => ['download-errors-button'],
         'onclick' => '
-            const noErrorsMessage = document.querySelector(".no-errors-wrapper");
-            const errorsPresent = document.querySelector(".export-message-wrapper");
+            const errorsPresent = document.querySelector(".error-summary");
             
             if (errorsPresent) {
-              errorsPresent.classList.add("export-message-hidden");
-              document.querySelector(".error-summary")?.classList.add("export-message-hidden");
+              errorsPresent.classList.add("error-summary-hidden");
             } 
-            else if (noErrorsMessage) {
-              noErrorsMessage.classList.add("no-errors-visible"); 
-
-              setTimeout(function() {
-                noErrorsMessage.classList.remove("no-errors-visible");
-              }, 3000);
-              return false;
-            }
         ',
       ],
       '#submit' => ['::exportErrors'],
@@ -324,19 +300,14 @@ class UploadForm extends FormBase {
     $errors_to_export = $tempstore->get('validation_errors');
     $filename = $tempstore->get('current_file');
     
+    if (empty($errors_to_export)) {
+      $form['actions']['export']['#disabled'] = true;
+    }
+
     $error_display = [];
 
-    $form['actions']['export_message'] = [
-      '#markup' => '<div class="no-errors-wrapper"><p>No errors to export</p></div>',
-      '#weight' => 11,
-    ];
 
     if (!empty($errors_to_export)) {
-      $form['actions']['export_message'] = [
-        '#markup' => '<div class="export-message-wrapper"><p>You have errors to export</p></div>',
-        '#weight' => 11,
-      ];
-
       $error_count = count($errors_to_export);
       $errors_limit = 5;
 
@@ -357,14 +328,14 @@ class UploadForm extends FormBase {
         ];
         $i++;
       }
+      $form['submission_errors'] = [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['error-summary']],
+        '#weight' => 100,
+        'content' => $error_display,
+      ];
     }
 
-    $form['submission_errors'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['error-summary']],
-      '#weight' => 100,
-      'content' => $error_display,
-    ];
 
     return $form;
   }
@@ -417,12 +388,6 @@ class UploadForm extends FormBase {
       return;
     }
 
-    // Build header map (normalized label => index).
-    $map = [];
-    foreach ($header as $idx => $label) { // Separate $header into $idx (column number) and $label (header name)
-      $map[$normalize((string) $label)] = $idx; // call the normalize function passing the header name and store it in $map
-    }
-
     // Stats and errors collection.
     $row_number = 1; // Counting from 1 for header already read; data starts at 2.
     $errors = [];
@@ -431,8 +396,10 @@ class UploadForm extends FormBase {
     
     if ($report_type === 'standard_credit_data') {
       
-      if (!isset($map['record type'])) {
-        $this->messenger()->addError($this->t('Missing "record type" column in CSV header.'));
+      if (!in_array('record type', $normalized_header)) {
+        $errors[] = "MISSING 'RECORD TYPE' COLUMN IN THE CSV HEADER";
+        $tempstore->set('validation_errors', $errors);
+        $tempstore->set('current_file', $file->getFilename());
         fclose($stream);
         return;
       }
@@ -444,8 +411,7 @@ class UploadForm extends FormBase {
         $row_number++;
         $row_with_header = array_combine($normalized_header, $row);
 
-        //Maybe we can move this inside the validator
-        $record_type = trim((string) ($row[$map['record type']] ?? ''));
+        $record_type = trim((string) ($row_with_header['record type'] ?? ''));
 
         if (!in_array($record_type, ['ID', 'BD', 'CI', 'CN'])) {
           $errors[] = "Row $row_number | 30-009: 'RECORD TYPE' IS NOT VALID";
@@ -453,19 +419,15 @@ class UploadForm extends FormBase {
         }
 
         try {
-          // Extract values by header map.
-          // $map['field'] returns the col no. of the field
-          $provider_code  = trim((string) ($row[$map['provider code']] ?? ''));
-          $branch_code    = trim((string) ($row[$map['branch code']] ?? ''));
-          $reference_date = trim((string) ($row[$map['reference date']] ?? ''));
+          $provider_code  = trim((string) ($row_with_header['provider code'] ?? ''));
+          $branch_code    = trim((string) ($row_with_header['branch code'] ?? ''));
+          $reference_date = trim((string) ($row_with_header['reference date'] ?? ''));
 
           $coop_dropdown = $form_state->getValue('coop_dropdown');
           $branch_dropdown = $form_state->getValue('branch_dropdown');
 
           if (!empty($branch_code) && !$this->branchExists($branch_code)) {
-            $this->messenger()->addError($this->t("The branch with branch code $branch_code doesn't exist"));
-            fclose($stream);
-            return;
+            $errors[] = "Row $row_number | THE BRANCH WITH BRANCH CODE $branch_code DOESN'T EXIST";
           }
           if ((string) $branch_dropdown !== (string) $branch_code) {
             $errors[] = "Row $row_number | BRANCH CODE INSIDE THE FILE IS NOT CONSISTENT WITH THE SELECTED BRANCH";
@@ -474,13 +436,8 @@ class UploadForm extends FormBase {
             $errors[] = "Row $row_number | PROVIDER CODE INSIDE THE FILE IS NOT CONSISTENT WITH THE SELECTED COOPERATIVE";
           }
 
-          $header_node = $this->getHeader($provider_code, $branch_code, $reference_date);
-          if (is_null($header_node)) {
-            $header_node = NodeHelper::createNodeFromMap(
-              'header', FieldMaps::HEADER_FIELD_MAP, $row, $row_number, $map, $errors
-            );
-          }
-          HeaderValidator::validate($header_node, $errors, $row_number);
+
+          $this->headerService->import($row_with_header, $row_number, $errors);
 
           if ($record_type === 'ID') {
             $this->individualService->import($row_with_header, $row_number, $errors);
@@ -512,9 +469,8 @@ class UploadForm extends FormBase {
       }
       else {
         $transaction->rollBack();
-        $store = \Drupal::service('tempstore.private')->get('errors_store');
-        $store->set('validation_errors', $errors);
-        $store->set('current_file', $file->getFilename());
+        $tempstore->set('validation_errors', $errors);
+        $tempstore->set('current_file', $file->getFilename());
       }
     }
   }

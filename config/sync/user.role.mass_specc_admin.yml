@@ -23,5 +23,6 @@ permissions:
   - 'edit users'
   - 'upload file'
   - 'view cooperatives'
+  - 'view file'
   - 'view user email addresses'
   - 'view users'

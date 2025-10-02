@@ -4,11 +4,9 @@ namespace Drupal\cooperative\Repository;
 
 use Drupal\node\Entity\Node;
 use Drupal\cooperative\Dto\CompanyDto;
-use Drupal\cooperative\Dto\FamilyDto;
 use Drupal\cooperative\Dto\AddressDto;
 use Drupal\cooperative\Dto\IdentificationDto;
 use Drupal\cooperative\Dto\ContactDto;
-use Drupal\cooperative\Dto\EmploymentDto;
 
 class CompanyRepository {
 
@@ -93,7 +91,7 @@ class CompanyRepository {
     }
 
     public function findByCodes(
-        string $providerCode, string $providerSubjNo, string $branchCode = ''
+        string $providerCode, string $providerSubjNo, ?string $branchCode = ''
     ): ?Node {
 
         $query = \Drupal::entityQuery('node')

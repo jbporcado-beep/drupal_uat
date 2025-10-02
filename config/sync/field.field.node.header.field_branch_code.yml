@@ -1,15 +1,15 @@
-uuid: 7989bc7a-b4ae-4419-b27c-c1a51f6ed1ad
+uuid: 390c17b2-4411-4ba5-8beb-79ba1f7c1f68
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_header_branch_code
+    - field.storage.node.field_branch_code
     - node.type.header
-id: node.header.field_header_branch_code
-field_name: field_header_branch_code
+id: node.header.field_branch_code
+field_name: field_branch_code
 entity_type: node
 bundle: header
-label: 'Branch code'
+label: 'Branch Code'
 description: ''
 required: false
 translatable: false

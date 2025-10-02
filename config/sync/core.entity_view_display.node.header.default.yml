@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.header.field_header_branch_code
+    - field.field.node.header.field_branch_code
     - field.field.node.header.field_provider_code
     - field.field.node.header.field_reference_date
     - field.field.node.header.field_submission_type
@@ -16,13 +16,13 @@ targetEntityType: node
 bundle: header
 mode: default
 content:
-  field_header_branch_code:
+  field_branch_code:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 116
+    weight: 101
     region: content
   field_provider_code:
     type: string

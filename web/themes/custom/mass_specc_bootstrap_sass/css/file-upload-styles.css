@@ -22,6 +22,7 @@
 }
 .align-center-group {
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 .upload-button {
@@ -29,58 +30,16 @@
     padding: 10px 40px;
     border-radius: 5px;
     margin-top: 1vh;
-    border: none;
+    border: 1px solid #305bab;
 }
-.export-button {
-    background-color: #e0e0e0 !important;
-    color: rgb(54, 54, 54) !important;
-    padding: 10px 40px;
+.download-errors-button {
+    background-color: white !important;
+    color: #305bab !important;
+    font-weight: 500;
+    padding: 10px 20px;
     border-radius: 5px;
     margin-top: 1vh;
-    margin-left: 0.5vw;
-    border: none;
-}
-.export-message-wrapper {
-    color: #721c24;
-    border: 2px solid #721c24;
-    background-color: #f9dddf;
-    display: inline-block;
-    padding: 10px 40px;
-    border-radius: 10px;
-    font-weight: bold;
-    margin-left: 4vw;
-    margin-top: 1vh;
-    opacity: 1; 
-    transition: opacity 0.5s ease-out, visibility 0s 0.5s; 
-}
-.export-message-wrapper p {
-    margin: 0;
-}
-.export-message-hidden {
-  opacity: 0 !important;
-  visibility: hidden;
-}
-.no-errors-wrapper {
-    color: #28A745;
-    border: 2px solid #28A745;
-    background-color: #e1f7e1;
-    display: inline-block;
-    padding: 10px 40px;
-    border-radius: 10px;
-    font-weight: bold;
-    margin-left: 4vw;
-    margin-top: 1vh;
-    opacity: 0; 
-    visibility: hidden;
-    transition: opacity 0.3s ease-out, visibility 0s 0.3s; 
-}
-.no-errors-visible {
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
-.no-errors-wrapper p {
-    margin: 0;
+    border: 1px solid #305bab;
 }
 
 .error-summary {
@@ -89,4 +48,8 @@
     margin-bottom: 20px;
     opacity: 1; 
     transition: opacity 0.5s ease-out, visibility 0s 0.5s; 
+}
+.error-summary-hidden {
+  opacity: 0 !important;
+  visibility: hidden;
 }

@@ -17,3 +17,7 @@ view reports:
 upload file:
   title: "Upload files"
   description: "Upload files for reports."
+
+view file:
+  title: "View files"
+  description: "View uploaded files."
