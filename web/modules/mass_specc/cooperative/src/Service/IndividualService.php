@@ -3,7 +3,6 @@
 namespace Drupal\cooperative\Service;
 
 use Drupal\cooperative\Utility\CsvToDtoMapper;
-use Drupal\cooperative\Dto\IndividualDto;
 use Drupal\cooperative\Validation\IndividualValidator;
 use Drupal\cooperative\Validation\FamilyValidator;
 use Drupal\cooperative\Validation\AddressValidator;

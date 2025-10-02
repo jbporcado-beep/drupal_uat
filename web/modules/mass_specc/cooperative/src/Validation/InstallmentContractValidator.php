@@ -81,9 +81,9 @@ class InstallmentContractValidator {
         $role                            = $dto->role;
         $transaction_type                = $dto->transactionType;
 
-        $file_reference_date = $header->get('field_reference_date')->value;
-        $provider_code       = $header->get('field_provider_code')->value;
-        $branch_code         = $header->get('field_header_branch_code')->value;
+        $file_reference_date = $header?->get('field_reference_date')->value;
+        $provider_code       = $header?->get('field_provider_code')->value;
+        $branch_code         = $header?->get('field_branch_code')->value;
 
         $is_start_date_valid        = self::isValidDate($contract_start_date);
         $is_end_planned_date_valid  = self::isValidDate($contract_end_planned_date);
@@ -110,7 +110,6 @@ class InstallmentContractValidator {
             $errors[] = "Row $row_number | 10-303: CONTRACT IS ALREADY IN DATABASE WITH A DIFFERENT CONTRACT CATEGORY";
         }
 
-        //why is subject null???
         if ($subject === null) {
             $errors[] = "Row $row_number | 10-307: CONTRACT IS NOT VALID BECAUSE AT LEAST ONE OF ITS LINKED SUBJECT DOESN'T EXIST";
         }

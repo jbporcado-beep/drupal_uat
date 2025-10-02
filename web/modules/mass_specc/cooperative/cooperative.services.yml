@@ -10,6 +10,8 @@ services:
   cooperative.non_installment_contract_repository:
     class: 'Drupal\cooperative\Repository\NonInstallmentContractRepository'
 
+  cooperative.header_validator:
+    class: 'Drupal\cooperative\Validation\HeaderValidator'
   cooperative.individual_validator:
     class: 'Drupal\cooperative\Validation\IndividualValidator'
     arguments:
@@ -40,6 +42,11 @@ services:
   cooperative.employment_validator:
     class: 'Drupal\cooperative\Validation\EmploymentValidator'
 
+  cooperative.header_service:
+    class: 'Drupal\cooperative\Service\HeaderService'
+    arguments:
+      - '@cooperative.header_repository'
+      - '@cooperative.header_validator'
   cooperative.individual_service:
     class: 'Drupal\cooperative\Service\IndividualService'
     arguments:

@@ -40,7 +40,7 @@ class NonInstallmentContractService {
         $branch_code          = $row['branch code'] ?? '';
         $reference_date       = $row['reference date'] ?? '';
 
-        $header  = $this->headerRepository->findByCodes($provider_code, $reference_date, $branch_code);
+        $header  = $this->headerRepository->findByCodesAndDate($provider_code, $reference_date, $branch_code);
         $subject = $this->individualRepository->findByCodes($provider_code, $provider_subj_no, $branch_code);
         if ($subject === null) {
             $subject = $this->companyRepository->findByCodes($provider_code, $provider_subj_no, $branch_code);

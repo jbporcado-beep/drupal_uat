@@ -32,4 +32,4 @@ cooperative.upload:
 cooperative.upload.history:
   path: "/cooperative/upload/history"
   requirements:
-    _permission: "upload file"
+    _permission: "view file"

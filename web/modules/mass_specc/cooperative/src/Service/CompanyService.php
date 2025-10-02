@@ -3,7 +3,6 @@
 namespace Drupal\cooperative\Service;
 
 use Drupal\cooperative\Utility\CsvToDtoMapper;
-use Drupal\cooperative\Dto\CompanyDto;
 use Drupal\cooperative\Validation\CompanyValidator;
 use Drupal\cooperative\Validation\AddressValidator;
 use Drupal\cooperative\Validation\IdentificationValidator;

@@ -4,6 +4,7 @@ namespace Drupal\cooperative\Utility;
 
 use Drupal\node\Entity\Node;
 use Drupal\cooperative\Dto\IndividualDto;
+use Drupal\cooperative\Dto\HeaderDto;
 use Drupal\cooperative\Dto\CompanyDto;
 use Drupal\cooperative\Dto\FamilyDto;
 use Drupal\cooperative\Dto\AddressDto;
@@ -14,6 +15,17 @@ use Drupal\cooperative\Dto\InstallmentContractDto;
 use Drupal\cooperative\Dto\NonInstallmentContractDto;
 
 class CsvToDtoMapper {
+
+    public static function mapToHeaderDto(array $row): HeaderDto {
+        return new HeaderDto(
+            providerCode:   $row['provider code'] ?? '',
+            branchCode:     $row['branch code'] ?? '',
+            referenceDate:  $row['reference date'] ?? '',
+            version:        $row['version'] ?? '1.0',
+            submissionType: $row['submission type'] ?? '1'
+        );
+    }
+
     public static function mapToIndividualDto(array $row): IndividualDto {
 
         $familyDto = self::mapToFamilyDto($row);

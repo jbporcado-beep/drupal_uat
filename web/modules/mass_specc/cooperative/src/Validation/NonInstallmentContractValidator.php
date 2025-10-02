@@ -75,7 +75,7 @@ class NonInstallmentContractValidator {
 
         $file_reference_date = $header?->get('field_reference_date')->value;
         $provider_code       = $header?->get('field_provider_code')->value;
-        $branch_code         = $header?->get('field_header_branch_code')->value;
+        $branch_code         = $header?->get('field_branch_code')->value;
 
         $is_start_date_valid        = self::isValidDate($contract_start_date);
         $is_end_planned_date_valid  = self::isValidDate($contract_end_planned_date);

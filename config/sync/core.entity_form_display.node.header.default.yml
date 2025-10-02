@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.header.field_header_branch_code
+    - field.field.node.header.field_branch_code
     - field.field.node.header.field_provider_code
     - field.field.node.header.field_reference_date
     - field.field.node.header.field_submission_type
@@ -22,9 +22,9 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_header_branch_code:
+  field_branch_code:
     type: string_textfield
-    weight: 136
+    weight: 121
     region: content
     settings:
       size: 60

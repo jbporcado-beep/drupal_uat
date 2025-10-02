@@ -30,6 +30,25 @@ class IdentificationValidator {
         return $provided_date < $current_date;
     }
 
+    private static function isExpiryDateValid(string $strDate): bool {
+        if (strlen($strDate) !== 8) {
+            return false;
+        }
+
+        $year = substr($strDate, -4);
+        $month = substr($strDate, -6, -4);
+        $day = substr($strDate, 0, -6);
+        $parsedDate = date_parse("$year-$month-$day");
+        if ($parsedDate['error_count'] !== 0 || !checkdate($month, $day, $year)) {
+            return false;
+        }
+
+        $provided_date = new \DateTime("$year-$month-$day");
+        $current_date = new \DateTime();
+
+        return $provided_date > $current_date;
+    }
+
     public function validate(IdentificationDto $identificationDto, array &$errors, int $row_number, string $record_type): void {
         $identification_1_type        = $identificationDto->identification1Type;
         $identification_1_number      = $identificationDto->identification1Number;
@@ -49,7 +68,7 @@ class IdentificationValidator {
         $id_2_issuedby                = $identificationDto->id2IssuedBy;
 
         if (!empty($identification_1_type) 
-            && !in_array($identification_1_type, array_keys(self::IDENTIFICATION_TYPE_DOMAIN))) {
+            && !array_key_exists($identification_1_type, self::IDENTIFICATION_TYPE_DOMAIN)) {
             $errors[] = "Row $row_number | 10-009: FIELD 'IDENTIFICATION 1 TYPE' IS NOT CORRECT" ;
         }
         if (strlen($identification_1_number) > 20) {
@@ -71,7 +90,7 @@ class IdentificationValidator {
         }
 
         if (!empty($identification_2_type) 
-            && !in_array($identification_2_type, array_keys(self::IDENTIFICATION_TYPE_DOMAIN))) {
+            && !array_key_exists($identification_2_type, self::IDENTIFICATION_TYPE_DOMAIN)) {
             $errors[] = "Row $row_number | 10-009: FIELD 'IDENTIFICATION 2 TYPE' IS NOT CORRECT" ;
         }
         if (strlen($identification_2_number) > 20) {
@@ -136,10 +155,10 @@ class IdentificationValidator {
             $errors[] = "Row $row_number | 10-067: MORE THAN ONE 'IDENTIFICATION TYPE' WITH THE SAME VALUE ARE NOT ALLOWED";
         }
 
-        if (!empty($id_1_type) && !in_array($id_1_type, self::ID_TYPE_DOMAIN)) {
+        if (!empty($id_1_type) && !array_key_exists($id_1_type, self::ID_TYPE_DOMAIN)) {
             $errors[] = "Row $row_number | FIELD 'ID 1 TYPE' IS NOT CORRECT";
         }
-        if (!empty($id_2_type) && !in_array($id_2_type, self::ID_TYPE_DOMAIN)) {
+        if (!empty($id_2_type) && !array_key_exists($id_2_type, self::ID_TYPE_DOMAIN)) {
             $errors[] = "Row $row_number | FIELD 'ID 2 TYPE' IS NOT CORRECT";
         }
 
@@ -182,10 +201,10 @@ class IdentificationValidator {
             $errors[] = "Row $row_number | 10-012: FIELD 'ID 2 ISSUE COUNTRY' IS NOT CORRECT";
         }
         
-        if (!empty($id_1_expirydate) && !self::isValidDate($id_1_expirydate)) {
+        if (!empty($id_1_expirydate) && !self::isExpiryDateValid($id_1_expirydate)) {
             $errors[] = "Row $row_number | 10-013: FIELD 'ID 1 EXPIRY DATE' IS NOT CORRECT";
         }
-        if (!empty($id_2_expirydate) && !self::isValidDate($id_2_expirydate)) {
+        if (!empty($id_2_expirydate) && !self::isExpiryDateValid($id_2_expirydate)) {
             $errors[] = "Row $row_number | 10-013: FIELD 'ID 2 EXPIRY DATE' IS NOT CORRECT";
         }
     }
