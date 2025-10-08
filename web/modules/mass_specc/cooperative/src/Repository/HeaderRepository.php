@@ -23,7 +23,7 @@ class HeaderRepository {
         return $node;
     }
 
-    public function findByCodesAndDate(string $providerCode, string $referenceDate, ?string $branchCode = ''): ?Node {
+    public function findByCodesAndDate(?string $providerCode, ?string $referenceDate, ?string $branchCode): ?Node {
         $query = \Drupal::entityQuery('node')
         ->condition('type', 'header')
         ->condition('field_provider_code', $providerCode);

@@ -20,9 +20,9 @@ class HeaderService {
 
     public function import(array $row, int $row_number, array &$errors) {
         $headerDto = CsvToDtoMapper::mapToHeaderDto($row);
-        $provider_code = $headerDto->providerCode;
-        $reference_date = $headerDto->referenceDate;
-        $branch_code = $headerDto->branchCode;
+        $provider_code = $headerDto->providerCode ?? '';
+        $reference_date = $headerDto->referenceDate ?? '';
+        $branch_code = $headerDto->branchCode ?? '';
 
         $this->headerValidator->validate($headerDto, $errors, $row_number);
 

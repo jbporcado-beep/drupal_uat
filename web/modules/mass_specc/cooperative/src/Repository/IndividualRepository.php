@@ -113,7 +113,7 @@ class IndividualRepository {
     }
 
     public function findByCodes(
-        string $providerCode, string $providerSubjNo, ?string $branchCode = ''
+        ?string $providerCode, ?string $providerSubjNo, ?string $branchCode
     ): ?Node {
 
         $query = \Drupal::entityQuery('node')

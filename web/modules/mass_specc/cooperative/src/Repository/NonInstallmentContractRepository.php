@@ -50,7 +50,7 @@ class NonInstallmentContractRepository {
     }
 
     public function findByCodes(
-        string $providerCode, string $providerContractNo, ?string $branchCode = ''
+        ?string $providerCode, ?string $providerContractNo, ?string $branchCode
     ): ?Node {
         $query = \Drupal::entityQuery('node')
         ->condition('type', 'noninstallment_contract')

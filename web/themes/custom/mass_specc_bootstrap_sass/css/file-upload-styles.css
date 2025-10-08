@@ -22,15 +22,28 @@
 }
 .align-center-group {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 .upload-button {
     background-color: #305bab !important;
+    margin-left: 1vw;
+    border: 1px solid #305bab;
+}
+.verify-button {
+    background-color: #28a745 !important;
+    border: 1px solid #28a745;
+}
+.upload-button, 
+.verify-button {
     padding: 10px 40px;
     border-radius: 5px;
     margin-top: 1vh;
+}
+.upload-button:hover {
     border: 1px solid #305bab;
+}
+.verify-button:hover {
+    border: 1px solid #28a745;
 }
 .download-errors-button {
     background-color: white !important;
@@ -39,9 +52,14 @@
     padding: 10px 20px;
     border-radius: 5px;
     margin-top: 1vh;
+    margin-left: auto;
     border: 1px solid #305bab;
+    transition: opacity 0.5s ease;
 }
-
+.download-errors-button.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
 .error-summary {
     color: #f14a55;
     padding: 10px;

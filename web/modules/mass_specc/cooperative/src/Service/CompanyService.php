@@ -41,10 +41,10 @@ class CompanyService {
         $identificationDto = $companyDto->identification;
         $contactDto        = $companyDto->contact;
 
-        $this->companyValidator->validate($companyDto, $errors, $row_number);
-        $this->addressValidator->validate($addressDto, $errors, $row_number, "BD");
-        $this->identificationValidator->validate($identificationDto, $errors, $row_number, "BD");
-        $this->contactValidator->validate($contactDto, $errors, $row_number);
+        $this->companyValidator->validate($companyDto, $provider_subj_no, $errors, $row_number);
+        $this->addressValidator->validate($addressDto, $provider_subj_no, $errors, $row_number, "BD");
+        $this->identificationValidator->validate($identificationDto, $provider_subj_no, $errors, $row_number, "BD");
+        $this->contactValidator->validate($contactDto, $provider_subj_no, $errors, $row_number);
 
         $is_provider_subj_no_taken = $this->companyRepository
             ->isProviderSubjNoTakenInCoopOrBranch($provider_code, $provider_subj_no, $branch_code);

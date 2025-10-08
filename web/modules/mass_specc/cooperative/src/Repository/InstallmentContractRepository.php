@@ -67,7 +67,7 @@ class InstallmentContractRepository {
         $existingContract->save();
     }
     public function findByCodes(
-        string $providerCode, string $providerContractNo, ?string $branchCode = ''
+        ?string $providerCode, ?string $providerContractNo, ?string $branchCode
     ): ?Node {
         $query = \Drupal::entityQuery('node')
         ->condition('type', 'installment_contract')
