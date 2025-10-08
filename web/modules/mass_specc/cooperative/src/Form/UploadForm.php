@@ -261,7 +261,6 @@ class UploadForm extends FormBase {
     $form['csv_file'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('CSV File'),
-      '#title' => $this->t('CSV File'),
       '#upload_location' => 'temporary://cooperative_uploads/',
       '#upload_validators' => [
         'FileExtension' => ['extensions' => 'csv'],
@@ -273,41 +272,43 @@ class UploadForm extends FormBase {
       '#type' => 'actions',
       '#attributes' => ['class' => ['align-center-group']],
     ];
+    $form['actions']['verify'] = [
+      '#type' => 'submit',
+      '#value' => 'Verify',
+      '#attributes' => ['class' => ['verify-button']],
+    ];
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Upload'),
+      '#value' => 'Upload',
       '#attributes' => ['class' => ['upload-button']],
-    ];
-    $form['actions']['export'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Download Error Logs'),
-      '#weight' => 10,
-      '#attributes' => [
-        'class' => ['download-errors-button'],
-        'onclick' => '
-            const errorsPresent = document.querySelector(".error-summary");
-            
-            if (errorsPresent) {
-              errorsPresent.classList.add("error-summary-hidden");
-            } 
-        ',
-      ],
-      '#submit' => ['::exportErrors'],
-      '#limit_validation_errors' => [],
     ];
 
     $tempstore = \Drupal::service('tempstore.private')->get('errors_store');
     $errors_to_export = $tempstore->get('validation_errors');
     $filename = $tempstore->get('current_file');
-    
-    if (empty($errors_to_export)) {
-      $form['actions']['export']['#disabled'] = true;
-    }
 
     $error_display = [];
 
 
     if (!empty($errors_to_export)) {
+      $form['actions']['export'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Download Error Logs'),
+        '#weight' => 10,
+        '#attributes' => [
+          'class' => ['download-errors-button'],
+          'onclick' => '
+            this.classList.add("hidden");
+        
+            const errorsPresent = document.querySelector(".error-summary");
+            if (errorsPresent) {
+              errorsPresent.classList.add("error-summary-hidden");
+            } 
+          ',
+        ],
+        '#submit' => ['::exportErrors'],
+        '#limit_validation_errors' => [],
+      ];
       $error_count = count($errors_to_export);
       $errors_limit = 5;
 
@@ -348,6 +349,10 @@ class UploadForm extends FormBase {
     $tempstore->delete('validation_errors'); 
     $tempstore->delete('current_file'); 
     $fids = $form_state->getValue('csv_file');
+
+    $trigger = $form_state->getTriggeringElement();
+    $clicked_value = $trigger['#value'];
+    $is_verify = ($clicked_value === 'Verify');
 
     if (empty($fids) || !is_array($fids)) {
       $this->messenger()->addError($this->t('No file uploaded.'));
@@ -393,7 +398,7 @@ class UploadForm extends FormBase {
     $errors = [];
     $filename = $file->getFilename();
     $report_type = $form_state->getValue('report_dropdown');
-    
+
     if ($report_type === 'standard_credit_data') {
       
       if (!in_array('record type', $normalized_header)) {
@@ -462,16 +467,23 @@ class UploadForm extends FormBase {
 
       fclose($stream);
 
-      // Report results.
-      if (empty($errors)) {
-        unset($transaction); //Commit the transaction
-        $this->messenger()->addStatus($this->t('File upload successful!'));
-      }
-      else {
+      if (!empty($errors)) {
         $transaction->rollBack();
         $tempstore->set('validation_errors', $errors);
         $tempstore->set('current_file', $file->getFilename());
+        return;
       }
+
+      if ($is_verify) {
+        $transaction->rollBack();
+        $this->messenger()->addStatus($this->t('File verified with no errors!'));
+      }
+      else {
+        unset($transaction);
+        $this->messenger()->addStatus($this->t('File upload successful!'));
+      }
+
+
     }
   }
 }

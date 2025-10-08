@@ -52,11 +52,11 @@ class IndividualService {
         $employmentDto     = $individualDto->employment;
 
         $this->individualValidator->validate($individualDto, $errors, $row_number);
-        $this->familyValidator->validate($familyDto, $errors, $row_number);
-        $this->addressValidator->validate($addressDto, $errors, $row_number, "ID");
-        $this->identificationValidator->validate($identificationDto, $errors, $row_number, "ID");
-        $this->contactValidator->validate($contactDto, $errors, $row_number);
-        $this->employmentValidator->validate($employmentDto, $errors, $row_number);
+        $this->familyValidator->validate($familyDto, $provider_subj_no, $errors, $row_number);
+        $this->addressValidator->validate($addressDto, $provider_subj_no, $errors, $row_number, "ID");
+        $this->identificationValidator->validate($identificationDto, $provider_subj_no, $errors, $row_number, "ID");
+        $this->contactValidator->validate($contactDto, $provider_subj_no, $errors, $row_number);
+        $this->employmentValidator->validate($employmentDto, $provider_subj_no, $errors, $row_number);
 
         $is_provider_subj_no_taken = $this->individualRepository
             ->isProviderSubjNoTakenInCoopOrBranch($provider_code, $provider_subj_no, $branch_code);

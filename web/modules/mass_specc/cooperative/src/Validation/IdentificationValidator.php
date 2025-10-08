@@ -49,7 +49,7 @@ class IdentificationValidator {
         return $provided_date > $current_date;
     }
 
-    public function validate(IdentificationDto $identificationDto, array &$errors, int $row_number, string $record_type): void {
+    public function validate(IdentificationDto $identificationDto, string $provider_subj_no, array &$errors, int $row_number, string $record_type): void {
         $identification_1_type        = $identificationDto->identification1Type;
         $identification_1_number      = $identificationDto->identification1Number;
         $identification_2_type        = $identificationDto->identification2Type;
@@ -69,14 +69,14 @@ class IdentificationValidator {
 
         if (!empty($identification_1_type) 
             && !array_key_exists($identification_1_type, self::IDENTIFICATION_TYPE_DOMAIN)) {
-            $errors[] = "Row $row_number | 10-009: FIELD 'IDENTIFICATION 1 TYPE' IS NOT CORRECT" ;
+            $errors[] = "$provider_subj_no | Row $row_number | 10-009: FIELD 'IDENTIFICATION 1 TYPE' IS NOT CORRECT" ;
         }
         if (strlen($identification_1_number) > 20) {
-            $errors[] = "Row $row_number | 10-043: FIELD 'IDENTIFICATION 1 NUMBER' LENGTH IS NOT CORRECT" ;
+            $errors[] = "$provider_subj_no | Row $row_number | 10-043: FIELD 'IDENTIFICATION 1 NUMBER' LENGTH IS NOT CORRECT" ;
         }
         if ((!empty($identification_1_type) && empty($identification_1_number)) 
             || (empty($identification_1_type) && !empty($identification_1_number))) {
-            $errors[] = "Row $row_number | 10-069: FIELDS 'IDENTIFICATION 1 TYPE' AND 'IDENTIFICATION 1 NUMBER' " .
+            $errors[] = "$provider_subj_no | Row $row_number | 10-069: FIELDS 'IDENTIFICATION 1 TYPE' AND 'IDENTIFICATION 1 NUMBER' " .
                         "MUST EITHER BOTH BE EMPTY OR FILLED IN";
         }
         if ($identification_1_type === '10' 
@@ -85,20 +85,20 @@ class IdentificationValidator {
                 || strlen($identification_1_number) > 12 
                 || !ctype_digit((string) $identification_1_number)))
             ) {
-            $errors[] = "Row $row_number | 20-050: IF FIELD 'IDENTIFICATION 1 TYPE' IS 'TIN', " . 
+            $errors[] = "$provider_subj_no | Row $row_number | 20-050: IF FIELD 'IDENTIFICATION 1 TYPE' IS 'TIN', " . 
                     "THE 'IDENTIFICATION 1 NUMBER' LENGTH MUST HAVE A LENGTH >= 9 AND <= 12, AND ONLY NUMBERS ARE ALLOWED";
         }
 
         if (!empty($identification_2_type) 
             && !array_key_exists($identification_2_type, self::IDENTIFICATION_TYPE_DOMAIN)) {
-            $errors[] = "Row $row_number | 10-009: FIELD 'IDENTIFICATION 2 TYPE' IS NOT CORRECT" ;
+            $errors[] = "$provider_subj_no | Row $row_number | 10-009: FIELD 'IDENTIFICATION 2 TYPE' IS NOT CORRECT" ;
         }
         if (strlen($identification_2_number) > 20) {
-            $errors[] = "Row $row_number | 10-043: FIELD 'IDENTIFICATION 2 NUMBER' LENGTH IS NOT CORRECT" ;
+            $errors[] = "$provider_subj_no | Row $row_number | 10-043: FIELD 'IDENTIFICATION 2 NUMBER' LENGTH IS NOT CORRECT" ;
         }
         if ((!empty($identification_2_type) && empty($identification_2_number)) 
             || (empty($identification_2_type) && !empty($identification_2_number))) {
-            $errors[] = "Row $row_number | 10-069: FIELDS 'IDENTIFICATION 2 TYPE' AND 'IDENTIFICATION 2 NUMBER' " .
+            $errors[] = "$provider_subj_no | Row $row_number | 10-069: FIELDS 'IDENTIFICATION 2 TYPE' AND 'IDENTIFICATION 2 NUMBER' " .
                         "MUST EITHER BOTH BE EMPTY OR FILLED IN";
         }
         if ($identification_2_type === '10' 
@@ -107,19 +107,19 @@ class IdentificationValidator {
                 || strlen($identification_2_number) > 12 
                 || !ctype_digit((string) $identification_2_number)))
             ) {
-            $errors[] = "Row $row_number | 20-050: IF FIELD 'IDENTIFICATION 2 TYPE' IS 'TIN', " .
+            $errors[] = "$provider_subj_no | Row $row_number | 20-050: IF FIELD 'IDENTIFICATION 2 TYPE' IS 'TIN', " .
                     "THE 'IDENTIFICATION 2 NUMBER' LENGTH MUST HAVE A LENGTH >= 9 AND <= 12, AND ONLY NUMBERS ARE ALLOWED";
         }
         
         if ($record_type === 'ID') {
             if ((!in_array($identification_1_type, ['10', '11', '12'])) && 
                 (!in_array($identification_2_type, ['10', '11', '12']))) {
-                $errors[] = "Row $row_number | 20-102: AT LEAST ONE BETWEEN ALL FIELDS 'IDENTIFICATION TYPE' SHOULD HAVE " . 
+                $errors[] = "$provider_subj_no | Row $row_number | 20-102: AT LEAST ONE BETWEEN ALL FIELDS 'IDENTIFICATION TYPE' SHOULD HAVE " . 
                             "'TIN', 'SSS', OR 'GSIS' DOMAIN-VALUE";
             }
             if ($identification_1_type === '11' && 
             (strlen($identification_1_number) !== 10 || !ctype_digit((string) $identification_1_number))) {
-            $errors[] = "Row $row_number | 20-051: IF FIELD 'IDENTIFICATION 1 TYPE' IS 'SSS', " . 
+            $errors[] = "$provider_subj_no | Row $row_number | 20-051: IF FIELD 'IDENTIFICATION 1 TYPE' IS 'SSS', " . 
                     "THE 'IDENTIFICATION 1 NUMBER' LENGTH MUST HAVE A LENGTH = 10, AND ONLY NUMBERS ARE ALLOWED";
             }
             if ($identification_1_type === '12' 
@@ -127,12 +127,12 @@ class IdentificationValidator {
                     || strlen($identification_1_number) !== 11 
                     || !ctype_digit((string) $identification_1_number))
                 ) {
-                $errors[] = "Row $row_number | 20-052: IF FIELD 'IDENTIFICATION 1 TYPE' IS 'GSIS', " . 
+                $errors[] = "$provider_subj_no | Row $row_number | 20-052: IF FIELD 'IDENTIFICATION 1 TYPE' IS 'GSIS', " . 
                         "THE 'IDENTIFICATION 1 NUMBER' LENGTH MUST HAVE A LENGTH = 10 OR 11, AND ONLY NUMBERS ARE ALLOWED";
             }
             if ($identification_2_type === '11' && 
             (strlen($identification_2_number) !== 10 || !ctype_digit((string) $identification_2_number))) {
-            $errors[] = "Row $row_number | 20-051: IF FIELD 'IDENTIFICATION 2 TYPE' IS 'SSS', " . 
+            $errors[] = "$provider_subj_no | Row $row_number | 20-051: IF FIELD 'IDENTIFICATION 2 TYPE' IS 'SSS', " . 
                     "THE 'IDENTIFICATION 2 NUMBER' LENGTH MUST HAVE A LENGTH = 10, AND ONLY NUMBERS ARE ALLOWED";
             }
             if ($identification_2_type === '12' 
@@ -140,72 +140,72 @@ class IdentificationValidator {
                 || strlen($identification_2_number) !== 11 
                 || !ctype_digit((string) $identification_2_number))
             ) {
-            $errors[] = "Row $row_number | 20-052: IF FIELD 'IDENTIFICATION 2 TYPE' IS 'GSIS', " . 
+            $errors[] = "$provider_subj_no | Row $row_number | 20-052: IF FIELD 'IDENTIFICATION 2 TYPE' IS 'GSIS', " . 
                     "THE 'IDENTIFICATION 2 NUMBER' LENGTH MUST HAVE A LENGTH = 10 OR 11, AND ONLY NUMBERS ARE ALLOWED";
             }
         }
         else if ($record_type === 'BD') {
             if ($identification_1_type !== '10' && $identification_2_type !== '10') {
-                $errors[] = "Row $row_number | 20-102: AT LEAST ONE BETWEEN ALL FIELDS 'IDENTIFICATION TYPE' " . 
+                $errors[] = "$provider_subj_no | Row $row_number | 20-102: AT LEAST ONE BETWEEN ALL FIELDS 'IDENTIFICATION TYPE' " . 
                             "SHOULD HAVE 'TIN' DOMAIN-VALUE";
             }
         }
 
         if (!empty($identification_1_type) && ($identification_1_type === $identification_2_type)) {
-            $errors[] = "Row $row_number | 10-067: MORE THAN ONE 'IDENTIFICATION TYPE' WITH THE SAME VALUE ARE NOT ALLOWED";
+            $errors[] = "$provider_subj_no | Row $row_number | 10-067: MORE THAN ONE 'IDENTIFICATION TYPE' WITH THE SAME VALUE ARE NOT ALLOWED";
         }
 
         if (!empty($id_1_type) && !array_key_exists($id_1_type, self::ID_TYPE_DOMAIN)) {
-            $errors[] = "Row $row_number | FIELD 'ID 1 TYPE' IS NOT CORRECT";
+            $errors[] = "$provider_subj_no | Row $row_number | FIELD 'ID 1 TYPE' IS NOT CORRECT";
         }
         if (!empty($id_2_type) && !array_key_exists($id_2_type, self::ID_TYPE_DOMAIN)) {
-            $errors[] = "Row $row_number | FIELD 'ID 2 TYPE' IS NOT CORRECT";
+            $errors[] = "$provider_subj_no | Row $row_number | FIELD 'ID 2 TYPE' IS NOT CORRECT";
         }
 
         if ((!empty($id_1_type) && empty($id_1_number)) || (empty($id_1_type) && !empty($id_1_number))) {
-            $errors[] = "Row $row_number | FIELDS 'ID 1 TYPE' AND 'ID 1 NUMBER' MUST EITHER BOTH BE EMPTY OR FILLED IN";
+            $errors[] = "$provider_subj_no | Row $row_number | FIELDS 'ID 1 TYPE' AND 'ID 1 NUMBER' MUST EITHER BOTH BE EMPTY OR FILLED IN";
         }
         if ((!empty($id_2_type) && empty($id_2_number)) || (empty($id_2_type) && !empty($id_2_number))) {
-            $errors[] = "Row $row_number | FIELDS 'ID 2 TYPE' AND 'ID 2 NUMBER' MUST EITHER BOTH BE EMPTY OR FILLED IN";
+            $errors[] = "$provider_subj_no | Row $row_number | FIELDS 'ID 2 TYPE' AND 'ID 2 NUMBER' MUST EITHER BOTH BE EMPTY OR FILLED IN";
         }
 
         if (strlen($id_1_number) > 40) {
-            $errors[] = "Row $row_number | FIELD 'ID 1 NUMBER' LENGTH MUST HAVE A LENGTH <= 40";
+            $errors[] = "$provider_subj_no | Row $row_number | FIELD 'ID 1 NUMBER' LENGTH MUST HAVE A LENGTH <= 40";
         }
         if (strlen($id_2_number) > 40) {
-            $errors[] = "Row $row_number | FIELD 'ID 2 NUMBER' LENGTH MUST HAVE A LENGTH <= 40";
+            $errors[] = "$provider_subj_no | Row $row_number | FIELD 'ID 2 NUMBER' LENGTH MUST HAVE A LENGTH <= 40";
         }
 
         if (strlen($id_1_issuedby) > 250) {
-            $errors[] = "Row $row_number | FIELD 'ID 1 ISSUED BY' LENGTH MUST HAVE A LENGTH <= 250";
+            $errors[] = "$provider_subj_no | Row $row_number | FIELD 'ID 1 ISSUED BY' LENGTH MUST HAVE A LENGTH <= 250";
         }
         if (strlen($id_2_issuedby) > 250) {
-            $errors[] = "Row $row_number | FIELD 'ID 2 ISSUED BY' LENGTH MUST HAVE A LENGTH <= 250";
+            $errors[] = "$provider_subj_no | Row $row_number | FIELD 'ID 2 ISSUED BY' LENGTH MUST HAVE A LENGTH <= 250";
         }
 
         if (!empty($id_1_type) && ($id_1_type === $id_2_type)) {
-            $errors[] = "Row $row_number | 10-070: MORE THAN ONE 'ID TYPE' WITH THE SAME VALUE ARE NOT ALLOWED";
+            $errors[] = "$provider_subj_no | Row $row_number | 10-070: MORE THAN ONE 'ID TYPE' WITH THE SAME VALUE ARE NOT ALLOWED";
         }
 
         if (!empty($id_1_issuedate) && !self::isValidDate($id_1_issuedate)) {
-            $errors[] = "Row $row_number | 10-011: FIELD 'ID ISSUE DATE' IS NOT CORRECT";
+            $errors[] = "$provider_subj_no | Row $row_number | 10-011: FIELD 'ID ISSUE DATE' IS NOT CORRECT";
         }
         if (!empty($id_2_issuedate) && !self::isValidDate($id_2_issuedate)) {
-            $errors[] = "Row $row_number | 10-011: FIELD 'ID ISSUE DATE' IS NOT CORRECT";
+            $errors[] = "$provider_subj_no | Row $row_number | 10-011: FIELD 'ID ISSUE DATE' IS NOT CORRECT";
         }
 
         if (!empty($id_1_issuecountry) && !in_array($id_1_issuecountry, self::COUNTRY_DOMAIN)) {
-            $errors[] = "Row $row_number | 10-012: FIELD 'ID 1 ISSUE COUNTRY' IS NOT CORRECT";
+            $errors[] = "$provider_subj_no | Row $row_number | 10-012: FIELD 'ID 1 ISSUE COUNTRY' IS NOT CORRECT";
         }
         if (!empty($id_2_issuecountry) && !in_array($id_2_issuecountry, self::COUNTRY_DOMAIN)) {
-            $errors[] = "Row $row_number | 10-012: FIELD 'ID 2 ISSUE COUNTRY' IS NOT CORRECT";
+            $errors[] = "$provider_subj_no | Row $row_number | 10-012: FIELD 'ID 2 ISSUE COUNTRY' IS NOT CORRECT";
         }
         
         if (!empty($id_1_expirydate) && !self::isExpiryDateValid($id_1_expirydate)) {
-            $errors[] = "Row $row_number | 10-013: FIELD 'ID 1 EXPIRY DATE' IS NOT CORRECT";
+            $errors[] = "$provider_subj_no | Row $row_number | 10-013: FIELD 'ID 1 EXPIRY DATE' IS NOT CORRECT";
         }
         if (!empty($id_2_expirydate) && !self::isExpiryDateValid($id_2_expirydate)) {
-            $errors[] = "Row $row_number | 10-013: FIELD 'ID 2 EXPIRY DATE' IS NOT CORRECT";
+            $errors[] = "$provider_subj_no | Row $row_number | 10-013: FIELD 'ID 2 EXPIRY DATE' IS NOT CORRECT";
         }
     }
 }
