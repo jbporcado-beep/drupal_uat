@@ -1,0 +1,19 @@
+uuid: 9f41a3b1-4d90-434e-99fa-81fb87b989f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_uploader_name
+    - node.type.file_upload_history
+id: node.file_upload_history.field_uploader_name
+field_name: field_uploader_name
+entity_type: node
+bundle: file_upload_history
+label: 'Uploader Name'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

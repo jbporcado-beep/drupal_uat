@@ -68,6 +68,44 @@
     transition: opacity 0.5s ease-out, visibility 0s 0.5s; 
 }
 .error-summary-hidden {
-  opacity: 0 !important;
-  visibility: hidden;
+    opacity: 0 !important;
+    visibility: hidden;
+}
+.views-field-nothing {
+    display: flex;
+    align-items: center;
+}
+.views-field-field-file-name {
+    width: 30vw;
+}
+.views-field-field-data-uploaded {
+    width: 10vw;
+}
+
+.download-icon-container {
+    margin-left: 0.5vw;
+    flex: 0.5;
+    justify-self: flex-start;
+}
+
+.action-approve {
+    color: #305bab;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 0.5vw;
+    flex: 1;
+    justify-self: flex-start;
+}
+
+.action-reject {
+    color: #f14a55;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1;
+    margin-left: 0.5vw;
+}
+
+.file-upload-status {
+    font-weight: bold;
+    color: #999999;
 }

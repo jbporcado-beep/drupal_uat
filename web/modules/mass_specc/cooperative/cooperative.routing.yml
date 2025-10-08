@@ -27,9 +27,41 @@ cooperative.upload:
   defaults:
     _controller: '\Drupal\cooperative\Controller\UploadController::form'
   requirements:
-    _permission: "upload file"
+    _role: "uploader"
+
+admin.upload:
+  path: "/ms_admin/upload/form"
+  defaults:
+    _controller: '\Drupal\cooperative\Controller\UploadController::form'
+  requirements:
+    _role: "mass_specc_admin"
 
 cooperative.upload.history:
   path: "/cooperative/upload/history"
+  defaults:
+    _view: 'file_history.page_1'
   requirements:
-    _permission: "view file"
+    _role: "uploader+approver"
+
+admin.upload.history:
+  path: "/ms_admin/upload/history"
+  defaults:
+    _view: 'file_history.page_2'
+  requirements:
+    _role: "mass_specc_admin"
+
+cooperative.file_status_approve:
+  path: '/cooperative/file-status/approve/{node}'
+  defaults:
+    _controller: '\Drupal\cooperative\Controller\FileHistoryController::approve'
+    _title: 'Approve File'
+  requirements:
+    _role: "approver"
+
+cooperative.file_status_reject:
+  path: '/cooperative/file-status/reject/{node}'
+  defaults:
+    _controller: '\Drupal\cooperative\Controller\FileHistoryController::reject'
+    _title: 'Reject File'
+  requirements:
+    _role: "approver"

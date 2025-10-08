@@ -24,10 +24,6 @@ settings:
   depth: null
   expand_all_items: false
 visibility:
-  request_path:
-    id: request_path
-    negate: false
-    pages: "/dashboard/cooperative\r\n/cooperative/*"
   user_role:
     id: user_role
     negate: false
@@ -37,3 +33,7 @@ visibility:
       uploader: uploader
       approver: approver
       access: access
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/dashboard/cooperative\r\n/cooperative/*"

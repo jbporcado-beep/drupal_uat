@@ -1,0 +1,19 @@
+uuid: db74e99f-749b-412b-932f-5b92fc50ab72
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_date_uploaded
+    - node.type.file_upload_history
+id: node.file_upload_history.field_date_uploaded
+field_name: field_date_uploaded
+entity_type: node
+bundle: file_upload_history
+label: 'Date Uploaded'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

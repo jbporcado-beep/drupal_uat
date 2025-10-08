@@ -1,0 +1,29 @@
+uuid: dccb4810-c206-4c7c-b395-c54b0859ec9e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cooperative
+    - node.type.cooperative
+    - node.type.file_upload_history
+id: node.file_upload_history.field_cooperative
+field_name: field_cooperative
+entity_type: node
+bundle: file_upload_history
+label: Cooperative
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      cooperative: cooperative
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

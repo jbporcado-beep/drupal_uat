@@ -24,16 +24,15 @@ settings:
   depth: null
   expand_all_items: true
 visibility:
-  request_path:
-    id: request_path
-    negate: false
-    pages: "/cooperatives\r\n/cooperatives/*\r\n/users\r\n/users/*\r\n/dashboard/mass-specc"
   user_role:
     id: user_role
     negate: false
     context_mapping:
       user: '@user.current_user_context:current_user'
     roles:
-      authenticated: authenticated
       administrator: administrator
       mass_specc_admin: mass_specc_admin
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/cooperatives\r\n/cooperatives/*\r\n/ms_admin/upload/form\r\n/ms_admin/upload/history\r\n/users\r\n/users/*\r\n/dashboard/mass-specc"

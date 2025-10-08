@@ -1,0 +1,9 @@
+file-status-handler:
+  version: 1.0
+  js:
+    js/file_status_handler.js: {}
+  dependencies:
+    - core/drupal.ajax
+    - core/drupal
+    - core/once
+    - core/drupal.message
