@@ -70,6 +70,7 @@ module:
   user_dropdown: 0
   user_redirect: 0
   view_password: 0
+  views_core_entity_reference: 0
   views_ui: 0
   password_policy: 10
   views: 10

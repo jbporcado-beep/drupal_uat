@@ -1,19 +1,6 @@
 menus:
   -
     menu_name: coop-menu
-    title: 'Cooperative Branch File Upload'
-    parent: null
-    uri: 'internal:/cooperative/upload/form'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: 1
-    langcode: en
-    uuid: d2c6c943-441f-4e01-8342-7329335458fd
-    options: {  }
-  -
-    menu_name: coop-menu
     title: Dashboard
     parent: null
     uri: 'internal:/dashboard/cooperative'
@@ -24,19 +11,6 @@ menus:
     weight: 0
     langcode: en
     uuid: 88118cf0-04e7-4865-adbe-0aeb14004b27
-    options: {  }
-  -
-    menu_name: main
-    title: Upload
-    parent: null
-    uri: 'internal:/cooperative/upload/form'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: 0
-    langcode: en
-    uuid: 2393dea9-0e5f-4328-977e-b205325f9dd4
     options: {  }
   -
     menu_name: mass-specc-menu
@@ -53,19 +27,6 @@ menus:
     options: {  }
   -
     menu_name: coop-menu
-    title: 'File History'
-    parent: 'menu_link_content:d2c6c943-441f-4e01-8342-7329335458fd'
-    uri: 'internal:/cooperative/upload/history'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -49
-    langcode: en
-    uuid: de4d4320-221e-480c-a348-c3a646252cf5
-    options: {  }
-  -
-    menu_name: coop-menu
     title: 'File Upload'
     parent: 'menu_link_content:d2c6c943-441f-4e01-8342-7329335458fd'
     uri: 'internal:/cooperative/upload/form'
@@ -79,19 +40,6 @@ menus:
     options: {  }
   -
     menu_name: mass-specc-menu
-    title: 'Cooperative Branch File Upload'
-    parent: null
-    uri: 'internal:/cooperative/upload/form'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -49
-    langcode: en
-    uuid: a3c0249c-69f5-4f46-88b5-e85992f13993
-    options: {  }
-  -
-    menu_name: mass-specc-menu
     title: Dashboard
     parent: null
     uri: 'internal:/dashboard/mass-specc'
@@ -102,32 +50,6 @@ menus:
     weight: -50
     langcode: en
     uuid: 3c9d50fb-9353-4afe-9e9e-e7233304474a
-    options: {  }
-  -
-    menu_name: mass-specc-menu
-    title: 'File History'
-    parent: 'menu_link_content:a3c0249c-69f5-4f46-88b5-e85992f13993'
-    uri: 'internal:/cooperative/upload/history'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -49
-    langcode: en
-    uuid: 1ea30590-38c0-4609-b175-8e97b8a10974
-    options: {  }
-  -
-    menu_name: mass-specc-menu
-    title: 'File Upload'
-    parent: 'menu_link_content:a3c0249c-69f5-4f46-88b5-e85992f13993'
-    uri: 'internal:/cooperative/upload/form'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -50
-    langcode: en
-    uuid: 7abe550c-a472-4e3c-b11b-a86ac8cf755f
     options: {  }
   -
     menu_name: mass-specc-menu
@@ -154,4 +76,69 @@ menus:
     weight: -45
     langcode: en
     uuid: 9a354587-2e41-4e15-ab7d-40565f7555e9
+    options: {  }
+  -
+    menu_name: coop-menu
+    title: 'File History'
+    parent: 'menu_link_content:d2c6c943-441f-4e01-8342-7329335458fd'
+    uri: 'internal:/cooperative/upload/history'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: 0
+    langcode: en
+    uuid: 3ee5961e-059c-4da0-b716-f7bf1fcc6455
+    options: {  }
+  -
+    menu_name: coop-menu
+    title: 'Cooperative Branch File Upload'
+    parent: null
+    uri: 'internal:#'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: true
+    weight: 1
+    langcode: en
+    uuid: d2c6c943-441f-4e01-8342-7329335458fd
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'Cooperative Branch File Upload'
+    parent: null
+    uri: 'internal:#'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: true
+    weight: -49
+    langcode: en
+    uuid: a3c0249c-69f5-4f46-88b5-e85992f13993
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'File Upload'
+    parent: 'menu_link_content:a3c0249c-69f5-4f46-88b5-e85992f13993'
+    uri: 'internal:/ms_admin/upload/form'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -50
+    langcode: en
+    uuid: 7abe550c-a472-4e3c-b11b-a86ac8cf755f
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'File History'
+    parent: 'menu_link_content:a3c0249c-69f5-4f46-88b5-e85992f13993'
+    uri: 'internal:/ms_admin/upload/history'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: 0
+    langcode: en
+    uuid: a1791543-4914-4e1c-950b-f35a7c5ab2a0
     options: {  }

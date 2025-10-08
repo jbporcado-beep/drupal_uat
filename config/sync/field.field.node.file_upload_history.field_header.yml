@@ -1,0 +1,29 @@
+uuid: 4ef09e61-6441-4fbd-b9f3-4df8424ed0d3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_header
+    - node.type.file_upload_history
+    - node.type.header
+id: node.file_upload_history.field_header
+field_name: field_header
+entity_type: node
+bundle: file_upload_history
+label: Header
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      header: header
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -18,6 +18,7 @@ use Drupal\cooperative\Service\IndividualService;
 use Drupal\cooperative\Service\CompanyService;
 use Drupal\cooperative\Service\InstallmentContractService;
 use Drupal\cooperative\Service\NonInstallmentContractService;
+use Drupal\cooperative\Service\FileHistoryService;
 
 
 /**
@@ -49,6 +50,10 @@ class UploadForm extends FormBase {
    * @var \Drupal\cooperative\Service\NonInstallmentContractService
    */
   protected $nonInstallmentContractService;
+    /**
+   * @var \Drupal\cooperative\Service\FileHistoryService
+   */
+  protected $fileHistoryService;
 
   public function __construct(
     AccountProxyInterface $current_user, 
@@ -56,7 +61,8 @@ class UploadForm extends FormBase {
     IndividualService $individualService,
     CompanyService $companyService,
     InstallmentContractService $installmentContractService,
-    NonInstallmentContractService $nonInstallmentContractService
+    NonInstallmentContractService $nonInstallmentContractService,
+    FileHistoryService $fileHistoryService,
   ) {
     $this->currentUser = $current_user;
     $this->headerService = $headerService;
@@ -64,6 +70,7 @@ class UploadForm extends FormBase {
     $this->companyService = $companyService;
     $this->installmentContractService = $installmentContractService;
     $this->nonInstallmentContractService = $nonInstallmentContractService;
+    $this->fileHistoryService = $fileHistoryService;
   }
 
   public static function create($container) {
@@ -74,6 +81,7 @@ class UploadForm extends FormBase {
       $container->get('cooperative.company_service'),
       $container->get('cooperative.installment_contract_service'),
       $container->get('cooperative.non_installment_contract_service'),
+      $container->get('cooperative.file_history_service')
     );
   }
 
@@ -192,8 +200,7 @@ class UploadForm extends FormBase {
 
     $uid = \Drupal::currentUser()->id();
     $user = $uid > 0 ? User::load($uid) : NULL;
-    $is_uploader = $user->hasRole('uploader') && !$user->hasRole('administrator') && !$user->hasRole('mass-specc admin');
-    $form_state->set('is_uploader', $is_uploader);
+    $is_uploader = $user->hasRole('uploader') && !$user->hasRole('administrator') && !$user->hasRole('mass_specc_admin');
 
     $coop_options = $this->getCooperatives();
     $branch_options = $this->getBranches();
@@ -204,17 +211,20 @@ class UploadForm extends FormBase {
       $coop_entity = $user->get('field_cooperative')->referencedEntities();
       $coop = reset($coop_entity);
       $coop_options = [];
-      $coop_options[$coop->get('field_cic_provider_code')->value] = $coop->get('field_coop_name')->value;
+      if ($coop) {
+        $coop_options[$coop->get('field_cic_provider_code')->value] = $coop->get('field_coop_name')->value;
+        $coop_reports = $coop->get('field_assigned_report_templates')->referencedEntities();
+        $report_options = ["standard_credit_data" => "Standard Credit Data"];
+        foreach ($coop_reports as $report) {
+          $report_options[$report->id()] = $report->getTitle();
+        }
+      }
 
       $branch_entity = $user->get('field_branch')->referencedEntities();
       $branch = reset($branch_entity);
       $branch_options = [];
-      $branch_options[$branch->get('field_branch_code')->value] = $branch->get('field_branch_name')->value;
-
-      $coop_reports = $coop->get('field_assigned_report_templates')->referencedEntities();
-      $report_options = ["standard_credit_data" => "Standard Credit Data"];
-      foreach ($coop_reports as $report) {
-        $report_options[$report->id()] = $report->getTitle();
+      if ($branch) {
+        $branch_options[$branch->get('field_branch_code')->value] = $branch->get('field_branch_name')->value;
       }
     }
 
@@ -228,12 +238,14 @@ class UploadForm extends FormBase {
       '#options' => $coop_options,
       '#attributes' => ['class' => ['dropdown-item']],
       '#required' => TRUE,
+      '#disabled' => $is_uploader
     ];
     $form['layout']['dropdowns_wrapper']['branch_dropdown'] = [
       '#type' => 'select',
       '#title' => $this->t('Branch'),
       '#options' => $branch_options,
       '#attributes' => ['class' => ['dropdown-item']],
+      '#disabled' => $is_uploader
     ];
     $form['layout']['dropdowns_wrapper']['report_dropdown'] = [
       '#type' => 'select',
@@ -242,13 +254,12 @@ class UploadForm extends FormBase {
       '#options' => $report_options,
       '#attributes' => ['class' => ['dropdown-item']],
       '#required' => TRUE,
+      '#disabled' => TRUE
     ];
 
     if ($is_uploader) {
-      $form['layout']['dropdowns_wrapper']['coop_dropdown']['#disabled'] = true;
       $form['layout']['dropdowns_wrapper']['coop_dropdown']['#default_value'] = key($coop_options);
 
-      $form['layout']['dropdowns_wrapper']['branch_dropdown']['#disabled'] = true;
       $form['layout']['dropdowns_wrapper']['branch_dropdown']['#default_value'] = key($branch_options);
     }
     else  {
@@ -261,7 +272,7 @@ class UploadForm extends FormBase {
     $form['csv_file'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('CSV File'),
-      '#upload_location' => 'temporary://cooperative_uploads/',
+      '#upload_location' => 'public://branch-file-uploads/',
       '#upload_validators' => [
         'FileExtension' => ['extensions' => 'csv'],
         'FileSizeLimit' => ['fileLimit' => $max_filesize]
@@ -349,10 +360,11 @@ class UploadForm extends FormBase {
     $tempstore->delete('validation_errors'); 
     $tempstore->delete('current_file'); 
     $fids = $form_state->getValue('csv_file');
+    $coop_dropdown = $form_state->getValue('coop_dropdown');
+    $branch_dropdown = $form_state->getValue('branch_dropdown');
 
-    $trigger = $form_state->getTriggeringElement();
-    $clicked_value = $trigger['#value'];
-    $is_verify = ($clicked_value === 'Verify');
+    $current_user = \Drupal::currentUser();
+    $user_id = $current_user->id();
 
     if (empty($fids) || !is_array($fids)) {
       $this->messenger()->addError($this->t('No file uploaded.'));
@@ -394,7 +406,8 @@ class UploadForm extends FormBase {
     }
 
     // Stats and errors collection.
-    $row_number = 1; // Counting from 1 for header already read; data starts at 2.
+    $row_number = 1;
+    $row_with_header = [];
     $errors = [];
     $filename = $file->getFilename();
     $report_type = $form_state->getValue('report_dropdown');
@@ -427,9 +440,6 @@ class UploadForm extends FormBase {
           $provider_code  = trim((string) ($row_with_header['provider code'] ?? ''));
           $branch_code    = trim((string) ($row_with_header['branch code'] ?? ''));
           $reference_date = trim((string) ($row_with_header['reference date'] ?? ''));
-
-          $coop_dropdown = $form_state->getValue('coop_dropdown');
-          $branch_dropdown = $form_state->getValue('branch_dropdown');
 
           if (!empty($branch_code) && !$this->branchExists($branch_code)) {
             $errors[] = "Row $row_number | THE BRANCH WITH BRANCH CODE $branch_code DOESN'T EXIST";
@@ -467,7 +477,13 @@ class UploadForm extends FormBase {
 
       fclose($stream);
 
-      if (!empty($errors)) {
+      // Report results.
+      if (empty($errors)) {
+        unset($transaction);
+        $this->fileHistoryService->create($file, $row_with_header);
+        $this->messenger()->addStatus($this->t('File upload successful!'));
+      }
+      else {
         $transaction->rollBack();
         $tempstore->set('validation_errors', $errors);
         $tempstore->set('current_file', $file->getFilename());

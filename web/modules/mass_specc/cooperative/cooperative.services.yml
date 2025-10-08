@@ -9,6 +9,8 @@ services:
     class: 'Drupal\cooperative\Repository\InstallmentContractRepository'
   cooperative.non_installment_contract_repository:
     class: 'Drupal\cooperative\Repository\NonInstallmentContractRepository'
+  cooperative.file_history_repository:
+    class: 'Drupal\cooperative\Repository\FileHistoryRepository'
 
   cooperative.header_validator:
     class: 'Drupal\cooperative\Validation\HeaderValidator'
@@ -84,3 +86,9 @@ services:
       - '@cooperative.company_repository'
       - '@cooperative.non_installment_contract_repository'
       - '@cooperative.non_installment_contract_validator'
+
+  cooperative.file_history_service:
+    class: 'Drupal\cooperative\Service\FileHistoryService'
+    arguments:
+      - '@cooperative.file_history_repository'
+      - '@cooperative.header_repository'

@@ -1,0 +1,29 @@
+uuid: 46b70fed-3a32-4680-8562-0180d2c0d16e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_uploaded_by
+    - node.type.file_upload_history
+id: node.file_upload_history.field_uploaded_by
+field_name: field_uploaded_by
+entity_type: node
+bundle: file_upload_history
+label: 'Uploaded By'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: _none
+    include_anonymous: false
+field_type: entity_reference

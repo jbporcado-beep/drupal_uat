@@ -1,0 +1,96 @@
+<?php
+use Drupal\Core\Url;
+use Drupal\user\Entity\User;
+use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function cooperative_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+    if ($view->id() !== 'file_history') {
+        return;
+    }
+
+    $account = \Drupal::currentUser();
+    $user = User::load($account->id());
+
+    $user_coop_id = $user->get('field_cooperative')->target_id ?? NULL;
+    $user_branch_id = $user->get('field_branch')->target_id ?? NULL;
+
+    if ($account->hasRole('approver') && $user_coop_id) {
+        $query->addWhere(0, 'node__field_cooperative.field_cooperative_target_id', $user_coop_id, '=');
+    }
+    elseif ($account->hasRole('uploader') && $user_branch_id) {
+        $query->addWhere(0, 'node__field_branch.field_branch_target_id', $user_branch_id, '=');
+    }
+}
+
+/**
+ * Implements hook_preprocess_views_view_field().
+ */
+function cooperative_preprocess_views_view_field(array &$variables) {
+    $target_view_id = 'file_history';
+    $target_field_id = 'nothing'; 
+
+    $view_id = $variables['view']->id();
+    $field_id = $variables['field']->options['id'];
+
+    if ($view_id === $target_view_id && $field_id === $target_field_id) {
+        $variables['#attached']['library'][] = 'mass_specc_bootstrap_sass/file-upload-styles';
+        $variables['#attached']['library'][] = 'cooperative/file-status-handler';
+
+        $account = \Drupal::currentUser(); 
+        $roles = $account->getRoles();
+
+        $entity = $variables['row']->_entity;
+        if (empty($entity) || $entity->bundle() !== 'file_upload_history') {
+            return;
+        }
+        $node_id = $entity->id();
+
+        $file_handler = $variables['view']->field['field_file'];
+        $file_url = (string) $file_handler->last_render; 
+        $safe_file_url = \Drupal\Component\Utility\Html::escape($file_url);
+        
+        if (empty($file_url)) {
+            $file_url = '#'; 
+        }
+
+        $html = '<div class="download-icon-container">';
+        $html .= '<a href="' . $safe_file_url . '" download>';
+        $html .= '<i class="fas fa-download"></i>';
+        $html .= '</a>';
+        $html .= '</div>';
+
+        $status_value = $entity->get('field_status')->value ?? 'Unknown';
+        if (in_array('approver', $roles) && $status_value === 'Pending') {
+            $approve_url = Url::fromRoute('cooperative.file_status_approve', ['node' => $node_id])->toString();
+            $reject_url = Url::fromRoute('cooperative.file_status_reject', ['node' => $node_id])->toString();
+
+            $html .= '<div class="file-actions">';
+            $html .= '<a href="#" class="file-action-link action-approve" 
+                            data-action="approve" 
+                            data-node-id="' . $node_id . '" 
+                            data-action-url="' . $approve_url . '">
+                        Approve
+                        </a>';
+
+            $html .= '<a href="#" class="file-action-link action-reject" 
+                            data-action="reject" 
+                            data-node-id="' . $node_id . '" 
+                            data-action-url="' . $reject_url . '">
+                        Reject
+                        </a>';
+            $html .= '</div>';
+        }
+        if (in_array('approver', $roles) && $status_value !== 'Pending') {
+            $html .= '<span class="file-upload-status">' . htmlspecialchars($status_value) . '</span>';
+        }
+
+        $variables['output'] = [
+            '#markup' => $html,
+        ];
+    }
+}
+?>
