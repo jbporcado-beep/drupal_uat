@@ -73,7 +73,7 @@ class UploadForm extends FormBase {
     $this->fileHistoryService = $fileHistoryService;
   }
 
-  public static function create($container) {
+  public static function create(ContainerInterface $container) {
     return new static(
       $container->get('current_user'),
       $container->get('cooperative.header_service'),
@@ -91,8 +91,21 @@ class UploadForm extends FormBase {
     $query = \Drupal::entityQuery('node')
       ->condition('type', 'branch')
       ->condition($field_name, $branch_code)
-      ->accessCheck(TRUE) // Check user permission
-      ->range(0, 1); // Stop after finding one result
+      ->accessCheck(TRUE)
+      ->range(0, 1);
+
+    $result = $query->execute();
+
+    return !empty($result);
+  }
+
+  private function doesBranchBelongToCoop(string $branch_code, string $provider_code): bool {
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'branch')
+      ->condition('field_branch_code', $branch_code)
+      ->condition('field_branch_coop.entity.field_cic_provider_code', $provider_code)
+      ->accessCheck(TRUE)
+      ->range(0, 1);
 
     $result = $query->execute();
 
@@ -366,6 +379,10 @@ class UploadForm extends FormBase {
     $current_user = \Drupal::currentUser();
     $user_id = $current_user->id();
 
+    $trigger = $form_state->getTriggeringElement();                                                                         
+    $clicked_value = $trigger['#value'];                                                                              
+    $is_verify = ($clicked_value === 'Verify');
+
     if (empty($fids) || !is_array($fids)) {
       $this->messenger()->addError($this->t('No file uploaded.'));
       return;
@@ -422,6 +439,11 @@ class UploadForm extends FormBase {
         return;
       }
 
+      if (!empty($branch_dropdown) && !$this->doesBranchBelongToCoop($branch_dropdown, $coop_dropdown)) {
+        $errors[] = "SELECTED BRANCH DOES NOT BELONG TO THE SELECTED COOPERATIVE";
+      }
+
+
       $connection = \Drupal::database();
       $transaction = $connection->startTransaction();
       
@@ -477,13 +499,7 @@ class UploadForm extends FormBase {
 
       fclose($stream);
 
-      // Report results.
-      if (empty($errors)) {
-        unset($transaction);
-        $this->fileHistoryService->create($file, $row_with_header);
-        $this->messenger()->addStatus($this->t('File upload successful!'));
-      }
-      else {
+      if (!empty($errors)) {
         $transaction->rollBack();
         $tempstore->set('validation_errors', $errors);
         $tempstore->set('current_file', $file->getFilename());
@@ -496,10 +512,9 @@ class UploadForm extends FormBase {
       }
       else {
         unset($transaction);
+        $this->fileHistoryService->create($file, $row_with_header);
         $this->messenger()->addStatus($this->t('File upload successful!'));
       }
-
-
     }
   }
 }

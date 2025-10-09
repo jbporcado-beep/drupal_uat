@@ -23,7 +23,7 @@ class NonInstallmentContractValidator {
     const CONTRACT_PHASE_DOMAIN = DomainLists::CONTRACT_PHASE_DOMAIN;
     const PAYMENT_PERIODICITY_DOMAIN = DomainLists::PAYMENT_PERIODICITY_DOMAIN;
     const OVERDUE_DAYS_DOMAIN = DomainLists::OVERDUE_DAYS_DOMAIN;
-    const CI_CONTRACT_TYPE_DOMAIN = DomainLists::CI_CONTRACT_TYPE_DOMAIN;
+    const CN_CONTRACT_TYPE_DOMAIN = DomainLists::CN_CONTRACT_TYPE_DOMAIN;
     const TRANSACTION_TYPE_DOMAIN = DomainLists::TRANSACTION_TYPE_DOMAIN;
     const CURRENCY_DOMAIN = DomainLists::CURRENCY_DOMAIN;
 
@@ -107,9 +107,20 @@ class NonInstallmentContractValidator {
             $errors[] = "$provider_contract_no | Row $row_number | 10-307: CONTRACT IS NOT VALID BECAUSE AT LEAST ONE OF ITS LINKED SUBJECT DOESN'T EXIST";
         }
 
+        if (empty($provider_contract_no)) {
+            $errors[] = "Row $row_number | FIELD 'PROVIDER CONTRACT NUMBER' IS MANDATORY";
+        }
+
         if (!empty($db_file_reference_date) && $db_file_reference_date === $file_reference_date) {
             $errors[] = "$provider_contract_no | Row $row_number | 20-310: MORE THAN ONE CONTRACT WITH THE SAME PROVIDER CONTRACT NUMBER " . 
             "AND REFERENCE DATE IS PRESENT";
+        }
+
+        if (strlen($credit_limit) === 0) {
+            $errors[] = "$provider_contract_no | Row $row_number | FIELD 'CREDIT LIMIT' IS MANDATORY";
+        }
+        if (!ctype_digit($credit_limit) || (int) $credit_limit <= 0 || strlen($credit_limit) > 15) {
+            $errors[] = "$provider_contract_no | Row $row_number | FIELD 'CREDIT LIMIT' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
 
         if (!empty($db_file_reference_date) && self::isDateGreaterThan($db_file_reference_date, $file_reference_date)) {
@@ -130,10 +141,10 @@ class NonInstallmentContractValidator {
             $errors[] = "$provider_contract_no | Row $row_number | FIELD 'CONTRACT PHASE' IS NOT CORRECT";
         }
 
-        if (empty($contract_type)) {
+        if (strlen($contract_type) === 0) {
             $errors[] = "$provider_contract_no | Row $row_number | FIELD 'CONTRACT TYPE' IS MANDATORY";
         }
-        if (!empty($contract_type) && !array_key_exists($contract_type, self::CI_CONTRACT_TYPE_DOMAIN)) {
+        if (strlen($contract_type) !== 0 && !array_key_exists($contract_type, self::CN_CONTRACT_TYPE_DOMAIN)) {
             $errors[] = "$provider_contract_no | Row $row_number | FIELD 'CONTRACT TYPE' IS NOT CORRECT";
         }
 
@@ -161,7 +172,7 @@ class NonInstallmentContractValidator {
             $errors[] = "$provider_contract_no | Row $row_number | 10-158: FIELD 'CONTRACT END ACTUAL DATE' IS NOT CORRECT";
         }
 
-        if (!ctype_digit($outstanding_balance) || strlen($outstanding_balance) > 15) {
+        if (!empty($outstanding_balance) && (!ctype_digit($outstanding_balance) || strlen($outstanding_balance) > 15)) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-169: FIELD 'OUTSTANDING BALANCE' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
         if (in_array($contract_phase, ['CL', 'CA']) && !empty($outstanding_balance)) {

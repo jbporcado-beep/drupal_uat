@@ -5,12 +5,16 @@ namespace Drupal\cooperative\Validation;
 use Drupal\node\Entity\Node;
 use Drupal\cooperative\Dto\CompanyDto;
 use Drupal\cooperative\Repository\CompanyRepository;
+use Drupal\cooperative\Repository\IndividualRepository;
+
 
 class CompanyValidator {
     private CompanyRepository $companyRepository;
+    private IndividualRepository $individualRepository;
 
-    public function __construct(CompanyRepository $companyRepository) {
+    public function __construct(CompanyRepository $companyRepository, IndividualRepository $individualRepository) {
         $this->companyRepository = $companyRepository;
+        $this->individualRepository = $individualRepository;
     }
 
     public function validate(CompanyDto $companyDto, array &$errors, int $row_number): void {
@@ -20,10 +24,12 @@ class CompanyValidator {
         $trade_name       = $companyDto->tradeName;
 
         $found_company = $this->companyRepository->findByMandatoryFields($companyDto);
-        $is_provider_subj_no_taken = $this->companyRepository
+        $is_company_provider_subj_no_taken = $this->companyRepository
+            ->isProviderSubjNoTakenInCoopOrBranch($provider_code, $provider_subj_no, $branch_code);
+        $is_indiv_provider_subj_no_taken = $this->individualRepository
             ->isProviderSubjNoTakenInCoopOrBranch($provider_code, $provider_subj_no, $branch_code);
 
-        if ($is_provider_subj_no_taken && $found_company === null) {
+        if (($is_company_provider_subj_no_taken || $is_indiv_provider_subj_no_taken) && $found_company === null) {
             $errors[] = "$provider_subj_no | Row $row_number | 10-090: THE SAME 'PROVIDER SUBJECT NO' IS ALREADY ASSIGNED TO ANOTHER SUBJECT";
         }
 

@@ -18,10 +18,12 @@ services:
     class: 'Drupal\cooperative\Validation\IndividualValidator'
     arguments:
       - '@cooperative.individual_repository'
+      - '@cooperative.company_repository'
   cooperative.company_validator:
     class: 'Drupal\cooperative\Validation\CompanyValidator'
     arguments:
       - '@cooperative.company_repository'
+      - '@cooperative.individual_repository'
   cooperative.installment_contract_validator:
     class: 'Drupal\cooperative\Validation\InstallmentContractValidator'
     arguments:

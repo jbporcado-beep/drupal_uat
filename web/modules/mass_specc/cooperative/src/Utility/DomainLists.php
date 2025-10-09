@@ -318,6 +318,20 @@ class DomainLists {
         '29' => 'Time Loan',
         '60' => 'Student Loan',
     ];
+    public const CN_CONTRACT_TYPE_DOMAIN = [
+        '40' => 'L/C',
+        '41' => 'Export Bills Purchased',
+        '42' => 'Omnibus Line',
+        '43' => 'Commercial Paper Purchased',
+        '44' => 'InterBank Call Loan',
+        '45' => 'Money Market',
+        '46' => 'SWAP Loan',
+        '47' => 'Domestic Bills Purchased - Case to Case',
+        '48' => 'Demand Loan - Case to Case',
+        '49' => 'Foreign Bills Purchased - Case to Case',
+        '50' => 'Policy Loan',
+        '70' => 'Credit Line'
+    ];
     public const TRANSACTION_TYPE_DOMAIN = [
         'NA' => 'NOT APPLICABLE',
         'AL' => 'AGRICULTURAL LOAN',

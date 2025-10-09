@@ -6,13 +6,16 @@ use Drupal\node\Entity\Node;
 use Drupal\cooperative\Utility\DomainLists;
 use Drupal\cooperative\Dto\IndividualDto;
 use Drupal\cooperative\Repository\IndividualRepository;
+use Drupal\cooperative\Repository\CompanyRepository;
 
 
 class IndividualValidator {
     private IndividualRepository $individualRepository;
+    private CompanyRepository $companyRepository;
 
-    public function __construct(IndividualRepository $individualRepository) {
+    public function __construct(IndividualRepository $individualRepository, CompanyRepository $companyRepository) {
         $this->individualRepository = $individualRepository;
+        $this->companyRepository = $companyRepository;
     }
 
     const COUNTRY_DOMAIN = DomainLists::COUNTRY_DOMAIN;
@@ -85,15 +88,17 @@ class IndividualValidator {
         $cars_owned             = $individualDto->carsOwned;
 
         $found_individual = $this->individualRepository->findByMandatoryFields($individualDto);
-        $is_provider_subj_no_taken = $this->individualRepository
+        $is_indiv_provider_subj_no_taken = $this->individualRepository
+            ->isProviderSubjNoTakenInCoopOrBranch($provider_code, $provider_subj_no, $branch_code);
+        $is_company_provider_subj_no_taken = $this->companyRepository
             ->isProviderSubjNoTakenInCoopOrBranch($provider_code, $provider_subj_no, $branch_code);
 
-        if ($is_provider_subj_no_taken && $found_individual === null) {
+        if (($is_indiv_provider_subj_no_taken || $is_company_provider_subj_no_taken) && $found_individual === null) {
             $errors[] = "$provider_subj_no | Row $row_number | 10-090: THE SAME 'PROVIDER SUBJECT NO' IS ALREADY ASSIGNED TO ANOTHER SUBJECT";
         }
 
         if (empty($provider_subj_no)) {
-            $errors[] = "$provider_subj_no | Row $row_number | FIELD 'PROVIDER SUBJECT NO' IS MANDATORY";
+            $errors[] = "Row $row_number | FIELD 'PROVIDER SUBJECT NO' IS MANDATORY";
         }
         if (strlen($provider_subj_no) > 38) {
             $errors[] = "$provider_subj_no | Row $row_number | FIELD 'PROVIDER SUBJECT NO' LENGTH MUST HAVE A LENGTH <= 38";

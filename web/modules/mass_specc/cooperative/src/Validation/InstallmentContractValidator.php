@@ -117,6 +117,10 @@ class InstallmentContractValidator {
             $errors[] = "$provider_contract_no | Row $row_number | 10-307: CONTRACT IS NOT VALID BECAUSE AT LEAST ONE OF ITS LINKED SUBJECT DOESN'T EXIST";
         }
 
+        if (empty($provider_contract_no)) {
+            $errors[] = "Row $row_number | FIELD 'PROVIDER CONTRACT NUMBER' IS MANDATORY";
+        }
+
         if (!empty($db_file_reference_date) && $db_file_reference_date === $file_reference_date) {
             $errors[] = "$provider_contract_no | Row $row_number | 20-310: MORE THAN ONE CONTRACT WITH THE SAME PROVIDER CONTRACT NUMBER " . 
             "AND REFERENCE DATE IS PRESENT";
@@ -140,10 +144,10 @@ class InstallmentContractValidator {
             $errors[] = "$provider_contract_no | Row $row_number | FIELD 'CONTRACT PHASE' IS NOT CORRECT";
         }
 
-        if (empty($contract_type)) {
+        if (strlen($contract_type) === 0) {
             $errors[] = "$provider_contract_no | Row $row_number | FIELD 'CONTRACT TYPE' IS MANDATORY";
         }
-        if (!empty($contract_type) && !array_key_exists($contract_type, self::CI_CONTRACT_TYPE_DOMAIN)) {
+        if (strlen($contract_type) !== 0 && !array_key_exists($contract_type, self::CI_CONTRACT_TYPE_DOMAIN)) {
             $errors[] = "$provider_contract_no | Row $row_number | FIELD 'CONTRACT TYPE' IS NOT CORRECT";
         }
 
@@ -168,7 +172,8 @@ class InstallmentContractValidator {
             $errors[] = "$provider_contract_no | Row $row_number | 10-058: FIELD 'FINANCED AMOUNT' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
 
-        if (!ctype_digit($monthly_payment_amount) || (int) $monthly_payment_amount <= 0 || strlen($monthly_payment_amount) > 15) {
+        if (!empty($monthly_payment_amount) && 
+            (!ctype_digit($monthly_payment_amount) || (int) $monthly_payment_amount <= 0 || strlen($monthly_payment_amount) > 15)) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-060: FIELD 'MONTHLY PAYMENT AMOUNT' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
         if (in_array($contract_phase, ['AC', 'CL', 'CA']) && (empty($monthly_payment_amount) || (int) $monthly_payment_amount === 0)) {
@@ -218,7 +223,7 @@ class InstallmentContractValidator {
             $errors[] = "$provider_contract_no | Row $row_number | 'CONTRACT PHASE' IN (CL,CA) AND 'OUTSTANDING PAYMENTS NUMBER' IS NOT EMPTY";
         }
 
-        if (!ctype_digit($outstanding_balance) || strlen($outstanding_balance) > 15) {
+        if (!empty($outstanding_balance) && (!ctype_digit($outstanding_balance) || strlen($outstanding_balance) > 15)) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-169: FIELD 'OUTSTANDING BALANCE' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
         if (in_array($contract_phase, ['CL', 'CA']) && !empty($outstanding_balance)) {
@@ -231,11 +236,14 @@ class InstallmentContractValidator {
             "MUST EITHER BOTH BE EMPTY OR FILLED IN";
         }
 
-        if (!ctype_digit($overdue_payments_number) || strlen($overdue_payments_number) > 15) {
+        if (!empty($overdue_payments_amount) && (!ctype_digit($overdue_payments_amount) || strlen($overdue_payments_amount) > 15)) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-171: FIELD 'OVERDUE PAYMENTS AMOUNT' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
         if (in_array($contract_phase, ['RQ', 'RN', 'RF']) && !empty($overdue_payments_number)) {
             $errors[] = "$provider_contract_no | Row $row_number | 'CONTRACT PHASE' IN (RE,RN,RQ) AND 'OVERDUE PAYMENTS NUMBER' IS NOT EMPTY";
+        }
+        if (in_array($contract_phase, ['RQ', 'RN', 'RF']) && !empty($overdue_payments_amount)) {
+            $errors[] = "$provider_contract_no | Row $row_number | 'CONTRACT PHASE' IN (RE,RN,RQ) AND 'OVERDUE PAYMENTS AMOUNT' IS NOT EMPTY";
         }
 
         if (!empty($overdue_payments_number) && empty($overdue_payments_amount) ||
@@ -320,6 +328,9 @@ class InstallmentContractValidator {
         if (in_array($contract_phase, ['AC', 'CL', 'CA']) && strlen($last_payment_amount) === 0) {
             $errors[] = "$provider_contract_no | Row $row_number | 20-089: IF 'CONTRACT PHASE' IN (AC,CL,CA), 'LAST PAYMENT AMOUNT' IS MANDATORY";
         }
+        if ((int) $last_payment_amount < 0) {
+            $errors[] = "$provider_contract_no | Row $row_number | 20-201: FIELD 'LAST PAYMENT AMOUNT' CAN'T HAVE A NEGATIVE VALUE";
+        }
 
         if (empty($currency)) {
             $errors[] = "$provider_contract_no | Row $row_number | FIELD 'CURRENCY' IS MANDATORY";
@@ -333,10 +344,6 @@ class InstallmentContractValidator {
         }
         if (!empty($original_currency) && !in_array($original_currency, self::CURRENCY_DOMAIN)) {
             $errors[] = "$provider_contract_no | Row $row_number | FIELD 'ORIGINAL CURRENCY' IS NOT CORRECT";
-        }
-
-        if ((int) $last_payment_amount < 0) {
-            $errors[] = "$provider_contract_no | Row $row_number | 20-201: FIELD 'LAST PAYMENT AMOUNT' CAN'T HAVE A NEGATIVE VALUE";
         }
 
         if ((int) $outstanding_balance < 0) {

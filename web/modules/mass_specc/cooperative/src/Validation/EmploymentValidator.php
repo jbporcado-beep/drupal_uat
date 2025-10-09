@@ -25,7 +25,7 @@ class EmploymentValidator {
             $errors[] = "$provider_subj_no | Row $row_number | 20-045: FIELD 'PSIC' IS NOT CORRECT"; 
         }
 
-        if (!empty($employment_occupation_status) && ($employment_occupation_status < 1 || $employment_occupation_status > 9)) {
+        if (strlen($employment_occupation_status) !== 0 && ($employment_occupation_status < 1 || $employment_occupation_status > 9)) {
             $errors[] = "$provider_subj_no | Row $row_number | FIELD 'EMPLOYMENT OCCUPATION STATUS' IS NOT CORRECT"; 
         }
 
