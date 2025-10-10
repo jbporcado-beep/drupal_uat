@@ -13,7 +13,7 @@ build:drupal:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
   services:
     - docker:24.0.7-dind
-  before_script:
-    - echo ${CI_REGISTRY_PASSWORD} | docker login --username ${CI_REGISTRY_USER} --password-stdin ${CI_REGISTRY}
+  # before_script:
+  #   - echo ${CI_REGISTRY_PASSWORD} | docker login --username ${CI_REGISTRY_USER} --password-stdin ${CI_REGISTRY}
   script:
     - docker buildx build --platform linux/amd64 --provenance=false -t ${IMAGE_TAG} .
