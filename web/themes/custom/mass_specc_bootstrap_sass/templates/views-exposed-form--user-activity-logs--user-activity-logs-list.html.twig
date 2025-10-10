@@ -1,0 +1,23 @@
+{#
+/**
+ * @file
+ * Theme override for a views exposed form.
+ *
+ * Available variables:
+ * - form: A render element representing the form.
+ *
+ * @see template_preprocess_views_exposed_form()
+ */
+#}
+{{ attach_library('mass_specc_bootstrap_sass/views-styling') }}
+{% if q is not empty %}
+  {{ q }}
+{% endif %}
+<div class="views-exposed-form views-exposed-form--split">
+  <div class="views-exposed-form__filters">
+    {{ form }}
+  </div>
+  <div class="views-exposed-form__actions">
+    <a href="#" class="btn button button--primary ms-2 disabled">Download</a>
+  </div>
+</div>

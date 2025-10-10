@@ -77,3 +77,166 @@ function mask_username($username) {
   }
   return $username;
 }
+
+
+/**
+ * Implements hook_views_data().
+ */
+function admin_views_data() {
+  $data = [];
+  
+  $data['user_activity_log']['table'] = [
+    'group' => t('User Activity Logs'),
+    'base' => [
+      'field' => 'id',
+      'title' => t('User Activity Log'),
+      'help' => t('Stores user activity logs.'),
+      'weight' => 0,
+    ],
+  ];
+  
+  $data['user_activity_log']['id'] = [
+    'title' => t('ID'),
+    'help' => t('Primary key'),
+    'field' => [
+      'id' => 'numeric',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ],
+    'filter' => [
+      'id' => 'numeric',
+    ],
+    'argument' => [
+      'id' => 'numeric',
+    ],
+  ];
+  
+  $data['user_activity_log']['user_id'] = [
+    'title' => t('User ID'),
+    'help' => t('The user who performed the action'),
+    'field' => [
+      'id' => 'numeric',
+    ],
+    'filter' => [
+      'id' => 'numeric',
+    ],
+    'argument' => [
+      'id' => 'numeric',
+    ],
+    'relationship' => [
+      'title' => t('User'),
+      'help' => t('The user who performed the action'),
+      'base' => 'users_field_data',
+      'base field' => 'uid',
+      'id' => 'standard',
+      'label' => t('User'),
+    ],
+  ];
+  
+  $data['user_activity_log']['performed_by'] = [
+    'title' => t('Performed By ID'),
+    'help' => t('User who performed the action'),
+    'field' => [
+      'id' => 'numeric',
+    ],
+    'filter' => [
+      'id' => 'numeric',
+    ],
+    'argument' => [
+      'id' => 'numeric',
+    ],
+    'relationship' => [
+      'title' => t('Performed By'),
+      'help' => t('The user who performed this action'),
+      'base' => 'users_field_data',
+      'base field' => 'uid',
+      'id' => 'standard',
+      'label' => t('Performed By User'),
+    ],
+  ];
+  
+  $data['user_activity_log']['action'] = [
+    'title' => t('Action'),
+    'help' => t('The action performed'),
+    'field' => [
+      'id' => 'standard',
+    ],
+    'filter' => [
+      'id' => 'string',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ],
+    'argument' => [
+      'id' => 'string',
+    ],
+  ];
+  
+  $data['user_activity_log']['entity_type'] = [
+    'title' => t('Entity Type'),
+    'help' => t('Type of entity affected'),
+    'field' => [
+      'id' => 'standard',
+    ],
+    'filter' => [
+      'id' => 'string',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ],
+    'argument' => [
+      'id' => 'string',
+    ],
+  ];
+  
+  $data['user_activity_log']['entity_id'] = [
+    'title' => t('Entity ID'),
+    'help' => t('ID of the affected entity'),
+    'field' => [
+      'id' => 'numeric',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ],
+    'filter' => [
+      'id' => 'numeric',
+    ],
+    'argument' => [
+      'id' => 'numeric',
+    ],
+  ];
+  
+  $data['user_activity_log']['data'] = [
+    'title' => t('Data'),
+    'help' => t('JSON-encoded extra information'),
+    'field' => [
+      'id' => 'standard',
+    ],
+  ];
+  
+  $data['user_activity_log']['created'] = [
+    'title' => t('Created'),
+    'help' => t('Timestamp when the action was performed'),
+    'field' => [
+      'id' => 'date',
+      'click sortable' => TRUE,
+    ],
+    'sort' => [
+      'id' => 'date',
+    ],
+    'filter' => [
+      'id' => 'date',
+    ],
+  ];
+  
+  $data['user_activity_log']['changed_summary'] = [
+    'title' => t('Changed Fields'),
+    'help' => t('Displays only the fields that changed in the log'),
+    'field' => [
+      'id' => 'changed_summary',
+    ],
+  ];
+  
+  return $data;
+}

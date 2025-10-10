@@ -35,3 +35,11 @@ deactivate_coop:
     - core/drupal
     - core/drupalSettings
     - core/confirmdialog
+
+report_builder:
+  version: 1.0
+  js:
+    js/report_builder.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery

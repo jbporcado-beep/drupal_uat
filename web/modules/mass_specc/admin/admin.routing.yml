@@ -74,6 +74,14 @@ users.list:
   requirements:
     _permission: "view users"
 
+users.roles.list:
+  path: "/user-roles"
+  defaults:
+    _controller: '\Drupal\admin\Controller\RolesTableController::content'
+    _title: "User Roles"
+  requirements:
+    _permission: "view roles"
+
 reports.add:
   path: "/reports/add"
   defaults:
@@ -113,6 +121,32 @@ reports.system-login-reports:
     _title: "System Login Reports"
   requirements:
     _permission: "view reports"
+
+report-builder.add:
+  path: "/report-builder/add"
+  defaults:
+    _form: 'Drupal\admin\Form\ReportBuilderForm'
+    _title: "Add Report Template"
+  requirements:
+    _permission: "add report"
+
+report-builder.list:
+  path: "/report-builder"
+
+report-builder.download:
+  path: "/report-builder/download/{id}"
+  defaults:
+    _controller: '\Drupal\admin\Controller\ReportsController::downloadReportTemplate'
+  requirements:
+    _permission: "view report"
+
+report-builder.edit:
+  path: "/report-builder/edit/{id}"
+  defaults:
+    _form: 'Drupal\admin\Form\ReportBuilderForm'
+    _title: "Add Report Template"
+  requirements:
+    _permission: "edit report"
 
 cic.generate:
   path: "/cic-report-generation"

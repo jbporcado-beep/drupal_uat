@@ -26,7 +26,6 @@ visibility:
     roles:
       anonymous: anonymous
       authenticated: authenticated
-      content_editor: content_editor
       administrator: administrator
       mass_specc_admin: mass_specc_admin
       uploader: uploader

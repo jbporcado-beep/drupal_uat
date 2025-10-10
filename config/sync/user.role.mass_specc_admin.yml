@@ -6,12 +6,13 @@ dependencies:
     - admin
     - cooperative
 id: mass_specc_admin
-label: 'Mass-Specc admin'
+label: 'MASS_SPECC Admin'
 weight: 4
 is_admin: false
 permissions:
   - 'access user profiles'
   - 'add cooperatives'
+  - 'add report'
   - 'add users'
   - 'administer account settings'
   - 'administer cic'
@@ -20,9 +21,12 @@ permissions:
   - 'administer users'
   - 'cancel account'
   - 'edit cooperatives'
+  - 'edit report'
   - 'edit users'
   - 'upload file'
   - 'view cooperatives'
   - 'view file'
+  - 'view report'
+  - 'view roles'
   - 'view user email addresses'
   - 'view users'

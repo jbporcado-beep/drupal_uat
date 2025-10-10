@@ -37,8 +37,11 @@
         "drupal/core-project-message": "^11.2",
         "drupal/core-recipe-unpack": "^11.2",
         "drupal/core-recommended": "^11.2",
+        "drupal/csv_serialization": "^4.0",
         "drupal/devel": "^5.4",
         "drupal/disable_html5_validation": "^2.0",
+        "drupal/dynamic_entity_reference": "^3.2",
+        "drupal/entity_logger": "^1.0",
         "drupal/flood_control": "^3.0",
         "drupal/jquery_ui": "^1.7",
         "drupal/jquery_ui_draggable": "^2.1",
@@ -46,6 +49,7 @@
         "drupal/json_field": "^1.5",
         "drupal/key": "^1.20",
         "drupal/key_value_field": "^1.4",
+        "drupal/login_history": "^2.0",
         "drupal/login_security": "^2.0",
         "drupal/password_policy": "^4.0",
         "drupal/password_policy_extras": "^4.0",
@@ -56,6 +60,7 @@
         "drupal/twig_tweak": "^3.4",
         "drupal/user_redirect": "^2.0",
         "drupal/view_password": "^6.0",
+        "drupal/views_data_export": "^1.6",
         "drush/drush": "^13.6",
         "noli42/chosen": "3.0.0",
         "oomphinc/composer-installers-extender": "^2.0"
@@ -75,7 +80,8 @@
             "oomphinc/composer-installers-extender": true,
             "php-http/discovery": true,
             "php-tuf/composer-integration": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "tbachert/spi": true
         },
         "sort-packages": true
     },
@@ -138,5 +144,10 @@
                 "      composer remove drupal/core-project-message"
             ]
         }
+    },
+    "require-dev": {
+        "behat/mink-selenium2-driver": "^1.7",
+        "drupal/core-dev": "^11.2",
+        "phpunit/phpunit": "^11.5"
     }
 }

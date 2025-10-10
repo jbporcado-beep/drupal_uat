@@ -1,0 +1,46 @@
+uuid: d604139f-915f-4aec-a7a6-0b4132d7efab
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.custom_fields.field_field_name
+    - field.field.node.custom_fields.field_tooltip
+    - field.field.node.custom_fields.field_type
+    - node.type.custom_fields
+  module:
+    - user
+id: node.custom_fields.default
+targetEntityType: node
+bundle: custom_fields
+mode: default
+content:
+  field_field_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_tooltip:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

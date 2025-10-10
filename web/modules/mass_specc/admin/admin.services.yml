@@ -1,3 +1,22 @@
 services:
   admin.cooperative_service:
     class: Drupal\admin\Service\CooperativeService
+
+  admin.user_activity_logger:
+    class: Drupal\admin\Service\UserActivityLogger
+    arguments: ["@database", "@current_user"]
+
+  admin.report_builder:
+    class: Drupal\admin\Service\ReportBuilderService
+    arguments: ["@entity_type.manager"]
+
+  admin.report_controller:
+    class: Drupal\admin\Controller\ReportsController
+    arguments: ["@admin.report_builder"]
+
+  admin.report_builder_form:
+    class: Drupal\admin\Form\ReportBuilderForm
+    arguments:
+      - "@admin.report_builder"
+    tags:
+      - { name: form }

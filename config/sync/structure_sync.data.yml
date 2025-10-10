@@ -13,19 +13,6 @@ menus:
     uuid: 88118cf0-04e7-4865-adbe-0aeb14004b27
     options: {  }
   -
-    menu_name: mass-specc-menu
-    title: Users
-    parent: 'menu_link_content:9a354587-2e41-4e15-ab7d-40565f7555e9'
-    uri: 'internal:/users'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: 0
-    langcode: en
-    uuid: 7040b115-6560-4414-a550-18a956c8a344
-    options: {  }
-  -
     menu_name: coop-menu
     title: 'File Upload'
     parent: 'menu_link_content:d2c6c943-441f-4e01-8342-7329335458fd'
@@ -50,32 +37,6 @@ menus:
     weight: -50
     langcode: en
     uuid: 3c9d50fb-9353-4afe-9e9e-e7233304474a
-    options: {  }
-  -
-    menu_name: mass-specc-menu
-    title: 'Cooperative Profile Management'
-    parent: null
-    uri: 'internal:/cooperatives'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -46
-    langcode: en
-    uuid: dd6d1e71-73f0-4384-b96d-e7b4a3fb2f91
-    options: {  }
-  -
-    menu_name: mass-specc-menu
-    title: 'User Management'
-    parent: null
-    uri: 'internal:/users'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -45
-    langcode: en
-    uuid: 9a354587-2e41-4e15-ab7d-40565f7555e9
     options: {  }
   -
     menu_name: coop-menu
@@ -141,4 +102,108 @@ menus:
     weight: 0
     langcode: en
     uuid: a1791543-4914-4e1c-950b-f35a7c5ab2a0
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'Cooperative Profile Management'
+    parent: null
+    uri: 'internal:/cooperatives'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -47
+    langcode: en
+    uuid: dd6d1e71-73f0-4384-b96d-e7b4a3fb2f91
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'Report Builder'
+    parent: null
+    uri: 'internal:/report-builder'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -48
+    langcode: en
+    uuid: 3a63ec04-0c28-4f2a-a12f-4f2b3834323d
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: Users
+    parent: 'menu_link_content:9a354587-2e41-4e15-ab7d-40565f7555e9'
+    uri: 'internal:/users'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -50
+    langcode: en
+    uuid: 7040b115-6560-4414-a550-18a956c8a344
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'User Roles'
+    parent: 'menu_link_content:9a354587-2e41-4e15-ab7d-40565f7555e9'
+    uri: 'internal:/user-roles'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -49
+    langcode: en
+    uuid: 6a36fada-f290-4d6e-b740-8d397258e317
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'User Management'
+    parent: null
+    uri: 'internal:/users'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -45
+    langcode: en
+    uuid: 9a354587-2e41-4e15-ab7d-40565f7555e9
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: Reports
+    parent: null
+    uri: 'internal:/reports'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -46
+    langcode: en
+    uuid: b4b2eda8-823a-4484-a368-5d3849d78ee1
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'System Logins'
+    parent: 'menu_link_content:b4b2eda8-823a-4484-a368-5d3849d78ee1'
+    uri: 'internal:/login-summary'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: 0
+    langcode: en
+    uuid: 74732e01-ef26-4b80-8e1d-b44200ada436
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'Activity Log'
+    parent: 'menu_link_content:9a354587-2e41-4e15-ab7d-40565f7555e9'
+    uri: 'internal:/activity-logs'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -48
+    langcode: en
+    uuid: b9f296a3-5e43-4342-83f0-4bc138eda12e
     options: {  }
