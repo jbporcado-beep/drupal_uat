@@ -1,0 +1,33 @@
+services:
+  drupal:
+    build:
+      context: .
+    ports:
+      - 8080:80
+    # volumes:
+    #   - ./config:/etc/drupal/config
+    #   - ./web/modules:/var/www/html/modules
+    #   - ./web/themes:/var/www/html/themes
+    #   - ./web/sites:/var/www/html/sites
+    environment:
+      - DB_HOST=postgresql
+      - DB_PORT=5432
+      - DB_NAME=drupal
+      - DB_USER=drupal
+      - DB_PASSWORD=drupal
+    depends_on:
+      - postgresql
+
+  postgresql:
+    image: bitnami/postgresql:17.5.0-debian-12-r12
+    volumes:
+      - "postgresql:/bitnami/postgresql"
+    environment:
+      - POSTGRESQL_DATABASE=drupal
+      - POSTGRESQL_USERNAME=drupal
+      - POSTGRESQL_PASSWORD=drupal
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgresql: {}
