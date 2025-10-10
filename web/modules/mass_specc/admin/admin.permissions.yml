@@ -10,6 +10,10 @@ edit users:
   title: "Edit user"
   description: "Allow users to edit user profiles."
 
+view roles:
+  title: "View roles"
+  description: "View the list of user roles."
+
 administer cic:
   title: "Administer CIC"
   description: "Administer the CIC report"
@@ -29,3 +33,15 @@ view cooperatives:
 edit cooperatives:
   title: "Edit cooperatives"
   description: "Edit existing cooperatives."
+
+add report:
+  title: "Add report"
+  description: "Create report in report builder"
+
+edit report:
+  title: "Edit report"
+  description: "Edit report in report builder"
+
+view report:
+  title: "View report builder"
+  description: "View report in report builder"

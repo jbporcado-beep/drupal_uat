@@ -1,0 +1,27 @@
+uuid: c9003794-62b2-4b31-b628-fea85b4daeff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.report_template.field_report_config
+    - node.type.report_template
+  module:
+    - user
+id: node.report_template.default
+targetEntityType: node
+bundle: report_template
+mode: default
+content:
+  field_report_config:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

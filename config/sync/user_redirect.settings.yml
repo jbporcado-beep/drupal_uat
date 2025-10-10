@@ -1,0 +1,43 @@
+login:
+  authenticated:
+    redirect_url: ''
+    weight: '-10'
+  administrator:
+    redirect_url: ''
+    weight: '-10'
+  mass_specc_admin:
+    redirect_url: /dashboard/mass-specc
+    weight: '-10'
+  uploader:
+    redirect_url: /dashboard/cooperative
+    weight: '-10'
+  approver:
+    redirect_url: /dashboard/cooperative
+    weight: '-10'
+  access:
+    redirect_url: /dashboard/cooperative
+    weight: '-10'
+logout:
+  authenticated:
+    redirect_url: ''
+    weight: '-10'
+  administrator:
+    redirect_url: ''
+    weight: '-10'
+  mass_specc_admin:
+    redirect_url: ''
+    weight: '-10'
+  uploader:
+    redirect_url: ''
+    weight: '-10'
+  approver:
+    redirect_url: ''
+    weight: '-10'
+  access:
+    redirect_url: ''
+    weight: '-10'
+ignore:
+  - '/user/reset/*'
+ignore_for:
+  login: login
+  logout: 0

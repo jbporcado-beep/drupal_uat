@@ -402,3 +402,87 @@ form label {
 .invalid-feedback a {
   display: none !important;
 }
+
+.report-builder-form input[type="checkbox"] {
+  appearance: checkbox !important;
+  -webkit-appearance: checkbox !important;
+  width: auto;
+  height: auto;
+  background: initial;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+.report-builder-form table th,
+.report-builder-form table td {
+  vertical-align: middle;
+}
+
+.report-builder-form input[type="checkbox"] {
+  margin: 0;
+  vertical-align: middle;
+}
+
+.report-builder-form th,
+.report-builder-form td {
+  padding: 6px 8px;
+}
+
+.report-builder-form table,
+.report-builder-form th,
+.report-builder-form td {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.selectify-checkbox-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+  margin-top: 20px !important;
+}
+
+.report-builder-form .form-checkbox {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.report-builder-form table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.report-builder-form th,
+.report-builder-form td {
+  padding: 4px 8px;
+}
+
+table {
+  --bs-table-striped-bg: #fff !important;
+}
+
+.user-logs-rows {
+  padding: 2rem 1rem;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.edit-report-template,
+.download-report-template {
+  background: transparent !important;
+  color: #293990 !important;
+  font-size: 1.4rem;
+}
+
+.report-builder-actions {
+  display: flex;
+  gap: 1.5rem 2rem;
+}
+
+.template-name-field {
+  width: 20rem !important;
+}
+
+.add-custom-field-btn {
+  width: 100% !important;
+  background-color: transparent !important;
+  color: #293990 !important;
+}

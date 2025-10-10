@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - admin
     - cooperative
 id: uploader
 label: Uploader
@@ -12,3 +13,4 @@ permissions:
   - 'access cooperative dashboard'
   - 'upload file'
   - 'view file'
+  - 'view report'

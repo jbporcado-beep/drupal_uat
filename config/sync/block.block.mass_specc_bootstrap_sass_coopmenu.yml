@@ -36,4 +36,4 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    pages: "/dashboard/cooperative\r\n/cooperative/*"
+    pages: "/dashboard/cooperative\r\n/cooperative/*\r\n/report-builder"

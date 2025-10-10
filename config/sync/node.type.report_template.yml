@@ -1,0 +1,17 @@
+uuid: 052920bb-ae5f-40b7-a56b-980e30933030
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Report Template'
+type: report_template
+description: 'Report Builder outputs'
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false

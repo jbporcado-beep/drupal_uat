@@ -10,7 +10,7 @@ field_name: field_contact1_value
 entity_type: node
 bundle: contact
 label: 'Contact 1: Value'
-description: ''
+description: 09XXXXXXXXX
 required: false
 translatable: false
 default_value: {  }

@@ -1,19 +1,15 @@
-uuid: b6a1b131-de1a-405a-85dc-071839c91853
+uuid: f4b79391-2d2d-4fca-ae1c-3f1c52a48ca5
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.report.field_branch_cda_registration_da
-    - field.field.node.report.field_cda_registration_date
-    - field.field.node.report.field_contract_end_actl_date
-    - field.field.node.report.field_name
-    - node.type.report
+    - field.field.node.report_template.field_report_config
+    - node.type.report_template
   module:
-    - datetime
     - path
-id: node.report.default
+id: node.report_template.default
 targetEntityType: node
-bundle: report
+bundle: report_template
 mode: default
 content:
   created:
@@ -22,30 +18,12 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_branch_cda_registration_da:
-    type: datetime_default
-    weight: 122
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_cda_registration_date:
-    type: datetime_default
-    weight: 127
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_contract_end_actl_date:
-    type: datetime_default
-    weight: 132
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_name:
-    type: string_textfield
+  field_report_config:
+    type: string_textarea
     weight: 121
     region: content
     settings:
-      size: 60
+      rows: 5
       placeholder: ''
     third_party_settings: {  }
   path:

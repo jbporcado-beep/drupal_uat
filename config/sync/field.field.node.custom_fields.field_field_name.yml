@@ -1,0 +1,19 @@
+uuid: ede97483-bd9f-4b3c-97af-21555af87ee9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_field_name
+    - node.type.custom_fields
+id: node.custom_fields.field_field_name
+field_name: field_field_name
+entity_type: node
+bundle: custom_fields
+label: field_name
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,19 @@
+uuid: 3e7527fe-d6af-4a3e-a4ac-91b49ecc981d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_config
+    - node.type.report_template
+id: node.report_template.field_report_config
+field_name: field_report_config
+entity_type: node
+bundle: report_template
+label: 'Report Config'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
