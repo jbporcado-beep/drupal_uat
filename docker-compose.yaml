@@ -11,6 +11,8 @@ services:
       - ./web/sites/default/docker.settings.php:/opt/drupal/web/sites/default/settings.php
       - ./docker-entrypoint.sh:/docker-entrypoint.sh
     environment:
+      - ADMIN_USERNAME=drupal
+      - ADMIN_PASSWORD=drupal
       - HASH_SALT=qD8QuzN0uncuWGdYACnN
       - DB_HOST=postgresql
       - DB_PORT=5432

@@ -9,22 +9,23 @@ BOOTSTRAP_STATUS="$(composer exec -q drush status --field=bootstrap --format=lis
 
 if [[ "$BOOTSTRAP_STATUS" != "Successful" ]]; then
   echo "Drupal not installed; running site:install..."
-  composer exec drush site:install
-  composer exec drush cset system.site uuid "${SITE_UUID}"
-  composer exec drush ev "\Drupal::entityTypeManager()->getStorage('shortcut')->delete(\Drupal::entityTypeManager()->getStorage('shortcut')->loadMultiple());"
-  composer exec drush ev "\Drupal::entityTypeManager()->getStorage('shortcut_set')->delete(\Drupal::entityTypeManager()->getStorage('shortcut_set')->loadMultiple());"
+
+  drush site:install --account-name=${ADMIN_USERNAME:-drupal} --account-pass=${ADMIN_PASSWORD:-drupal}
+  drush cset system.site uuid "${SITE_UUID}"
+  drush ev "\Drupal::entityTypeManager()->getStorage('shortcut')->delete(\Drupal::entityTypeManager()->getStorage('shortcut')->loadMultiple());"
+  drush ev "\Drupal::entityTypeManager()->getStorage('shortcut_set')->delete(\Drupal::entityTypeManager()->getStorage('shortcut_set')->loadMultiple());"
 else
   echo "Drupal already installed; skipping site:install."
 fi
 
 # Core drupal modules
-composer exec drush pm:enable field text node comment block_content taxonomy contact shortcut
+drush pm:enable field text node comment block_content taxonomy contact shortcut
 
 # MASS-SPECC modules
-composer exec drush pm:enable common login password_reset user_dropdown admin cooperative
+drush pm:enable common login password_reset user_dropdown admin cooperative
 
 # Config import
-composer exec drush cim
-composer exec drush cim
-composer exec drush cr
+drush cim
+drush cim
+drush cr
 apache2-foreground
