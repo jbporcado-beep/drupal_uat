@@ -1,4 +1,4 @@
-name: "User Dropdown"
+name: user_dropdown
 type: module
 description: "Provides a user dropdown block for the header."
 core_version_requirement: ^8 || ^9 || ^10 || ^11

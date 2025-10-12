@@ -1,4 +1,4 @@
-name: "Login Customizations"
+name: login
 type: module
 description: "Adds tweaks like Forgot Password link and password reveal to user login form."
 core_version_requirement: ^10 || ^11
