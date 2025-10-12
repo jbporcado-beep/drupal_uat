@@ -40,7 +40,8 @@ $settings['auto_reload'] = TRUE;
 $settings['config_sync_directory'] = '../config/sync';
 
 $settings['trusted_host_patterns'] = [
-  '^mass-specc\.ddev\.site$',
+  // '^mass-specc\.ddev\.site$',
+  '.*'
 ];
 $settings['reverse_proxy'] = TRUE;
 $settings['reverse_proxy_addresses'] = ['127.0.0.1'];

@@ -40,8 +40,12 @@
         "drupal/csv_serialization": "^4.0",
         "drupal/devel": "^5.4",
         "drupal/disable_html5_validation": "^2.0",
+<<<<<<< Updated upstream
         "drupal/dynamic_entity_reference": "^3.2",
         "drupal/entity_logger": "^1.0",
+=======
+        "drupal/encrypt": "^3.2",
+>>>>>>> Stashed changes
         "drupal/flood_control": "^3.0",
         "drupal/jquery_ui": "^1.7",
         "drupal/jquery_ui_draggable": "^2.1",
@@ -52,15 +56,24 @@
         "drupal/login_history": "^2.0",
         "drupal/login_security": "^2.0",
         "drupal/password_policy": "^4.0",
+        "drupal/password_policy_character_types": "^4.0",
+        "drupal/password_policy_characters": "^4.0",
         "drupal/password_policy_extras": "^4.0",
+        "drupal/password_policy_history": "^4.0",
+        "drupal/password_policy_length": "^4.0",
+        "drupal/password_policy_username": "^4.0",
         "drupal/selectify": "^1.0",
         "drupal/structure_sync": "^2.0",
         "drupal/tfa": "^1.12",
-        "drupal/tfa_email_otp": "^1.0@RC",
+        "drupal/tfa_email_otp": "1.0.0-rc1",
         "drupal/twig_tweak": "^3.4",
         "drupal/user_redirect": "^2.0",
         "drupal/view_password": "^6.0",
+<<<<<<< Updated upstream
         "drupal/views_data_export": "^1.6",
+=======
+        "drupal/views_core_entity_reference": "1.0.0-alpha3",
+>>>>>>> Stashed changes
         "drush/drush": "^13.6",
         "noli42/chosen": "3.0.0",
         "oomphinc/composer-installers-extender": "^2.0"

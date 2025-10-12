@@ -897,17 +897,18 @@ if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
   include $app_root . '/' . $site_path . '/settings.local.php';
 }
 
-if (file_exists($app_root . '/' . $site_path . '/settings.docker.php')) {
-  include $app_root . '/' . $site_path . '/settings.docker.php';
-}
-$databases['default']['default'] = array (
-  'database' => 'drupal',
-  'username' => 'drupal',
-  'password' => 'drupal',
-  'prefix' => '',
-  'host' => 'postgresql',
-  'port' => '5432',
-  'driver' => 'pgsql',
-  'namespace' => 'Drupal\\pgsql\\Driver\\Database\\pgsql',
-  'autoload' => 'core/modules/pgsql/src/Driver/Database/pgsql/',
-);
+// if (file_exists($app_root . '/' . $site_path . '/settings.docker.php')) {
+//   include $app_root . '/' . $site_path . '/settings.docker.php';
+// }
+
+// $databases['default']['default'] = array (
+//   'database' => 'drupal',
+//   'username' => 'drupal',
+//   'password' => 'drupal',
+//   'prefix' => '',
+//   'host' => 'postgresql',
+//   'port' => '5432',
+//   'driver' => 'pgsql',
+//   'namespace' => 'Drupal\\pgsql\\Driver\\Database\\pgsql',
+//   'autoload' => 'core/modules/pgsql/src/Driver/Database/pgsql/',
+// );

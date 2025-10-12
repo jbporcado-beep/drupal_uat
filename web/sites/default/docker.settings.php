@@ -855,4 +855,6 @@ $databases['default']['default'] = array (
   'username' => getenv('DB_USERNAME'),   
   'password' => getenv('DB_PASSWORD'),
 );
-$settings['config_sync_directory'] = 'sites/default/files/config/sync';
+$settings['hash_salt'] = getenv('HASH_SALT');
+$settings['trusted_host_patterns'] = ['.*'];
+$settings['config_sync_directory'] = '/opt/drupal/config/sync';
