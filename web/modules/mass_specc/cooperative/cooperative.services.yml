@@ -17,23 +17,23 @@ services:
   cooperative.individual_validator:
     class: 'Drupal\cooperative\Validation\IndividualValidator'
     arguments:
-      - '@cooperative.individual_repository'
-      - '@cooperative.company_repository'
+      - "@cooperative.individual_repository"
+      - "@cooperative.company_repository"
   cooperative.company_validator:
     class: 'Drupal\cooperative\Validation\CompanyValidator'
     arguments:
-      - '@cooperative.company_repository'
-      - '@cooperative.individual_repository'
+      - "@cooperative.company_repository"
+      - "@cooperative.individual_repository"
   cooperative.installment_contract_validator:
     class: 'Drupal\cooperative\Validation\InstallmentContractValidator'
     arguments:
-      - '@cooperative.installment_contract_repository'
-      - '@cooperative.non_installment_contract_repository'
+      - "@cooperative.installment_contract_repository"
+      - "@cooperative.non_installment_contract_repository"
   cooperative.non_installment_contract_validator:
     class: 'Drupal\cooperative\Validation\NonInstallmentContractValidator'
     arguments:
-      - '@cooperative.installment_contract_repository'
-      - '@cooperative.non_installment_contract_repository'
+      - "@cooperative.installment_contract_repository"
+      - "@cooperative.non_installment_contract_repository"
 
   cooperative.family_validator:
     class: 'Drupal\cooperative\Validation\FamilyValidator'
@@ -49,48 +49,51 @@ services:
   cooperative.header_service:
     class: 'Drupal\cooperative\Service\HeaderService'
     arguments:
-      - '@cooperative.header_repository'
-      - '@cooperative.header_validator'
+      - "@cooperative.header_repository"
+      - "@cooperative.header_validator"
   cooperative.individual_service:
     class: 'Drupal\cooperative\Service\IndividualService'
     arguments:
-      - '@cooperative.individual_repository'
-      - '@cooperative.individual_validator'
-      - '@cooperative.family_validator'
-      - '@cooperative.address_validator'
-      - '@cooperative.identification_validator'
-      - '@cooperative.contact_validator'
-      - '@cooperative.employment_validator'
+      - "@cooperative.individual_repository"
+      - "@cooperative.individual_validator"
+      - "@cooperative.family_validator"
+      - "@cooperative.address_validator"
+      - "@cooperative.identification_validator"
+      - "@cooperative.contact_validator"
+      - "@cooperative.employment_validator"
 
   cooperative.company_service:
     class: 'Drupal\cooperative\Service\CompanyService'
     arguments:
-      - '@cooperative.company_repository'
-      - '@cooperative.company_validator'
-      - '@cooperative.address_validator'
-      - '@cooperative.identification_validator'
-      - '@cooperative.contact_validator'
-  
+      - "@cooperative.company_repository"
+      - "@cooperative.company_validator"
+      - "@cooperative.address_validator"
+      - "@cooperative.identification_validator"
+      - "@cooperative.contact_validator"
+
   cooperative.installment_contract_service:
     class: 'Drupal\cooperative\Service\InstallmentContractService'
     arguments:
-      - '@cooperative.header_repository'
-      - '@cooperative.individual_repository'
-      - '@cooperative.company_repository'
-      - '@cooperative.installment_contract_repository'
-      - '@cooperative.installment_contract_validator'
+      - "@cooperative.header_repository"
+      - "@cooperative.individual_repository"
+      - "@cooperative.company_repository"
+      - "@cooperative.installment_contract_repository"
+      - "@cooperative.installment_contract_validator"
 
   cooperative.non_installment_contract_service:
     class: 'Drupal\cooperative\Service\NonInstallmentContractService'
     arguments:
-      - '@cooperative.header_repository'
-      - '@cooperative.individual_repository'
-      - '@cooperative.company_repository'
-      - '@cooperative.non_installment_contract_repository'
-      - '@cooperative.non_installment_contract_validator'
+      - "@cooperative.header_repository"
+      - "@cooperative.individual_repository"
+      - "@cooperative.company_repository"
+      - "@cooperative.non_installment_contract_repository"
+      - "@cooperative.non_installment_contract_validator"
 
   cooperative.file_history_service:
     class: 'Drupal\cooperative\Service\FileHistoryService'
     arguments:
-      - '@cooperative.file_history_repository'
-      - '@cooperative.header_repository'
+      - "@cooperative.file_history_repository"
+      - "@cooperative.header_repository"
+
+  cooperative.report_templates_table:
+    class: Drupal\cooperative\Component\ReportTemplatesTable

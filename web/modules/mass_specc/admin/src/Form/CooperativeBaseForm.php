@@ -21,9 +21,10 @@ abstract class CooperativeBaseForm extends FormBase
 
         $article_options = [];
         $nids = \Drupal::entityQuery('node')
-            ->condition('type', 'report')
+            ->condition('type', ['report', 'report_template'], 'IN')
             ->accessCheck(FALSE)
             ->execute();
+
         if (!empty($nids)) {
             $nodes = Node::loadMultiple($nids);
             foreach ($nodes as $node) {

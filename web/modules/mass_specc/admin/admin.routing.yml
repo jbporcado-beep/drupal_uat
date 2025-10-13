@@ -93,8 +93,16 @@ users.list:
 users.roles.list:
   path: "/user-roles"
   defaults:
-    _controller: '\Drupal\admin\Controller\RolesTableController::content'
+    _controller: '\Drupal\admin\Controller\UserController::userRoles'
     _title: "User Roles"
+  requirements:
+    _permission: "view roles"
+
+users.roles.view:
+  path: "/user-roles/{role}"
+  defaults:
+    _controller: '\Drupal\admin\Component\RolesTable::viewModal'
+    _title: "Role Details"
   requirements:
     _permission: "view roles"
 
@@ -142,9 +150,9 @@ report-builder.add:
   path: "/report-builder/add"
   defaults:
     _form: 'Drupal\admin\Form\ReportBuilderForm'
-    _title: "Add Report Template"
+    _title: "New Template"
   requirements:
-    _permission: "add report"
+    _permission: "add report templates"
 
 report-builder.list:
   path: "/report-builder"
@@ -154,15 +162,15 @@ report-builder.download:
   defaults:
     _controller: '\Drupal\admin\Controller\ReportsController::downloadReportTemplate'
   requirements:
-    _permission: "view report"
+    _permission: "view report templates"
 
 report-builder.edit:
   path: "/report-builder/edit/{id}"
   defaults:
     _form: 'Drupal\admin\Form\ReportBuilderForm'
-    _title: "Add Report Template"
+    _title: "Edit Template"
   requirements:
-    _permission: "edit report"
+    _permission: "edit report templates"
 
 cic.generate:
   path: "/cic-report-generation"

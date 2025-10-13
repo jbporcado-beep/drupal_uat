@@ -656,3 +656,11 @@ table {
   border-radius: 0.375rem;
   cursor: pointer;
 }
+
+.ui-button-icon.ui-icon.ui-icon-closethick {
+  display: none !important;
+}
+
+.permission-item {
+  padding: 1rem 1rem !important;
+}

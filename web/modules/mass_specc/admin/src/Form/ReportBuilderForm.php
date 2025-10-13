@@ -43,7 +43,7 @@ class ReportBuilderForm extends FormBase
             ->loadMultiple();
 
         $field_manager = \Drupal::service('entity_field.manager');
-        $excluded_content_types = ['report_template', 'custom_fields'];
+        $excluded_content_types = ['report_template', 'custom_fields', 'report'];
         $excluded_fields = [
             'nid',
             'uuid',
@@ -137,6 +137,9 @@ class ReportBuilderForm extends FormBase
             '#attributes' => ['class' => ['report-builder-table']],
         ];
 
+        $all_field_names = [];
+
+
         foreach ($node_types as $type_id => $type) {
             if (in_array($type_id, $excluded_content_types, true)) {
                 continue;
@@ -193,6 +196,8 @@ class ReportBuilderForm extends FormBase
                                 $definition->getDescription() : $definition->getLabel()
                         ]
                     ];
+
+                    $all_field_names[] = $clean_field_name;
                 }
             }
         }
@@ -249,13 +254,14 @@ class ReportBuilderForm extends FormBase
                 'field_type' => ['#markup' => $type],
                 'tooltip' => ['#markup' => $tooltip],
             ];
+
+            $all_field_names[] = $name;
         }
 
         $new_custom_fields = $form_state->get('new_custom_fields') ?? [];
         $submitted_fields = $form_state->getUserInput()['fields'] ?? [];
 
         foreach ($new_custom_fields as $index => &$custom_field) {
-
             $custom_key = "custom:$index";
             if (isset($submitted_fields[$custom_key]['select'])) {
                 $custom_field['selected'] = !empty($submitted_fields[$custom_key]['select']);
@@ -288,8 +294,13 @@ class ReportBuilderForm extends FormBase
                     '#placeholder' => $this->t('Tooltip'),
                 ],
             ];
+
+            if (!empty($custom_field['name'])) {
+                $all_field_names[] = $custom_field['name'];
+            }
         }
 
+        $form_state->set('all_field_names', $all_field_names);
         $form_state->set('new_custom_fields', $new_custom_fields);
 
         $form['add_custom_field'] = [
@@ -316,12 +327,22 @@ class ReportBuilderForm extends FormBase
         $editing_node_id = $form_state->get('report_node_id');
 
         $existing_node_id = $this->reportBuilderService->getIdByTemplateName($template_name);
-
         if ($existing_node_id && $existing_node_id != $editing_node_id) {
             $form_state->setErrorByName('template_name', $this->t('Report Template name already in use.'));
         }
 
         $submitted_fields = $form_state->getValue('fields') ?? [];
+        $all_field_names = $form_state->get('all_field_names') ?? [];
+
+        $custom_fields_saved = $form_state->get('custom_fields') ?? [];
+        foreach ($custom_fields_saved as $cf) {
+            if (!empty($cf['name'])) {
+                $all_field_names[] = $cf['name'];
+            }
+        }
+        $all_field_names = array_unique($all_field_names);
+
+        $new_custom_field_names = [];
 
         foreach ($submitted_fields as $key => $row) {
             if (strpos($key, 'custom:') !== 0) {
@@ -333,19 +354,35 @@ class ReportBuilderForm extends FormBase
                 continue;
             }
 
-            if ($field_name !== '' && trim($row['field_type'] ?? '') === '') {
+            $field_type = trim($row['field_type'] ?? '');
+            $tooltip = trim($row['tooltip'] ?? '');
+
+            if ($field_type === '') {
                 $form_state->setErrorByName("fields][$key][field_type", $this->t('Please select a field type.'));
             }
 
-            if ($field_name !== '' && trim($row['tooltip'] ?? '') === '') {
+            if ($tooltip === '') {
                 $form_state->setErrorByName("fields][$key][tooltip", $this->t('Please provide a tooltip.'));
             }
 
             if (!preg_match('/^[a-z][a-z0-9_]*$/', $field_name)) {
-                $form_state->setErrorByName("fields][$key][field_name", $this->t('Invalid format'));
+                $form_state->setErrorByName("fields][$key][field_name", $this->t('Invalid format: lowercase letters, numbers, underscores, starting with a letter.'));
+            }
+
+            if (in_array($field_name, $new_custom_field_names, true)) {
+                $form_state->setErrorByName("fields][$key][field_name", $this->t('This custom field name is already used in this template.'));
+            } else {
+                $new_custom_field_names[] = $field_name;
+            }
+
+            if (in_array($field_name, $all_field_names, true)) {
+                $form_state->setErrorByName("fields][$key][field_name", $this->t('This field name conflicts with an existing field.'));
             }
         }
     }
+
+
+
     public function submitForm(array &$form, FormStateInterface $form_state)
     {
         $selected_fields = [];

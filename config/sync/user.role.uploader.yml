@@ -13,4 +13,4 @@ permissions:
   - 'access cooperative dashboard'
   - 'upload file'
   - 'view file'
-  - 'view report'
+  - 'view report templates'

@@ -11,7 +11,7 @@ id: node.cooperative.field_cda_registration_date
 field_name: field_cda_registration_date
 entity_type: node
 bundle: cooperative
-label: 'CDA Regitration Date'
+label: 'CDA Registration Date'
 description: ''
 required: true
 translatable: false

@@ -34,14 +34,14 @@ edit cooperatives:
   title: "Edit cooperatives"
   description: "Edit existing cooperatives."
 
-add report:
-  title: "Add report"
+add report templates:
+  title: "Add report templates"
   description: "Create report in report builder"
 
-edit report:
-  title: "Edit report"
+edit report templates:
+  title: "Edit report templates"
   description: "Edit report in report builder"
 
-view report:
+view report templates:
   title: "View report builder"
   description: "View report in report builder"

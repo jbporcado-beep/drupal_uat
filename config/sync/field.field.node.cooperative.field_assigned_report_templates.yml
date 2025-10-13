@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_assigned_report_templates
     - node.type.cooperative
+    - node.type.report_template
 id: node.cooperative.field_assigned_report_templates
 field_name: field_assigned_report_templates
 entity_type: node
@@ -18,10 +19,11 @@ default_value_callback: ''
 settings:
   handler: 'default:node'
   handler_settings:
-    target_bundles: {  }
+    target_bundles:
+      report_template: report_template
     sort:
-      field: created
+      field: _none
       direction: ASC
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: report
 field_type: entity_reference

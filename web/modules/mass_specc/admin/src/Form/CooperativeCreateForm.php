@@ -3,19 +3,22 @@ namespace Drupal\admin\Form;
 
 use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
-class CooperativeCreateForm extends CooperativeBaseForm {
+class CooperativeCreateForm extends CooperativeBaseForm
+{
 
     /**
      * {@inheritdoc}
      */
-    public function getFormId() {
+    public function getFormId()
+    {
         return 'mass_specc_cooperative_create_form';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state)
+    {
 
         $form['#title'] = $this->t('Add New Cooperative');
 
@@ -45,7 +48,7 @@ class CooperativeCreateForm extends CooperativeBaseForm {
             '#type' => 'submit',
             '#value' => $this->t('Save'),
             '#button_type' => 'primary',
-            "#attributes" => ['class' => ['btn', 'btn-coop-save'] ],
+            "#attributes" => ['class' => ['btn', 'btn-coop-save']],
         ];
 
         $form['coop_id'] = [
@@ -59,7 +62,8 @@ class CooperativeCreateForm extends CooperativeBaseForm {
     /**
      * {@inheritdoc}
      */
-    public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state)
+    {
         $values = $form_state->getValues();
 
         try {
@@ -77,7 +81,7 @@ class CooperativeCreateForm extends CooperativeBaseForm {
                 'field_coop_status' => true,
                 'field_cda_registration_date' => $values['cda_registration_date'],
                 'field_cda_firm_size' => $values['cda_firm_size'],
-                'field_assigned_report_templates' => $values['assigned_report_templates'],
+                'field_assigned_report_templates' => array_map('intval', $values['assigned_report_templates'] ?? []),
                 'status' => 1,
             ]);
             $node->save();
