@@ -1,15 +1,34 @@
 <?php
 namespace Drupal\admin\Form;
 
+use Drupal\common\Form\ConfirmActionForm;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 use Drupal\node\Entity\Node;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\views\Views;
-use Drupal\user\Entity\User;
-use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Drupal\admin\Component\CoopBranchesTable;
+use Drupal\admin\Service\CooperativeService;
 
 class CooperativeEditForm extends CooperativeBaseForm
 {
+  protected $confirm_modal;
+
+  protected $cooperative_service;
+
+  public function __construct(ConfirmActionForm $confirm_action_form, CooperativeService $cooperative_service)
+  {
+    $this->confirm_modal = $confirm_action_form;
+    $this->cooperative_service = $cooperative_service;
+  }
+
+  public static function create(ContainerInterface $container)
+  {
+    return new static(
+      $container->get('class_resolver')->getInstanceFromDefinition(ConfirmActionForm::class),
+      $container->get('admin.cooperative_service')
+    );
+  }
 
   public function getFormId()
   {
@@ -19,6 +38,7 @@ class CooperativeEditForm extends CooperativeBaseForm
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL)
   {
     $form['#attached']['library'][] = 'admin/edit_coop_form_tabs';
+    $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
 
     $tempstore = \Drupal::service('tempstore.private')->get('coop_branches');
     $request = \Drupal::request();
@@ -49,6 +69,8 @@ class CooperativeEditForm extends CooperativeBaseForm
     ];
 
     $existing_coop = $id ? Node::load($id) : NULL;
+
+    $status_active = $existing_coop && $existing_coop->get('field_coop_status')->value;
 
     if ($existing_coop) {
       $form['coop_id'] = [
@@ -83,65 +105,113 @@ class CooperativeEditForm extends CooperativeBaseForm
         'class' => ['coop-section'],
       ],
     ];
-    if ($existing_coop) {
-      $view = Views::getView('branches_list');
-      if ($view) {
-        $view->setDisplay('branches_table');
-        $view->setArguments([$existing_coop->id()]);
-        $view->execute();
 
-        $form['coop_branches']['list'] = $view->render();
-      }
+    $branch_service = \Drupal::service('admin.branch_service');
+    $saved_branches = $branch_service->getBranchesByCoop($id);
+
+    $saved_branches_array = [];
+    foreach ($saved_branches as $branch_node) {
+      $saved_branches_array[$branch_node->id()] = [
+        'branch_id' => $branch_node->id(),
+        'branch_code' => $branch_node->get('field_branch_code')->value,
+        'branch_name' => $branch_node->get('field_branch_name')->value,
+        'email' => $branch_node->get('field_branch_email')->value,
+        'contact_person' => $branch_node->get('field_branch_contact_person')->value,
+        'is_staged' => FALSE,
+      ];
     }
+
+    $staged = $tempstore->get($id) ?? [];
+
+    $all_branches = $saved_branches_array;
+    foreach ($staged as $branch_id => $branch_data) {
+      $key = !empty($branch_data['branch_id'])
+        ? $branch_data['branch_id']
+        : $branch_id;
+
+      $all_branches[$key] = $branch_data + ['is_staged' => TRUE];
+    }
+
+
+    $form['coop_branches']['branches_table_wrapper'] = [
+      '#type' => 'container',
+      '#attributes' => ['id' => 'branches-table-wrapper'],
+      'table' => CoopBranchesTable::render($id, $all_branches, $status_active),
+    ];
+
+
     $form['coop_branches']['add_branch'] = [
       '#type' => 'link',
       '#title' => $this->t('Add Branch'),
-      '#url' => \Drupal\Core\Url::fromRoute('cooperative.branches.add', ['id' => $existing_coop->id()]),
+      '#url' => Url::fromRoute('cooperative.branches.add', ['id' => $existing_coop->id()]),
       '#attributes' => [
-        'class' => ['use-ajax', 'btn', 'btn-primary'],
+        'class' => ['use-ajax', 'btn', 'btn-primary', $status_active ? '' : 'disabled'],
         'data-dialog-type' => 'modal',
         'data-dialog-options' => json_encode(['width' => 800]),
       ],
     ];
-    $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+
 
     $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Save Cooperative'),
       '#button_type' => 'primary',
       '#attributes' => [
-        'class' => ['coop-save-btn'],
+        'class' => ['coop-save-btn', $status_active ? '' : 'disabled'],
       ],
     ];
 
     $active_tab = isset($_POST['coop_active_tab']) ? $_POST['coop_active_tab'] : 'general';
-    $status_active = $existing_coop && $existing_coop->get('field_coop_status')->value;
+
+
+    if (!$status_active) {
+      $this->disableFormElements($form);
+    }
 
     if ($active_tab === 'general') {
       if ($status_active) {
-
         $form['actions']['deactivate'] = [
-          '#type' => 'submit',
-          '#value' => $this->t('Deactivate'),
-          '#button_type' => 'danger',
+          '#type' => 'link',
+          '#title' => $this->t('Deactivate'),
+          '#url' => Url::fromRoute('cooperative.deactivate_confirm', [
+            'id' => $existing_coop->id(),
+          ], [
+            'query' => [
+              'service' => 'admin.cooperative_service',
+              'method' => 'deactivateCooperative',
+              'confirm_mode' => 'destructive',
+              'redirect_route' => 'cooperative.list',
+              'action_label' => 'Yes',
+              'question' => 'You are deactivating this Cooperative. Are you sure you want to deactivate this cooperative?',
+            ],
+          ]),
           '#attributes' => [
-            'class' => ['btn-danger', 'btn-deactivate-coop'],
-            'style' => 'margin-left: 10px;',
+            'class' => ['use-ajax', 'btn', 'btn-deactivate-coop'],
+            'data-dialog-type' => 'modal',
+            'data-dialog-options' => json_encode(['width' => 600]),
           ],
-          '#submit' => ['::deactivateCooperative'],
-          '#confirm' => $this->t('Are you sure you want to deactivate this cooperative? This action cannot be undone.'),
         ];
       } else {
-
         $form['actions']['activate'] = [
-          '#type' => 'submit',
-          '#value' => $this->t('Activate'),
-          '#button_type' => 'success',
+          '#type' => 'link',
+          '#title' => $this->t('Activate'),
+          '#url' => Url::fromRoute('cooperative.activate_confirm', [
+            'id' => $existing_coop->id(),
+          ], [
+            'query' => [
+              'service' => 'admin.cooperative_service',
+              'method' => 'activateCooperative',
+              'redirect_route' => 'cooperative.list',
+              'action_label' => 'Yes',
+              'question' => 'Are you sure you want to activate this cooperative?',
+            ],
+          ]),
           '#attributes' => [
-            'class' => ['btn-success', 'btn-activate-coop'],
+            'class' => ['use-ajax', 'btn', 'btn-activate-coop'],
+            'data-dialog-type' => 'modal',
+            'data-dialog-options' => json_encode(['width' => 600]),
             'style' => 'margin-left: 10px;',
           ],
-          '#submit' => ['::activateCooperative'],
         ];
       }
     }
@@ -154,7 +224,6 @@ class CooperativeEditForm extends CooperativeBaseForm
 
     return $form;
   }
-
 
   public function submitForm(array &$form, FormStateInterface $form_state)
   {
@@ -186,9 +255,29 @@ class CooperativeEditForm extends CooperativeBaseForm
       $tempstore = \Drupal::service('tempstore.private')->get('coop_branches');
       $branches = $tempstore->get($coop_id) ?? [];
 
-      foreach ($branches as $branch_data) {
-        $branch_id = !empty($branch_data['branch_id']) ? $branch_data['branch_id'] : NULL;
-        $branch = $branch_id ? Node::load($branch_id) : Node::create(['type' => 'branch']);
+      foreach ($branches as $key => $branch_data) {
+        $branch = NULL;
+
+        if (!empty($branch_data['branch_id'])) {
+          $branch = Node::load($branch_data['branch_id']);
+        }
+
+        if (!$branch && !empty($branch_data['branch_code'])) {
+          $existing_nid = \Drupal::entityQuery('node')
+            ->condition('type', 'branch')
+            ->condition('field_branch_coop', $node->id())
+            ->condition('field_branch_code', $branch_data['branch_code'])
+            ->accessCheck(FALSE)
+            ->execute();
+
+          if (!empty($existing_nid)) {
+            $branch = Node::load(reset($existing_nid));
+          }
+        }
+
+        if (!$branch) {
+          $branch = Node::create(['type' => 'branch']);
+        }
 
         $branch->setTitle($branch_data['branch_name'] ?? '');
         $branch->set('field_branch_code', $branch_data['branch_code'] ?? NULL);
@@ -197,11 +286,16 @@ class CooperativeEditForm extends CooperativeBaseForm
         $branch->set('field_branch_contact_person', $branch_data['contact_person'] ?? NULL);
         $branch->set('field_branch_contact_number', $branch_data['contact_number'] ?? NULL);
         $branch->set('field_branch_email', $branch_data['email'] ?? NULL);
-        $branch->set('field_branch_cda_registration_da', $branch_data['cda_registration_date'] ?? NULL);
-        $branch->set('field_branch_cda_firm_size', $branch_data['cda_firm_size'] ?? NULL);
         $branch->set('field_branch_no_of_employees', $branch_data['no_of_employees'] ?? NULL);
+        $branch->set('field_branch_manager', $branch_data['branch_manager'] ?? NULL);
+        $branch->set('field_branch_manager_contact_no', $branch_data['branch_manager_contact_no'] ?? NULL);
+        $branch->set('field_branch_number_of_members', $branch_data['no_of_members'] ?? NULL);
         $branch->set('field_branch_coop', [['target_id' => $node->id()]]);
+
         $branch->save();
+
+        $branch_data['branch_id'] = $branch->id();
+        $branches[$key] = $branch_data;
       }
 
       $tempstore->delete($coop_id);
@@ -215,65 +309,26 @@ class CooperativeEditForm extends CooperativeBaseForm
     $form_state->setRedirect('cooperative.list');
   }
 
-
-  public function deactivateCooperative(array &$form, FormStateInterface $form_state)
+  /**
+   * Recursively disable form elements.
+   */
+  protected function disableFormElements(array &$form)
   {
-    $id = $form_state->getBuildInfo()['args'][0] ?? NULL;
-    $node = $id ? Node::load($id) : NULL;
-
-    if ($node && $node->bundle() === 'cooperative') {
-      $node->set('field_coop_status', FALSE);
-      $node->save();
-
-
-      $user_ids = \Drupal::entityQuery('user')
-        ->condition('field_cooperative', $node->id())
-        ->accessCheck(TRUE)
-        ->execute();
-
-      foreach ($user_ids as $uid) {
-        $user = User::load($uid);
-        if ($user) {
-          $user->block();
-          $user->save();
-        }
+    foreach ($form as $key => &$element) {
+      if (in_array($key, ['actions', 'submit', 'deactivate', 'activate'], TRUE)) {
+        continue;
       }
 
-      \Drupal::messenger()->addMessage($this->t('Cooperative deactivated.'));
-      $form_state->setRedirect('cooperative.list');
-    } else {
-      \Drupal::messenger()->addError($this->t('Invalid cooperative node.'));
+      if (is_array($element)) {
+        if (isset($element['#type']) && !in_array($element['#type'], ['markup', 'hidden', 'container'])) {
+          $element['#disabled'] = TRUE;
+        }
+
+        $this->disableFormElements($element);
+      }
     }
   }
 
-  public function activateCooperative(array &$form, FormStateInterface $form_state)
-  {
-    $id = $form_state->getBuildInfo()['args'][0] ?? NULL;
-    $node = $id ? Node::load($id) : NULL;
-
-    if ($node && $node->bundle() === 'cooperative') {
-      $node->set('field_coop_status', TRUE);
-      $node->save();
-
-      $user_ids = \Drupal::entityQuery('user')
-        ->condition('field_cooperative', $node->id())
-        ->accessCheck(TRUE)
-        ->execute();
-
-      foreach ($user_ids as $uid) {
-        $user = User::load($uid);
-        if ($user) {
-          $user->activate();
-          $user->save();
-        }
-      }
-
-      \Drupal::messenger()->addMessage($this->t('Cooperative activated.'));
-      $form_state->setRedirect('cooperative.list');
-    } else {
-      \Drupal::messenger()->addError($this->t('Invalid cooperative node.'));
-    }
-  }
   public function submitHandler(&$form, FormStateInterface $form_state)
   {
     $form_state->setRedirect('cooperative.list');

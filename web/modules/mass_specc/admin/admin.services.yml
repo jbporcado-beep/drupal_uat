@@ -1,6 +1,7 @@
 services:
   admin.cooperative_service:
     class: Drupal\admin\Service\CooperativeService
+    arguments: ["@entity_type.manager"]
 
   admin.user_activity_logger:
     class: Drupal\admin\Service\UserActivityLogger
@@ -20,3 +21,5 @@ services:
       - "@admin.report_builder"
     tags:
       - { name: form }
+  admin.branch_service:
+    class: 'Drupal\admin\Service\BranchService'

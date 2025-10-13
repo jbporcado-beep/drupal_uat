@@ -477,7 +477,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/users/edit/{{ uid }}" class="btn btn-sm btn-primary edit-coop-button" title="Edit">Edit</a>'
+            text: '<a href="/users/edit/{{ uid }}" class="action-edit-btn" title="Edit"><i class="fas fa-pencil-alt"></i></a>'
             make_link: false
             path: ''
             absolute: false
@@ -652,7 +652,20 @@ display:
           empty: true
           content: "<tr>\r\n  <td colspan=\"6\" class=\"text-center\">No results found.</td>\r\n</tr>"
           tokenize: false
-      sorts: {  }
+      sorts:
+        field_full_name_value:
+          id: field_full_name_value
+          table: user__field_full_name
+          field: field_full_name_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
       arguments: {  }
       filters:
         status:

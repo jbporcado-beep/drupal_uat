@@ -1,17 +1,17 @@
-uuid: fe35db6c-f224-4acc-bb65-25f29c0186c0
+uuid: be79f9ba-ca92-4e6c-8a21-e43a5622f5cc
 langcode: en
 status: true
 dependencies:
   module:
-    - datetime
     - node
-id: node.field_contract_end_actl_date
-field_name: field_contract_end_actl_date
+id: node.field_branch_number_of_members
+field_name: field_branch_number_of_members
 entity_type: node
-type: datetime
+type: integer
 settings:
-  datetime_type: date
-module: datetime
+  unsigned: false
+  size: normal
+module: core
 locked: false
 cardinality: 1
 translatable: true

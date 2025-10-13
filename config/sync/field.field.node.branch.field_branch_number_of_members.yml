@@ -1,15 +1,15 @@
-uuid: 54a812df-c06b-4057-9079-1108d0cb9019
+uuid: 85686be0-a2ee-4512-8f46-115664d6f646
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_branch_cda_firm_size
+    - field.storage.node.field_branch_number_of_members
     - node.type.branch
-id: node.branch.field_branch_cda_firm_size
-field_name: field_branch_cda_firm_size
+id: node.branch.field_branch_number_of_members
+field_name: field_branch_number_of_members
 entity_type: node
 bundle: branch
-label: 'Branch CDA Firm Size'
+label: 'Number of Members'
 description: ''
 required: true
 translatable: false
@@ -17,7 +17,7 @@ default_value: {  }
 default_value_callback: ''
 settings:
   min: 0
-  max: null
+  max: 9999
   prefix: ''
   suffix: ''
 field_type: integer

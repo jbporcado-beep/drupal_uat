@@ -1,16 +1,17 @@
-uuid: d1ea4462-106a-4714-a5c5-b6abeb3d59a6
+uuid: 78d6d3f9-55a2-42de-bb59-8b6934751093
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_branch_cda_firm_size
-field_name: field_branch_cda_firm_size
+id: node.field_report_name
+field_name: field_report_name
 entity_type: node
-type: integer
+type: string
 settings:
-  unsigned: false
-  size: normal
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
 module: core
 locked: false
 cardinality: 1

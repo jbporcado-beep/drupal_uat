@@ -16,8 +16,10 @@
 
         if (tabValue === "branches") {
           $(".btn-deactivate-coop").hide();
+          $(".btn-activate-coop").hide();
         } else {
           $(".btn-deactivate-coop").show();
+          $(".btn-activate-coop").show();
         }
       });
 

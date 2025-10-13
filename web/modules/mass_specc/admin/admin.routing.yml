@@ -38,18 +38,34 @@ cooperative.branches:
 cooperative.branches.add:
   path: "/cooperatives/edit/{id}/branches/add"
   defaults:
-    _form: '\Drupal\admin\Form\BranchAddForm'
+    _form: '\Drupal\admin\Form\BranchForm'
     _title: "Add Branch"
   requirements:
     _permission: "edit cooperatives"
 
 cooperative.branches.edit:
-  path: "/cooperatives/edit/{id}/branches/edit/{branch_id}"
+  path: "/cooperative/{id}/branches/{branch_key}/edit"
   defaults:
-    _form: '\Drupal\admin\Form\BranchAddForm'
+    _form: '\Drupal\admin\Form\BranchForm'
     _title: "Edit Branch"
   requirements:
-    _permission: "edit cooperatives"
+    _permission: "access content"
+
+cooperative.activate_confirm:
+  path: "/cooperative/{id}/activate/confirm"
+  defaults:
+    _form: '\Drupal\common\Form\ConfirmActionForm'
+    _title: "Confirm Activation"
+  requirements:
+    _permission: "edit cooperative"
+
+cooperative.deactivate_confirm:
+  path: "/cooperative/{id}/deactivate/confirm"
+  defaults:
+    _form: '\Drupal\common\Form\ConfirmActionForm'
+    _title: "Confirm Deactivation"
+  requirements:
+    _permission: "edit cooperative"
 
 users.add:
   path: "/users/add"

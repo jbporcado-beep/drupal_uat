@@ -1,0 +1,19 @@
+uuid: cde20839-bbe1-45e0-9aae-ebdbfd10dd68
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_name
+    - node.type.report
+id: node.report.field_report_name
+field_name: field_report_name
+entity_type: node
+bundle: report
+label: 'Report name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

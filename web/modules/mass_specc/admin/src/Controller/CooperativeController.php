@@ -1,12 +1,28 @@
 <?php
-
 namespace Drupal\admin\Controller;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+use Drupal\admin\Service\CooperativeService;
 use Drupal\Core\Controller\ControllerBase;
+
 use Drupal\node\Entity\Node;
 
 class CooperativeController extends ControllerBase
 {
+    protected $cooperative_service;
+
+    public function __construct(CooperativeService $cooperative_service)
+    {
+        $this->cooperative_service = $cooperative_service;
+    }
+
+    public static function create(ContainerInterface $container)
+    {
+        return new static(
+            $container->get('admin.cooperative_service')
+        );
+    }
 
     public function title($id)
     {

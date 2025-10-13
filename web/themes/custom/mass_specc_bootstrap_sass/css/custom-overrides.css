@@ -486,3 +486,173 @@ table {
   background-color: transparent !important;
   color: #293990 !important;
 }
+
+/* dialog styling */
+.ui-dialog-titlebar {
+  background-color: #fff !important;
+  margin-top: 1rem !important;
+  margin-left: 1rem !important;
+  color: #000 !important;
+  border: none !important;
+  display: flex !important;
+  align-items: end !important;
+  min-height: 3rem !important;
+  padding: 0.5rem 1rem !important;
+  position: relative;
+}
+.ui-dialog-titlebar .ui-dialog-title {
+  font-size: 2rem !important;
+  font-weight: 600 !important;
+  align-self: flex-end !important;
+}
+
+.ui-dialog-titlebar-close {
+  background-color: #fff !important;
+  color: #000 !important;
+  fill: #000 !important;
+  border: none !important;
+  font-family: "Font Awesome 5 Free" !important;
+  top: 10% !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  padding: 0.5rem !important;
+  background: transparent
+    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293 1.293a1 1 0 0 1 1.414 0L8 7.586l6.293-6.293a1 1 0 0 1 1.414 1.414L9.414 9l6.293 6.293a1 1 0 0 1-1.414 1.414L8 10.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 9 .293 2.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e")
+    center/1em auto no-repeat !important;
+  background-size: 1em 1em !important;
+  box-sizing: content-box !important;
+  overflow: visible !important;
+}
+
+.branch-add-form {
+  padding: 1rem !important;
+}
+
+.branch-add-form input {
+  padding: 0.5rem 0.5rem !important;
+}
+
+#drupal-modal .branch-submit-btn {
+  margin-top: 1rem !important;
+  border-radius: 0.2rem !important;
+  border: none !important;
+  padding: 1rem 3rem !important;
+}
+
+.ui-dialog-titlebar {
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border-radius: 8px 8px 0 0;
+}
+
+.submit-modal-btn,
+.cancel-modal-btn {
+  border-radius: 4px !important;
+  padding: 0.8rem 1rem !important;
+}
+
+.submit-modal-btn:focus,
+.cancel-modal-btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.confirm-action-form {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.confirm-action-form .form-control {
+  display: inline-block;
+  width: auto !important;
+}
+
+.confirm-action-form .submit-modal-btn {
+  background-color: var(--bs-primary);
+  color: #fff;
+}
+
+.confirm-action-form .cancel-modal-btn {
+  background-color: #d9d9d9 !important;
+  color: #4a4a4a !important;
+}
+
+.cancel-modal-btn:hover {
+  background-color: #a9a9a9 !important;
+  color: #000 !important;
+}
+
+.submit-modal-btn.destructive {
+  background-color: #e74c3c !important;
+}
+
+.submit-modal-btn.destructive:focus {
+  border: none !important;
+}
+
+.submit-modal-btn.destructive:hover {
+  background-color: #c0392b !important;
+}
+
+.table-disabled,
+.table-disabled * {
+  pointer-events: none;
+}
+
+.disabled-row {
+  opacity: 0.6;
+  background-color: #f9f9f9 !important;
+}
+
+.disabled-row:hover {
+  background-color: #f9f9f9 !important;
+}
+
+.action-edit-btn {
+  color: #293990;
+  font-size: 1.2rem;
+}
+
+.confirmation-dialog form.confirm-action-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 20px;
+  gap: 16px;
+}
+
+.confirmation-dialog .confirmation-text {
+  text-align: left;
+}
+
+.confirmation-dialog .confirmation-actions {
+  display: flex;
+  justify-content: end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.confirmation-dialog .confirmation-question {
+  font-size: 1.2em;
+  margin-bottom: 0.5rem;
+}
+
+.confirmation-dialog .confirmation-description {
+  font-size: 0.95em;
+  color: #555;
+  margin-bottom: 0;
+}
+
+.submit-modal-btn,
+.cancel-modal-btn {
+  min-width: 6rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}

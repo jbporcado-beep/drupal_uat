@@ -1,17 +1,18 @@
-uuid: a4bf8c79-cd36-4df0-839f-b0296f47b828
+uuid: 36653179-dffc-4a7a-9d07-fc935e88c9bd
 langcode: en
 status: true
 dependencies:
   module:
-    - datetime
     - node
-id: node.field_branch_cda_registration_da
-field_name: field_branch_cda_registration_da
+id: node.field_branch_manager
+field_name: field_branch_manager
 entity_type: node
-type: datetime
+type: string
 settings:
-  datetime_type: date
-module: datetime
+  max_length: 100
+  case_sensitive: false
+  is_ascii: false
+module: core
 locked: false
 cardinality: 1
 translatable: true

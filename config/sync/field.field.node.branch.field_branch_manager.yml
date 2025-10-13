@@ -1,0 +1,19 @@
+uuid: b807df16-fae3-4a19-aaa6-085985bb1e38
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_branch_manager
+    - node.type.branch
+id: node.branch.field_branch_manager
+field_name: field_branch_manager
+entity_type: node
+bundle: branch
+label: 'Branch Manager'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
