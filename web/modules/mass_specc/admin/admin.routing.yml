@@ -57,7 +57,7 @@ cooperative.activate_confirm:
     _form: '\Drupal\common\Form\ConfirmActionForm'
     _title: "Confirm Activation"
   requirements:
-    _permission: "edit cooperative"
+    _permission: "edit cooperatives"
 
 cooperative.deactivate_confirm:
   path: "/cooperative/{id}/deactivate/confirm"
@@ -65,7 +65,7 @@ cooperative.deactivate_confirm:
     _form: '\Drupal\common\Form\ConfirmActionForm'
     _title: "Confirm Deactivation"
   requirements:
-    _permission: "edit cooperative"
+    _permission: "edit cooperatives"
 
 users.add:
   path: "/users/add"
