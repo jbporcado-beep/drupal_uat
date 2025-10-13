@@ -7,7 +7,7 @@ use Drupal\user\Entity\User;
 use Drupal\Core\Url;
 use Drupal\admin\Plugin\Validation\Constraint\AlphaNumericConstraintValidator;
 use Drupal\admin\Plugin\Validation\Constraint\EmailConstraintValidator;
-
+use Drupal\admin\Plugin\Validation\Constraint\PhMobileNumberConstraintValidator;
 
 class UserCreateForm extends FormBase
 {
@@ -87,7 +87,7 @@ class UserCreateForm extends FormBase
             '#description' => $this->t('Format: 09XXXXXXXXX'),
             '#default_value' => $user ? ($user->get('field_contact_number')->value ?? '') : '',
             '#element_validate' => [
-                ['\Drupal\admin\Form\CooperativeBaseForm', 'validatePhMobileElement'],
+                [PhMobileNumberConstraintValidator::class, 'validate'],
             ],
         ];
 
@@ -163,7 +163,7 @@ class UserCreateForm extends FormBase
         $selected_branch = $form_state->getValue(['coop_branch_fields', 'assigned_branch'], $assigned_branch_id);
 
         $isApprover = $form_state->getValue('role', $default_role) === 'approver';
-        
+
         $form['coop_branch_fields']['assigned_branch'] = [
             '#type' => 'select',
             '#title' => $this->t('Assigned Branch'),
@@ -300,7 +300,7 @@ class UserCreateForm extends FormBase
         } else {
             $form['coop_branch_fields']['assigned_branch']['#required'] = FALSE;
             $form['coop_branch_fields']['assigned_branch']['#default_value'] = '';
-            $form['coop_branch_fields']['assigned_branch']['#value'] = ''; 
+            $form['coop_branch_fields']['assigned_branch']['#value'] = '';
             $form['coop_branch_fields']['assigned_branch']['#attributes']['disabled'] = 'disabled';
         }
 
