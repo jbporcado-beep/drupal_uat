@@ -43,3 +43,11 @@ report_builder:
   dependencies:
     - core/drupal
     - core/jquery
+
+general_report_viewer:
+  version: 1.0
+  js:
+    js/general_report_viewer.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery

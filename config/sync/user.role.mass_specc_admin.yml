@@ -28,5 +28,6 @@ permissions:
   - 'view file'
   - 'view report templates'
   - 'view roles'
+  - 'view reports'
   - 'view user email addresses'
   - 'view users'

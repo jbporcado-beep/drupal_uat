@@ -56,12 +56,8 @@ class ReportsController extends ControllerBase
         ];
     }
 
-    public function generalReportViewer(): array
-    {
-        return [
-            '#title' => $this->t('General Report Viewer'),
-            '#plain_text' => $this->t('Details for the general report viewer go here'),
-        ];
+    public function generalReportViewer(): array {
+        return $this->formBuilder()->getForm(\Drupal\admin\Form\GeneralReportViewerForm::class);
     }
 
     public function systemLoginReports(): array
@@ -83,5 +79,3 @@ class ReportsController extends ControllerBase
         return $response;
     }
 }
-
-

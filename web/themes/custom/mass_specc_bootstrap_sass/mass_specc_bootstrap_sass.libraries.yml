@@ -40,3 +40,8 @@ file-upload-styles:
   css:
     theme:
       css/file-upload-styles.css: {}
+
+report-styles:
+  css:
+    theme:
+      css/report-styles.css: {}
