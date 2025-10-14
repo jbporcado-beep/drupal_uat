@@ -1,0 +1,28 @@
+{#
+/**
+ * @file
+ * Theme override for a views exposed form.
+ *
+ * Available variables:
+ * - form: A render element representing the form.
+ *
+ * @see template_preprocess_views_exposed_form()
+ */
+#}
+{{ attach_library('core/drupal.dialog.ajax') }}
+{{ attach_library('mass_specc_bootstrap_sass/views-styling') }}
+{% if q is not empty %}
+  {{ q }}
+{% endif %}
+<div class="views-exposed-form views-exposed-form--split">
+  <div class="views-exposed-form__filters">
+    {{ form }}
+  </div>
+  <div class="views-exposed-form__actions">
+    <a href="/manual-cic-generation-modal" class="btn button button--primary ms-2 use-ajax no-ajax-progress" 
+        data-dialog-type="modal"
+        data-dialog-options='{"width":"45vw","max-width":"700px"}'>
+       Generate Now
+    </a>
+  </div>
+</div>

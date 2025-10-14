@@ -73,7 +73,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: 0
+    weight: -49
     langcode: en
     uuid: a1791543-4914-4e1c-950b-f35a7c5ab2a0
     options: {  }

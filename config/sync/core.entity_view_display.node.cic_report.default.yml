@@ -1,0 +1,74 @@
+uuid: f331c15c-a024-4307-a22b-502c5a04d169
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.cic_report.field_cooperative
+    - field.field.node.cic_report.field_file
+    - field.field.node.cic_report.field_file_name
+    - field.field.node.cic_report.field_generated_by
+    - field.field.node.cic_report.field_generation_date
+    - field.field.node.cic_report.field_generation_type
+    - node.type.cic_report
+  module:
+    - file
+    - user
+id: node.cic_report.default
+targetEntityType: node
+bundle: cic_report
+mode: default
+content:
+  field_cooperative:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_file:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_file_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 139
+    region: content
+  field_generated_by:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 142
+    region: content
+  field_generation_date:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 140
+    region: content
+  field_generation_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 141
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

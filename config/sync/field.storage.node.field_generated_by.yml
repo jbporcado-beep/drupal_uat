@@ -1,0 +1,20 @@
+uuid: 1b96d78c-64ed-4732-a97c-0f211abb6d22
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - user
+id: node.field_generated_by
+field_name: field_generated_by
+entity_type: node
+type: entity_reference
+settings:
+  target_type: user
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

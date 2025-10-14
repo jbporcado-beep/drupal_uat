@@ -23,3 +23,17 @@ services:
       - { name: form }
   admin.branch_service:
     class: 'Drupal\admin\Service\BranchService'
+
+  admin.cic_report_generation_service:
+    class: Drupal\admin\Service\CicReportGenerationService
+    arguments:
+    - '@cooperative.installment_contract_repository'
+    - '@cooperative.non_installment_contract_repository'
+    - '@cooperative.file_history_repository'
+    
+  cooperative.installment_contract_repository:
+    class: 'Drupal\cooperative\Repository\InstallmentContractRepository'
+  cooperative.non_installment_contract_repository:
+    class: 'Drupal\cooperative\Repository\NonInstallmentContractRepository'
+  cooperative.file_history_repository:
+    class: 'Drupal\cooperative\Repository\FileHistoryRepository'

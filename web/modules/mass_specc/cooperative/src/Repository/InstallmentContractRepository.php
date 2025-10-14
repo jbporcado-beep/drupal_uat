@@ -88,5 +88,14 @@ class InstallmentContractRepository {
         }
         return null;
     }
+    public function findAllByHeader(?int $header_nid): array {
+        $query = \Drupal::entityQuery('node')
+        ->condition('type', 'installment_contract')
+        ->condition('field_header.target_id', $header_nid)
+        ->accessCheck(TRUE);
+
+        $nids = $query->execute();
+        return $nids;
+    }
 }
 ?>

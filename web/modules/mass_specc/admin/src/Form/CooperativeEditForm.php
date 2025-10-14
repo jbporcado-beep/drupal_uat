@@ -7,8 +7,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+
 use Drupal\admin\Component\CoopBranchesTable;
 use Drupal\admin\Service\CooperativeService;
+
+use Defuse\Crypto\Crypto;
+use Defuse\Crypto\Key;
 
 class CooperativeEditForm extends CooperativeBaseForm
 {
@@ -227,6 +231,9 @@ class CooperativeEditForm extends CooperativeBaseForm
 
   public function submitForm(array &$form, FormStateInterface $form_state)
   {
+    $keyAscii = $_ENV['FTPS_PW_ENCRYPT_KEY'];
+    $key = Key::loadFromAsciiSafeString($keyAscii);
+
     $coop_id = $form_state->getValue('coop_id') ?? ($form_state->getBuildInfo()['args'][0] ?? NULL);
     $node = $coop_id ? Node::load($coop_id) : NULL;
 
@@ -250,6 +257,12 @@ class CooperativeEditForm extends CooperativeBaseForm
       $node->set('field_cda_registration_date', $values['cda_registration_date'] ?? NULL);
       $node->set('field_cda_firm_size', $values['cda_firm_size'] ?? NULL);
       $node->set('field_assigned_report_templates', $values['assigned_report_templates'] ?? NULL);
+      $node->set('field_ftps_username', $values['ftps_username'] ?? NULL);
+
+      if (!empty($values['ftps_password'])) {
+        $node->set('field_ftps_password', Crypto::encrypt($values['ftps_password'], $key));
+      }
+      
       $node->save();
 
       $tempstore = \Drupal::service('tempstore.private')->get('coop_branches');

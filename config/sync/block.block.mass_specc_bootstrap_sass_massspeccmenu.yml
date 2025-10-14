@@ -35,4 +35,4 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    pages: "/cooperatives\r\n/cooperatives/*\r\n/ms_admin/upload/form\r\n/ms_admin/upload/history\r\n/users\r\n/users/*\r\n/dashboard/mass-specc\r\n/report-builder\r\n/report-builder/*\r\n/login-summary\r\n/user-roles\r\n/activity-logs"
+    pages: "/cooperatives\r\n/cooperatives/*\r\n/ms_admin/upload/form\r\n/ms_admin/upload/history\r\n/cic-report-generation\r\n/users\r\n/users/*\r\n/dashboard/mass-specc\r\n/report-builder\r\n/report-builder/*\r\n/login-summary\r\n/user-roles\r\n/activity-logs"

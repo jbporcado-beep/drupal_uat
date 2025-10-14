@@ -45,3 +45,8 @@ report-styles:
   css:
     theme:
       css/report-styles.css: {}
+      
+cic-report-generation:
+  css:
+    theme:
+      css/cic-report-generation.css: {}

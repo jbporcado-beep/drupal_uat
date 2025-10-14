@@ -1,0 +1,17 @@
+uuid: 069ce0fa-abeb-4318-b794-0da1cc60a10a
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'CIC Report'
+type: cic_report
+description: null
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false

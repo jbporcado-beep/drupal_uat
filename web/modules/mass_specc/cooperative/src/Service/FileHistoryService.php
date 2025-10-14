@@ -5,7 +5,7 @@ namespace Drupal\cooperative\Service;
 use Drupal\file\FileInterface;
 use Drupal\cooperative\Utility\CsvToDtoMapper;
 use Drupal\cooperative\Repository\FileHistoryRepository;
-use Drupal\cooperative\Repository\headerRepository;
+use Drupal\cooperative\Repository\HeaderRepository;
 
 class FileHistoryService {
     private FileHistoryRepository $fileHistoryRepository;

@@ -1,0 +1,61 @@
+a.no-ajax-progress + .ajax-progress-throbber {
+  display: none !important;
+}
+
+/*This is the entire modal container*/
+.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front {
+    display: flex;
+    flex-direction: column;
+    width: 45vw !important;
+    max-width: 700px !important;
+}
+
+/*This is the header of the modal with the X button*/
+.ui-dialog-titlebar.ui-corner-all.ui-widget-header.ui-helper-clearfix {
+    background-color: white !important;
+    border: none !important;
+}
+
+.modal-header {
+    margin-bottom: 0;
+}
+
+.date-range-container {
+    display: flex !important;
+    gap: 1rem !important;
+    align-items: flex-end !important;
+    margin-top: 30px !important;
+}
+
+.date-range-container input[type="date"] {
+    width: 100%;
+    max-width: 250px;
+}
+
+.ui-widget-content {
+    display: flex !important;
+}
+
+.buttons-container {
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 1rem !important;
+    margin-top: 1rem !important;
+    max-width: 50% !important;
+}
+.cancel-button.button.js-form-submit.form-submit.form-control {
+    background: none !important;
+    border: 1px solid #ccc !important;
+    color: black !important;
+    padding: 10px 20px !important;
+    border-radius: 2px !important;
+    flex: 1;
+}
+.submit-button.button.button--primary.js-form-submit.form-submit.btn.btn-primary {
+    background-color: #305bab !important;
+    border: none !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    border-radius: 2px !important;
+    flex: 1;
+}

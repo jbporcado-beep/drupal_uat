@@ -180,6 +180,13 @@ cic.generate:
   requirements:
     _permission: "administer cic"
 
+cic.manual-generate-modal:
+  path: "/manual-cic-generation-modal"
+  defaults:
+    _controller: '\Drupal\admin\Controller\CicController::manualCicGenerationModalForm'
+  requirements:
+    _role: "mass_specc_admin"
+
 cic.view:
   path: "/cic-files"
   defaults:

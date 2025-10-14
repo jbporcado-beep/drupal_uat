@@ -3,3 +3,4 @@
 /web/modules/contrib
 /web/sites/default/files/php
 /web/libraries
+.env

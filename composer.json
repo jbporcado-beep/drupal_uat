@@ -28,6 +28,7 @@
     ],
     "require": {
         "composer/installers": "^2.3",
+        "defuse/php-encryption": "^2.4",
         "drupal/better_exposed_filters": "^7.0",
         "drupal/bootstrap_barrio": "^5.5",
         "drupal/bootstrap_sass": "^5.0",
@@ -70,7 +71,8 @@
         "drupal/views_core_entity_reference": "1.0.0-alpha3",
         "drush/drush": "^13.6",
         "noli42/chosen": "3.0.0",
-        "oomphinc/composer-installers-extender": "^2.0"
+        "oomphinc/composer-installers-extender": "^2.0",
+        "symfony/dotenv": "^7.3"
     },
     "conflict": {
         "drupal/drupal": "*"

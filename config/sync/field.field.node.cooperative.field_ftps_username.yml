@@ -1,0 +1,19 @@
+uuid: 6e155f50-87bd-4e63-a03b-54e88c2de01c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ftps_username
+    - node.type.cooperative
+id: node.cooperative.field_ftps_username
+field_name: field_ftps_username
+entity_type: node
+bundle: cooperative
+label: 'FTPS Username'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

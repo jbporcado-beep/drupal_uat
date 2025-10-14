@@ -3,8 +3,10 @@ namespace Drupal\admin\Form;
 
 use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
-class CooperativeCreateForm extends CooperativeBaseForm
-{
+use Defuse\Crypto\Crypto;
+use Defuse\Crypto\Key;
+
+class CooperativeCreateForm extends CooperativeBaseForm {
 
     /**
      * {@inheritdoc}
@@ -62,8 +64,10 @@ class CooperativeCreateForm extends CooperativeBaseForm
     /**
      * {@inheritdoc}
      */
-    public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state)
-    {
+    public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+        $keyAscii = $_ENV['FTPS_PW_ENCRYPT_KEY'];
+        $key = Key::loadFromAsciiSafeString($keyAscii);
+
         $values = $form_state->getValues();
 
         try {
@@ -82,6 +86,8 @@ class CooperativeCreateForm extends CooperativeBaseForm
                 'field_cda_registration_date' => $values['cda_registration_date'],
                 'field_cda_firm_size' => $values['cda_firm_size'],
                 'field_assigned_report_templates' => array_map('intval', $values['assigned_report_templates'] ?? []),
+                'field_ftps_username' => $values['ftps_username'],
+                'field_ftps_password' => Crypto::encrypt($values['ftps_password'], $key),
                 'status' => 1,
             ]);
             $node->save();

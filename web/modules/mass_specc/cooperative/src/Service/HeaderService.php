@@ -28,7 +28,7 @@ class HeaderService {
 
         $header_node = $this->headerRepository
             ->findByCodesAndDate($provider_code, $reference_date, $branch_code);
-        
+    
         if ($header_node === null && empty($errors)) {
             $this->headerRepository->save($headerDto);
         }

@@ -23,7 +23,12 @@ class HeaderRepository {
         return $node;
     }
 
+    private function addLeadingZeroToDate(string $date): string {
+        return strlen($date) === 7 ? '0' . $date : $date;
+    }
+
     public function findByCodesAndDate(?string $providerCode, ?string $referenceDate, ?string $branchCode): ?Node {
+        $referenceDate = $this->addLeadingZeroToDate($referenceDate);
         $query = \Drupal::entityQuery('node')
         ->condition('type', 'header')
         ->condition('field_provider_code', $providerCode);

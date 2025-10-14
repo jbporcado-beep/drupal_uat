@@ -216,6 +216,46 @@ abstract class CooperativeBaseForm extends FormBase
             ],
         ];
 
+        $form['main_grid']['right_col']['ftps_group'] = [
+            "#type" => 'container',
+            '#attributes' => ['class' => ['coop-cda-group'] ],
+        ];
+
+        $form['main_grid']['right_col']['ftps_group']['ftps_username'] = [
+            '#type' => 'textfield',
+            '#title' => $this->t('FTPS Username'),
+            '#required' => TRUE,
+            '#attributes' => [
+                'class' => ['js-char-count'],
+                'data-maxlength' => 50,
+            ],
+            '#description' => [
+                '#markup' => '<span class="char-counter">0/50</span>',
+            ],
+            "#maxlength" => 50,
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
+        ];
+
+        $form['main_grid']['right_col']['ftps_group']['ftps_password'] = [
+            '#type' => 'password',
+            '#title' => $this->t('FTPS Password'),
+            '#required' => $existing_coop === NULL,
+            '#attributes' => [
+                'class' => ['js-char-count'],
+                'data-maxlength' => 50,
+                'autocomplete' => 'new-password', 
+            ],
+            '#description' => [
+                '#markup' => '<span class="char-counter">0/50</span>',
+            ],
+            "#maxlength" => 50,
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
+        ];
+
         unset(
             $form['coop_name'],
             $form['ho_address'],
@@ -225,7 +265,9 @@ abstract class CooperativeBaseForm extends FormBase
             $form['email'],
             $form['cda_registration_date'],
             $form['cda_firm_size'],
-            $form['assigned_report_templates']
+            $form['assigned_report_templates'],
+            $form['ftps_username'],
+            $form['ftps_password']
         );
 
         if ($existing_coop) {
@@ -245,6 +287,11 @@ abstract class CooperativeBaseForm extends FormBase
 
             $form['main_grid']['right_col']['assigned_report_templates']['#default_value'] =
                 array_column($existing_coop->get('field_assigned_report_templates')->getValue(), 'target_id');
+            
+            $form['main_grid']['right_col']['ftps_group']['ftps_username']['#default_value'] = $existing_coop->get('field_ftps_username')->value;
+            $form['main_grid']['right_col']['ftps_group']['ftps_password']['#description'] = ['#markup' => 
+                '<span>Leave blank to keep the existing password.</span>'
+            ];
         }
     }
 

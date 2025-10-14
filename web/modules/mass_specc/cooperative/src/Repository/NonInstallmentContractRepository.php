@@ -71,5 +71,15 @@ class NonInstallmentContractRepository {
         }
         return null;
     }
+
+    public function findAllByHeader(?int $header_nid): array {
+        $query = \Drupal::entityQuery('node')
+        ->condition('type', 'noninstallment_contract')
+        ->condition('field_header.target_id', $header_nid)
+        ->accessCheck(TRUE);
+
+        $nids = $query->execute();
+        return $nids;
+    }
 }
 ?>

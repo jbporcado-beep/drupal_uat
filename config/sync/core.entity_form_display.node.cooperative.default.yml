@@ -13,6 +13,8 @@ dependencies:
     - field.field.node.cooperative.field_coop_name
     - field.field.node.cooperative.field_coop_status
     - field.field.node.cooperative.field_email
+    - field.field.node.cooperative.field_ftps_password
+    - field.field.node.cooperative.field_ftps_username
     - field.field.node.cooperative.field_ho_address
     - field.field.node.cooperative.field_no_of_employees
     - node.type.cooperative
@@ -104,6 +106,22 @@ content:
     settings:
       placeholder: ''
       size: 60
+    third_party_settings: {  }
+  field_ftps_password:
+    type: string_textfield
+    weight: 134
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_ftps_username:
+    type: string_textfield
+    weight: 133
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_ho_address:
     type: string_textfield

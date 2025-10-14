@@ -68,6 +68,30 @@ class FileHistoryRepository {
         return null;
     }
 
+    public function findHeadersByCoopApprovedAndBetweenDates(\DateTime $start_date, \DateTime $end_date): array {
+        $query = \Drupal::entityQuery('node')
+        ->condition('type', 'file_upload_history')
+        ->condition('created', [$start_date->getTimestamp(), $end_date->getTimestamp()], 'BETWEEN')
+        ->condition('field_status', 'Approved')
+        ->accessCheck(TRUE);
+
+        $nids = $query->execute();
+
+        $nodes = Node::loadMultiple($nids);
+
+        $grouped = [];
+        foreach ($nodes as $node) {
+            $coop_nid = $node->get('field_cooperative')->target_id;
+            $header_nid = $node->get('field_header')->target_id;
+
+            if ($coop_nid) {
+                $grouped[$coop_nid][] = $header_nid;
+            }
+        }
+
+        return $grouped;
+    }
+
     private function findBranch(?string $branch_code): ?Node {
         $query = \Drupal::entityQuery('node')
         ->condition('type', 'branch')
@@ -101,11 +125,11 @@ class FileHistoryRepository {
     }
 
     private function truncateStringIfMoreThanMaxLen(string $string, int $maxLength): string {
-    if (mb_strlen($string) > $maxLength) {
-        return mb_substr($string, 0, $maxLength);
+        if (mb_strlen($string) > $maxLength) {
+            return mb_substr($string, 0, $maxLength);
+        }
+        return $string;
     }
-    return $string;
-}
 
 }
 
