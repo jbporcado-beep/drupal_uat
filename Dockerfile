@@ -8,6 +8,7 @@ RUN composer require drush/drush
 # Copy custom modules, themes, and other project files
 COPY config/ /opt/drupal/config
 COPY web/modules/ /opt/drupal/web/modules/
+COPY web/libraries/ /opt/drupal/web/libraries/
 COPY web/themes/ /opt/drupal/web/themes/
 COPY web/sites/ /opt/drupal/web/sites/
 COPY web/sites/default/docker.settings.php /opt/drupal/web/sites/default/settings.php
