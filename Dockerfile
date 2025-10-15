@@ -14,6 +14,8 @@ COPY web/sites/ /opt/drupal/web/sites/
 COPY web/sites/default/docker.settings.php /opt/drupal/web/sites/default/settings.php
 COPY docker-entrypoint.sh /
 
+RUN apt update && apt install gnupg -y
+
 # Set permissions
 RUN chown -R www-data:www-data /opt/drupal/web
 RUN chmod 644 /opt/drupal/web/sites/default/settings.php
