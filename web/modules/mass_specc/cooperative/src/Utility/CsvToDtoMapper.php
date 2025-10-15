@@ -20,11 +20,11 @@ class CsvToDtoMapper {
         $reference_date  = self::addLeadingZeroToDate($row['reference date'] ?? '');
 
         return new HeaderDto(
-            providerCode:   $this->cleanSpaces($row['provider code'] ?? ''),
-            branchCode:     $this->cleanSpaces($row['branch code'] ?? ''),
-            referenceDate:  $this->cleanSpaces($reference_date),
-            version:        $this->cleanSpaces($row['version'] ?? '1.0'),
-            submissionType: $this->cleanSpaces($row['submission type'] ?? '1')
+            providerCode:   self::cleanSpaces($row['provider code'] ?? ''),
+            branchCode:     self::cleanSpaces($row['branch code'] ?? ''),
+            referenceDate:  self::cleanSpaces($reference_date),
+            version:        self::cleanSpaces($row['version'] ?? '1.0'),
+            submissionType: self::cleanSpaces($row['submission type'] ?? '1')
         );
     }
 
@@ -45,24 +45,24 @@ class CsvToDtoMapper {
             contact:             $contactDto,
             employment:          $employmentDto,
 
-            providerSubjectNo:   $this->cleanSpaces($row['provider subject no'] ?? ''),
-            providerCode:        $this->cleanSpaces($row['provider code'] ?? ''),
-            branchCode:          $this->cleanSpaces($row['branch code'] ?? ''),
-            title:               $this->cleanSpaces($row['title'] ?? ''),
-            firstName:           $this->cleanSpaces($row['first name'] ?? ''),
-            lastName:            $this->cleanSpaces($row['last name'] ?? ''),
-            middleName:          $this->cleanSpaces($row['middle name'] ?? ''),
-            suffix:              $this->cleanSpaces($row['suffix'] ?? ''),
-            previousLastName:    $this->cleanSpaces($row['previous last name'] ?? ''),
-            gender:              $this->cleanSpaces($row['gender'] ?? ''),
-            dateOfBirth:         $this->cleanSpaces($date_of_birth),
-            placeOfBirth:        $this->cleanSpaces($row['place of birth'] ?? ''),
-            countryOfBirthCode:  $this->cleanSpaces($row['country of birth code'] ?? ''),
-            nationality:         $this->cleanSpaces($row['nationality'] ?? ''),
-            resident:            $this->cleanSpaces($row['resident'] ?? ''),
-            civilStatus:         $this->cleanSpaces($row['civil status'] ?? ''),
-            numberOfDependents:  $this->cleanSpaces($row['number of dependents'] ?? ''),
-            carsOwned:           $this->cleanSpaces($row['cars owned'] ?? '')
+            providerSubjectNo:   self::cleanSpaces($row['provider subject no'] ?? ''),
+            providerCode:        self::cleanSpaces($row['provider code'] ?? ''),
+            branchCode:          self::cleanSpaces($row['branch code'] ?? ''),
+            title:               self::cleanSpaces($row['title'] ?? ''),
+            firstName:           self::cleanSpaces($row['first name'] ?? ''),
+            lastName:            self::cleanSpaces($row['last name'] ?? ''),
+            middleName:          self::cleanSpaces($row['middle name'] ?? ''),
+            suffix:              self::cleanSpaces($row['suffix'] ?? ''),
+            previousLastName:    self::cleanSpaces($row['previous last name'] ?? ''),
+            gender:              self::cleanSpaces($row['gender'] ?? ''),
+            dateOfBirth:         self::cleanSpaces($date_of_birth),
+            placeOfBirth:        self::cleanSpaces($row['place of birth'] ?? ''),
+            countryOfBirthCode:  self::cleanSpaces($row['country of birth code'] ?? ''),
+            nationality:         self::cleanSpaces($row['nationality'] ?? ''),
+            resident:            self::cleanSpaces($row['resident'] ?? ''),
+            civilStatus:         self::cleanSpaces($row['civil status'] ?? ''),
+            numberOfDependents:  self::cleanSpaces($row['number of dependents'] ?? ''),
+            carsOwned:           self::cleanSpaces($row['cars owned'] ?? '')
         );
     }
 
@@ -77,10 +77,10 @@ class CsvToDtoMapper {
             identification:      $identificationDto,
             contact:             $contactDto,
 
-            providerSubjectNo:   $this->cleanSpaces($row['provider subject no'] ?? ''),
-            providerCode:        $this->cleanSpaces($row['provider code'] ?? ''),
-            branchCode:          $this->cleanSpaces($row['branch code'] ?? ''),
-            tradeName:           $this->cleanSpaces($row['trade name'] ?? ''),
+            providerSubjectNo:   self::cleanSpaces($row['provider subject no'] ?? ''),
+            providerCode:        self::cleanSpaces($row['provider code'] ?? ''),
+            branchCode:          self::cleanSpaces($row['branch code'] ?? ''),
+            tradeName:           self::cleanSpaces($row['trade name'] ?? ''),
         );
     }
 
@@ -93,27 +93,27 @@ class CsvToDtoMapper {
         return new InstallmentContractDto(
             header:                    $header,
             subject:                   $subject,
-            providerContractNo:        $this->cleanSpaces($row['provider contract no'] ?? ''),
-            contractEndActualDate:     $this->cleanSpaces($contract_end_actual_date),
-            contractEndPlannedDate:    $this->cleanSpaces($contract_end_planned_date),
-            contractPhase:             $this->cleanSpaces($row['contract phase'] ?? ''),
-            contractStartDate:         $this->cleanSpaces($contract_start_date),
-            contractType:              $this->cleanSpaces($row['contract type'] ?? ''),
-            currency:                  $this->cleanSpaces($row['currency'] ?? ''),
-            financedAmount:            $this->cleanSpaces($row['financed amount'] ?? ''),
-            installmentsNumber:        $this->cleanSpaces($row['installments number'] ?? ''),
-            lastPaymentAmount:         $this->cleanSpaces($row['last payment amount'] ?? ''),
-            monthlyPaymentAmount:      $this->cleanSpaces($row['monthly payment amount'] ?? ''),
-            nextPaymentDate:           $this->cleanSpaces($next_payment_date),
-            originalCurrency:          $this->cleanSpaces($row['original currency'] ?? ''),
-            outstandingBalance:        $this->cleanSpaces($row['outstanding balance'] ?? ''),
-            outstandingPaymentsNumber: $this->cleanSpaces($row['outstanding payments number'] ?? ''),
-            overdueDays:               $this->cleanSpaces($row['overdue days'] ?? ''),
-            overduePaymentsAmount:     $this->cleanSpaces($row['overdue payments amount'] ?? ''),
-            overduePaymentsNumber:     $this->cleanSpaces($row['overdue payments number'] ?? ''),
-            paymentPeriodicity:        $this->cleanSpaces($row['payment periodicity'] ?? ''),
-            role:                      $this->cleanSpaces($row['role'] ?? ''),
-            transactionType:           $this->cleanSpaces($row['transaction type sub facility'] ?? ''),
+            providerContractNo:        self::cleanSpaces($row['provider contract no'] ?? ''),
+            contractEndActualDate:     self::cleanSpaces($contract_end_actual_date),
+            contractEndPlannedDate:    self::cleanSpaces($contract_end_planned_date),
+            contractPhase:             self::cleanSpaces($row['contract phase'] ?? ''),
+            contractStartDate:         self::cleanSpaces($contract_start_date),
+            contractType:              self::cleanSpaces($row['contract type'] ?? ''),
+            currency:                  self::cleanSpaces($row['currency'] ?? ''),
+            financedAmount:            self::cleanSpaces($row['financed amount'] ?? ''),
+            installmentsNumber:        self::cleanSpaces($row['installments number'] ?? ''),
+            lastPaymentAmount:         self::cleanSpaces($row['last payment amount'] ?? ''),
+            monthlyPaymentAmount:      self::cleanSpaces($row['monthly payment amount'] ?? ''),
+            nextPaymentDate:           self::cleanSpaces($next_payment_date),
+            originalCurrency:          self::cleanSpaces($row['original currency'] ?? ''),
+            outstandingBalance:        self::cleanSpaces($row['outstanding balance'] ?? ''),
+            outstandingPaymentsNumber: self::cleanSpaces($row['outstanding payments number'] ?? ''),
+            overdueDays:               self::cleanSpaces($row['overdue days'] ?? ''),
+            overduePaymentsAmount:     self::cleanSpaces($row['overdue payments amount'] ?? ''),
+            overduePaymentsNumber:     self::cleanSpaces($row['overdue payments number'] ?? ''),
+            paymentPeriodicity:        self::cleanSpaces($row['payment periodicity'] ?? ''),
+            role:                      self::cleanSpaces($row['role'] ?? ''),
+            transactionType:           self::cleanSpaces($row['transaction type sub facility'] ?? ''),
         );
     }
 
@@ -125,19 +125,19 @@ class CsvToDtoMapper {
         return new NonInstallmentContractDto(
             header:                    $header,
             subject:                   $subject,
-            providerContractNo:        $this->cleanSpaces($row['provider contract no'] ?? ''),
-            contractEndActualDate:     $this->cleanSpaces($contract_end_actual_date),
-            contractEndPlannedDate:    $this->cleanSpaces($contract_end_planned_date),
-            contractPhase:             $this->cleanSpaces($row['contract phase'] ?? ''),
-            contractStartDate:         $this->cleanSpaces($contract_start_date),
-            contractType:              $this->cleanSpaces($row['contract type'] ?? ''),
-            creditLimit:               $this->cleanSpaces($row['credit limit'] ?? ''),
-            currency:                  $this->cleanSpaces($row['currency'] ?? ''),
-            originalCurrency:          $this->cleanSpaces($row['original currency'] ?? ''),
-            outstandingBalance:        $this->cleanSpaces($row['outstanding balance'] ?? ''),
-            overduePaymentsAmount:     $this->cleanSpaces($row['overdue payments amount'] ?? ''),
-            role:                      $this->cleanSpaces($row['role'] ?? ''),
-            transactionType:           $this->cleanSpaces($row['transaction type sub facility'] ?? ''),
+            providerContractNo:        self::cleanSpaces($row['provider contract no'] ?? ''),
+            contractEndActualDate:     self::cleanSpaces($contract_end_actual_date),
+            contractEndPlannedDate:    self::cleanSpaces($contract_end_planned_date),
+            contractPhase:             self::cleanSpaces($row['contract phase'] ?? ''),
+            contractStartDate:         self::cleanSpaces($contract_start_date),
+            contractType:              self::cleanSpaces($row['contract type'] ?? ''),
+            creditLimit:               self::cleanSpaces($row['credit limit'] ?? ''),
+            currency:                  self::cleanSpaces($row['currency'] ?? ''),
+            originalCurrency:          self::cleanSpaces($row['original currency'] ?? ''),
+            outstandingBalance:        self::cleanSpaces($row['outstanding balance'] ?? ''),
+            overduePaymentsAmount:     self::cleanSpaces($row['overdue payments amount'] ?? ''),
+            role:                      self::cleanSpaces($row['role'] ?? ''),
+            transactionType:           self::cleanSpaces($row['transaction type sub facility'] ?? ''),
         );
     }
 
@@ -151,23 +151,23 @@ class CsvToDtoMapper {
 
     private static function mapToFamilyDto(array $row): FamilyDto {
         return new FamilyDto(
-            spouseFirstName:      $this->cleanSpaces($row['spouse first name'] ?? ''),
-            spouseLastName:       $this->cleanSpaces($row['spouse last name'] ?? ''),
-            spouseMiddleName:     $this->cleanSpaces($row['spouse middle name'] ?? ''),
-            motherMaidenFullName: $this->cleanSpaces($row['mother maiden full name'] ?? ''),
-            fatherFirstName:      $this->cleanSpaces($row['father first name'] ?? ''),
-            fatherLastName:       $this->cleanSpaces($row['father last name'] ?? ''),
-            fatherMiddleName:     $this->cleanSpaces($row['father middle name'] ?? ''),
-            fatherSuffix:         $this->cleanSpaces($row['father suffix'] ?? ''),
+            spouseFirstName:      self::cleanSpaces($row['spouse first name'] ?? ''),
+            spouseLastName:       self::cleanSpaces($row['spouse last name'] ?? ''),
+            spouseMiddleName:     self::cleanSpaces($row['spouse middle name'] ?? ''),
+            motherMaidenFullName: self::cleanSpaces($row['mother maiden full name'] ?? ''),
+            fatherFirstName:      self::cleanSpaces($row['father first name'] ?? ''),
+            fatherLastName:       self::cleanSpaces($row['father last name'] ?? ''),
+            fatherMiddleName:     self::cleanSpaces($row['father middle name'] ?? ''),
+            fatherSuffix:         self::cleanSpaces($row['father suffix'] ?? ''),
         );      
     }
 
     private static function mapToAddressDto(array $row): AddressDto {
         return new AddressDto(
-            address1Type:        $this->cleanSpaces($row['address 1 address type'] ?? ''),
-            address1FullAddress: $this->cleanSpaces($row['address 1 fulladdress'] ?? ''),
-            address2Type:        $this->cleanSpaces($row['address 2 address type'] ?? ''),
-            address2FullAddress: $this->cleanSpaces($row['address 2 fulladdress'] ?? ''),
+            address1Type:        self::cleanSpaces($row['address 1 address type'] ?? ''),
+            address1FullAddress: self::cleanSpaces($row['address 1 fulladdress'] ?? ''),
+            address2Type:        self::cleanSpaces($row['address 2 address type'] ?? ''),
+            address2FullAddress: self::cleanSpaces($row['address 2 fulladdress'] ?? ''),
         );
     }
 
@@ -183,22 +183,22 @@ class CsvToDtoMapper {
         $id2_expirydate  = self::addLeadingZeroToDate($row['id 2 expirydate'] ?? '');
         
         return new IdentificationDto(
-            identification1Type:         $this->cleanSpaces($row['identification 1 type'] ?? ''),
-            identification1Number:       $this->cleanSpaces($identification1_number),
-            identification2Type:         $this->cleanSpaces($row['identification 2 type'] ?? ''),
-            identification2Number:       $this->cleanSpaces($identification2_number),
-            id1Type:                     $this->cleanSpaces($row['id 1 type'] ?? ''),
-            id1Number:                   $this->cleanSpaces($id1_number),
-            id1IssueDate:                $this->cleanSpaces($id1_issuedate),
-            id1IssueCountry:             $this->cleanSpaces($row['id 1 issuecountry'] ?? ''),
-            id1ExpiryDate:               $this->cleanSpaces($id1_expirydate),
-            id1IssuedBy:                 $this->cleanSpaces($row['id 1 issued by'] ?? ''),
-            id2Type:                     $this->cleanSpaces($row['id 2 type'] ?? ''),
-            id2Number:                   $this->cleanSpaces($id2_number),
-            id2IssueDate:                $this->cleanSpaces($id2_issuedate),
-            id2IssueCountry:             $this->cleanSpaces($row['id 2 issuecountry'] ?? ''),
-            id2ExpiryDate:               $this->cleanSpaces($id2_expirydate),
-            id2IssuedBy:                 $this->cleanSpaces($row['id 2 issued by'] ?? ''),
+            identification1Type:         self::cleanSpaces($row['identification 1 type'] ?? ''),
+            identification1Number:       self::cleanSpaces($identification1_number),
+            identification2Type:         self::cleanSpaces($row['identification 2 type'] ?? ''),
+            identification2Number:       self::cleanSpaces($identification2_number),
+            id1Type:                     self::cleanSpaces($row['id 1 type'] ?? ''),
+            id1Number:                   self::cleanSpaces($id1_number),
+            id1IssueDate:                self::cleanSpaces($id1_issuedate),
+            id1IssueCountry:             self::cleanSpaces($row['id 1 issuecountry'] ?? ''),
+            id1ExpiryDate:               self::cleanSpaces($id1_expirydate),
+            id1IssuedBy:                 self::cleanSpaces($row['id 1 issued by'] ?? ''),
+            id2Type:                     self::cleanSpaces($row['id 2 type'] ?? ''),
+            id2Number:                   self::cleanSpaces($id2_number),
+            id2IssueDate:                self::cleanSpaces($id2_issuedate),
+            id2IssueCountry:             self::cleanSpaces($row['id 2 issuecountry'] ?? ''),
+            id2ExpiryDate:               self::cleanSpaces($id2_expirydate),
+            id2IssuedBy:                 self::cleanSpaces($row['id 2 issued by'] ?? ''),
         );
     }
 
@@ -213,19 +213,19 @@ class CsvToDtoMapper {
             : ($row['contact 2 value'] ?? '');
 
         return new ContactDto(
-            contact1Type:  $this->cleanSpaces($contact_1_type),
-            contact1Value: $this->cleanSpaces($contact1_value),
-            contact2Type:  $this->cleanSpaces($contact_2_type),
-            contact2Value: $this->cleanSpaces($contact2_value),
+            contact1Type:  self::cleanSpaces($contact_1_type),
+            contact1Value: self::cleanSpaces($contact1_value),
+            contact2Type:  self::cleanSpaces($contact_2_type),
+            contact2Value: self::cleanSpaces($contact2_value),
         );
     }
 
     private static function mapToEmploymentDto(array $row): EmploymentDto {
         return new EmploymentDto(
-            tradeName:        $this->cleanSpaces($row['employment trade name'] ?? ''),
-            psic:             $this->cleanSpaces($row['employment psic'] ?? ''),
-            occupationStatus: $this->cleanSpaces($row['employment occupationstatus'] ?? ''),
-            occupation:       $this->cleanSpaces($row['employment occupation'] ?? ''),
+            tradeName:        self::cleanSpaces($row['employment trade name'] ?? ''),
+            psic:             self::cleanSpaces($row['employment psic'] ?? ''),
+            occupationStatus: self::cleanSpaces($row['employment occupationstatus'] ?? ''),
+            occupation:       self::cleanSpaces($row['employment occupation'] ?? ''),
         );
     }
 }
