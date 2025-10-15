@@ -329,7 +329,6 @@ class DomainLists {
         '47' => 'Domestic Bills Purchased - Case to Case',
         '48' => 'Demand Loan - Case to Case',
         '49' => 'Foreign Bills Purchased - Case to Case',
-        '50' => 'Policy Loan',
         '70' => 'Credit Line'
     ];
     public const TRANSACTION_TYPE_DOMAIN = [

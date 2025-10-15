@@ -89,7 +89,8 @@ function cooperative_preprocess_views_view_field(array &$variables) {
             $file_url = '#'; 
         }
 
-        $html = '<div class="download-icon-container">';
+        $html = '<div class="action-cell-container">';
+        $html .= '<div class="download-icon-container">';
         $html .= '<a href="' . $safe_file_url . '" download>';
         $html .= '<i class="fas fa-download"></i>';
         $html .= '</a>';
@@ -116,13 +117,34 @@ function cooperative_preprocess_views_view_field(array &$variables) {
                         </a>';
             $html .= '</div>';
         }
-        if (in_array('approver', $roles) && $status_value !== 'Pending') {
+        else if (in_array('approver', $roles) && $status_value !== 'Pending') {
             $html .= '<span class="file-upload-status">' . htmlspecialchars($status_value) . '</span>';
         }
+        $html .= '</div>';
 
         $variables['output'] = [
             '#markup' => $html,
         ];
     }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function cooperative_views_pre_render(ViewExecutable $view) {
+  $target_view_id = 'file_history';
+  $target_field_id = 'field_status'; 
+
+  $restricted_role = 'approver';
+
+  if ($view->id() !== $target_view_id) {
+    return;
+  }
+
+  $user = \Drupal::currentUser();
+
+  if ($user->hasRole($restricted_role)) {
+    unset($view->field[$target_field_id]);
+  }
 }
 ?>

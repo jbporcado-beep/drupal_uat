@@ -1,3 +1,9 @@
+.form-item--error-message.invalid-feedback {
+  display: block !important;
+}
+.form-item--error-message .item-list {
+  display: none;
+}
 .dropdowns-wrapper {
     display: flex;
     flex-wrap: nowrap;
@@ -71,15 +77,19 @@
     opacity: 0 !important;
     visibility: hidden;
 }
-.views-field-nothing {
+.action-cell-container {
     display: flex;
-    align-items: center;
+}
+td.views-field-nothing {
+    display: table-cell;
+    vertical-align: middle;
+}
+.file-actions {
+    display: flex;
+    flex-wrap: nowrap;
 }
 .views-field-field-file-name {
     width: 30vw;
-}
-.views-field-field-data-uploaded {
-    width: 10vw;
 }
 
 .download-icon-container {

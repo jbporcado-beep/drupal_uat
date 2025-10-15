@@ -189,6 +189,70 @@ class UploadForm extends FormBase {
     }
   }
 
+  public function updateDropdownsFromCoop(array &$form, FormStateInterface $form_state) {
+    return $form['layout']['dropdowns_wrapper'];
+  }
+
+  public function updateDropdownsFromBranch(array &$form, FormStateInterface $form_state) {
+    return $form['layout']['dropdowns_wrapper'];
+  }
+
+  private function getCoopNidByProviderCode(string $provider_code): ?int {
+    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'cooperative')
+      ->condition('field_cic_provider_code', $provider_code)
+      ->accessCheck(TRUE)
+      ->range(0, 1);
+    $nids = $query->execute();
+    if (!empty($nids)) {
+      return (int) reset($nids); 
+    }
+    return NULL;
+  }
+
+  private function getBranchOptionsByCoop(string $provider_code): array {
+    $coop_nid = $this->getCoopNidByProviderCode($provider_code);
+    if (!$coop_nid) {
+      return [];
+    }
+    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+    $options = [];
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'branch')
+      ->condition('field_branch_coop', $coop_nid)
+      ->accessCheck(TRUE);
+    $nids = $query->execute();
+    if (!empty($nids)) {
+      $branch_nodes = $node_storage->loadMultiple($nids);
+      foreach ($branch_nodes as $branch) {
+        $options[$branch->get('field_branch_code')->value] = $branch->get('field_branch_name')->value;
+      }
+    }
+    return $options;
+  }
+
+  private function getCoopOptionsByBranch(string $branch_code): array {
+    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+    $options = [];
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'branch')
+      ->condition('field_branch_code', $branch_code)
+      ->accessCheck(TRUE)
+      ->range(0, 1);
+    $nids = $query->execute();
+    if (!empty($nids)) {
+      $branch = $node_storage->load(reset($nids));
+      if ($branch && $branch->hasField('field_branch_coop') && !$branch->get('field_branch_coop')->isEmpty()) {
+        $coop = $branch->get('field_branch_coop')->entity;
+        if ($coop) {
+          $options[$coop->get('field_cic_provider_code')->value] = $coop->get('field_coop_name')->value;
+        }
+      }
+    }
+    return $options;
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -196,7 +260,7 @@ class UploadForm extends FormBase {
     return 'cooperative_upload_form';
   }
 
-  /**
+  /** 
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
@@ -241,9 +305,29 @@ class UploadForm extends FormBase {
       }
     }
 
+    $selected_coop_provider_code = $form_state->getValue('coop_dropdown');
+    $selected_branch_code = $form_state->getValue('branch_dropdown');
+    $triggering_element = $form_state->getTriggeringElement();
+
+    if ($selected_coop_provider_code) {
+      $branch_options = $this->getBranchOptionsByCoop($selected_coop_provider_code);
+    } else {
+      $branch_options = $this->getBranches();
+    }
+
+    // Dynamically update coop options based on selected branch
+    if ($selected_branch_code) {
+      $coop_options = $this->getCoopOptionsByBranch($selected_branch_code);
+    } else {
+      $coop_options = $this->getCooperatives();
+    }
+
     $form['layout']['dropdowns_wrapper'] = [
       '#type' => 'container',
-      '#attributes' => ['class' => ['dropdowns-wrapper']],
+      '#attributes' => [
+        'class' => ['dropdowns-wrapper'],
+        'id' => 'dropdowns-wrapper',
+      ],
     ];
     $form['layout']['dropdowns_wrapper']['coop_dropdown'] = [
       '#type' => 'select',
@@ -251,14 +335,34 @@ class UploadForm extends FormBase {
       '#options' => $coop_options,
       '#attributes' => ['class' => ['dropdown-item']],
       '#required' => TRUE,
-      '#disabled' => $is_uploader
+      '#disabled' => $is_uploader,
+      '#ajax' => [
+        'callback' => '::updateDropdownsFromCoop',
+        'wrapper' => 'dropdowns-wrapper',
+        'event' => 'change',
+        'progress' => [
+          'type' => 'none', 
+        ],
+      ],
+      '#default_value' => $selected_coop_provider_code ?: NULL,
+      '#empty_option' => $this->t('- Select a cooperative -'),
     ];
     $form['layout']['dropdowns_wrapper']['branch_dropdown'] = [
       '#type' => 'select',
       '#title' => $this->t('Branch'),
       '#options' => $branch_options,
       '#attributes' => ['class' => ['dropdown-item']],
-      '#disabled' => $is_uploader
+      '#disabled' => $is_uploader,
+      '#ajax' => [
+        'callback' => '::updateDropdownsFromBranch',
+        'wrapper' => 'dropdowns-wrapper',
+        'event' => 'change',
+        'progress' => [
+          'type' => 'none', 
+        ],
+      ],
+      '#default_value' => $selected_branch_code ?: NULL,
+      '#empty_option' => $this->t('- Select a branch -'),
     ];
     $form['layout']['dropdowns_wrapper']['report_dropdown'] = [
       '#type' => 'select',
