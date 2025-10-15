@@ -84,7 +84,6 @@ class GeneralReportViewerForm extends FormBase
         ]
     ];
 
-
     /**
      * {@inheritdoc}
      */
@@ -165,6 +164,7 @@ class GeneralReportViewerForm extends FormBase
                     'class' => ['dropdown-item'],
                     'disabled' => 'disabled',
                 ],
+                '#chosen' => TRUE,
             ];
             $form['layout']['dropdowns_wrapper']['branch_dropdown'] = [
                 '#type' => 'select',
@@ -174,7 +174,8 @@ class GeneralReportViewerForm extends FormBase
                 '#attributes' => [
                     'class' => ['dropdown-item'],
                     'disabled' => 'disabled',
-                ]
+                ],
+                '#chosen' => TRUE,
             ];
         }
 
@@ -241,18 +242,17 @@ class GeneralReportViewerForm extends FormBase
         $coop_id = $form_state->getValue(['coop_dropdown']);
         $branch_id = $form_state->getValue(['branch_dropdown']);
 
-
         // Filter on branch or cooperative
         $individuals = [];
         if (!empty($branch_id)) {
             $branch_node = \Drupal::entityTypeManager()->getStorage('node')->load($branch_id);
-            $branch_name = $branch_node->getTitle();
-            $individuals = $this->getIndividuals($branch_name);
+            $branch_code = $branch_node->get('field_branch_code')->value;
+            $individuals = $this->getIndividuals($branch_code);
         } else if (!empty($coop_id)) {
             $branches = $this->getBranches($coop_id);
             foreach ($branches as $branch) {
-                $branch_name = $branch->getTitle();
-                $individuals = array_merge($individuals, $this->getIndividuals($branch_name));
+                $branch_code = $branch->get('field_branch_code')->value;
+                $individuals = array_merge($individuals, $this->getIndividuals($branch_code));
             }
         } else {
             $individuals = $this->getAllIndividuals();
@@ -283,7 +283,6 @@ class GeneralReportViewerForm extends FormBase
             }
         }
         $rows[] = $header_row;
-
 
         foreach ($individuals as $individual) {
             $rows[] = $this->buildRow($individual_fields, $identification_fields, $individual);
@@ -320,11 +319,11 @@ class GeneralReportViewerForm extends FormBase
         return $options;
     }
 
-    private function getIndividuals(string $branch_name): array
+    private function getIndividuals(string $branch_code): array
     {
         $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
             'type' => 'individual',
-            'field_branch_code' => $branch_name,
+            'field_branch_code' => $branch_code,
         ]);
         return $nodes;
     }
@@ -354,7 +353,8 @@ class GeneralReportViewerForm extends FormBase
             $field = trim($field);
             if (array_key_exists($field, $this->individual_aggregrate_fields)) {
                 foreach (($this->individual_aggregrate_fields)[$field] as $subfield) {
-                    $row[] = '"' . $individual->get('field_' . $field)->entity->get($subfield)->value . '"';
+                    $referenced_entity = $individual->get('field_' . $field)->entity;
+                    $row[] = '"' . $referenced_entity?->get($subfield)->value . '"';
                 }
             } else if ($field !== "0") {
                 $row[] = '"' . $individual->get('field_' . $field)->value . '"';
@@ -362,7 +362,8 @@ class GeneralReportViewerForm extends FormBase
         }
         foreach ($identification_fields as $field) {
             if (trim($field) !== "0") {
-                $row[] = '"' . $individual->get('field_identification')->entity->get('field_' . $field)->value . '"';
+                $referenced_entity = $individual->get('field_identification')->entity;
+                $row[] = '"' . $referenced_entity?->get('field_' . $field)->value . '"';
             }
         }
         return $row;
