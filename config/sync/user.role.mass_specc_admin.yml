@@ -27,7 +27,7 @@ permissions:
   - 'view cooperatives'
   - 'view file'
   - 'view report templates'
-  - 'view roles'
   - 'view reports'
+  - 'view roles'
   - 'view user email addresses'
   - 'view users'

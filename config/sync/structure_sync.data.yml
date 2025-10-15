@@ -79,19 +79,6 @@ menus:
     options: {  }
   -
     menu_name: mass-specc-menu
-    title: 'Cooperative Profile Management'
-    parent: null
-    uri: 'internal:/cooperatives'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -47
-    langcode: en
-    uuid: dd6d1e71-73f0-4384-b96d-e7b4a3fb2f91
-    options: {  }
-  -
-    menu_name: mass-specc-menu
     title: 'Report Builder'
     parent: null
     uri: 'internal:/report-builder'
@@ -128,45 +115,6 @@ menus:
     weight: -49
     langcode: en
     uuid: 6a36fada-f290-4d6e-b740-8d397258e317
-    options: {  }
-  -
-    menu_name: mass-specc-menu
-    title: 'User Management'
-    parent: null
-    uri: 'internal:/users'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -45
-    langcode: en
-    uuid: 9a354587-2e41-4e15-ab7d-40565f7555e9
-    options: {  }
-  -
-    menu_name: mass-specc-menu
-    title: Reports
-    parent: null
-    uri: 'internal:/reports'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -46
-    langcode: en
-    uuid: b4b2eda8-823a-4484-a368-5d3849d78ee1
-    options: {  }
-  -
-    menu_name: mass-specc-menu
-    title: 'System Logins'
-    parent: 'menu_link_content:b4b2eda8-823a-4484-a368-5d3849d78ee1'
-    uri: 'internal:/login-summary'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: 0
-    langcode: en
-    uuid: 74732e01-ef26-4b80-8e1d-b44200ada436
     options: {  }
   -
     menu_name: mass-specc-menu
@@ -219,4 +167,82 @@ menus:
     weight: -49
     langcode: en
     uuid: d2c6c943-441f-4e01-8342-7329335458fd
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'Cooperative Profile Management'
+    parent: null
+    uri: 'internal:/cooperatives'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -46
+    langcode: en
+    uuid: dd6d1e71-73f0-4384-b96d-e7b4a3fb2f91
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: Reports
+    parent: null
+    uri: 'internal:/reports'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -45
+    langcode: en
+    uuid: b4b2eda8-823a-4484-a368-5d3849d78ee1
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'User Management'
+    parent: null
+    uri: 'internal:/users'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -44
+    langcode: en
+    uuid: 9a354587-2e41-4e15-ab7d-40565f7555e9
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'CIC Report Generation'
+    parent: null
+    uri: 'internal:/cic-report-generation'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -47
+    langcode: en
+    uuid: a170def7-9d36-4295-a151-fc0232f77289
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'System Logins'
+    parent: 'menu_link_content:b4b2eda8-823a-4484-a368-5d3849d78ee1'
+    uri: 'internal:/login-summary'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -49
+    langcode: en
+    uuid: 74732e01-ef26-4b80-8e1d-b44200ada436
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'General Report Viewer'
+    parent: 'menu_link_content:b4b2eda8-823a-4484-a368-5d3849d78ee1'
+    uri: 'internal:/reports/general-report-viewer'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -50
+    langcode: en
+    uuid: 6c6e66cd-69e4-47ad-aa11-8c6164954526
     options: {  }
