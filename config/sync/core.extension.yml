@@ -61,6 +61,7 @@ module:
   selectify: 0
   serialization: 0
   shortcut: 0
+  smtp: 0
   structure_sync: 0
   system: 0
   taxonomy: 0
