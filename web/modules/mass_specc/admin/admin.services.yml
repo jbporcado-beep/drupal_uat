@@ -30,7 +30,7 @@ services:
     - '@cooperative.installment_contract_repository'
     - '@cooperative.non_installment_contract_repository'
     - '@cooperative.file_history_repository'
-    
+
   cooperative.installment_contract_repository:
     class: 'Drupal\cooperative\Repository\InstallmentContractRepository'
   cooperative.non_installment_contract_repository:

@@ -1,0 +1,6 @@
+services:
+  admin.commands:
+    class: 'Drupal\admin\Drush\Commands\AdminCommands'
+    arguments: ['@admin.cic_report_generation_service']
+    tags:
+      - { name: drush.command }

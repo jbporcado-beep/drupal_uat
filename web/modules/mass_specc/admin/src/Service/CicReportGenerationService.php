@@ -30,10 +30,10 @@ class CicReportGenerationService {
         $this->fileHistoryRepository = $fileHistoryRepository;
     }
 
-    public function create(\DateTime $start_date, \DateTime $end_date) {
-
+    public function create(\DateTime $start_date, \DateTime $end_date, string $generationType) {
         $header_nids_by_coop_nids = $this->fileHistoryRepository->findHeadersByCoopApprovedAndBetweenDates($start_date, $end_date);
         $failed_coop_uploads = [];
+
         foreach ($header_nids_by_coop_nids as $coop_nid => $header_nids) {
             $id_array = [];
             $bd_array = [];
@@ -108,7 +108,6 @@ class CicReportGenerationService {
 
             $utf8_data = mb_convert_encoding($output, 'UTF-8'); 
             $datetime = date('YmdHis');
-
             $file_system = \Drupal::service('file_system');
             $public_dir = "public://cic-reports";
             $file_system->prepareDirectory($public_dir, FileSystemInterface::CREATE_DIRECTORY);
@@ -186,9 +185,24 @@ class CicReportGenerationService {
             }
 
             $file_id = $file->id();
+            $user_id = '';
+            if ($generationType === "Automated") {
+                $uids = \Drupal::entityQuery('user')
+                ->condition('status', 1)
+                ->condition('roles', 'administrator')
+                ->accessCheck(FALSE)
+                ->execute();
+
+                if (!empty($uids)) {
+                    $admin_user = User::load(reset($uids));
+                    $user_id = $admin_user->id();
+                }
+            }
+            else {
+                $current_user = \Drupal::currentUser();
+                $user_id = $current_user->id();
+            }
         
-            $current_user = \Drupal::currentUser();
-            $user_id = $current_user->id();
             $current_date = date('F j, Y g:i A');
             $values = [
                 'type' => 'cic_report',
@@ -198,7 +212,7 @@ class CicReportGenerationService {
                 'field_file_name' => basename($zip_uri),
                 'field_generation_date' => $current_date,
                 'field_generated_by' => $user_id,
-                'field_generation_type' => "Manual",
+                'field_generation_type' => $generationType,
                 'field_cooperative' => $coop_nid,
             ];
             $node = \Drupal::entityTypeManager()->getStorage('node')->create($values);
@@ -446,7 +460,7 @@ class CicReportGenerationService {
         $transaction_type         = $ci_node?->get('field_transaction_type')->value ?? '';
 
         $string = "CI|$provider_code|$branch_code|$reference_date|$provider_subj_no|$role|$provider_contract_no|$contract_type|" .
-                "$contract_phase||$currency|$original_currency|$contract_start_date||$contract_end_plnd_date|$contract_end_actl_date" .
+                "$contract_phase||$currency|$original_currency|$contract_start_date|$contract_start_date|$contract_end_plnd_date|$contract_end_actl_date" .
                 "||||$financed_amt|$installments_no|$transaction_type||$payment_periodicity||$monthly_payment_amt||" .
                 "$last_payment_amt|$next_payment_date||$outstanding_payment_no|$outstanding_balance|$overdue_payments_number|" .
                 "$overdue_payments_amt|$overdue_days||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||";
@@ -478,7 +492,7 @@ class CicReportGenerationService {
         $transaction_type         = $cn_node?->get('field_transaction_type')->value ?? '';
 
         $string = "CN|$provider_code|$branch_code|$reference_date|$provider_subj_no|$role|$provider_contract_no|$contract_type|$contract_phase" .
-                "||$currency|$original_currency|$contract_start_date||$contract_end_plnd_date|$contract_end_actl_date||||$credit_limit|" .
+                "||$currency|$original_currency|$contract_start_date|$contract_start_date|$contract_end_plnd_date|$contract_end_actl_date||||$credit_limit|" .
                 "$transaction_type||$outstanding_balance|$overdue_payments_amt|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||";
         return $string;
     }

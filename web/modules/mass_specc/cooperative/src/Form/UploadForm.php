@@ -315,7 +315,7 @@ class UploadForm extends FormBase {
       } else {
         $branch_options = $this->getBranches();
       }
-
+  
       if ($selected_branch_code) {
         $coop_options = $this->getCoopOptionsByBranch($selected_branch_code);
       } else {

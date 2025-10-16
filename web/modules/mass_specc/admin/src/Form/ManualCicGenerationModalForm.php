@@ -89,10 +89,8 @@ class ManualCicGenerationModalForm extends FormBase {
         date_default_timezone_set('Asia/Manila');
         $start_date = new \DateTime($form_state->getValue('start_date'));
         $end_date = new \DateTime($form_state->getValue('end_date'));
-        $str_start_date = $start_date->format('F j, Y');
-        $str_end_date = $end_date->format('F j, Y');
 
-        $this->cicReportGenerationService->create($start_date, $end_date);
+        $this->cicReportGenerationService->create($start_date, $end_date, "Manual");
     }
 
     public function closeModal(array &$form, FormStateInterface $form_state) {
