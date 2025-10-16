@@ -109,6 +109,14 @@ content:
     third_party_settings: {  }
     weight: 5
     region: content
+  field_ftps_password:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 14
+    region: content
   field_ftps_username:
     type: string
     label: above
@@ -141,7 +149,6 @@ content:
     region: content
 hidden:
   field_contact_number: true
-  field_ftps_password: true
   field_head_office_address: true
   field_name_of_cooperative: true
   field_number_of_employees: true
