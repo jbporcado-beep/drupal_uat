@@ -278,6 +278,7 @@ class UploadForm extends FormBase {
     $uid = \Drupal::currentUser()->id();
     $user = $uid > 0 ? User::load($uid) : NULL;
     $is_uploader = $user->hasRole('uploader') && !$user->hasRole('administrator') && !$user->hasRole('mass_specc_admin');
+    $is_admin = $user->hasRole('administrator') || $user->hasRole('mass_specc_admin');
 
     $coop_options = $this->getCooperatives();
     $branch_options = $this->getBranches();
@@ -304,23 +305,24 @@ class UploadForm extends FormBase {
         $branch_options[$branch->get('field_branch_code')->value] = $branch->get('field_branch_name')->value;
       }
     }
+    else if ($is_admin) {
+      $selected_coop_provider_code = $form_state->getValue('coop_dropdown');
+      $selected_branch_code = $form_state->getValue('branch_dropdown');
+      $triggering_element = $form_state->getTriggeringElement();
 
-    $selected_coop_provider_code = $form_state->getValue('coop_dropdown');
-    $selected_branch_code = $form_state->getValue('branch_dropdown');
-    $triggering_element = $form_state->getTriggeringElement();
+      if ($selected_coop_provider_code) {
+        $branch_options = $this->getBranchOptionsByCoop($selected_coop_provider_code);
+      } else {
+        $branch_options = $this->getBranches();
+      }
 
-    if ($selected_coop_provider_code) {
-      $branch_options = $this->getBranchOptionsByCoop($selected_coop_provider_code);
-    } else {
-      $branch_options = $this->getBranches();
+      if ($selected_branch_code) {
+        $coop_options = $this->getCoopOptionsByBranch($selected_branch_code);
+      } else {
+        $coop_options = $this->getCooperatives();
+      }
     }
 
-    // Dynamically update coop options based on selected branch
-    if ($selected_branch_code) {
-      $coop_options = $this->getCoopOptionsByBranch($selected_branch_code);
-    } else {
-      $coop_options = $this->getCooperatives();
-    }
 
     $form['layout']['dropdowns_wrapper'] = [
       '#type' => 'container',
@@ -344,7 +346,6 @@ class UploadForm extends FormBase {
           'type' => 'none', 
         ],
       ],
-      '#default_value' => $selected_coop_provider_code ?: NULL,
       '#empty_option' => $this->t('- Select a cooperative -'),
     ];
     $form['layout']['dropdowns_wrapper']['branch_dropdown'] = [
@@ -361,7 +362,6 @@ class UploadForm extends FormBase {
           'type' => 'none', 
         ],
       ],
-      '#default_value' => $selected_branch_code ?: NULL,
       '#empty_option' => $this->t('- Select a branch -'),
     ];
     $form['layout']['dropdowns_wrapper']['report_dropdown'] = [

@@ -251,9 +251,6 @@ abstract class CooperativeBaseForm extends FormBase
                 '#markup' => '<span class="char-counter">0/50</span>',
             ],
             "#maxlength" => 50,
-            '#element_validate' => [
-                [AlphaNumericConstraintValidator::class, 'validate'],
-            ],
         ];
 
         unset(
