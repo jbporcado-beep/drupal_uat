@@ -25,14 +25,9 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  contact:
-    weight: 3
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_contact_number:
     type: string_textfield
-    weight: 8
+    weight: 5
     region: content
     settings:
       size: 60
@@ -40,7 +35,7 @@ content:
     third_party_settings: {  }
   field_full_name:
     type: string_textfield
-    weight: 6
+    weight: 4
     region: content
     settings:
       size: 60
@@ -48,28 +43,25 @@ content:
     third_party_settings: {  }
   field_last_password_reset:
     type: datetime_default
-    weight: 4
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
   field_password_expiration:
     type: boolean_checkbox
-    weight: 3
+    weight: 1
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
-  language:
+  timezone:
     weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
-  timezone:
-    weight: 4
-    region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
+  contact: true
   field_branch: true
   field_cooperative: true
   field_pending_expire_sent: true
+  language: true

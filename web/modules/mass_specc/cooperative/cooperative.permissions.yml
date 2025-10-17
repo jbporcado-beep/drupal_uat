@@ -2,22 +2,17 @@ access cooperative dashboard:
   title: "Access cooperative dashboard"
   description: "Access the cooperative dashboard."
 
-add member:
-  title: "Add member"
-  description: "Create a new member."
+view and upload file:
+  title: "View and upload files"
+  description: "Allows the user to access the File Upload page. Allows the user to upload files in the File Upload page."
+
+view file history:
+  title: "View File History"
+  description: "Allows the user to view file history"
+
+approve and reject files:
+  title: "Approve and Reject Files"
+  description: "Allows the user to approve and reject files."
 
 view members:
-  title: "View members"
-  description: "View member details."
-
-view reports:
-  title: "View reports"
-  description: "View and download report templates."
-
-upload file:
-  title: "Upload files"
-  description: "Upload files for reports."
-
-view file:
-  title: "View files"
-  description: "View uploaded files."
+  title: "View Coop Members"

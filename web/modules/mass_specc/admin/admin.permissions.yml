@@ -1,47 +1,57 @@
-add users:
-  title: "Add a user"
-  description: "Allow users to add new users to the system."
+# User and Acivity Logs
+manage users:
+  title: "Manage Users"
+  description: "Allows the user to create a new user. Allows the user to modify user information."
 
 view users:
-  title: "View user"
-  description: "Allow users to view user profiles."
+  title: "View Users"
+  description: "Allows the user to view the users page."
 
-edit users:
-  title: "Edit user"
-  description: "Allow users to edit user profiles."
+view user roles:
+  title: "View User Roles"
+  description: "Allows the user to manage the user roles page."
 
-view roles:
-  title: "View roles"
-  description: "View the list of user roles."
+view activity log:
+  title: "View Activity Log"
+  description: "Allows the user to view the activity log page. Allows the user to download the activity log."
 
-administer cic:
-  title: "Administer CIC"
-  description: "Administer the CIC report"
+# Coop Profile
+manage cooperative profile:
+  title: "Manage Cooperative Profile"
+  description: "Allows the user to add cooperative profiles. Allows the user to edit cooperative profiles. This includes managing branches."
 
-administer reports:
-  title: "Administer reports"
-  description: "Create and manage report templates."
+view cooperative profile:
+  title: "View Cooperative Profile"
+  description: "Allows the user to view the cooperative profile page."
 
-add cooperatives:
-  title: "Add cooperatives"
-  description: "Create cooperatives."
+# Report Builder
+manage report builder templates:
+  title: "Manage Report Builder Templates"
+  description: "Allows the user to create report templates. Allows the user to edit report templates."
 
-view cooperatives:
-  title: "View cooperatives"
-  description: "View the list of cooperatives."
+view report builder templates:
+  title: "View Report Builder Templates"
+  description: "Allows the user to view the report builder page. Allows the user to download report builder templates."
 
-edit cooperatives:
-  title: "Edit cooperatives"
-  description: "Edit existing cooperatives."
+# CIC
+view and trigger cic:
+  title: "View and Trigger CIC Report Generation"
+  description: "Allows the user to view the CIC Report Generation page. Allows the user to trigger CIC Report Generation, encryption, and submisison."
 
-add report templates:
-  title: "Add report templates"
-  description: "Create report in report builder"
+# Reports
+view and manage system logins:
+  title: "View and Manage Summary of System Login Reports"
+  description: "Allows the user to view the page. Allows the user to download the report."
 
-edit report templates:
-  title: "Edit report templates"
-  description: "Edit report in report builder"
+view and manage general report:
+  title: "View and Manage General Report Viewer"
+  description: "Allows the user to view the page. Allows the user to download the report."
 
-view report templates:
-  title: "View report builder"
-  description: "View report in report builder"
+view and manage member credit report:
+  title: "View and Manage Member Credit Report"
+  description: "Allows the user to view the page. Allows the user to download the report."
+
+# Dashboard can be placed somewhere else
+view dashboard:
+  title: "View Dashboard"
+  description: "Allows the user to access the dashboard."

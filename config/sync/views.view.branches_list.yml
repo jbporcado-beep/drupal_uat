@@ -425,7 +425,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'access content'
+          perm: 'manage cooperative profile'
       cache:
         type: tag
         options: {  }

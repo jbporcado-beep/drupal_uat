@@ -6,10 +6,11 @@ massspecc.home:
   requirements:
     _role: "mass_specc_admin"
 
+# Cooperatives route
 cooperative.list:
   path: "/cooperatives"
   requirements:
-    _permission: "view cooperatives"
+    _permission: "view cooperative profile"
 
 cooperative.add:
   path: "/cooperatives/add"
@@ -17,7 +18,7 @@ cooperative.add:
     _controller: '\Drupal\admin\Controller\CooperativeController::addCooperative'
     _title: "Add Cooperative"
   requirements:
-    _permission: "add cooperatives"
+    _permission: "manage cooperative profile"
 
 cooperative.edit:
   path: "/cooperatives/edit/{id}"
@@ -25,7 +26,7 @@ cooperative.edit:
     _controller: '\Drupal\admin\Controller\CooperativeController::editCooperative'
     _title_callback: '\Drupal\admin\Controller\CooperativeController::title'
   requirements:
-    _permission: "edit cooperatives"
+    _permission: "manage cooperative profile"
 
 cooperative.branches:
   path: "/cooperatives/edit/{id}/branches"
@@ -33,7 +34,7 @@ cooperative.branches:
     _controller: '\Drupal\admin\Controller\CooperativeController::editCooperativeBranches'
     _title: "Edit Cooperative Branches"
   requirements:
-    _permission: "edit cooperatives"
+    _permission: "manage cooperative profile"
 
 cooperative.branches.add:
   path: "/cooperatives/edit/{id}/branches/add"
@@ -41,7 +42,7 @@ cooperative.branches.add:
     _form: '\Drupal\admin\Form\BranchForm'
     _title: "Add Branch"
   requirements:
-    _permission: "edit cooperatives"
+    _permission: "manage cooperative profile"
 
 cooperative.branches.edit:
   path: "/cooperative/{id}/branches/{branch_key}/edit"
@@ -49,7 +50,7 @@ cooperative.branches.edit:
     _form: '\Drupal\admin\Form\BranchForm'
     _title: "Edit Branch"
   requirements:
-    _permission: "access content"
+    _permission: "manage cooperative profile"
 
 cooperative.activate_confirm:
   path: "/cooperative/{id}/activate/confirm"
@@ -57,7 +58,7 @@ cooperative.activate_confirm:
     _form: '\Drupal\common\Form\ConfirmActionForm'
     _title: "Confirm Activation"
   requirements:
-    _permission: "edit cooperatives"
+    _permission: "manage cooperative profile"
 
 cooperative.deactivate_confirm:
   path: "/cooperative/{id}/deactivate/confirm"
@@ -65,15 +66,16 @@ cooperative.deactivate_confirm:
     _form: '\Drupal\common\Form\ConfirmActionForm'
     _title: "Confirm Deactivation"
   requirements:
-    _permission: "edit cooperatives"
+    _permission: "manage cooperative profile"
 
+# Users routes
 users.add:
   path: "/users/add"
   defaults:
     _controller: '\Drupal\admin\Controller\UserController::createUser'
     _title: "Add User"
   requirements:
-    _permission: "add users"
+    _permission: "manage users"
 
 users.edit:
   path: "/users/edit/{id}"
@@ -81,7 +83,7 @@ users.edit:
     _controller: '\Drupal\admin\Controller\UserController::editUser'
     _title: "Edit User"
   requirements:
-    _permission: "edit users"
+    _permission: "manage users"
 
 users.list:
   path: "/users"
@@ -96,7 +98,7 @@ users.roles.list:
     _controller: '\Drupal\admin\Controller\UserController::userRoles'
     _title: "User Roles"
   requirements:
-    _permission: "view roles"
+    _permission: "view user roles"
 
 users.roles.view:
   path: "/user-roles/{role}"
@@ -104,31 +106,16 @@ users.roles.view:
     _controller: '\Drupal\admin\Component\RolesTable::viewModal'
     _title: "Role Details"
   requirements:
-    _permission: "view roles"
+    _permission: "view user roles"
 
-reports.add:
-  path: "/reports/add"
-  defaults:
-    _controller: '\Drupal\admin\Controller\ReportsController::createReport'
-    _title: "Create Report"
-  requirements:
-    _permission: "administer reports"
-
+# Reports Routes
 reports.member-credit:
   path: "/reports/member-credit"
   defaults:
     _controller: '\Drupal\admin\Controller\ReportsController::memberCredit'
     _title: "Member Credit"
   requirements:
-    _permission: "view reports"
-
-reports.credit-risk-bureau:
-  path: "/reports/credit-risk-bureau"
-  defaults:
-    _controller: '\Drupal\admin\Controller\ReportsController::creditRiskBureau'
-    _title: "Credit Risk Bureau"
-  requirements:
-    _permission: "view reports"
+    _permission: "view and manage member credit report"
 
 reports.general-report-viewer:
   path: "/reports/general-report-viewer"
@@ -136,7 +123,7 @@ reports.general-report-viewer:
     _controller: '\Drupal\admin\Controller\ReportsController::generalReportViewer'
     _title: "General Report Viewer"
   requirements:
-    _permission: "view reports"
+    _permission: "view and manage general report"
 
 reports.system-login-reports:
   path: "/reports/system-login-reports"
@@ -144,25 +131,28 @@ reports.system-login-reports:
     _controller: '\Drupal\admin\Controller\ReportsController::systemLoginReports'
     _title: "System Login Reports"
   requirements:
-    _permission: "view reports"
+    _permission: "view and manage system logins"
 
+# Report Builder Routes
 report-builder.add:
   path: "/report-builder/add"
   defaults:
     _form: 'Drupal\admin\Form\ReportBuilderForm'
     _title: "New Template"
   requirements:
-    _permission: "add report templates"
+    _permission: "manage report builder templates"
 
 report-builder.list:
   path: "/report-builder"
+  requirements:
+    _permission: "view report builder templates"
 
 report-builder.download:
   path: "/report-builder/download/{id}"
   defaults:
     _controller: '\Drupal\admin\Controller\ReportsController::downloadReportTemplate'
   requirements:
-    _permission: "view report templates"
+    _permission: "view report builder templates"
 
 report-builder.edit:
   path: "/report-builder/edit/{id}"
@@ -170,15 +160,16 @@ report-builder.edit:
     _form: 'Drupal\admin\Form\ReportBuilderForm'
     _title: "Edit Template"
   requirements:
-    _permission: "edit report templates"
+    _permission: "manage report builder templates"
 
+# CIC Routes
 cic.generate:
   path: "/cic-report-generation"
   defaults:
     _controller: '\Drupal\admin\Controller\CicController::generateCic'
     _title: "Generate CIC"
   requirements:
-    _permission: "administer cic"
+    _permission: "view and trigger cic"
 
 cic.manual-generate-modal:
   path: "/manual-cic-generation-modal"
@@ -193,4 +184,4 @@ cic.view:
     _controller: '\Drupal\admin\Controller\CicController::viewCicFiles'
     _title: "View CIC Files"
   requirements:
-    _permission: "administer cic"
+    _permission: "view and trigger cic"

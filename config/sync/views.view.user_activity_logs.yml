@@ -4,15 +4,10 @@ status: true
 dependencies:
   config:
     - field.storage.user.field_full_name
-    - user.role.administrator
-    - user.role.mass_specc_admin
   module:
     - admin
     - better_exposed_filters
-    - rest
-    - serialization
     - user
-    - views_data_export
 id: user_activity_logs
 label: 'User Activity Logs'
 module: views
@@ -403,11 +398,9 @@ display:
                   is_secondary: false
                   hide_label: false
       access:
-        type: role
+        type: perm
         options:
-          role:
-            administrator: administrator
-            mass_specc_admin: mass_specc_admin
+          perm: 'view activity log'
       cache:
         type: tag
         options: {  }
@@ -521,7 +514,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.user.field_full_name'
   user_activity_logs_list:
@@ -539,6 +532,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.user.field_full_name'

@@ -9,8 +9,6 @@ dependencies:
     - field.storage.node.field_coop_status
     - field.storage.node.field_email
     - node.type.cooperative
-    - user.role.administrator
-    - user.role.mass_specc_admin
   module:
     - better_exposed_filters
     - node
@@ -515,11 +513,9 @@ display:
                   is_secondary: false
                   hide_label: false
       access:
-        type: role
+        type: perm
         options:
-          role:
-            administrator: administrator
-            mass_specc_admin: mass_specc_admin
+          perm: 'view cooperative profile'
       cache:
         type: tag
         options: {  }
@@ -640,7 +636,7 @@ display:
         - url
         - url.query_args
         - 'user.node_grants:view'
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.node.field_contact_person'
         - 'config:field.storage.node.field_coop_code'
@@ -664,7 +660,7 @@ display:
         - url
         - url.query_args
         - 'user.node_grants:view'
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.node.field_contact_person'
         - 'config:field.storage.node.field_coop_code'

@@ -2,26 +2,11 @@ uuid: d2971ed1-e374-4b45-b54c-afb4428af70e
 langcode: en
 status: true
 dependencies:
-  config:
-    - node.type.cooperative
   module:
     - cooperative
-    - node
 id: approver
 label: Approver
 weight: 8
 is_admin: false
 permissions:
   - 'access cooperative dashboard'
-  - 'add member'
-  - 'create cooperative content'
-  - 'delete any cooperative content'
-  - 'delete cooperative revisions'
-  - 'delete own cooperative content'
-  - 'edit any cooperative content'
-  - 'edit own cooperative content'
-  - 'revert cooperative revisions'
-  - 'view cooperative revisions'
-  - 'view file'
-  - 'view members'
-  - 'view reports'

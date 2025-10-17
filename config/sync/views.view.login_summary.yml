@@ -4,9 +4,6 @@ status: true
 dependencies:
   config:
     - field.storage.user.field_full_name
-    - user.role.administrator
-    - user.role.authenticated
-    - user.role.mass_specc_admin
   module:
     - better_exposed_filters
     - csv_serialization
@@ -328,12 +325,9 @@ display:
                   is_secondary: false
                   hide_label: false
       access:
-        type: role
+        type: perm
         options:
-          role:
-            authenticated: authenticated
-            administrator: administrator
-            mass_specc_admin: mass_specc_admin
+          perm: 'view and manage system logins'
       cache:
         type: tag
         options: {  }
@@ -428,7 +422,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.user.field_full_name'
   login_summary_export:
@@ -481,7 +475,7 @@ display:
         - 'languages:language_interface'
         - request_format
         - url
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.user.field_full_name'
   login_summary_report:
@@ -502,6 +496,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.user.field_full_name'

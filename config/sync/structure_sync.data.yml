@@ -40,19 +40,6 @@ menus:
     options: {  }
   -
     menu_name: mass-specc-menu
-    title: 'Cooperative Branch File Upload'
-    parent: null
-    uri: 'internal:#'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: true
-    weight: -49
-    langcode: en
-    uuid: a3c0249c-69f5-4f46-88b5-e85992f13993
-    options: {  }
-  -
-    menu_name: mass-specc-menu
     title: 'File Upload'
     parent: 'menu_link_content:a3c0249c-69f5-4f46-88b5-e85992f13993'
     uri: 'internal:/ms_admin/upload/form'
@@ -183,32 +170,6 @@ menus:
     options: {  }
   -
     menu_name: mass-specc-menu
-    title: Reports
-    parent: null
-    uri: 'internal:/reports'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -45
-    langcode: en
-    uuid: b4b2eda8-823a-4484-a368-5d3849d78ee1
-    options: {  }
-  -
-    menu_name: mass-specc-menu
-    title: 'User Management'
-    parent: null
-    uri: 'internal:/users'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -44
-    langcode: en
-    uuid: 9a354587-2e41-4e15-ab7d-40565f7555e9
-    options: {  }
-  -
-    menu_name: mass-specc-menu
     title: 'CIC Report Generation'
     parent: null
     uri: 'internal:/cic-report-generation'
@@ -245,4 +206,69 @@ menus:
     weight: -50
     langcode: en
     uuid: 6c6e66cd-69e4-47ad-aa11-8c6164954526
+    options: {  }
+  -
+    menu_name: coop-menu
+    title: Reports
+    parent: null
+    uri: 'route:<nolink>'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: 0
+    langcode: en
+    uuid: cc9910b2-4faf-49bf-a060-68d98535eadc
+    options: {  }
+  -
+    menu_name: coop-menu
+    title: 'General Report Viewer'
+    parent: 'menu_link_content:cc9910b2-4faf-49bf-a060-68d98535eadc'
+    uri: 'internal:/reports/general-report-viewer'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: 0
+    langcode: en
+    uuid: f7273331-2afc-4991-aea3-5592a8a1e582
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'Cooperative Branch File Upload'
+    parent: null
+    uri: 'route:<nolink>'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: true
+    weight: -49
+    langcode: en
+    uuid: a3c0249c-69f5-4f46-88b5-e85992f13993
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: Reports
+    parent: null
+    uri: 'route:<nolink>'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -45
+    langcode: en
+    uuid: b4b2eda8-823a-4484-a368-5d3849d78ee1
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'User Management'
+    parent: null
+    uri: 'route:<nolink>'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -44
+    langcode: en
+    uuid: 9a354587-2e41-4e15-ab7d-40565f7555e9
     options: {  }

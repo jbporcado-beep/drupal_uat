@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - admin
     - cooperative
 id: access
 label: Access
@@ -10,4 +11,6 @@ weight: 9
 is_admin: false
 permissions:
   - 'access cooperative dashboard'
-  - 'view reports'
+  - 'view and manage general report'
+  - 'view and manage member credit report'
+  - 'view report builder templates'

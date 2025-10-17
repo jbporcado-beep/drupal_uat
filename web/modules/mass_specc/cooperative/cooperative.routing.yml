@@ -39,29 +39,29 @@ admin.upload:
 cooperative.upload.history:
   path: "/cooperative/upload/history"
   defaults:
-    _view: 'file_history.page_1'
+    _view: "file_history.page_1"
   requirements:
     _role: "uploader+approver"
 
 admin.upload.history:
   path: "/ms_admin/upload/history"
   defaults:
-    _view: 'file_history.page_2'
+    _view: "file_history.page_2"
   requirements:
     _role: "mass_specc_admin"
 
 cooperative.file_status_approve:
-  path: '/cooperative/file-status/approve/{node}'
+  path: "/cooperative/file-status/approve/{node}"
   defaults:
     _controller: '\Drupal\cooperative\Controller\FileHistoryController::approve'
-    _title: 'Approve File'
+    _title: "Approve File"
   requirements:
     _role: "approver"
 
 cooperative.file_status_reject:
-  path: '/cooperative/file-status/reject/{node}'
+  path: "/cooperative/file-status/reject/{node}"
   defaults:
     _controller: '\Drupal\cooperative\Controller\FileHistoryController::reject'
-    _title: 'Reject File'
+    _title: "Reject File"
   requirements:
     _role: "approver"
