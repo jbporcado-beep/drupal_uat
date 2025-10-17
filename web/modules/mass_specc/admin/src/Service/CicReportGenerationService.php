@@ -6,6 +6,7 @@ use Drupal\node\Entity\Node;
 use Drupal\file\Entity\File;
 use Drupal\file\FileInterface;
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\user\Entity\User;
 
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
@@ -33,6 +34,11 @@ class CicReportGenerationService {
     public function create(\DateTime $start_date, \DateTime $end_date, string $generationType) {
         $header_nids_by_coop_nids = $this->fileHistoryRepository->findHeadersByCoopApprovedAndBetweenDates($start_date, $end_date);
         $failed_coop_uploads = [];
+
+        if (empty($header_nids_by_coop_nids)) {
+            \Drupal::messenger()->addError('No approved file uploads found for the specified date range.');
+            return;
+        }
 
         foreach ($header_nids_by_coop_nids as $coop_nid => $header_nids) {
             $id_array = [];
@@ -227,6 +233,7 @@ class CicReportGenerationService {
             $message = "CIC report generated. **Failed to upload for the following groups:** [{$group_list}]";
 
             \Drupal::messenger()->addWarning($message);
+            \Drupal::logger('FTPS')->warning('CIC report generated with failed uploads for: @groups', ['@groups' => $group_list]);
         }
     }
 

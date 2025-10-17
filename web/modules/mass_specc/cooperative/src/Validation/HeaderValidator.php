@@ -50,8 +50,8 @@ class HeaderValidator {
             $errors[] = "Row $row_number | FIELD 'PROVIDER CODE' IS NOT CORRECT";
         }
 
-        if (!empty($branch_code) && strlen($branch_code) > 20) {
-            $errors[] = "Row $row_number | FIELD 'BRANCH CODE' LENGTH MUST HAVE A LENGTH <= 20";
+        if (!empty($branch_code) && strlen($branch_code) > 5) {
+            $errors[] = "Row $row_number | FIELD 'BRANCH CODE' LENGTH MUST HAVE A LENGTH <= 5";
         }
 
         if (empty($reference_date)) {
