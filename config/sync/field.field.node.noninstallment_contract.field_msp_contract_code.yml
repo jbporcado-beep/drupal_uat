@@ -1,0 +1,19 @@
+uuid: 0629bbde-c488-4cc9-b2d4-07f615764c1c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_msp_contract_code
+    - node.type.noninstallment_contract
+id: node.noninstallment_contract.field_msp_contract_code
+field_name: field_msp_contract_code
+entity_type: node
+bundle: noninstallment_contract
+label: 'MSP Contract Code'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

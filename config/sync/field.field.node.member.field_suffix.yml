@@ -1,0 +1,19 @@
+uuid: 4228e5eb-37b0-4c51-bf82-6607f3d03964
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_suffix
+    - node.type.member
+id: node.member.field_suffix
+field_name: field_suffix
+entity_type: node
+bundle: member
+label: Suffix
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

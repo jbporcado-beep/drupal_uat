@@ -1,0 +1,149 @@
+<div class="section-title">Contracts Details - Installments</div>
+
+{# --- Installments Detail--- #}
+{% if data.contracts_requested_refused is not empty %}
+  <p class="table-label">Installments Detail (Requested, Renounced and Refused)</p>
+  <table class="subject-table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>MSP Contract Code</th>
+        <th>Contract Type</th>
+        <th>Contract Phase</th>
+        <th>Role</th>
+        <th>Financed Amount</th>
+        <th>Installments Number</th>
+        <th>Payment Periodicity</th>
+        <th>Last Update Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in data.contracts.requested_refused %}
+        <tr>
+          <td>{{ item.no|default('—') }}</td>
+          <td>{{ item.msp_contract_code|default('—') }}</td>
+          <td>{{ item.contract_type|default('—') }}</td>
+          <td>{{ item.contract_phase|default('—') }}</td>
+          <td>{{ item.role|default('—') }}</td>
+          <td>{{ item.financed_amount|default('—') }}</td>
+          <td>{{ item.installments_number|default('—') }}</td>
+          <td>{{ item.payment_periodicity|default('—') }}</td>
+          <td>{{ item.last_update|default('—') }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+
+{% if data.contracts.active_closed is not empty %}
+  <p class="table-label">Installments Detail (Active, Closed, Closed in Advance)</p>
+  <table class="subject-table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>MSP Contract Code</th>
+        <th>Contract Type</th>
+        <th>Financed Amount</th>
+        <th>Outstanding Balance</th>
+        <th>Overdue Payments Amount</th>
+        <th>Contract Start Date</th>
+        <th>Contract End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contract in data.contracts.active_closed %}
+        <tr>
+          <td>{{ contract.no|default('—') }}</td>
+          <td>{{ contract.msp_contract_code|default('—') }}</td>
+          <td>{{ contract.contract_type|default('—') }}</td>
+          <td>{{ contract.financed_amount|default('—') }}</td>
+          <td>{{ contract.outstanding_balance|default('—') }}</td>
+          <td>{{ contract.overdue_amount|default('—') }}</td>
+          <td>{{ contract.start_date|default('—') }}</td>
+          <td>{{ contract.end_date|default('—') }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+
+{# --- Contract Details  --- #}
+{% for contract in data.contract_details %}
+  <p class="table-label">Detail of Installment {{ loop.index }}</p>
+
+  {# Basic Contract Info #}
+  <table class="subject-table">
+    <tr>
+      <th>MSP Contract Code</th><td>{{ contract.msp_contract_code|default('—') }}</td>
+      <th>Provider Contract No.</th><td>{{ contract.provider_contract_no|default('—') }}</td>
+      <th>Role</th><td>{{ contract.role|default('—') }}</td>
+    </tr>
+  </table>
+
+  {# Contract Summary #}
+  <table class="subject-table">
+    <tr>
+      <th>Contract Type</th><td>{{ contract.contract_type|default('—') }}</td>
+      <th>Financed Amount</th><td>{{ contract.financed_amount|default('—') }}</td>
+    </tr>
+    <tr>
+      <th>Transaction Type</th><td>{{ contract.transaction_type|default('—') }}</td>
+      <th>Original Currency</th><td>{{ contract.currency|default('—') }}</td>
+    </tr>
+    <tr>
+      <th>Contract Start Date</th><td>{{ contract.start_date|default('—') }}</td>
+      <th>Contract End Date</th><td>{{ contract.end_date|default('—') }}</td>
+    </tr>
+    <tr>
+      <th>Contract Phase</th><td>{{ contract.phase|default('—') }}</td>
+      <th>Last Update Date</th><td>{{ contract.last_update|default('—') }}</td>
+    </tr>
+  </table>
+
+  {# Granted Installment #}
+  {% if contract.granted is not empty %}
+    <p class="table-label">Granted Installment</p>
+    <table class="subject-table">
+      <tr>
+        <th>Monthly Payments Amount</th><td>{{ contract.granted.monthly_amount|default('—') }}</td>
+        <th>Payment Periodicity</th><td>{{ contract.granted.periodicity|default('—') }}</td>
+      </tr>
+      <tr>
+        <th>Installments Number</th><td>{{ contract.granted.installments_number|default('—') }}</td>
+        <th>Last Payment</th><td>{{ contract.granted.last_payment|default('—') }}</td>
+      </tr>
+      <tr>
+        <th>Next Payment Date</th><td>{{ contract.granted.next_payment_date|default('—') }}</td>
+        <th></th><td></td>
+      </tr>
+    </table>
+  {% endif %}
+
+  {# Outstanding #}
+  {% if contract.outstanding is not empty %}
+    <p class="table-label">Outstanding</p>
+    <table class="subject-table">
+      <tr>
+        <th>Outstanding Payments Number</th><td>{{ contract.outstanding.payments_number|default('—') }}</td>
+        <th>Outstanding Balance</th><td>{{ contract.outstanding.balance|default('—') }}</td>
+      </tr>
+    </table>
+  {% endif %}
+
+  {# Overdue #}
+  {% if contract.overdue is not empty %}
+    <p class="table-label">Overdue</p>
+    <table class="subject-table">
+      <tr>
+        <th>Overdue Payments Number</th><td>{{ contract.overdue.payments_number|default('—') }}</td>
+        <th>Overdue Payments Amount</th><td>{{ contract.overdue.amount|default('—') }}</td>
+      </tr>
+      <tr>
+        <th>Overdue Days</th><td>{{ contract.overdue.days|default('—') }}</td>
+        <th></th><td></td>
+      </tr>
+    </table>
+  {% endif %}
+{% endfor %}

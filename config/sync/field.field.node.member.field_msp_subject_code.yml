@@ -1,0 +1,19 @@
+uuid: d49cd5d5-33fb-4e39-af6f-8b2f6f0e9870
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_msp_subject_code
+    - node.type.member
+id: node.member.field_msp_subject_code
+field_name: field_msp_subject_code
+entity_type: node
+bundle: member
+label: 'MSP Subject Code'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

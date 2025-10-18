@@ -1,0 +1,29 @@
+uuid: 6e1e4199-210b-4c92-a27d-df515d609563
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_individual_profiles
+    - node.type.individual
+    - node.type.member
+id: node.member.field_individual_profiles
+field_name: field_individual_profiles
+entity_type: node
+bundle: member
+label: 'Individual Profiles'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      individual: individual
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

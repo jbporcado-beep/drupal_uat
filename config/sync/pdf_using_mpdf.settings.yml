@@ -1,0 +1,36 @@
+_core:
+  default_config_hash: E_qn9619uTxwHXYOo8Z7dBaYotrRFKlioHJN80mCp6k
+pdf_using_mpdf:
+  pdf_filename: '[site:name]-[date:custom:Y-m-d-H-i]'
+  pdf_save_option: '0'
+  pdf_save_schema: default
+  pdf_save_path: pdf_using_mpdf
+  pdf_set_title: ''
+  pdf_set_author: ''
+  pdf_set_subject: ''
+  pdf_set_creator: ''
+  view_mode: full
+  render_anonymous: false
+  margin_top: '16'
+  margin_right: '15'
+  margin_bottom: '16'
+  margin_left: '15'
+  margin_header: '9'
+  margin_footer: '9'
+  pdf_font_size: '12'
+  pdf_default_font: dejavusanscondensed
+  pdf_page_size: A4
+  dpi: '96'
+  img_dpi: '96'
+  orientation: P
+  pdf_template_file: ''
+  watermark_option: '0'
+  watermark_opacity: '0.1'
+  pdf_watermark_text: ''
+  watermark_image: {  }
+  pdf_header: "<strong>[node:title] - [site:name]</strong>\r\n<hr/>\r\n"
+  pdf_footer: "<hr/>\r\n[node:title]"
+  pdf_css_file: ''
+  pdf_css_from_theme: true
+  pdf_css_from_theme_all: false
+  pdf_password: ''

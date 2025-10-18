@@ -54,6 +54,7 @@ module:
   password_reset: 0
   path: 0
   path_alias: 0
+  pdf_using_mpdf: 0
   pgsql: 0
   phpass: 0
   rest: 0

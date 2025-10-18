@@ -60,6 +60,7 @@
         "drupal/password_policy_history": "^4.0",
         "drupal/password_policy_length": "^4.0",
         "drupal/password_policy_username": "^4.0",
+        "drupal/pdf_using_mpdf": "^3.0",
         "drupal/selectify": "^1.0",
         "drupal/smtp": "^1.4",
         "drupal/structure_sync": "^2.0",
@@ -71,6 +72,7 @@
         "drupal/views_core_entity_reference": "1.0.0-alpha3",
         "drupal/views_data_export": "^1.6",
         "drush/drush": "^13.6",
+        "mpdf/mpdf": "^8.2",
         "noli42/chosen": "3.0.0",
         "oomphinc/composer-installers-extender": "^2.0",
         "symfony/dotenv": "^7.3"

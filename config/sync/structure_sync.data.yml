@@ -182,32 +182,6 @@ menus:
     uuid: a170def7-9d36-4295-a151-fc0232f77289
     options: {  }
   -
-    menu_name: mass-specc-menu
-    title: 'System Logins'
-    parent: 'menu_link_content:b4b2eda8-823a-4484-a368-5d3849d78ee1'
-    uri: 'internal:/login-summary'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -49
-    langcode: en
-    uuid: 74732e01-ef26-4b80-8e1d-b44200ada436
-    options: {  }
-  -
-    menu_name: mass-specc-menu
-    title: 'General Report Viewer'
-    parent: 'menu_link_content:b4b2eda8-823a-4484-a368-5d3849d78ee1'
-    uri: 'internal:/reports/general-report-viewer'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -50
-    langcode: en
-    uuid: 6c6e66cd-69e4-47ad-aa11-8c6164954526
-    options: {  }
-  -
     menu_name: coop-menu
     title: Reports
     parent: null
@@ -271,4 +245,56 @@ menus:
     weight: -44
     langcode: en
     uuid: 9a354587-2e41-4e15-ab7d-40565f7555e9
+    options: {  }
+  -
+    menu_name: coop-menu
+    title: 'Member Credit Report'
+    parent: 'menu_link_content:cc9910b2-4faf-49bf-a060-68d98535eadc'
+    uri: 'internal:/reports/member-credit'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: 0
+    langcode: en
+    uuid: 2ecb70ef-f11c-4178-a73f-ffa6930a6565
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'General Report Viewer'
+    parent: 'menu_link_content:b4b2eda8-823a-4484-a368-5d3849d78ee1'
+    uri: 'internal:/reports/general-report-viewer'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -49
+    langcode: en
+    uuid: 6c6e66cd-69e4-47ad-aa11-8c6164954526
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'System Logins'
+    parent: 'menu_link_content:b4b2eda8-823a-4484-a368-5d3849d78ee1'
+    uri: 'internal:/login-summary'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -48
+    langcode: en
+    uuid: 74732e01-ef26-4b80-8e1d-b44200ada436
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: 'Member Credit Report'
+    parent: 'menu_link_content:b4b2eda8-823a-4484-a368-5d3849d78ee1'
+    uri: 'internal:/reports/member-credit'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -50
+    langcode: en
+    uuid: 7399abd2-009a-4de0-97eb-579a95d0d70b
     options: {  }

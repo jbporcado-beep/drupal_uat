@@ -1,4 +1,26 @@
 services:
+  cooperative.code_generator:
+    class: Drupal\cooperative\Service\MSPCodeGenerator
+    arguments: ["@database"]
+
+  cooperative.matching_service:
+    class: Drupal\cooperative\Service\MatchingService
+    arguments: ["@entity_type.manager", "@database"]
+
+  cooperative.member_credit_service:
+    class: Drupal\cooperative\Service\MemberCreditService
+    arguments:
+      ["@entity_type.manager", "@database", "@cooperative.matching_service"]
+
+  cooperative.member_profile_service:
+    class: 'Drupal\cooperative\Service\MemberProfileService'
+    arguments:
+      - "@entity_type.manager"
+      - "@database"
+      - "@cooperative.matching_service"
+      - "@cooperative.individual_repository"
+      - "@cooperative.code_generator"
+
   cooperative.header_repository:
     class: 'Drupal\cooperative\Repository\HeaderRepository'
   cooperative.individual_repository:
@@ -61,6 +83,7 @@ services:
       - "@cooperative.identification_validator"
       - "@cooperative.contact_validator"
       - "@cooperative.employment_validator"
+      - "@cooperative.member_profile_service"
 
   cooperative.company_service:
     class: 'Drupal\cooperative\Service\CompanyService'

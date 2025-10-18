@@ -1,0 +1,306 @@
+{# templates/sections/_subject.html.twig #}
+<div class="section">
+  <div class="section-title">SUBJECT</div>
+
+<p class="table-label">Subject Data</p>
+  <table class="subject-table">
+    <tr>
+      <th>MSP Subject Code</th><td>{{ data.subject.msp_member_code ?? '' }}</td>
+      <th>Last Update Date</th><td>{{ data.subject.last_update ?? '' }}</td>
+    </tr>
+    <tr>
+      <th>Title</th><td>{{ data.subject.title ?? '' }}</td>
+      <th>Last Name</th><td>{{ data.subject.last_name?? '' }}</td>
+    </tr>
+    <tr>
+      <th>First Name</th><td>{{ data.subject.first_name ?? '' }}</td>
+      <th>Previous Last Name</th><td>{{ data.subject.prev_last_name ?? '' }}</td>
+    </tr>
+    <tr>
+      <th>Middle Name</th><td>{{ data.subject.middle_name ?? '' }}</td>
+      <th>Suffix</th><td>{{ data.subject.suffix ?? '' }}</td>
+    </tr>
+    <tr>
+      <th>Date of Birth</th><td>{{ data.subject.dob ?? '' }}</td>
+      <th>Nationality</th><td>{{ data.subject.nationality ?? '' }}</td>
+    </tr>
+    <tr>
+      <th>Country of Birth</th><td>{{ data.subject.cob ?? '' }}</td>
+      <th>Place of Birth</th><td>{{ data.subject.pob ?? '' }}</td>
+    </tr>
+    <tr>
+      <th>Resident</th><td>{{ data.subject.resident ?? '' }}</td>
+      <th>Gender</th><td>{{ data.subject.gender ?? '' }}</td>
+    </tr>
+    <tr>
+      <th>Number of Dependents</th><td>{{ data.subject.dependents ?? '' }}</td>
+      <th>Civil Status</th><td>{{ data.subject.civ_status ?? '' }}</td>
+    </tr>
+    <tr>
+      <th>Cars Owned</th><td>{{ data.subject.cars ?? '' }}</td>
+      <th></th><td></td>
+    </tr>
+  </table>
+  
+  <p class="table-label">Spouse</p>
+  <table class=subject-table>
+      <tr>
+      <th>First Name</th><td>{{ data.spouse.first_name ?? '' }}</td>
+      <th>Last Name</th><td>{{ data.spouse.last_name ?? '' }}</td>
+    </tr>
+    <tr>
+      <th>Middle Name</th><td>{{ data.spouse.middle_name ?? '' }}</td>
+      <th></th><td></td>
+    </tr>
+  </table>
+  
+  <p class="table-label">Mother(Maiden)</p>
+  <table class=subject-table>
+      <tr>
+      <th>Full Name</th><td>{{ data.mother.full_name ?? '' }}</td>
+      <th></th><td></td>
+    </tr>
+  </table>
+  
+  <p class="table-label">Father</p>
+  <table class=subject-table>
+      <tr>
+      <th>First Name</th><td>{{ data.father.first_name ?? '' }}</td>
+      <th>Last Name</th><td>{{ data.father.last_name ?? '' }}</td>
+    </tr>
+    <tr>
+      <th>Middle Name</th><td>{{ data.father.middle_name ?? '' }}</td>
+      <th>Suffix</th><td>{{data.father.suffix}}</td>
+    </tr>
+  </table>
+  
+ {% if data.identifications is not empty %}
+  <p class="table-label">Identification Code</p>
+  <table class="subject-table">
+    {% for iden in data.identifications %}
+      <tr>
+        <th>{{ iden.type ?? '' }}</th>
+        <td>{{ iden.code ?? '' }}</td>
+        <th>Last Updated Date</th>
+        <td>{{ iden.last_update ?? '' }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+  
+  {% if data.ids is not empty %}
+  <p class="table-label">ID</p>
+  <table class="subject-table">
+    <thead>
+      <tr>
+        <th>ID Type</th>
+        <th>ID Number</th>
+        <th>ID Issue Date</th>
+        <th>ID Expiry Date</th>
+        <th>ID Issue Country</th>
+        <th>Issued by</th>
+        <th>Last Update Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for id in data.ids %}
+        <tr>
+          <td>{{ id.type ?? '' }}</td>
+          <td>{{ id.number ?? '' }}</td>
+          <td>{{ id.issue_date ?? '' }}</td>
+          <td>{{ id.expiry_date ?? '' }}</td>
+          <td>{{ id.country ?? '' }}</td>
+          <td>{{ id.issued_by ?? '' }}</td>
+          <td>{{ id.last_update ?? '' }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+  {% if data.addresses is not empty %}
+  <p class="table-label">Addresses Data</p>
+  <table class="subject-table">
+    <thead>
+      <tr>
+        <th>Address Type</th>
+        <th>Full Address</th>
+        <th>Owner/Lessee</th>
+        <th>Occupied since</th>
+        <th>Last Update Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for address in data.addresses %}
+        <tr>
+          <td>{{ address.type ?? '' }}</td>
+          <td>{{ address.full_address ?? '' }}</td>
+          <td>{{ address.owner_lessee ?? '' }}</td>
+          <td>{{ address.occupied_since ?? '' }}</td>
+          <td>{{ address.last_update ?? '' }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+ {% if data.contacts is not empty %}
+  <p class="table-label">Contact Data</p>
+  <table class="subject-table">
+    <thead>
+      <tr>
+        <th>Contact Type</th>
+        <th>Contact</th>
+        <th>Last Updated Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contact in data.contacts %}
+        <tr>
+          <td>{{ contact.type ?? '' }}</td>
+          <td>{{ contact.contact ?? '' }}</td>
+          <td>{{ contact.last_update ?? '' }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if data.historical_contacts is not empty %}
+  <p class="table-label">Historical Contacts</p>
+  <table class="subject-table">
+    <thead>
+      <tr>
+        <th>Contact Type</th>
+        <th>Contact</th>
+        <th>Last Updated Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contact in data.historical_contacts %}
+        <tr>
+          <td>{{ contact.type ?? '' }}</td>
+          <td>{{ contact.contact ?? '' }}</td>
+          <td>{{ contact.last_update ?? '' }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+   {# --- Employment --- #}
+{% if data.employment is not empty %}
+  <p class="table-label">Employment Data</p>
+  <table class="subject-table">
+    <tr>
+      <th>Company Trade Name</th><td>{{ data.employment.trade_name ?? '' }}</td>
+      <th>Occupation Status</th><td>{{ data.employment.occupation_status ?? '' }}</td>
+    </tr>
+
+    <tr>
+      <th>PSIC</th><td>{{ data.employment.psic ?? '' }}</td>
+      <th>Occupation</th><td>{{ data.employment.occupation ?? '' }}</td>
+    </tr>
+  </table>
+{% endif %}
+
+  
+  {# --- Sole Traders Data --- #}
+{% if data.sole_traders is not empty %}
+  <p class="table-label">Sole Traders Data</p>
+  <table class="subject-table">
+    {% for trader in data.sole_traders %}
+      <tr>
+        <th>Contact Type</th><td>{{ trader.contact_type ?? '' }}</td>
+        <th>Contact</th><td>{{ trader.contact ?? '' }}</td>
+        <th>Last Updated Date</th><td>{{ trader.last_updated ?? '' }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+
+{# --- Sole Trade Addresses Data --- #}
+{% if data.sole_trade_addresses is not empty %}
+  <p class="table-label">Sole Trade Addresses Data</p>
+  <table class="subject-table">
+    <thead>
+      <tr>
+        <th>Address Type</th>
+        <th>Full Address</th>
+        <th>Owner/Lessee</th>
+        <th>Occupied Since</th>
+        <th>Last Update Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for addr in data.sole_trade_addresses %}
+        <tr>
+          <td>{{ addr.address_type ?? '' }}</td>
+          <td>{{ addr.full_address ?? '' }}</td>
+          <td>{{ addr.owner_lessee ?? '' }}</td>
+          <td>{{ addr.occupied_since ?? '' }}</td>
+          <td>{{ addr.last_updated ?? '' }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+
+{# --- Identification Code --- #}
+{% if data.sole_identifications is not empty %}
+  <p class="table-label">Identification Code</p>
+  <table class="subject-table">
+    {% for id in data.sole_identifications %}
+      <tr>
+        <th>TIN</th><td>{{ id.tin ?? '' }}</td>
+        <th>Last Updated Date</th><td>{{ id.last_updated ?? '' }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+
+{# --- Contact Data --- #}
+{% if data.sole_contacts is not empty %}
+  <p class="table-label">Contact Data</p>
+  <table class="subject-table">
+    {% for contact in data.sole_contacts %}
+      <tr>
+        <th>Contact Type</th><td>{{ contact.contact_type ?? '' }}</td>
+        <th>Contact</th><td>{{ contact.contact ?? '' }}</td>
+        <th>Last Updated Date</th><td>{{ contact.last_updated ?? '' }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+
+{# --- Subject Information --- #}
+{% if data.subject_information is not empty %}
+  <div class="section-title">Subject Information</div>
+  <p class="table-label">Information Details</p>
+  <table class="subject-table">
+    <thead>
+      <tr>
+        <th>Event Date</th>
+        <th>Event Type</th>
+        <th>Event Detail</th>
+        <th>Last Update Date</th>
+        <th>Provider Code Encrypted</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for info in data.subject_information %}
+        <tr>
+          <td>{{ info.event_date ?? '' }}</td>
+          <td>{{ info.event_type ?? '' }}</td>
+          <td>{{ info.event_detail ?? '' }}</td>
+          <td>{{ info.last_updated ?? '' }}</td>
+          <td>{{ info.provider_code ?? '' }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}

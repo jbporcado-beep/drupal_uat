@@ -1,0 +1,25 @@
+{% if subjects is not empty %}
+  <p class="table-label">Linked Subjects</p>
+  <table class="subject-table">
+    <thead>
+      <tr>
+        <th>CIC Subject Code</th>
+        <th>Name</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for subj in subjects %}
+        <tr>
+          <td>{{ subj.code|default('')|e }}</td>
+          <td>{{ subj.name|default('')|e }}</td>
+          <td>{{ subj.role|default('')|e }}</td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="3" class="empty-text">No linked subjects available.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}

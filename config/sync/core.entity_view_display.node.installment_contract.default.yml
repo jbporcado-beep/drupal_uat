@@ -14,6 +14,7 @@ dependencies:
     - field.field.node.installment_contract.field_installments_no
     - field.field.node.installment_contract.field_last_payment_amount
     - field.field.node.installment_contract.field_monthly_payment_amount
+    - field.field.node.installment_contract.field_msp_contract_code
     - field.field.node.installment_contract.field_next_payment_date
     - field.field.node.installment_contract.field_original_currency
     - field.field.node.installment_contract.field_outstanding_balance
@@ -122,6 +123,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 141
+    region: content
+  field_msp_contract_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 145
     region: content
   field_next_payment_date:
     type: string

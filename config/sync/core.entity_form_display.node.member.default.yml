@@ -1,22 +1,22 @@
-uuid: 0c1458a1-cd31-4bff-acad-c11ea2f3b0b9
+uuid: bd59150c-6006-466b-9d27-bb78a3b0b7d6
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.company.field_address
-    - field.field.node.company.field_branch_code
-    - field.field.node.company.field_contact
-    - field.field.node.company.field_identification
-    - field.field.node.company.field_msp_subject_code
-    - field.field.node.company.field_provider_code
-    - field.field.node.company.field_provider_subject_no
-    - field.field.node.company.field_trade_name
-    - node.type.company
+    - field.field.node.member.field_date_of_birth
+    - field.field.node.member.field_first_name
+    - field.field.node.member.field_gender
+    - field.field.node.member.field_individual_profiles
+    - field.field.node.member.field_last_name
+    - field.field.node.member.field_middle_name
+    - field.field.node.member.field_msp_subject_code
+    - field.field.node.member.field_suffix
+    - node.type.member
   module:
     - path
-id: node.company.default
+id: node.member.default
 targetEntityType: node
-bundle: company
+bundle: member
 mode: default
 content:
   created:
@@ -25,7 +25,31 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_address:
+  field_date_of_birth:
+    type: string_textfield
+    weight: 137
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_first_name:
+    type: string_textfield
+    weight: 123
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_gender:
+    type: string_textfield
+    weight: 128
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_individual_profiles:
     type: entity_reference_autocomplete
     weight: 138
     region: content
@@ -35,31 +59,19 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_branch_code:
+  field_last_name:
     type: string_textfield
-    weight: 121
+    weight: 124
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_contact:
-    type: entity_reference_autocomplete
-    weight: 141
+  field_middle_name:
+    type: string_textfield
+    weight: 125
     region: content
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_identification:
-    type: entity_reference_autocomplete
-    weight: 140
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
@@ -71,25 +83,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_provider_code:
+  field_suffix:
     type: string_textfield
-    weight: 137
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_provider_subject_no:
-    type: string_textfield
-    weight: 121
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_trade_name:
-    type: string_textfield
-    weight: 122
+    weight: 126
     region: content
     settings:
       size: 60

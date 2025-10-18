@@ -1,0 +1,140 @@
+{# templates/member-credit-report.html.twig #}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Member Credit Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+body {
+  font-family: "Arial", sans-serif;
+  font-size: 12px !important;
+  color: #111;
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+  box-sizing: border-box;
+  padding: 0;
+  page-break-after: auto;
+}
+
+.report-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  margin-bottom: 10px;
+}
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 120px;
+}
+
+.site-logo {
+  display: block;
+  height: 40px;
+  width: auto;
+}
+
+.report-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.meta {
+  font-size: 11px;
+  color: #555;
+  text-align: right;
+  min-width: 140px;
+}
+
+.section-title {
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  padding-bottom: 2px;
+}
+
+.subject-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 1.2rem;
+  page-break-inside: avoid; /* keep table rows together */
+}
+
+.subject-table th,
+.subject-table td {
+  border: 1px solid #000;
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.subject-table th {
+  font-weight: normal;
+}
+
+.subject-table td {
+  font-weight: bold;
+}
+
+.table-label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 4px;
+  margin-top: 20px;
+}
+
+.label {
+  font-weight: 900;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+@page {
+  margin-top: 12mm;
+  margin-bottom: 15mm;
+  margin-left: 12mm;
+  margin-right: 12mm;
+}
+</style>
+
+</head>
+<body>
+
+<div class="page">
+  <div class="report-header">
+    <div class="logo-wrapper">
+        <img src="/sites/default/files/inline-images/logo.png" alt="Site Logo" class="site-logo" />
+    </div>
+    <div class="report-title">MEMBER CREDIT REPORT</div>
+    <div class="meta">Request Date: {{ data.request_date|default('') }}</div>
+  </div>
+
+  {% include '@cooperative/sections/_subject.html.twig' with { data: data|default({}) } %}
+
+  {% if data.contracts is not empty %}
+    {% include '@cooperative/sections/_contracts.html.twig' with {
+      contracts: data.contracts,
+      contract_details: data.contract_details
+    } %}
+  {% endif %}
+</div>
+
+</body>
+</html>

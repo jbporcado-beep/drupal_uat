@@ -1,0 +1,44 @@
+{% if data.guarantees is not empty %}
+  <p class="table-label">Guarantees</p>
+
+  {# Real Guarantee summary #}
+  <table class="subject-table">
+    <tr>
+      <th>Real Guarantee</th>
+      <td>{{ data.guarantees.real_guarantee|default('—') }}</td>
+    </tr>
+  </table>
+
+  {% if data.guarantees.details is not empty %}
+    <table class="subject-table">
+      <thead>
+        <tr>
+          <th>Provider Guarantee No</th>
+          <th>Guarantor Name</th>
+          <th>CIC Subject Code</th>
+          <th>Asset Code</th>
+          <th>Asset Description</th>
+          <th>Guaranteed Amount</th>
+          <th>Validity Start Date</th>
+          <th>Validity End Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for guarantee in data.guarantees.details %}
+          <tr>
+            <td>{{ guarantee.provider_guarantee_no|default('—') }}</td>
+            <td>{{ guarantee.guarantor_name|default('—') }}</td>
+            <td>{{ guarantee.cic_subject_code|default('—') }}</td>
+            <td>{{ guarantee.asset_code|default('—') }}</td>
+            <td>{{ guarantee.asset_description|default('—') }}</td>
+            <td>{{ guarantee.guaranteed_amount|default('—') }}</td>
+            <td>{{ guarantee.validity_start_date|default('—') }}</td>
+            <td>{{ guarantee.validity_end_date|default('—') }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="empty-text">No guarantee details available.</p>
+  {% endif %}
+{% endif %}

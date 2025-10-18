@@ -7,3 +7,9 @@ file-status-handler:
     - core/drupal
     - core/once
     - core/drupal.message
+
+member_credit_report:
+  version: 1.0
+  css:
+    theme:
+      css/member-credit-report.css: {}

@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.noninstallment_contract.field_credit_limit
     - field.field.node.noninstallment_contract.field_currency
     - field.field.node.noninstallment_contract.field_header
+    - field.field.node.noninstallment_contract.field_msp_contract_code
     - field.field.node.noninstallment_contract.field_original_currency
     - field.field.node.noninstallment_contract.field_outstanding_balance
     - field.field.node.noninstallment_contract.field_overdue_payments_amount
@@ -95,6 +96,14 @@ content:
     settings:
       match_operator: CONTAINS
       match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_msp_contract_code:
+    type: string_textfield
+    weight: 165
+    region: content
+    settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }

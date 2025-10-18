@@ -1,0 +1,96 @@
+body {
+  font-family: "Arial", sans-serif;
+  font-size: 12px !important;
+  color: #111;
+  margin: 0;
+  padding: 0;
+}
+
+.label {
+  font-weight: 900;
+}
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 10mm auto;
+  padding: 15mm;
+  box-sizing: border-box;
+  page-break-after: always;
+  background: #fff;
+}
+
+.report-header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.report-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.meta {
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #bbb;
+  padding-bottom: 2px;
+}
+
+.report-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.report-title {
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.meta {
+  margin-top: 5px;
+  font-size: 11px;
+  color: #555;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px;
+  padding-bottom: 4px;
+}
+
+.table-label {
+  font-size: 1rem;
+}
+
+.subject-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-bottom: 1rem;
+}
+
+.subject-table th,
+.subject-table td {
+  border: 1px solid #000;
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.subject-table th {
+  width: 20%;
+  background: #f3f3f3;
+  font-weight: bold;
+}

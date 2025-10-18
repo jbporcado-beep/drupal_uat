@@ -65,3 +65,19 @@ cooperative.file_status_reject:
     _title: "Reject File"
   requirements:
     _role: "approver"
+
+cooperative.member_credit_report:
+  path: "/reports/member-credit"
+  defaults:
+    _form: '\Drupal\cooperative\Form\MemberCreditForm'
+    _title: "Member Credit Report"
+  requirements:
+    _permission: "view and manage member credit report"
+
+cooperative.download_report:
+  path: "/reports/member-credit/download/{nid}"
+  defaults:
+    _controller: '\Drupal\cooperative\Controller\ReportsController::downloadReport'
+    _title: "Download Report"
+  requirements:
+    _permission: "view and manage member credit report"

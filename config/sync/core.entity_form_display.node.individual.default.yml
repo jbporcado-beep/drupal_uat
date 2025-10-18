@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.individual.field_gender
     - field.field.node.individual.field_identification
     - field.field.node.individual.field_last_name
+    - field.field.node.individual.field_member_profile
     - field.field.node.individual.field_middle_name
     - field.field.node.individual.field_nationality
     - field.field.node.individual.field_number_of_dependents
@@ -151,6 +152,16 @@ content:
     weight: 124
     region: content
     settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_member_profile:
+    type: entity_reference_autocomplete
+    weight: 145
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }

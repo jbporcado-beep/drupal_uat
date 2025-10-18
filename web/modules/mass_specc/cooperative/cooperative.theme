@@ -1,0 +1,14 @@
+<?php
+
+function cooperative_theme($existing, $type, $theme, $path) {
+  return [
+    'member_credit_report' => [
+      'variables' => ['data' => NULL],
+      'template' => 'member-credit-report',
+      'path' => drupal_get_path('module', 'cooperative') . '/templates',
+    ],
+  ];
+}
+
+
+?>

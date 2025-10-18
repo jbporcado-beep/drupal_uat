@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.individual.field_gender
     - field.field.node.individual.field_identification
     - field.field.node.individual.field_last_name
+    - field.field.node.individual.field_member_profile
     - field.field.node.individual.field_middle_name
     - field.field.node.individual.field_nationality
     - field.field.node.individual.field_number_of_dependents
@@ -137,6 +138,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 104
+    region: content
+  field_member_profile:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 125
     region: content
   field_middle_name:
     type: string
