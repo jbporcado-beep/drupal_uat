@@ -2,11 +2,10 @@
 namespace Drupal\admin\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\admin\Form\DashboardForm;
 
 class HomeController extends ControllerBase {
   public function view() {
-    return [
-      '#plain_text' => $this->t('Home page elements here'),
-    ];
+    return $this->formBuilder()->getForm(DashboardForm::class);
   }
 }

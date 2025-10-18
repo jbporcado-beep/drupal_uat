@@ -1,0 +1,63 @@
+.account-container {
+    border: 1px solid black;
+    width: 13vw;
+    min-width: 220px;
+    padding: 20px;
+    margin-bottom: 3vh !important;
+}
+.stat-header {
+    margin-bottom: 20px;
+}
+.account-stat {
+    display: flex;
+}
+.left-p {
+  flex-basis: 80%; 
+}
+.total {
+  text-align: right;
+  font-weight: 500;
+  padding-right: 15px;
+}
+.right-p {
+  flex-grow: 1;
+  text-align: right;
+}
+
+.searchbar {
+  width: 25vw;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/></svg>');
+  background-repeat: no-repeat;
+  background-size: 1em 1em;
+  background-position: 0.75em center;
+  padding-left: 2.3em;
+  margin-top: 40px
+}
+
+.views-exposed-form__filters {
+  flex: 0 1 18em;
+  min-width: 12em;
+  max-width: 100%;
+}
+
+.table-responsive {
+  border: 1px solid #dee2e6;
+  border-bottom: none;
+  margin-bottom: 20px;
+}
+.table {
+  margin-bottom: 0;
+}
+
+.coop-summary-table tr td {
+  border-right: 1px solid #ddd;
+}
+
+.coop-summary-table tr th {
+  border-right: 1px solid #ddd;
+}
+
+.coop-summary-table tr td:last-child,
+.coop-summary-table tr th:last-child {
+  border-right: none;
+}

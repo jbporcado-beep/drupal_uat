@@ -13,3 +13,12 @@ member_credit_report:
   css:
     theme:
       css/member-credit-report.css: {}
+      
+dashboard_autosubmit:
+  version: 1.0
+  js:
+    js/dashboard_autosubmit.js: {}
+  dependencies:
+    - core/jquery
+    - core/once
+    - core/drupal.debounce

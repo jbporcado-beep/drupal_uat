@@ -50,3 +50,8 @@ cic-report-generation:
   css:
     theme:
       css/cic-report-generation.css: {}
+
+dashboard:
+  css:
+    theme:
+      css/dashboard.css: {}
