@@ -178,7 +178,7 @@ class DashboardForm extends FormBase {
     }
 
     private function buildDashboardTable($search = '') {
-        $limit = 3;
+        $limit = 10;
         $rows = [];
 
         $request = \Drupal::request();

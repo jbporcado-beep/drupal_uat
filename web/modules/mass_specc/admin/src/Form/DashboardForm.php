@@ -116,7 +116,7 @@ class DashboardForm extends FormBase {
     }
 
     private function buildDashboardTable($search = '') {
-        $limit = 3;
+        $limit = 10;
         $rows = [];
 
         $request = \Drupal::request();
@@ -168,7 +168,7 @@ class DashboardForm extends FormBase {
             $total_branches = $this->getTotalBranchByCoop($coop_id);
 
             $branch_column = "{$approved_uploads}/{$total_branches} approved";
-            $status = $approved_uploads === $total_branches ? 'Complete' : 'Pending';
+            $status = $approved_uploads === $total_branches ? 'Complete' : 'Partial';
 
             $rows[] = [
                 'coop_name' => $coop_name,

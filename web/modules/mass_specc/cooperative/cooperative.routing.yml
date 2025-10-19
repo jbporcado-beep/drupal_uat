@@ -2,7 +2,7 @@ cooperative.dashboard:
   path: "/dashboard/cooperative"
   defaults:
     _controller: '\Drupal\cooperative\Controller\HomeController::view'
-    _title: "Dashboard"
+    _title_callback: '\Drupal\cooperative\Controller\HomeController::getTitle'
   requirements:
     _permission: "access cooperative dashboard"
 
