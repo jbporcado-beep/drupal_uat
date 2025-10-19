@@ -29,7 +29,7 @@ class MemberProfileService
 
         $query = $this->entityTypeManager->getStorage('node')->getQuery()
             ->accessCheck(FALSE)
-            ->condition('type', 'member_profile')
+            ->condition('type', 'member')
             ->condition('status', 1)
             ->condition('field_first_name', $first)
             ->condition('field_last_name', $last)
@@ -43,7 +43,7 @@ class MemberProfileService
         }
 
         $profile = Node::create([
-            'type' => 'member_profile',
+            'type' => 'member',
             'title' => "{$first} {$last}",
             'field_first_name' => $first,
             'field_last_name' => $last,
