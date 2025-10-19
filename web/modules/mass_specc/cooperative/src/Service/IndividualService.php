@@ -74,6 +74,11 @@ class IndividualService
                 'last_name' => $individualDto->lastName,
                 'dob' => $individualDto->dateOfBirth,
                 'gender' => $individualDto->gender,
+                'provider_code' => $individualDto->providerCode,
+                'provider_subj_no' => $individualDto->providerSubjectNo,
+                'branch_code' => $individualDto->branchCode,
+                'identification' => $individualDto->identification,
+                'contact' => $individualDto->contact
             ];
 
             $member_profile = $this->memberProfileService->findOrCreateMemberProfile($identity);
