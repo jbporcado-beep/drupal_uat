@@ -1,32 +1,6 @@
 menus:
   -
     menu_name: coop-menu
-    title: 'File Upload'
-    parent: 'menu_link_content:d2c6c943-441f-4e01-8342-7329335458fd'
-    uri: 'internal:/cooperative/upload/form'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -50
-    langcode: en
-    uuid: bcbd5f6c-f7aa-4c4a-9f38-889033d1f6e3
-    options: {  }
-  -
-    menu_name: mass-specc-menu
-    title: Dashboard
-    parent: null
-    uri: 'internal:/dashboard/mass-specc'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -50
-    langcode: en
-    uuid: 3c9d50fb-9353-4afe-9e9e-e7233304474a
-    options: {  }
-  -
-    menu_name: coop-menu
     title: 'File History'
     parent: 'menu_link_content:d2c6c943-441f-4e01-8342-7329335458fd'
     uri: 'internal:/cooperative/upload/history'
@@ -183,19 +157,6 @@ menus:
     options: {  }
   -
     menu_name: coop-menu
-    title: Reports
-    parent: null
-    uri: 'route:<nolink>'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: 0
-    langcode: en
-    uuid: cc9910b2-4faf-49bf-a060-68d98535eadc
-    options: {  }
-  -
-    menu_name: coop-menu
     title: 'General Report Viewer'
     parent: 'menu_link_content:cc9910b2-4faf-49bf-a060-68d98535eadc'
     uri: 'internal:/reports/general-report-viewer'
@@ -219,19 +180,6 @@ menus:
     weight: -49
     langcode: en
     uuid: a3c0249c-69f5-4f46-88b5-e85992f13993
-    options: {  }
-  -
-    menu_name: mass-specc-menu
-    title: Reports
-    parent: null
-    uri: 'route:<nolink>'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -45
-    langcode: en
-    uuid: b4b2eda8-823a-4484-a368-5d3849d78ee1
     options: {  }
   -
     menu_name: mass-specc-menu
@@ -297,4 +245,56 @@ menus:
     weight: -50
     langcode: en
     uuid: 7399abd2-009a-4de0-97eb-579a95d0d70b
+    options: {  }
+  -
+    menu_name: coop-menu
+    title: 'File Upload'
+    parent: 'menu_link_content:d2c6c943-441f-4e01-8342-7329335458fd'
+    uri: 'internal:/cooperative/upload/form'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -50
+    langcode: en
+    uuid: bcbd5f6c-f7aa-4c4a-9f38-889033d1f6e3
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: Dashboard
+    parent: null
+    uri: 'internal:/dashboard/mass-specc'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -50
+    langcode: en
+    uuid: 3c9d50fb-9353-4afe-9e9e-e7233304474a
+    options: {  }
+  -
+    menu_name: mass-specc-menu
+    title: Reports
+    parent: null
+    uri: 'route:<nolink>'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -45
+    langcode: en
+    uuid: b4b2eda8-823a-4484-a368-5d3849d78ee1
+    options: {  }
+  -
+    menu_name: coop-menu
+    title: Reports
+    parent: null
+    uri: 'internal:/reports/member-credit'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: 0
+    langcode: en
+    uuid: cc9910b2-4faf-49bf-a060-68d98535eadc
     options: {  }
