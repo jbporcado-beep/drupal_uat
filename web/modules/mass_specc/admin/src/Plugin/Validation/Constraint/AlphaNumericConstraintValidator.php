@@ -12,9 +12,13 @@ class AlphaNumericConstraintValidator
    */
   public static function validate(&$element, FormStateInterface $form_state, &$complete_form)
   {
-    $value = $element['#value'];
+    $value = isset($element['#value']) ? trim((string) $element['#value']) : '';
 
-    if (strlen($value) < 2) {
+    if ($value === '') {
+      return;
+    }
+
+    if (mb_strlen($value) < 2) {
       $form_state->setError($element, t('The field should have at least 2 characters.'));
     }
 

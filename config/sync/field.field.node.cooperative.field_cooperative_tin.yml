@@ -1,0 +1,19 @@
+uuid: 739feed0-55ee-4167-9bb3-72835668e654
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cooperative_tin
+    - node.type.cooperative
+id: node.cooperative.field_cooperative_tin
+field_name: field_cooperative_tin
+entity_type: node
+bundle: cooperative
+label: 'Cooperative TIN'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

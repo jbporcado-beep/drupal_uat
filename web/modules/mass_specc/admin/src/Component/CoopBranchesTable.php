@@ -55,8 +55,8 @@ class CoopBranchesTable
                 'data' => [
                     ['data' => htmlspecialchars($branch['branch_code']), 'style' => $style],
                     ['data' => htmlspecialchars($branch['branch_name']), 'style' => $style],
-                    ['data' => htmlspecialchars($branch['email']), 'style' => $style],
-                    ['data' => htmlspecialchars($branch['contact_person']), 'style' => $style],
+                    ['data' => htmlspecialchars($branch['email'] ?? ''), 'style' => $style],
+                    ['data' => htmlspecialchars($branch['contact_person'] ?? ''), 'style' => $style],
                     ['data' => ['#markup' => $action_markup]],
                 ],
                 'class' => $row_class,

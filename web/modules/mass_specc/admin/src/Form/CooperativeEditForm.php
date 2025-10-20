@@ -249,20 +249,34 @@ class CooperativeEditForm extends CooperativeBaseForm
       $node->set('field_coop_name', $values['coop_name'] ?? NULL);
       $node->set('field_coop_code', $values['coop_code'] ?? NULL);
       $node->set('field_cic_provider_code', $values['cic_provider_code'] ?? NULL);
-      $node->set('field_ho_address', $values['ho_address'] ?? NULL);
+      $node->set('field_coop_acronym', $values['coop_acronym'] ?? NULL);
       $node->set('field_no_of_employees', $values['no_of_employees'] ?? NULL);
+      $node->set('field_cda_registration_date', $values['cda_registration_date'] ?? NULL);
+      $node->set('field_cda_firm_size', $values['cda_firm_size'] ?? NULL);
+      $node->set('field_street_no_and_name', $values['street_name'] ?? NULL);
+      $node->set('field_postal_code', $values['postal_code'] ?? NULL);
+      $node->set('field_subdivision_purok', $values['subdivision'] ?? NULL);
+      $node->set('field_barangay', $values['barangay'] ?? NULL);
+      $node->set('field_city', $values['city'] ?? NULL);
+      $node->set('field_province', $values['province'] ?? NULL);
+      $node->set('field_country', $values['country'] ?? NULL);
       $node->set('field_contact_person', $values['contact_person'] ?? NULL);
       $node->set('field_coop_contact_number', $values['coop_contact_number'] ?? NULL);
       $node->set('field_email', $values['email'] ?? NULL);
-      $node->set('field_cda_registration_date', $values['cda_registration_date'] ?? NULL);
-      $node->set('field_cda_firm_size', $values['cda_firm_size'] ?? NULL);
+      $node->set('field_general_manager', $values['manager'] ?? NULL);
+      $node->set('field_general_manager_contact_no', $values['manage_contact_number'] ?? NULL);
+      $node->set('field_cooperative_website_url', $values['coop_website'] ?? NULL);
+      $node->set('field_cooperative_tin', $values['coop_tin'] ?? NULL);
+      $node->set('field_coop_type', $values['coop_type'] ?? NULL);
+      $node->set('field_number_of_branches', $values['no_of_branches'] ?? NULL);
+      $node->set('field_number_of_members', $values['no_of_members'] ?? NULL);
       $node->set('field_assigned_report_templates', $values['assigned_report_templates'] ?? NULL);
       $node->set('field_ftps_username', $values['ftps_username'] ?? NULL);
 
       if (!empty($values['ftps_password'])) {
         $node->set('field_ftps_password', Crypto::encrypt($values['ftps_password'], $key));
       }
-      
+
       $node->save();
 
       $tempstore = \Drupal::service('tempstore.private')->get('coop_branches');

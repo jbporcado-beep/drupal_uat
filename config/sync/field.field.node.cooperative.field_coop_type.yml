@@ -1,0 +1,21 @@
+uuid: 2279a1ee-9beb-4907-aa35-1f4e617df953
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_coop_type
+    - node.type.cooperative
+  module:
+    - options
+id: node.cooperative.field_coop_type
+field_name: field_coop_type
+entity_type: node
+bundle: cooperative
+label: 'Coop Type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

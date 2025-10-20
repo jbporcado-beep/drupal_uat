@@ -86,21 +86,24 @@ class BranchForm extends FormBase
       '#element_validate' => [[AlphaNumericConstraintValidator::class, 'validate']],
     ];
 
-    $form['branch_address'] = [
+    $form['branch_code'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Branch Address'),
-      '#required' => TRUE,
-      '#default_value' => $defaults('branch_address'),
-      '#attributes' => ['class' => ['js-char-count'], 'data-maxlength' => 200],
-      '#description' => ['#markup' => '<span class="char-counter">0/200</span>'],
-      '#maxlength' => 200,
+      '#title' => $this->t('Branch Code'),
+      '#access' => $is_edit,
+      '#default_value' => $defaults('branch_code'),
+      '#attributes' => [
+        'class' => ['js-char-count'],
+        'data-maxlength' => 20,
+        'readonly' => 'readonly',
+      ],
+      '#description' => ['#markup' => '<span class="char-counter">0/20</span>'],
+      '#maxlength' => 20,
       '#element_validate' => [[AlphaNumericConstraintValidator::class, 'validate']],
     ];
 
     $form['no_of_employees'] = [
       '#type' => 'number',
       '#title' => $this->t('No. of Employees in Branch'),
-      '#required' => TRUE,
       '#default_value' => $defaults('no_of_employees'),
       '#min' => 0,
       '#max' => 9999,
@@ -109,7 +112,6 @@ class BranchForm extends FormBase
     $form['contact_person'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Contact Person'),
-      '#required' => TRUE,
       '#default_value' => $defaults('contact_person'),
       '#attributes' => ['class' => ['js-char-count'], 'data-maxlength' => 100],
       '#description' => ['#markup' => '<span class="char-counter">0/100</span>'],
@@ -120,7 +122,6 @@ class BranchForm extends FormBase
     $form['contact_number'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Contact Number'),
-      '#required' => TRUE,
       '#default_value' => $defaults('contact_number'),
       '#attributes' => [
         'class' => ['js-numeric-only'],
@@ -137,7 +138,6 @@ class BranchForm extends FormBase
     $form['email'] = [
       '#type' => 'email',
       '#title' => $this->t('Email'),
-      '#required' => TRUE,
       '#default_value' => $defaults('email'),
       '#element_validate' => [[EmailConstraintValidator::class, 'validate']],
     ];
@@ -145,7 +145,6 @@ class BranchForm extends FormBase
     $form['branch_manager'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Branch Manager'),
-      '#required' => TRUE,
       '#default_value' => $defaults('branch_manager'),
       '#attributes' => ['class' => ['js-char-count'], 'data-maxlength' => 100],
       '#description' => ['#markup' => '<span class="char-counter">0/100</span>'],
@@ -156,7 +155,6 @@ class BranchForm extends FormBase
     $form['branch_manager_contact_no'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Branch Manager Contact No.'),
-      '#required' => TRUE,
       '#default_value' => $defaults('branch_manager_contact_no'),
       '#attributes' => [
         'class' => ['js-numeric-only'],
@@ -173,7 +171,6 @@ class BranchForm extends FormBase
     $form['no_of_members'] = [
       '#type' => 'number',
       '#title' => $this->t('No. of Members'),
-      '#required' => TRUE,
       '#default_value' => $defaults('no_of_members'),
       '#min' => 0,
       '#max' => 9999,
@@ -218,7 +215,6 @@ class BranchForm extends FormBase
 
     $branch_data = [
       'branch_id' => $branch_id ?: NULL,
-      'branch_code' => $form_state->getValue('branch_code'),
       'branch_name' => $form_state->getValue('branch_name'),
       'branch_address' => $form_state->getValue('branch_address'),
       'contact_person' => $form_state->getValue('contact_person'),
@@ -369,22 +365,6 @@ class BranchForm extends FormBase
 
     if (!empty($existing)) {
       $form_state->setErrorByName('branch_code', $this->t('The Branch Code %code is already in use.', ['%code' => $branch_code]));
-    }
-
-    $query_name = \Drupal::entityQuery('node')
-      ->condition('type', 'branch')
-      ->condition('field_branch_name', $branch_name)
-      ->accessCheck(FALSE);
-
-    if ($branch_id) {
-      $query_name->condition('nid', $branch_id, '<>');
-    }
-
-    $existing_name = $query_name->execute();
-
-    if (!empty($existing_name)) {
-      $form_state->setErrorByName('branch_name', $this->t('The Branch Name %name is already in use.', ['%name' => $branch_name]));
-      return;
     }
   }
 }

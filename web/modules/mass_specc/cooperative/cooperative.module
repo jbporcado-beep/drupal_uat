@@ -28,6 +28,13 @@ function cooperative_entity_presave(EntityInterface $entity) {
       $entity->set('field_msp_contract_code', $generator->generateContractCode());
     }
   }
+
+   if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'branch') {
+    if ($entity->hasField('field_branch_code') && $entity->get('field_branch_code')->isEmpty()) {
+      // generateBranchCode() should return a unique code like "25001".
+      $entity->set('field_branch_code', $generator->generateBranchCode());
+    }
+  }
 }
 
 

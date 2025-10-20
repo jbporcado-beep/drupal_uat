@@ -1,0 +1,19 @@
+uuid: d0023526-3d05-46ab-bddc-cf25c2c261de
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_city
+    - node.type.cooperative
+id: node.cooperative.field_city
+field_name: field_city
+entity_type: node
+bundle: cooperative
+label: City
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -22,6 +22,7 @@ permissions:
   - 'view and manage system logins'
   - 'view and trigger cic'
   - 'view cooperative profile'
+  - 'view dashboard'
   - 'view file history'
   - 'view report builder templates'
   - 'view user roles'

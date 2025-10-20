@@ -13,4 +13,3 @@ permissions:
   - 'access cooperative dashboard'
   - 'view and manage general report'
   - 'view and manage member credit report'
-  - 'view report builder templates'

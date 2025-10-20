@@ -1,15 +1,15 @@
-uuid: 5872e11b-3e77-4eb0-afe1-3d313b7b49cf
+uuid: ccbd3ee4-d438-42c8-8824-bc25ff191ee6
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_cda_firm_size
+    - field.storage.node.field_number_of_members
     - node.type.cooperative
-id: node.cooperative.field_cda_firm_size
-field_name: field_cda_firm_size
+id: node.cooperative.field_number_of_members
+field_name: field_number_of_members
 entity_type: node
 bundle: cooperative
-label: 'CDA Firm Size'
+label: 'Number of Members'
 description: ''
 required: false
 translatable: false

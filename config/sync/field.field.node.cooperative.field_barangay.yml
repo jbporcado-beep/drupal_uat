@@ -1,0 +1,19 @@
+uuid: 4d7afa7a-0492-4e6e-9d8f-ab35ffdc06fa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_barangay
+    - node.type.cooperative
+id: node.cooperative.field_barangay
+field_name: field_barangay
+entity_type: node
+bundle: cooperative
+label: Barangay
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

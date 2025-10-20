@@ -6,7 +6,8 @@ use Drupal\Core\Url;
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 
-class CooperativeCreateForm extends CooperativeBaseForm {
+class CooperativeCreateForm extends CooperativeBaseForm
+{
 
     /**
      * {@inheritdoc}
@@ -64,7 +65,8 @@ class CooperativeCreateForm extends CooperativeBaseForm {
     /**
      * {@inheritdoc}
      */
-    public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state)
+    {
         $keyAscii = $_ENV['FTPS_PW_ENCRYPT_KEY'];
         $key = Key::loadFromAsciiSafeString($keyAscii);
 
@@ -77,12 +79,27 @@ class CooperativeCreateForm extends CooperativeBaseForm {
                 'field_coop_name' => $values['coop_name'],
                 'field_coop_code' => $values['coop_code'],
                 'field_cic_provider_code' => $values['cic_provider_code'],
+                'field_coop_acronym' => $values['coop_acronym'],
                 'field_ho_address' => $values['ho_address'],
                 'field_no_of_employees' => $values['no_of_employees'],
+                'field_street_no_and_name' => $values['street_name'],
+                'field_postal_code' => $values['postal_code'],
+                'field_subdivision_purok' => $values['subdivision'],
+                'field_barangay' => $values['barangay'],
+                'field_city' => $values['city'],
+                'field_province' => $values['province'],
+                'field_country' => $values['country'],
                 'field_contact_person' => $values['contact_person'],
                 'field_coop_contact_number' => $values['coop_contact_number'],
                 'field_email' => $values['email'],
-                'field_coop_status' => true,
+                'field_general_manager' => $values['manager'],
+                'field_general_manager_contact_no' => $values['manage_contact_number'],
+                'field_cooperative_website_url' => $values['coop_website'],
+                'field_cooperative_tin' => $values['coop_tin'],
+                'field_coop_type' => $values['coop_type'],
+                'field_number_of_branches' => $values['no_of_branches'],
+                'field_number_of_members' => $values['no_of_members'],
+                'field_coop_status' => TRUE,
                 'field_cda_registration_date' => $values['cda_registration_date'],
                 'field_cda_firm_size' => $values['cda_firm_size'],
                 'field_assigned_report_templates' => array_map('intval', $values['assigned_report_templates'] ?? []),

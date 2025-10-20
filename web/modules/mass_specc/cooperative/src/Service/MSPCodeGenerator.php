@@ -83,5 +83,35 @@ class MSPCodeGenerator
     }
 
 
+    public function generateBranchCode(): string
+    {
+        $yearPrefix = date('y');
+
+        $last_code = \Drupal::database()->select('node__field_branch_code', 'b')
+            ->fields('b', ['field_branch_code_value'])
+            ->condition('b.field_branch_code_value', $yearPrefix . '%', 'LIKE')
+            ->orderBy('field_branch_code_value', 'DESC')
+            ->range(0, 1)
+            ->execute()
+            ->fetchField();
+
+        $next = $last_code ? ((int) substr($last_code, 2)) + 1 : 1;
+
+        $new_code = $yearPrefix . str_pad($next, 3, '0', STR_PAD_LEFT);
+
+        $exists = \Drupal::database()->select('node__field_branch_code', 'b')
+            ->condition('b.field_branch_code_value', $new_code)
+            ->range(0, 1)
+            ->countQuery()
+            ->execute()
+            ->fetchField();
+
+        if ($exists) {
+            return $this->generateBranchCode();
+        }
+
+        return $new_code;
+    }
+
 
 }

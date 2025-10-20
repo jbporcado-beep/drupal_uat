@@ -4,22 +4,38 @@ status: true
 dependencies:
   config:
     - field.field.node.cooperative.field_assigned_report_templates
+    - field.field.node.cooperative.field_barangay
     - field.field.node.cooperative.field_cda_firm_size
     - field.field.node.cooperative.field_cda_registration_date
     - field.field.node.cooperative.field_cic_provider_code
+    - field.field.node.cooperative.field_city
     - field.field.node.cooperative.field_contact_person
+    - field.field.node.cooperative.field_coop_acronym
     - field.field.node.cooperative.field_coop_code
     - field.field.node.cooperative.field_coop_contact_number
     - field.field.node.cooperative.field_coop_name
     - field.field.node.cooperative.field_coop_status
+    - field.field.node.cooperative.field_coop_type
+    - field.field.node.cooperative.field_cooperative_tin
+    - field.field.node.cooperative.field_cooperative_website_url
+    - field.field.node.cooperative.field_country
     - field.field.node.cooperative.field_email
     - field.field.node.cooperative.field_ftps_password
     - field.field.node.cooperative.field_ftps_username
+    - field.field.node.cooperative.field_general_manager
+    - field.field.node.cooperative.field_general_manager_contact_no
     - field.field.node.cooperative.field_ho_address
     - field.field.node.cooperative.field_no_of_employees
+    - field.field.node.cooperative.field_number_of_branches
+    - field.field.node.cooperative.field_number_of_members
+    - field.field.node.cooperative.field_postal_code
+    - field.field.node.cooperative.field_province
+    - field.field.node.cooperative.field_street_no_and_name
+    - field.field.node.cooperative.field_subdivision_purok
     - node.type.cooperative
   module:
     - datetime
+    - options
     - user
 id: node.cooperative.default
 targetEntityType: node
@@ -33,6 +49,14 @@ content:
       link: true
     third_party_settings: {  }
     weight: 12
+    region: content
+  field_barangay:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 19
     region: content
   field_cda_firm_size:
     type: number_integer
@@ -60,6 +84,14 @@ content:
     third_party_settings: {  }
     weight: 10
     region: content
+  field_city:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 20
+    region: content
   field_contact_person:
     type: string
     label: above
@@ -67,6 +99,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 4
+    region: content
+  field_coop_acronym:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 15
     region: content
   field_coop_code:
     type: string
@@ -102,6 +142,37 @@ content:
     third_party_settings: {  }
     weight: 11
     region: content
+  field_coop_type:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 27
+    region: content
+  field_cooperative_tin:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 26
+    region: content
+  field_cooperative_website_url:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 25
+    region: content
+  field_country:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 22
+    region: content
   field_email:
     type: basic_string
     label: above
@@ -125,6 +196,22 @@ content:
     third_party_settings: {  }
     weight: 13
     region: content
+  field_general_manager:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 23
+    region: content
+  field_general_manager_contact_no:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 24
+    region: content
   field_ho_address:
     type: string
     label: above
@@ -141,6 +228,56 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
     weight: 9
+    region: content
+  field_number_of_branches:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 28
+    region: content
+  field_number_of_members:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 29
+    region: content
+  field_postal_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 17
+    region: content
+  field_province:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 21
+    region: content
+  field_street_no_and_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 16
+    region: content
+  field_subdivision_purok:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 18
     region: content
   links:
     settings: {  }

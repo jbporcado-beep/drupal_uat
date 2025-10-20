@@ -10,3 +10,4 @@ weight: 8
 is_admin: false
 permissions:
   - 'access cooperative dashboard'
+  - 'approve and reject files'

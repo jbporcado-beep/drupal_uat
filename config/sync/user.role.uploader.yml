@@ -11,7 +11,6 @@ weight: 7
 is_admin: false
 permissions:
   - 'access cooperative dashboard'
-  - 'approve and reject files'
   - 'view and upload file'
   - 'view file history'
   - 'view report builder templates'

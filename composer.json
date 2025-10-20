@@ -29,6 +29,7 @@
     "require": {
         "composer/installers": "^2.3",
         "defuse/php-encryption": "^2.4",
+        "drupal/address": "^2.0",
         "drupal/better_exposed_filters": "^7.0",
         "drupal/bootstrap_barrio": "^5.5",
         "drupal/bootstrap_sass": "^5.0",
@@ -61,7 +62,6 @@
         "drupal/password_policy_length": "^4.0",
         "drupal/password_policy_username": "^4.0",
         "drupal/pdf_using_mpdf": "^3.0",
-        "drupal/selectify": "^1.0",
         "drupal/smtp": "^1.4",
         "drupal/structure_sync": "^2.0",
         "drupal/tfa": "^1.12",
