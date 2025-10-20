@@ -161,19 +161,19 @@ class InstallmentContractValidator {
         if (strlen($installments_number) === 0) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-030: FIELD 'INSTALLMENTS NUMBER' IS MANDATORY";
         }
-        if (!ctype_digit($installments_number) || (int) $installments_number <= 0 || strlen($installments_number) > 3) {
+        if (!ctype_digit((string) $installments_number) || (int) $installments_number <= 0 || strlen($installments_number) > 3) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-059: FIELD 'INSTALLMENTS NUMBER' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
 
         if (strlen($financed_amount) === 0) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-161: FIELD 'FINANCED AMOUNT' IS MANDATORY";
         }
-        if (!ctype_digit($financed_amount) || (int) $financed_amount <= 0 || strlen($financed_amount) > 15) {
+        if (!ctype_digit((string) $financed_amount) || (int) $financed_amount <= 0 || strlen($financed_amount) > 15) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-058: FIELD 'FINANCED AMOUNT' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
 
         if (!empty($monthly_payment_amount) && 
-            (!ctype_digit($monthly_payment_amount) || (int) $monthly_payment_amount <= 0 || strlen($monthly_payment_amount) > 15)) {
+            (!ctype_digit((string) $monthly_payment_amount) || (int) $monthly_payment_amount <= 0 || strlen($monthly_payment_amount) > 15)) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-060: FIELD 'MONTHLY PAYMENT AMOUNT' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
         if (in_array($contract_phase, ['AC', 'CL', 'CA']) && (empty($monthly_payment_amount) || (int) $monthly_payment_amount === 0)) {
@@ -193,37 +193,44 @@ class InstallmentContractValidator {
         if (in_array($contract_phase, ['AC', 'CL', 'CA']) && empty($contract_end_planned_date)) {
             $errors[] = "$provider_contract_no | Row $row_number | 'CONTRACT PHASE' IN (AC,CL,CA) AND 'CONTRACT END PLANNED DATE' IS EMPTY";
         }
-        if (!empty($contract_end_planned_date) && 
-            (!$is_end_planned_date_valid || ($is_end_planned_date_valid && $is_start_date_valid && 
-            self::isDateGreaterThan($contract_start_date, $contract_end_planned_date)))) {
-            $errors[] = "$provider_contract_no | Row $row_number | 10-157: FIELD 'CONTRACT END PLANNED DATE' IS NOT CORRECT";
+
+        if (strlen($contract_end_planned_date) !== 0) {
+            if (!$is_end_planned_date_valid || ($is_end_planned_date_valid && $is_start_date_valid && 
+                self::isDateGreaterThan($contract_start_date, $contract_end_planned_date))) {
+                $errors[] = "$provider_contract_no | Row $row_number | 10-157: FIELD 'CONTRACT END PLANNED DATE' IS NOT CORRECT";
+            }
         }
 
         if (in_array($contract_phase, ['CL', 'CA']) && empty($contract_end_actual_date)) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-253: 'CONTRACT PHASE' IN (CL,CA) AND 'CONTRACT END ACTUAL DATE' IS EMPTY";
         }
-        if (!empty($contract_end_actual_date) && !$is_end_actual_date_valid || ($is_end_actual_date_valid && $is_start_date_valid && 
-            self::isDateGreaterThan($contract_start_date, $contract_end_actual_date))) {
-            $errors[] = "$provider_contract_no | Row $row_number | 10-158: FIELD 'CONTRACT END ACTUAL DATE' IS NOT CORRECT";
+
+        if (strlen($contract_end_actual_date) !== 0) {
+            if (!$is_end_actual_date_valid || ($is_end_actual_date_valid && $is_start_date_valid && 
+                self::isDateGreaterThan($contract_start_date, $contract_end_actual_date))) {
+                $errors[] = "$provider_contract_no | Row $row_number | 10-158: FIELD 'CONTRACT END ACTUAL DATE' IS NOT CORRECT";
+            }
         }
 
         $are_all_dates_valid = $is_start_date_valid && $is_end_actual_date_valid && $is_end_planned_date_valid && $is_next_payment_date_valid;
-        if (!empty($next_payment_date) && !$is_next_payment_date_valid || ($are_all_dates_valid && 
-            (self::isDateGreaterThan($contract_start_date, $next_payment_date) ||
-            self::isDateGreaterThan($next_payment_date, $contract_end_planned_date) || 
-            self::isDateGreaterThan($next_payment_date, $contract_end_actual_date)))) {
-            $errors[] = "$provider_contract_no | Row $row_number | 10-166: FIELD 'NEXT PAYMENT DATE' IS NOT CORRECT";
+        if (strlen($next_payment_date) !== 0) {
+            if (!$is_next_payment_date_valid || ($are_all_dates_valid && 
+                (self::isDateGreaterThan($contract_start_date, $next_payment_date) ||
+                self::isDateGreaterThan($next_payment_date, $contract_end_planned_date) || 
+                self::isDateGreaterThan($next_payment_date, $contract_end_actual_date)))) {
+                $errors[] = "$provider_contract_no | Row $row_number | 10-166: FIELD 'NEXT PAYMENT DATE' IS NOT CORRECT";
+            }
         }
 
         if (strlen($outstanding_payments_number) !== 0 && 
-            (!ctype_digit($outstanding_payments_number) || strlen($outstanding_payments_number) > 3)) {
+            (!ctype_digit((string) $outstanding_payments_number) || strlen($outstanding_payments_number) > 3)) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-168: FIELD 'OUTSTANDING PAYMENTS NUMBER' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
         if (in_array($contract_phase, ['CL', 'CA']) && !empty($outstanding_payments_number)) {
             $errors[] = "$provider_contract_no | Row $row_number | 'CONTRACT PHASE' IN (CL,CA) AND 'OUTSTANDING PAYMENTS NUMBER' IS NOT EMPTY";
         }
 
-        if (!empty($outstanding_balance) && (!ctype_digit($outstanding_balance) || strlen($outstanding_balance) > 15)) {
+        if (!empty($outstanding_balance) && (!ctype_digit((string) $outstanding_balance) || strlen($outstanding_balance) > 15)) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-169: FIELD 'OUTSTANDING BALANCE' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
         if (in_array($contract_phase, ['CL', 'CA']) && !empty($outstanding_balance)) {
@@ -236,7 +243,10 @@ class InstallmentContractValidator {
             "MUST EITHER BOTH BE EMPTY OR FILLED IN";
         }
 
-        if (!empty($overdue_payments_amount) && (!ctype_digit($overdue_payments_amount) || strlen($overdue_payments_amount) > 15)) {
+        if (!empty($overdue_payments_number) && (!ctype_digit((string) $overdue_payments_number) || strlen($overdue_payments_number) > 3)) {
+            $errors[] = "$provider_contract_no | Row $row_number | FIELD 'OVERDUE PAYMENTS NUMBER' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
+        }
+        if (!empty($overdue_payments_amount) && (!ctype_digit((string) $overdue_payments_amount) || strlen($overdue_payments_amount) > 15)) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-171: FIELD 'OVERDUE PAYMENTS AMOUNT' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
         if (in_array($contract_phase, ['RQ', 'RN', 'RF']) && !empty($overdue_payments_number)) {
@@ -257,6 +267,9 @@ class InstallmentContractValidator {
         }
         if (!empty($overdue_days) && !in_array($overdue_days, self::OVERDUE_DAYS_DOMAIN)) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-172: FIELD 'OVERDUE DAYS' IS NOT CORRECT";
+        }
+        if (strlen($overdue_days) !== 0 && !ctype_digit((string) $overdue_days)) {
+            $errors[] = "$provider_contract_no | Row $row_number | FIELD 'OVERDUE DAYS' IS NOT NUMERIC";
         }
 
         if ($is_start_date_valid && $is_end_planned_date_valid && 
@@ -330,6 +343,9 @@ class InstallmentContractValidator {
         }
         if ((int) $last_payment_amount < 0) {
             $errors[] = "$provider_contract_no | Row $row_number | 20-201: FIELD 'LAST PAYMENT AMOUNT' CAN'T HAVE A NEGATIVE VALUE";
+        }
+        if (strlen($last_payment_amount) !== 0 && !ctype_digit((string) $last_payment_amount)) {
+            $errors[] = "$provider_contract_no | Row $row_number | FIELD 'LAST PAYMENT AMOUNT' IS NOT NUMERIC";
         }
 
         if (empty($currency)) {

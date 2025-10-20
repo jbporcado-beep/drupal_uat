@@ -79,14 +79,12 @@ class IdentificationValidator {
             $errors[] = "$provider_subj_no | Row $row_number | 10-069: FIELDS 'IDENTIFICATION 1 TYPE' AND 'IDENTIFICATION 1 NUMBER' " .
                         "MUST EITHER BOTH BE EMPTY OR FILLED IN";
         }
-        if ($identification_1_type === '10' 
-            && (!empty($identification_1_number) 
-                && (strlen($identification_1_number) < 9 
-                || strlen($identification_1_number) > 12 
-                || !ctype_digit((string) $identification_1_number)))
+        if (($identification_1_type === '10' && strlen($identification_1_number) !== 0) 
+            && ((strlen($identification_1_number) !== 9 && strlen($identification_1_number) !== 12) 
+            || !ctype_digit((string) $identification_1_number))
             ) {
             $errors[] = "$provider_subj_no | Row $row_number | 20-050: IF FIELD 'IDENTIFICATION 1 TYPE' IS 'TIN', " . 
-                    "THE 'IDENTIFICATION 1 NUMBER' LENGTH MUST HAVE A LENGTH >= 9 AND <= 12, AND ONLY NUMBERS ARE ALLOWED";
+                    "THE 'IDENTIFICATION 1 NUMBER' LENGTH MUST HAVE A LENGTH 9 OR 12, AND ONLY NUMBERS ARE ALLOWED";
         }
 
         if (!empty($identification_2_type) 
@@ -101,14 +99,12 @@ class IdentificationValidator {
             $errors[] = "$provider_subj_no | Row $row_number | 10-069: FIELDS 'IDENTIFICATION 2 TYPE' AND 'IDENTIFICATION 2 NUMBER' " .
                         "MUST EITHER BOTH BE EMPTY OR FILLED IN";
         }
-        if ($identification_2_type === '10' 
-            && (!empty($identification_1_number) 
-                && (strlen($identification_2_number) < 9 
-                || strlen($identification_2_number) > 12 
-                || !ctype_digit((string) $identification_2_number)))
+        if (($identification_2_type === '10' && strlen($identification_2_number) !== 0) 
+            && ((strlen($identification_2_number) !== 9 && strlen($identification_2_number) !== 12)
+            || !ctype_digit((string) $identification_2_number))
             ) {
             $errors[] = "$provider_subj_no | Row $row_number | 20-050: IF FIELD 'IDENTIFICATION 2 TYPE' IS 'TIN', " .
-                    "THE 'IDENTIFICATION 2 NUMBER' LENGTH MUST HAVE A LENGTH >= 9 AND <= 12, AND ONLY NUMBERS ARE ALLOWED";
+                    "THE 'IDENTIFICATION 2 NUMBER' LENGTH MUST HAVE A LENGTH 9 OR 12, AND ONLY NUMBERS ARE ALLOWED";
         }
         
         if ($record_type === 'ID') {
@@ -123,8 +119,7 @@ class IdentificationValidator {
                     "THE 'IDENTIFICATION 1 NUMBER' LENGTH MUST HAVE A LENGTH = 10, AND ONLY NUMBERS ARE ALLOWED";
             }
             if ($identification_1_type === '12' 
-                && (strlen($identification_1_number) !== 10 
-                    || strlen($identification_1_number) !== 11 
+                && ((strlen($identification_1_number) !== 10 && strlen($identification_1_number) !== 11) 
                     || !ctype_digit((string) $identification_1_number))
                 ) {
                 $errors[] = "$provider_subj_no | Row $row_number | 20-052: IF FIELD 'IDENTIFICATION 1 TYPE' IS 'GSIS', " . 
@@ -136,8 +131,7 @@ class IdentificationValidator {
                     "THE 'IDENTIFICATION 2 NUMBER' LENGTH MUST HAVE A LENGTH = 10, AND ONLY NUMBERS ARE ALLOWED";
             }
             if ($identification_2_type === '12' 
-            && (strlen($identification_2_number) !== 10 
-                || strlen($identification_2_number) !== 11 
+            && ((strlen($identification_2_number) !== 10 && strlen($identification_2_number) !== 11) 
                 || !ctype_digit((string) $identification_2_number))
             ) {
             $errors[] = "$provider_subj_no | Row $row_number | 20-052: IF FIELD 'IDENTIFICATION 2 TYPE' IS 'GSIS', " . 
@@ -162,10 +156,10 @@ class IdentificationValidator {
             $errors[] = "$provider_subj_no | Row $row_number | FIELD 'ID 2 TYPE' IS NOT CORRECT";
         }
 
-        if ((!empty($id_1_type) && empty($id_1_number)) || (empty($id_1_type) && !empty($id_1_number))) {
+        if ((!empty($id_1_type) && strlen($id_1_number) !== 0) || (empty($id_1_type) && strlen($id_1_number) !== 0)) {
             $errors[] = "$provider_subj_no | Row $row_number | FIELDS 'ID 1 TYPE' AND 'ID 1 NUMBER' MUST EITHER BOTH BE EMPTY OR FILLED IN";
         }
-        if ((!empty($id_2_type) && empty($id_2_number)) || (empty($id_2_type) && !empty($id_2_number))) {
+        if ((!empty($id_2_type) && strlen($id_2_number) !== 0) || (empty($id_2_type) && strlen($id_2_number) !== 0)) {
             $errors[] = "$provider_subj_no | Row $row_number | FIELDS 'ID 2 TYPE' AND 'ID 2 NUMBER' MUST EITHER BOTH BE EMPTY OR FILLED IN";
         }
 
@@ -174,6 +168,13 @@ class IdentificationValidator {
         }
         if (strlen($id_2_number) > 40) {
             $errors[] = "$provider_subj_no | Row $row_number | FIELD 'ID 2 NUMBER' LENGTH MUST HAVE A LENGTH <= 40";
+        }
+
+        if (strlen($id_1_number) !== 0 && !ctype_digit((string) $id_1_number)) {
+            $errors[] = "$provider_subj_no | Row $row_number | FIELD 'ID 1 NUMBER' IS NOT NUMERIC";
+        }
+        if (strlen($id_2_number) !== 0 && !ctype_digit((string) $id_2_number)) {
+            $errors[] = "$provider_subj_no | Row $row_number | FIELD 'ID 2 NUMBER' IS NOT NUMERIC";
         }
 
         if (strlen($id_1_issuedby) > 250) {

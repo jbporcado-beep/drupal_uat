@@ -17,11 +17,20 @@ class HeaderValidator {
         if ($parsedDate['error_count'] !== 0 || !checkdate($month, $day, $year)) {
             return false;
         }
+        return true;
+    }
+
+    private static function isDateInFuture(string $strDate): bool {
+        if (!self::isValidDate($strDate)) {
+            return false;
+        }
+        $year = substr($strDate, -4);
+        $month = substr($strDate, -6, -4);
+        $day = substr($strDate, 0, -6);
 
         $providedDate = new \DateTime("$year-$month-$day");
         $currentDate = new \DateTime();
-
-        return $providedDate < $currentDate;
+        return $providedDate > $currentDate;
     }
 
     private static function isValidProviderCode(string $providerCode): bool {
@@ -58,6 +67,9 @@ class HeaderValidator {
             $errors[] = "Row $row_number | FIELD 'REFERENCE DATE' IS MANDATORY";
         }
         if (!empty($reference_date) && !self::isValidDate($reference_date)) {
+            $errors[] = "Row $row_number | FIELD 'REFERENCE DATE' IS NOT CORRECT";
+        }
+        if (!empty($reference_date) && self::isValidDate($reference_date) && self::isDateInFuture($reference_date)) {
             $errors[] = "Row $row_number | 30-007: FILE REFERENCE DATE IN THE HEADER/FOOTER IS NOT VALID OR IT IS GREATER THAN SYSDATE";
         }
 

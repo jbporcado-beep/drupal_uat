@@ -172,11 +172,7 @@ class CsvToDtoMapper {
     }
 
     private static function mapToIdentificationDto(array $row): IdentificationDto {
-        $identification1_number = !empty($row['identification 1 number']) ? (int) $row['identification 1 number'] : '';
-        $identification2_number = !empty($row['identification 2 number']) ? (int) $row['identification 2 number'] : '';
-        $id1_number = !empty($row['id 1 number']) ? (int) $row['id 1 number'] : '';
-        $id2_number = !empty($row['id 2 number']) ? (int) $row['id 2 number'] : '';
-        
+
         $id1_issuedate  = self::addLeadingZeroToDate($row['id 1 issuedate'] ?? '');
         $id1_expirydate  = self::addLeadingZeroToDate($row['id 1 expirydate'] ?? '');
         $id2_issuedate  = self::addLeadingZeroToDate($row['id 2 issuedate'] ?? '');
@@ -184,17 +180,17 @@ class CsvToDtoMapper {
         
         return new IdentificationDto(
             identification1Type:         self::cleanSpaces($row['identification 1 type'] ?? ''),
-            identification1Number:       self::cleanSpaces($identification1_number),
+            identification1Number:       self::cleanSpaces($row['identification 1 number'] ?? ''),
             identification2Type:         self::cleanSpaces($row['identification 2 type'] ?? ''),
-            identification2Number:       self::cleanSpaces($identification2_number),
+            identification2Number:       self::cleanSpaces($row['identification 2 number'] ?? ''),
             id1Type:                     self::cleanSpaces($row['id 1 type'] ?? ''),
-            id1Number:                   self::cleanSpaces($id1_number),
+            id1Number:                   self::cleanSpaces($row['id 1 number'] ?? ''),
             id1IssueDate:                self::cleanSpaces($id1_issuedate),
             id1IssueCountry:             self::cleanSpaces($row['id 1 issuecountry'] ?? ''),
             id1ExpiryDate:               self::cleanSpaces($id1_expirydate),
             id1IssuedBy:                 self::cleanSpaces($row['id 1 issued by'] ?? ''),
             id2Type:                     self::cleanSpaces($row['id 2 type'] ?? ''),
-            id2Number:                   self::cleanSpaces($id2_number),
+            id2Number:                   self::cleanSpaces($row['id 2 number'] ?? ''),
             id2IssueDate:                self::cleanSpaces($id2_issuedate),
             id2IssueCountry:             self::cleanSpaces($row['id 2 issuecountry'] ?? ''),
             id2ExpiryDate:               self::cleanSpaces($id2_expirydate),
@@ -203,20 +199,16 @@ class CsvToDtoMapper {
     }
 
     private static function mapToContactDto(array $row): ContactDto {
-        $contact_1_type  = $row['contact 1 type'] ?? '';
-        $contact_2_type  = $row['contact 2 type'] ?? '';
-        $contact1_value = ($contact_1_type >= 1 && $contact_1_type <= 6)
-            ? (isset($row['contact 1 value']) ? (int) $row['contact 1 value'] : '')
-            : ($row['contact 1 value'] ?? '');
-        $contact2_value = ($contact_2_type >= 1 && $contact_2_type <= 6)
-            ? (isset($row['contact 2 value']) ? (int) $row['contact 2 value'] : '')
-            : ($row['contact 2 value'] ?? '');
+        $contact_1_type = $row['contact 1 type'] ?? '';
+        $contact_2_type = $row['contact 2 type'] ?? '';
+        $contact_1_value = $row['contact 1 value'] ?? '';
+        $contact_2_value = $row['contact 2 value'] ?? '';
 
         return new ContactDto(
             contact1Type:  self::cleanSpaces($contact_1_type),
-            contact1Value: self::cleanSpaces($contact1_value),
+            contact1Value: self::cleanSpaces($contact_1_value),
             contact2Type:  self::cleanSpaces($contact_2_type),
-            contact2Value: self::cleanSpaces($contact2_value),
+            contact2Value: self::cleanSpaces($contact_2_value),
         );
     }
 

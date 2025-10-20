@@ -20,7 +20,7 @@ class DashboardForm extends FormBase {
         $user_entity = User::load($uid);
         $coop_nid = $user_entity->get('field_cooperative')->target_id;
         $coop_entity = Node::load($coop_nid);
-        $provider_code = $coop_entity->get('field_cic_provider_code')->value;
+        $provider_code = $coop_entity?->get('field_cic_provider_code')->value;
 
         if ($is_approver) {
             $query = \Drupal::entityQuery('node')

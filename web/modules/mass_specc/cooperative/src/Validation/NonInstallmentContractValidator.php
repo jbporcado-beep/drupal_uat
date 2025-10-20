@@ -119,7 +119,7 @@ class NonInstallmentContractValidator {
         if (strlen($credit_limit) === 0) {
             $errors[] = "$provider_contract_no | Row $row_number | FIELD 'CREDIT LIMIT' IS MANDATORY";
         }
-        if (!ctype_digit($credit_limit) || (int) $credit_limit <= 0 || strlen($credit_limit) > 15) {
+        if (!ctype_digit((string) $credit_limit) || (int) $credit_limit <= 0 || strlen($credit_limit) > 15) {
             $errors[] = "$provider_contract_no | Row $row_number | FIELD 'CREDIT LIMIT' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
 
@@ -172,7 +172,7 @@ class NonInstallmentContractValidator {
             $errors[] = "$provider_contract_no | Row $row_number | 10-158: FIELD 'CONTRACT END ACTUAL DATE' IS NOT CORRECT";
         }
 
-        if (!empty($outstanding_balance) && (!ctype_digit($outstanding_balance) || strlen($outstanding_balance) > 15)) {
+        if (!empty($outstanding_balance) && (!ctype_digit((string) $outstanding_balance) || strlen($outstanding_balance) > 15)) {
             $errors[] = "$provider_contract_no | Row $row_number | 10-169: FIELD 'OUTSTANDING BALANCE' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
         if (in_array($contract_phase, ['CL', 'CA']) && !empty($outstanding_balance)) {
@@ -222,6 +222,10 @@ class NonInstallmentContractValidator {
 
         if ((int) $outstanding_balance < 0) {
             $errors[] = "$provider_contract_no | Row $row_number | 20-205: FIELD 'OUTSTANDING BALANCE' CAN'T HAVE A NEGATIVE VALUE";
+        }
+
+        if (!empty($overdue_payments_amount) && (!ctype_digit((string) $overdue_payments_amount) || strlen($overdue_payments_amount) > 15)) {
+            $errors[] = "$provider_contract_no | Row $row_number | 10-171: FIELD 'OVERDUE PAYMENTS AMOUNT' IS NOT NUMERIC OR LENGTH IS NOT CORRECT";
         }
     }
 }
