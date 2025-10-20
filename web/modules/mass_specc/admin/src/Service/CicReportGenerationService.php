@@ -45,6 +45,7 @@ class CicReportGenerationService {
             $bd_array = [];
             $ci_array = [];
             $cn_array = [];
+            $added_subjs = [];
             $coop_node = Node::load($coop_nid);
             $provider_code = $coop_node->get('field_cic_provider_code')->value;
             $ftps_username = $coop_node->get('field_ftps_username')->value;
@@ -69,8 +70,16 @@ class CicReportGenerationService {
                 foreach ($ci_nids as $ci_nid) {
                     $ci_node = Node::load($ci_nid);
                     if ($ci_node) {
+                        $ci_string = $this->generateCiString($ci_node);
+                        $ci_array[] = $ci_string;
+
                         $subject_node = $ci_node->get('field_subject')->entity;
+
                         if ($subject_node) {
+                            if (isset($added_subjs[$subject_node->id()])) {
+                                continue;
+                            }
+                            
                             $content_type = $subject_node->bundle();
                             if ($content_type == 'individual') {
                                 $id_string = $this->generateIndividualString($subject_node, $reference_date);
@@ -80,17 +89,23 @@ class CicReportGenerationService {
                                 $bd_string = $this->generateCompanyString($subject_node, $reference_date);
                                 $bd_array[] = $bd_string;
                             }
+                            $added_subjs[$subject_node->id()] = TRUE;
                         }
-                        $ci_string = $this->generateCiString($ci_node);
-                        $ci_array[] = $ci_string;
                     }
                 }
 
                 foreach ($cn_nids as $cn_nid) {
                     $cn_node = Node::load($cn_nid);
                     if ($cn_node) {
+                        $cn_string = $this->generateCnString($cn_node);
+                        $cn_array[] = $cn_string;
+
                         $subject_node = $cn_node->get('field_subject')->entity;
+
                         if ($subject_node) {
+                            if (isset($added_subjs[$subject_node->id()])) {
+                                continue;
+                            }
                             $content_type = $subject_node->bundle();
                             if ($content_type == 'individual') {
                                 $id_string = $this->generateIndividualString($subject_node, $reference_date);
@@ -100,9 +115,8 @@ class CicReportGenerationService {
                                 $bd_string = $this->generateCompanyString($subject_node, $reference_date);
                                 $bd_array[] = $bd_string;
                             }
+                            $added_subjs[$subject_node->id()] = TRUE;
                         }
-                        $cn_string = $this->generateCnString($cn_node);
-                        $cn_array[] = $cn_string;
                     }
                 }
             }

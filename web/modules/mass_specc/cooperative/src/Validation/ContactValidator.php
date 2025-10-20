@@ -29,11 +29,11 @@ class ContactValidator {
         if (strlen($contact_2_value) > 100) {
             $errors[] = "$provider_subj_no | Row $row_number | FIELD 'CONTACT 2 VALUE' LENGTH MUST HAVE A LENGTH <= 100";
         }
-        
-        if (strlen($contact_1_value) !== 0 && !ctype_digit((string) $contact_1_value)) {
+
+        if (strlen($contact_1_value) !== 0 && in_array($contact_1_type, ['1','2','3','4','5','6']) && !ctype_digit((string) $contact_1_value)) {
             $errors[] = "$provider_subj_no | Row $row_number | FIELD 'CONTACT 1 VALUE' IS NOT NUMERIC";
         }
-        if (strlen($contact_2_value) !== 0 && !ctype_digit((string) $contact_2_value)) {
+        if (strlen($contact_2_value) !== 0 && in_array($contact_2_type, ['1','2','3','4','5','6']) && !ctype_digit((string) $contact_2_value)) {
             $errors[] = "$provider_subj_no | Row $row_number | FIELD 'CONTACT 2 VALUE' IS NOT NUMERIC";
         }
 
