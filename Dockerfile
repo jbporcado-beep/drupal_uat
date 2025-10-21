@@ -1,4 +1,4 @@
-FROM drupal:11.2.5-php8.4-apache-bookworm
+FROM drupal:11.2.5-php8.3-apache-bookworm
 
 # Install Composer dependencies
 
@@ -14,11 +14,21 @@ COPY web/sites/ /opt/drupal/web/sites/
 COPY web/sites/default/docker.settings.php /opt/drupal/web/sites/default/settings.php
 COPY docker-entrypoint.sh /
 
-RUN apt update && apt install gnupg -y
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends gnupg libssl-dev ca-certificates \
+    && docker-php-ext-configure ftp --with-openssl-dir=/usr \
+    && docker-php-ext-install -j"$(nproc)" ftp \
+    && rm -rf /var/lib/apt/lists/*
+RUN mkdir -p /var/www/.gnupg \
+    && chown -R www-data:www-data /var/www/.gnupg \
+    && chmod 700 /var/www/.gnupg
+
+COPY CIC_TestEnv_PubKey.asc CIC_TestEnv_PubKey.asc
 
 # Set permissions
 RUN chown -R www-data:www-data /opt/drupal/web
 RUN chmod 644 /opt/drupal/web/sites/default/settings.php
 ENV SITE_UUID=d9c155f8-eee6-4702-a32a-0fa07caede88
+ENV GNUPGHOME=/var/www/.gnupg
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]

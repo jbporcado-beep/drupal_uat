@@ -1,7 +1,8 @@
 services:
   drupal:
-    build:
-      context: .
+    # build:
+    #   context: .
+    image: mass-specc/cms:1.0.0
     ports:
       - 8080:80
     volumes:
@@ -10,6 +11,11 @@ services:
       - ./web/themes:/opt/drupal/web/themes
       - ./web/sites/default/docker.settings.php:/opt/drupal/web/sites/default/settings.php
       - ./docker-entrypoint.sh:/docker-entrypoint.sh
+      # - $HOME/.gnupg/pubring.kbx:/var/www/.gnupg/pubring.kbx
+      # - $HOME/.gnupg/pubring.kbx~:/var/www/.gnupg/pubring.kbx~
+      # - $HOME/.gnupg/private-keys-v1.d:/var/www/.gnupg/private-keys-v1.d
+      # - $HOME/.gnupg/random_seed:/var/www/.gnupg/random_seed
+      # - $HOME/.gnupg/trustdb.gpg:/var/www/.gnupg/trustdb.gpg
     environment:
       - ADMIN_USERNAME=drupal
       - ADMIN_PASSWORD=drupal
@@ -21,9 +27,11 @@ services:
       - DB_PASSWORD=drupal
     depends_on:
       - postgresql
+    env_file:
+      - .env
 
   postgresql:
-    image: bitnami/postgresql:17.5.0-debian-12-r12
+    image: bitnamilegacy/postgresql:17.5.0-debian-12-r12
     volumes:
       - "postgresql:/bitnami/postgresql"
     environment:
@@ -32,7 +40,7 @@ services:
       - POSTGRESQL_USERNAME=drupal
       - POSTGRESQL_PASSWORD=drupal
     ports:
-      - "5432:5432"
+      - "15432:5432"
 
 volumes:
   postgresql: {}
