@@ -6,3 +6,4 @@ user-dropdown:
     js/user-dropdown.js: {}
   dependencies:
     - core/jquery
+    - core/once
