@@ -5,6 +5,7 @@ dependencies:
   module:
     - admin
     - cooperative
+    - login_history
 id: mass_specc_admin
 label: 'MASS_SPECC Admin'
 weight: 4
@@ -12,11 +13,13 @@ is_admin: false
 permissions:
   - 'access user profiles'
   - 'administer account settings'
+  - 'administer login history'
   - 'administer permissions'
   - 'manage cooperative profile'
   - 'manage report builder templates'
   - 'manage users'
   - 'view activity log'
+  - 'view all login histories'
   - 'view and manage general report'
   - 'view and manage member credit report'
   - 'view and manage system logins'
@@ -24,6 +27,8 @@ permissions:
   - 'view cooperative profile'
   - 'view dashboard'
   - 'view file history'
+  - 'view own login history'
   - 'view report builder templates'
+  - 'view user email addresses'
   - 'view user roles'
   - 'view users'
