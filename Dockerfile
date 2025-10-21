@@ -1,9 +1,9 @@
 FROM drupal:11.2.5-php8.4-apache-bookworm
 
 # Install Composer dependencies
-COPY composer.json composer.lock /opt/drupal/web/
+
+COPY composer.json composer.lock /opt/drupal/
 RUN composer install --no-dev --optimize-autoloader --no-interaction
-RUN composer require drush/drush
 
 # Copy custom modules, themes, and other project files
 COPY config/ /opt/drupal/config

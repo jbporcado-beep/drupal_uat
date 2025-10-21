@@ -13,6 +13,8 @@ if [[ "$BOOTSTRAP_STATUS" != "Successful" ]]; then
   drush site:install --account-name=${ADMIN_USERNAME:-drupal} --account-pass=${ADMIN_PASSWORD:-drupal}
   drush user:role:add administrator "${ADMIN_USERNAME:-drupal}"
   drush cset system.site uuid "${SITE_UUID}"
+  drush ev "\Drupal::entityTypeManager()->getStorage('shortcut')->delete(\Drupal::entityTypeManager()->getStorage('shortcut')->loadMultiple());"
+  drush ev "\Drupal::entityTypeManager()->getStorage('shortcut')->delete(\Drupal::entityTypeManager()->getStorage('shortcut')->loadMultiple());"
 else
   echo "Drupal already installed; skipping site:install."
 fi
