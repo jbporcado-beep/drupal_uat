@@ -12,13 +12,11 @@ class DashboardForm extends FormBase {
         return 'admin_dashboard_form';
     }
 
-    private function getTotalSubjectCount(): int {
-        $query_indiv = \Drupal::entityQuery('node')
-            ->condition('type', 'individual')
+    private function getTotalSubjectCount(string $subject): int {
+        $query = \Drupal::entityQuery('node')
+            ->condition('type', $subject)
             ->accessCheck(TRUE);
-        $indiv_count = $query_indiv->count()->execute();
-
-        return $indiv_count;
+        return $query->count()->execute();
     }
 
     private function getTotalBranchByCoop(int $coop_nid): int {
@@ -52,9 +50,10 @@ class DashboardForm extends FormBase {
 
         $form['#method'] = 'POST';
 
-        $total_subjects = $this->getTotalSubjectCount();
+        $total_indiv = $this->getTotalSubjectCount('individual');
+        $total_company = $this->getTotalSubjectCount('company');
         $total_contracts = $this->getTotalContractCount();
-        $total = $total_subjects + $total_contracts;
+        $total = $total_indiv + $total_company + $total_contracts;
 
         $form['accounts'] = [
             '#type' => 'container',
@@ -66,7 +65,11 @@ class DashboardForm extends FormBase {
                 <h3 class='stat-header'>Accounts</h3>
                 <div class='account-stat'>
                     <p class='left-p'>Individual Accounts</p>
-                    <p class='right-p'>{$total_subjects}</p>
+                    <p class='right-p'>{$total_indiv}</p>
+                </div>
+                <div class='account-stat'>
+                    <p class='left-p'>Company Accounts</p>
+                    <p class='right-p'>{$total_company}</p>
                 </div>
                 <div class='account-stat'>
                     <p class='left-p'>Contract Accounts</p>
