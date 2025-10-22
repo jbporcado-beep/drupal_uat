@@ -67,7 +67,6 @@ class IndividualService
             ->isProviderSubjNoTakenInCoopOrBranch($provider_code, $provider_subj_no, $branch_code);
 
         if (!$is_provider_subj_no_taken && empty($errors)) {
-            $this->individualRepository->save($individualDto);
             $individual_node = $this->individualRepository->save($individualDto);
             $identity = [
                 'first_name' => $individualDto->firstName,
