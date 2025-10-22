@@ -805,6 +805,7 @@ display:
             field_date_uploaded: field_date_uploaded
             field_file_name: field_file_name
             field_uploader_name: field_uploader_name
+            field_status: field_status
       filter_groups:
         operator: AND
         groups:
