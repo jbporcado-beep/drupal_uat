@@ -156,10 +156,10 @@ class IdentificationValidator {
             $errors[] = "$provider_subj_no | Row $row_number | FIELD 'ID 2 TYPE' IS NOT CORRECT";
         }
 
-        if ((!empty($id_1_type) && strlen($id_1_number) !== 0) || (empty($id_1_type) && strlen($id_1_number) !== 0)) {
+        if ((!empty($id_1_type) && strlen($id_1_number) === 0) || (empty($id_1_type) && strlen($id_1_number) !== 0)) {
             $errors[] = "$provider_subj_no | Row $row_number | FIELDS 'ID 1 TYPE' AND 'ID 1 NUMBER' MUST EITHER BOTH BE EMPTY OR FILLED IN";
         }
-        if ((!empty($id_2_type) && strlen($id_2_number) !== 0) || (empty($id_2_type) && strlen($id_2_number) !== 0)) {
+        if ((!empty($id_2_type) && strlen($id_2_number) === 0) || (empty($id_2_type) && strlen($id_2_number) !== 0)) {
             $errors[] = "$provider_subj_no | Row $row_number | FIELDS 'ID 2 TYPE' AND 'ID 2 NUMBER' MUST EITHER BOTH BE EMPTY OR FILLED IN";
         }
 
