@@ -80,7 +80,6 @@ class CooperativeCreateForm extends CooperativeBaseForm
                 'field_coop_code' => $values['coop_code'],
                 'field_cic_provider_code' => $values['cic_provider_code'],
                 'field_coop_acronym' => $values['coop_acronym'],
-                'field_ho_address' => $values['ho_address'],
                 'field_no_of_employees' => $values['no_of_employees'],
                 'field_street_no_and_name' => $values['street_name'],
                 'field_postal_code' => $values['postal_code'],

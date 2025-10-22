@@ -24,7 +24,6 @@ dependencies:
     - field.field.node.cooperative.field_ftps_username
     - field.field.node.cooperative.field_general_manager
     - field.field.node.cooperative.field_general_manager_contact_no
-    - field.field.node.cooperative.field_ho_address
     - field.field.node.cooperative.field_no_of_employees
     - field.field.node.cooperative.field_number_of_branches
     - field.field.node.cooperative.field_number_of_members
@@ -206,14 +205,6 @@ content:
   field_general_manager_contact_no:
     type: string_textfield
     weight: 145
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_ho_address:
-    type: string_textfield
-    weight: 123
     region: content
     settings:
       size: 60
