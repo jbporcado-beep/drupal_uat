@@ -12,8 +12,14 @@
   {% if page.main_header %}
     <header class="main-header">
       <div class="header-logo">
-        <a href="{{ base_path }}">
-          <img src="{{ base_path ~ 'sites/default/files/logo.png' }}" alt="{{ 'Site Logo'|t }}">
+        {% set path_to_use = path('cooperative.dashboard') %}
+        {% if user.hasRole('mass_specc_admin') %}
+          {% set path_to_use = path('massspecc.home') %}
+        {% elseif user.hasRole('administrator') %}
+          {% set path_to_use = base_path %}
+        {% endif %}
+        <a href="{{ path_to_use }}">
+          <img src="{{ base_path ~ 'sites/default/files/new-logo.png' }}" alt="{{ 'Site Logo'|t }}">
         </a>
       </div>
       <div class="header-content">
