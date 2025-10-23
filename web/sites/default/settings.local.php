@@ -5,6 +5,13 @@ use Symfony\Component\Dotenv\Dotenv;
 $dotenv = new Dotenv();
 $dotenv->load(DRUPAL_ROOT . '/../.env');
 
+if ($_ENV['DRUPAL_SMTP_USERNAME']) {
+  $config['smtp.settings']['smtp_host'] = $_ENV['DRUPAL_SMTP_HOST'];
+  $config['smtp.settings']['smtp_port'] = $_ENV['DRUPAL_SMTP_PORT'];
+  $config['smtp.settings']['smtp_username'] = $_ENV['DRUPAL_SMTP_USERNAME'];
+  $config['smtp.settings']['smtp_password'] = $_ENV['DRUPAL_SMTP_PASSWORD'];
+}
+
 // Local development overrides to disable caches and enable verbose debugging.
 
 // Ensure this file is not committed to production.
