@@ -51,7 +51,7 @@ function admin_mail($key, &$message, $params) {
       $message['subject'] = t('Welcome to the Pinoy Coop Data Information Sharing System (PCDISS)!');
 
       $message['body'][] = t('Hello @name,', ['@name' => $full_name]);
-      $message['body'][] = t('Your account has been successfully created on @site.', ['@site' => $site_name]);
+      $message['body'][] = t('Your account has been successfully created on Pinoy Coop Data Information Sharing System (PCDISS)');
       $message['body'][] = t('Registered Username: @username', ['@username' => $username_masked]);
       $message['body'][] = t('To activate your account and set up your password, please click the secure link below:');
       $message['body'][] = $link;
