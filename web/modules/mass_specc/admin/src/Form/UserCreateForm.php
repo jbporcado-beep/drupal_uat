@@ -120,6 +120,7 @@ class UserCreateForm extends FormBase
         $cooperative_options = [];
         $nids = \Drupal::entityQuery('node')
             ->condition('type', 'cooperative')
+            ->condition('field_coop_status', 1)
             ->accessCheck(FALSE)
             ->execute();
         if ($nids) {
