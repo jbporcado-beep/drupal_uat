@@ -34,7 +34,7 @@ class RedirectUserPathSubscriber implements EventSubscriberInterface {
         $path = $request->getPathInfo();
         $is_logout_path = preg_match('/^\/user\/logout/', $path);
 
-        if (preg_match('/^\/user\/[^\/]+/', $path) && !$isAdmin && !$is_logout_path) {
+        if (preg_match('/^\/user\/(\d+)$/', $path) && !$isAdmin && !$is_logout_path) {
             if ($this->currentUser->isAuthenticated()) {
                 $routeName = 'cooperative.dashboard';
 
