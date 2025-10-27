@@ -53,6 +53,38 @@ class GeneralReportViewerForm extends FormBase
         'provider_subject_no' => 'Provider Subject Number'
     ];
 
+    private $installment_contract_field_labels = [
+        'contract_end_actual_date' => 'Contract End Actual Date',
+        'contract_end_planned_date' => 'Contract End Planned Date',
+        'contract_phase' => 'Contract Phase',
+        'contract_start_date' => 'Contract Start Date',
+        'contract_type' => 'Contract Type',
+        'currency' => 'Currency',
+        'payment_periodicity' => 'Payment Periodicity',
+        'financed_amount' => 'Financed Amount',
+        'reference_date' => 'Reference Date',
+        'submission_type' => 'Submission Type',
+        'version' => 'Version',
+        'installments_no' => 'Installments Number',
+        'last_payment_amount' => 'Last Payment Amount',
+        'monthly_payment_amount' => 'Monthly Payment Amount',
+        'next_payment_date' => 'Next Payment Date',
+        'original_currency' => 'Original Currency',
+        'outstanding_balance' => 'Outstanding Balance',
+        'outstanding_payment_no' => 'Outstanding Payment Number',
+        'overdue_days' => 'Overdue Days',
+        'overdue_payments_amount' => 'Overdue Payments Amount',
+        'overdue_payments_number' => 'Overdue Payments Number',
+        'provider_contract_no' => 'Provider Contract Number',
+        'role' => 'Role',
+    ];
+
+    private $header_fields = [
+        'reference_date',
+        'submission_type',
+        'version',
+    ];
+
     private $individual_aggregrate_fields = [
         'address' => [
             'field_address1_fulladdress',
@@ -231,6 +263,16 @@ class GeneralReportViewerForm extends FormBase
             ],
         ];
 
+        // "Installment Contract" selection
+        $form['layout']['selection_wrapper']['selection_checkbox_wrapper']['installment_contract'] = [
+            '#type' => 'checkboxes',
+            '#options' => $this->installment_contract_field_labels,
+            '#title' => $this->t('Installment Contracts'),
+            '#attributes' => [
+                'class' => ['field-checkbox-selection'],
+            ],
+        ];
+
         return $form;
     }
 
@@ -263,8 +305,14 @@ class GeneralReportViewerForm extends FormBase
             return;
         }
 
+        $individual_to_installment_contracts = [];
+        foreach ($individuals as $individual) {
+            $individual_to_installment_contracts[$individual->id()] = $this->getInstallmentContracts($individual->id());
+        }
+
         $individual_fields = $form_state->getValue(['individual']);
         $identification_fields = $form_state->getValue(['identification']);
+        $installment_contract_fields = $form_state->getValue(['installment_contract']);
 
         // Build header row of CSV
         $rows = [];
@@ -282,10 +330,22 @@ class GeneralReportViewerForm extends FormBase
                 $header_row[] = 'field_ ' . $field;
             }
         }
+        foreach ($installment_contract_fields as $field) {
+            if ($field !== "0") {
+                $header_row[] = 'field_' . $field;
+            }
+        }
+
         $rows[] = $header_row;
 
         foreach ($individuals as $individual) {
-            $rows[] = $this->buildRow($individual_fields, $identification_fields, $individual);
+            $rows = array_merge($rows, $this->buildRows(
+                $individual_fields,
+                $identification_fields,
+                $installment_contract_fields,
+                $individual,
+                $individual_to_installment_contracts[$individual->id()]
+            ));
         }
 
         $csv_content = '';
@@ -346,27 +406,77 @@ class GeneralReportViewerForm extends FormBase
         return $nodes;
     }
 
-    private function buildRow($individual_fields, $identification_fields, $individual)
+    private function getInstallmentContracts(string $individual_id): array
     {
-        $row = [];
+        $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+            'type' => 'installment_contract',
+            'field_subject' => $individual_id,
+        ]);
+        return $nodes;
+    }
+
+    private function buildRows(
+        $individual_fields,
+        $identification_fields,
+        $installment_contract_fields,
+        $individual,
+        $installment_contracts
+    ) {
+        $rows = [];
+
+        $individual_row = [];
         foreach ($individual_fields as $field) {
             $field = trim($field);
             if (array_key_exists($field, $this->individual_aggregrate_fields)) {
                 foreach (($this->individual_aggregrate_fields)[$field] as $subfield) {
                     $referenced_entity = $individual->get('field_' . $field)->entity;
-                    $row[] = '"' . $referenced_entity?->get($subfield)->value . '"';
+                    $individual_row[] = '"' . $referenced_entity?->get($subfield)->value . '"';
                 }
             } else if ($field !== "0") {
-                $row[] = '"' . $individual->get('field_' . $field)->value . '"';
+                $individual_row[] = '"' . $individual->get('field_' . $field)->value . '"';
             }
         }
         foreach ($identification_fields as $field) {
             if (trim($field) !== "0") {
                 $referenced_entity = $individual->get('field_identification')->entity;
-                $row[] = '"' . $referenced_entity?->get('field_' . $field)->value . '"';
+                $individual_row[] = '"' . $referenced_entity?->get('field_' . $field)->value . '"';
             }
         }
-        return $row;
+
+        // individual has no installment contracts
+        if (sizeof($installment_contracts) == 0) {
+            $empty_installment_contract_cells = [];
+            foreach ($installment_contract_fields as $field) {
+                $field = trim($field);
+                if ($field !== 0) {
+                    $empty_installment_contract_cells[] = '""';
+                }
+            }
+
+            return [array_merge($individual_row, $empty_installment_contract_cells)]; // single-element array
+        }
+
+        // individual has installment contracts; join with Installment Contracts entity
+        $installment_contract_rows = [];
+        foreach ($installment_contracts as $installment_contract) {
+            $installment_contract_row = [];
+            foreach ($installment_contract_fields as $field) {
+                $field = trim($field);
+                if (in_array($field, $this->header_fields)) {
+                    $referenced_entity = $installment_contract->get('field_header')->entity;
+                    $installment_contract_row[] = '"' . $referenced_entity?->get('field_' . $field)->value . '"';
+                } else if ($field !== "0") {
+                    $installment_contract_row[] = '"' . $installment_contract->get('field_' . $field)->value . '"';
+                }
+            }
+            $installment_contract_rows[] = $installment_contract_row;
+        }
+
+        foreach ($installment_contract_rows as $installment_contract_row) {
+            $rows[] = array_merge($individual_row, $installment_contract_row);
+        }
+
+        return $rows;
     }
 
     public function updateBranchField(array &$form, FormStateInterface $form_state)
@@ -390,7 +500,7 @@ class GeneralReportViewerForm extends FormBase
         if (sizeof($options) > 1) {
             unset($form['layout']['dropdowns_wrapper']['branch_dropdown']['#attributes']['disabled']);
         }
-        
+
         $form['layout']['dropdowns_wrapper']['branch_dropdown']['#options'] = $options;
 
         return $form['layout']['dropdowns_wrapper']['branch_dropdown'];
