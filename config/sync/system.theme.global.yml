@@ -11,6 +11,6 @@ features:
   favicon: true
   node_user_picture: true
 logo:
-  path: 'public://new-logo.png'
+  path: 'themes/custom/mass_specc_bootstrap_sass/images/new-logo.png'
   url: null
   use_default: false

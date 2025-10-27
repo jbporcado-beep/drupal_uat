@@ -10,7 +10,7 @@ features:
   favicon: true
   node_user_picture: true
 logo:
-  path: 'public://new-logo.png'
+  path: 'themes/custom/mass_specc_bootstrap_sass/images/new-logo.png'
   use_default: false
 bootstrap_barrio_library: production
 bootstrap_barrio_fluid_container: 0
