@@ -77,12 +77,12 @@ abstract class CooperativeBaseForm extends FormBase
             '#required' => TRUE,
             '#attributes' => [
                 'class' => ['js-char-count'],
-                'data-maxlength' => 20,
+                'data-maxlength' => 8,
             ],
             '#description' => [
-                '#markup' => '<span class="char-counter">0/20</span>',
+                '#markup' => '<span class="char-counter">0/8</span>',
             ],
-            "#maxlength" => 20,
+            "#maxlength" => 8,
             '#element_validate' => [
                 [AlphaNumericConstraintValidator::class, 'validate'],
             ],
@@ -444,7 +444,7 @@ abstract class CooperativeBaseForm extends FormBase
                 'data-maxlength' => 12,
             ],
             '#description' => [
-                '#markup' => '<span class="char123-counter">0/12</span>',
+                '#markup' => '<span class="char-counter">0/12</span>',
             ],
             "#maxlength" => 12,
             '#element_validate' => [
@@ -465,7 +465,6 @@ abstract class CooperativeBaseForm extends FormBase
                 'class' => ['form-select', 'chosen-enable'],
                 'style' => 'width: 49.5%;'
             ],
-            '#description' => $this->t('Select the cooperative classification.'),
             '#wrapper_attributes' => [
                 'style' => 'width:49.5%; display:inline-block; vertical-align:top;',
                 'class' => ['form-half-wrapper'],
@@ -787,6 +786,10 @@ abstract class CooperativeBaseForm extends FormBase
 
         if ($coop_code && strlen($coop_code) !== 10) {
             $form_state->setErrorByName('coop_code', $this->t('Cooperative must be 10 characters'));
+        }
+
+        if ($cic_code && strlen($cic_code) !== 8) {
+            $form_state->setErrorByName('coop_code', $this->t('Cooperative must be 8 characters'));
         }
 
         if ($coop_name) {
