@@ -785,11 +785,11 @@ abstract class CooperativeBaseForm extends FormBase
         }
 
         if ($coop_code && strlen($coop_code) !== 10) {
-            $form_state->setErrorByName('coop_code', $this->t('Cooperative must be 10 characters'));
+            $form_state->setErrorByName('coop_code', $this->t('Cooperative code must be 10 characters'));
         }
 
         if ($cic_code && strlen($cic_code) !== 8) {
-            $form_state->setErrorByName('coop_code', $this->t('Cooperative must be 8 characters'));
+            $form_state->setErrorByName('cic_provider_code', $this->t('CIC Provider code must be 8 characters'));
         }
 
         if ($coop_name) {
