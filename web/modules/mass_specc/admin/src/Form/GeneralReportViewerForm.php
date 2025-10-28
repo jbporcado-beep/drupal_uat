@@ -331,7 +331,7 @@ class GeneralReportViewerForm extends FormBase
             }
         }
         foreach ($installment_contract_fields as $field) {
-            if ($field !== "0") {
+            if (trim($field) !== "0") {
                 $header_row[] = 'field_' . $field;
             }
         }
@@ -443,12 +443,19 @@ class GeneralReportViewerForm extends FormBase
             }
         }
 
+        // check if no contract fields chosen
+        foreach($installment_contract_fields as $field) {
+            if (trim($field) !== "0") {
+                break;
+            }
+            return [$individual_row];
+        }
+
         // individual has no installment contracts
         if (sizeof($installment_contracts) == 0) {
             $empty_installment_contract_cells = [];
             foreach ($installment_contract_fields as $field) {
-                $field = trim($field);
-                if ($field !== 0) {
+                if (trim($field) !== "0") {
                     $empty_installment_contract_cells[] = '""';
                 }
             }
