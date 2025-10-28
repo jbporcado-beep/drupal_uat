@@ -92,19 +92,6 @@ menus:
     options: {  }
   -
     menu_name: coop-menu
-    title: 'Cooperative Branch File Upload'
-    parent: null
-    uri: 'internal:/cooperative/upload/form'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: true
-    weight: -49
-    langcode: en
-    uuid: d2c6c943-441f-4e01-8342-7329335458fd
-    options: {  }
-  -
-    menu_name: coop-menu
     title: Reports
     parent: null
     uri: 'internal:/reports/member-credit'
@@ -115,6 +102,19 @@ menus:
     weight: 0
     langcode: en
     uuid: cc9910b2-4faf-49bf-a060-68d98535eadc
+    options: {  }
+  -
+    menu_name: coop-menu
+    title: 'Cooperative Branch File Upload'
+    parent: null
+    uri: 'internal:/cooperative/upload/history'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: true
+    weight: -49
+    langcode: en
+    uuid: d2c6c943-441f-4e01-8342-7329335458fd
     options: {  }
   -
     menu_name: coop-menu
