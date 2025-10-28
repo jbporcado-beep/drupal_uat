@@ -43,6 +43,9 @@ class UserDropdownBlock extends BlockBase {
             'user_dropdown/user-dropdown',
           ],
         ],
+        '#cache' => [
+          'contexts' => ['user'],
+        ],
       ];
     }
 
