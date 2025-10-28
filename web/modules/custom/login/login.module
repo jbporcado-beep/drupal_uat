@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\password_reset\Form\ExpiredPasswordForm;
 
 
+
 /**
  * Implements hook_form_FORM_ID_alter().
  */
@@ -77,5 +78,18 @@ function login_user_login(\Drupal\user\UserInterface $account) {
     $response = new RedirectResponse($url);
     $response->send();
     exit;
+  }
+}
+
+/**
+ * Implements hook_page_attachments_alter().
+ * Essentially, this disables drupal messenger on login page.
+ */
+function login_page_attachments_alter(array &$attachments) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+
+  if ($route_name === 'user.login') {
+    $messenger = \Drupal::messenger();
+    $messenger->deleteAll();
   }
 }
