@@ -25,11 +25,31 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_branch:
+    type: entity_reference_autocomplete
+    weight: 7
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_contact_number:
     type: string_textfield
     weight: 5
     region: content
     settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_cooperative:
+    type: entity_reference_autocomplete
+    weight: 6
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
@@ -61,7 +81,5 @@ content:
     third_party_settings: {  }
 hidden:
   contact: true
-  field_branch: true
-  field_cooperative: true
   field_pending_expire_sent: true
   language: true
