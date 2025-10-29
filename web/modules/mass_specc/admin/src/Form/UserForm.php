@@ -75,6 +75,7 @@ class UserForm extends FormBase
             '#element_validate' => [
                 [EmailConstraintValidator::class, 'validate'],
             ],
+            '#disabled' => $user ? TRUE : FALSE,
         ];
 
         $form['fullname'] = [
@@ -144,7 +145,7 @@ class UserForm extends FormBase
             ->accessCheck(FALSE)
             ->execute();
         if ($nids) {
-            $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+            $nodes = Node::loadMultiple($nids);
             foreach ($nodes as $node) {
                 $cooperative_options[$node->id()] = $node->getTitle();
             }
@@ -167,6 +168,7 @@ class UserForm extends FormBase
                 'progress' => ['type' => 'throbber', 'message' => NULL],
             ],
             '#chosen' => TRUE,
+            '#disabled' => $user ? TRUE : FALSE,
         ];
 
         $branch_options = ['' => $this->t('- Select a branch -')];
@@ -176,7 +178,7 @@ class UserForm extends FormBase
                 'field_branch_coop' => $selected_coop,
             ]);
             foreach ($branch_nodes as $bn) {
-                $branch_options[$bn->id()] = $bn->getTitle();
+                $branch_options[$bn->id()] = $bn->label();
             }
         }
 
@@ -234,14 +236,10 @@ class UserForm extends FormBase
                     }
                 }
 
-                $old_coop = $user->get('field_cooperative')->entity ? $user->get('field_cooperative')->entity->getTitle() : NULL;
                 $old_branch = $user->get('field_branch')->entity ? $user->get('field_branch')->entity->getTitle() : NULL;
 
-                $user->setEmail($email);
-                $user->setUsername($email);
                 $user->set('field_full_name', $fullname);
                 $user->set('field_contact_number', $contact);
-                $user->set('field_cooperative', ['target_id' => $assigned_coop]);
                 $user->set('field_branch', ['target_id' => $assigned_branch]);
 
                 foreach ($user->getRoles() as $r) {
@@ -256,7 +254,6 @@ class UserForm extends FormBase
                     'changed_fields' => [],
                     'performed_by_name' => $this->currentUser->getDisplayName(),
                 ];
-
 
                 $new_coop = $assigned_coop ? Node::load($assigned_coop)->getTitle() : NULL;
                 $new_branch = $assigned_branch ? Node::load($assigned_branch)->getTitle() : NULL;
@@ -274,12 +271,9 @@ class UserForm extends FormBase
                 }
 
                 $action = '';
-                if (($new_coop && $new_branch) && ($old_coop !== $new_coop || $old_branch !== $new_branch)) {
+                if (($new_coop && $new_branch) && $old_branch !== $new_branch) {
                     $action = 'Assigned ' . $email . ' to ' . $new_coop . ' - ' . $new_branch;
-                } elseif ($new_coop && !$new_branch && $old_coop !== $new_coop) {
-                    $action = 'Assigned ' . $email . ' to ' . $new_coop;
                 }
-
                 $this->activityLogger->log(
                     $action,
                     'user',
@@ -386,7 +380,7 @@ class UserForm extends FormBase
                 'field_branch_coop' => $coop_id,
             ]);
             foreach ($nodes as $node) {
-                $options[$node->id()] = $node->getTitle();
+                $options[$node->id()] = $node->label();
             }
         }
 
