@@ -17,6 +17,9 @@ function admin_user_logout(AccountInterface $account) {
   ];
 
   $activity_logger->log('Successfully logged out.', 'user', $account->id(), $data, NULL, $account);
+  
+  $tempstore = \Drupal::service('tempstore.private')->get('dashboard_store');
+  $tempstore->delete('coop_dropdown');
 }
 
 function admin_user_login(AccountInterface $account) {
@@ -414,11 +417,4 @@ function admin_page_top(array &$page_top) {
     $tempstore = \Drupal::service('tempstore.private')->get('dashboard_store');
     $tempstore->delete('coop_dropdown');
   }
-}
-/**
- * Implements hook_user_logout().
- */
-function admin_user_logout(AccountProxy $account) {
-  $tempstore = \Drupal::service('tempstore.private')->get('dashboard_store');
-  $tempstore->delete('coop_dropdown');
 }
