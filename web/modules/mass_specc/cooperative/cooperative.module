@@ -6,6 +6,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountProxy;
 
 
 /**
@@ -190,4 +191,24 @@ function cooperative_views_pre_render(ViewExecutable $view) {
     unset($view->field[$target_field_id]);
   }
 }
+/**
+ * Implements hook_page_top().
+ */
+function cooperative_page_top(array &$page_top) {
+  $current_path = \Drupal::service('path.current')->getPath();
+  $route_name = \Drupal::routeMatch()->getRouteName();
+
+  if ($route_name !== 'cooperative.dashboard') {
+    $tempstore = \Drupal::service('tempstore.private')->get('dashboard_store');
+    $tempstore->delete('branch_dropdown');
+  }
+}
+/**
+ * Implements hook_user_logout().
+ */
+function cooperative_user_logout(AccountProxy $account) {
+  $tempstore = \Drupal::service('tempstore.private')->get('dashboard_store');
+  $tempstore->delete('branch_dropdown');
+}
+
 ?>

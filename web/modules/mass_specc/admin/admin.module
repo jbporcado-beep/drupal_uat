@@ -7,6 +7,7 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\Url;
 use Drupal\admin\Service\UserActivityLogger;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Session\AccountProxy;
 
 function admin_user_logout(AccountInterface $account) {
   $activity_logger = \Drupal::service('admin.user_activity_logger');
@@ -402,3 +403,22 @@ function admin_update_9002() {
   }
 }
 
+/**
+ * Implements hook_page_top().
+ */
+function admin_page_top(array &$page_top) {
+  $current_path = \Drupal::service('path.current')->getPath();
+  $route_name = \Drupal::routeMatch()->getRouteName();
+
+  if ($route_name !== 'massspecc.home') {
+    $tempstore = \Drupal::service('tempstore.private')->get('dashboard_store');
+    $tempstore->delete('coop_dropdown');
+  }
+}
+/**
+ * Implements hook_user_logout().
+ */
+function admin_user_logout(AccountProxy $account) {
+  $tempstore = \Drupal::service('tempstore.private')->get('dashboard_store');
+  $tempstore->delete('coop_dropdown');
+}

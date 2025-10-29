@@ -105,32 +105,138 @@ class DashboardForm extends FormBase {
         return $nids;
     }
 
+    private function getSubjCountByBranch($branch_nid, $subject): int {
+        $branch_node = Node::load($branch_nid);
+        $branch_code = '';
+        if ($branch_node) {
+            $branch_code = $branch_node->get('field_branch_code')->value;
+        }
+
+        if (empty($branch_code)) {
+            return 0;
+        }
+
+        $query = \Drupal::entityQuery('node')
+            ->condition('type', $subject)
+            ->condition('field_branch_code', $branch_code)
+            ->accessCheck(FALSE);
+        return $query->count()->execute();
+    }
+
+    private function getContractCountByBranch($branch_nid): int {
+        $branch_node = Node::load($branch_nid);
+        $branch_code = '';
+        if ($branch_node) {
+            $branch_code = $branch_node->get('field_branch_code')->value;
+        }
+
+        if (empty($branch_code)) {
+            return 0;
+        }
+
+        $query_ci = \Drupal::entityQuery('node')
+            ->condition('type', 'installment_contract')
+            ->condition('field_header.entity.field_branch_code', $branch_code)
+            ->accessCheck(TRUE);
+        $ci_count = $query_ci->count()->execute();
+
+        $query_cn = \Drupal::entityQuery('node')
+            ->condition('type', 'noninstallment_contract')
+            ->condition('field_header.entity.field_branch_code', $branch_code)
+            ->accessCheck(TRUE);
+        $cn_count = $query_cn->count()->execute();
+
+        $total = $ci_count + $cn_count;
+        return $total;
+    }
+
+
     public function buildForm(array $form, FormStateInterface $form_state) {
         $form['#attached']['library'][] = 'mass_specc_bootstrap_sass/dashboard';
         $form['#attached']['library'][] = 'cooperative/dashboard_autosubmit';
 
+        $form['#method'] = 'GET';
 
-        $form['#method'] = 'POST';
+        $user = \Drupal::currentUser();
+        $is_approver = $user->hasRole('approver');
+
+        $form['accts-container'] = [
+            '#type' => 'container',
+            '#attributes' => ['class' => ['accts-container']],
+        ];
+        $form['accts-container']['top-side'] = [
+            '#type' => 'container',
+            '#attributes' => ['class' => ['acct-topside']],
+        ];
+        $form['accts-container']['top-side']['header'] = [
+            '#type' => 'markup',
+            '#markup' => "<h4 class='coop-stat-header'>Accounts</h4>",
+        ];
+
+        $branch_nids = $this->getAllBranchUnderUserCoop();
+        $branch_options = [];
+
+        if (!empty($branch_nids)) {
+            $branches = Node::loadMultiple($branch_nids);
+
+            foreach ($branches as $branch) {
+                if ($branch->hasField('field_branch_name')) {
+                    $branch_options[$branch->id()] = $branch->get('field_branch_name')->value;
+                }
+            }
+        }
+
+        $request = \Drupal::request();
+        $tempstore = \Drupal::service('tempstore.private')->get('dashboard_store');
+        $stored = $tempstore->get('branch_dropdown');
+        $selected_branch = $form_state->getValue('branch_dropdown') ?? $request->query->get('branch_dropdown', $stored ?? '');
+
+        $form['accts-container']['top-side']['branch_dropdown'] = [
+            '#type' => 'select',
+            '#empty_option' => $this->t('- Select a branch -'),
+            '#options' => $branch_options,
+            '#default_value' => $selected_branch,
+            '#ajax' => [
+                'callback' => '::updateStatsCallback',
+                'wrapper' => 'account-stats-wrapper',
+                'event' => 'change',
+                'progress' => ['type' => 'none']
+            ],
+            '#attributes' => ['class' => ['coop-select']],
+            '#access' => $is_approver,
+        ];
+
+        $form['accts-container']['bot-side'] = [
+            '#type' => 'container',
+            '#attributes' => [
+                'class' => ['acct-botside'],
+                'id' => 'account-stats-wrapper',
+            ],
+            '#prefix' => '<div id="account-stats-wrapper">',
+            '#suffix' => '</div>',
+        ];
 
         $total_indiv = $this->getTotalSubjectCount('individual');
         $total_company = $this->getTotalSubjectCount('company');
         $total_contracts = $this->getTotalContractCount();
         $total = $total_indiv + $total_company + $total_contracts;
 
-        $form['accounts'] = [
-            '#type' => 'container',
-            '#attributes' => ['class' => ['account-container']],
-        ];
-        $form['accounts']['stats'] = [
+        if ($selected_branch && $is_approver) {
+            $total_indiv = $this->getSubjCountByBranch($selected_branch, 'individual');
+            $total_company = $this->getSubjCountByBranch($selected_branch, 'company');
+            $total_contracts = $this->getContractCountByBranch($selected_branch);
+            $total = $total_indiv + $total_company + $total_contracts;
+        }
+
+        $form['accts-container']['bot-side']['stats'] = [
             '#type' => 'markup',
             '#markup' => "
-                <h3 class='stat-header'>Accounts</h3>
                 <div class='account-stat'>
                     <p class='left-p'>Individual Accounts</p>
                     <p class='right-p'>{$total_indiv}</p>
                 </div>
                 <div class='account-stat'>
-                    <p class='left-p'>Company Accounts</p>
+                    <p class='left-p'>Coop Accounts</p>
                     <p class='right-p'>{$total_company}</p>
                 </div>
                 <div class='account-stat'>
@@ -144,8 +250,6 @@ class DashboardForm extends FormBase {
             ",
         ];
 
-        $user = \Drupal::currentUser();
-        $is_approver = $user->hasRole('approver');
         if ($is_approver) {
             $search = $form_state->getValue('search', '');
 
@@ -159,8 +263,11 @@ class DashboardForm extends FormBase {
                 '#value' => 'Search',
                 '#attributes' => ['style' => 'display:none;'],
             ];
-
-            $form['search'] = [
+            $form['table-filters'] = [
+                '#type' => 'container',
+                '#attributes' => ['class' => ['table-filters']],
+            ];
+            $form['table-filters']['search'] = [
                 '#type' => 'textfield',
                 '#default_value' => $search,
                 '#size' => 30,
@@ -169,7 +276,29 @@ class DashboardForm extends FormBase {
                     'class' => ['searchbar'],
                 ],
             ];
-            $form['table'] = $this->buildDashboardTable($search);
+            
+            $selected_status = $form_state->getValue('status-dropdown', '');
+
+            if (empty($selected_status)) {
+                $selected_status = $request->query->get('status-dropdown', '');
+            }
+
+            $form['table-filters']['status-dropdown'] = [
+                '#type' => 'select',
+                '#empty_option' => $this->t('Status'),
+                '#default_value' => $selected_status,
+                '#options' => [
+                    'Approved' => $this->t('Approved'),
+                    'Pending' => $this->t('Pending'),
+                    'Not yet uploaded' => $this->t('Not yet uploaded'),
+                ],
+                '#attributes' => [
+                    'class' => ['status-dropdown'],
+                    'onchange' => 'this.form.submit()',
+                ],
+            ];
+            
+            $form['table'] = $this->buildDashboardTable($selected_status, $search);
         }
         return $form;
     }
@@ -182,7 +311,14 @@ class DashboardForm extends FormBase {
         $form_state->setRebuild(TRUE);
     }
 
-    private function buildDashboardTable($search = '') {
+    public function updateStatsCallback(array &$form, FormStateInterface $form_state) {
+        $selected = $form_state->getValue('branch_dropdown');
+        $tempstore = \Drupal::service('tempstore.private')->get('dashboard_store');
+        $tempstore->set('branch_dropdown', $selected);
+        return $form['accts-container']['bot-side'];
+    }
+
+    private function buildDashboardTable(string $selected_status, string $search = '') {
         $limit = 10;
         $rows = [];
 
@@ -194,6 +330,10 @@ class DashboardForm extends FormBase {
             unset($query['search']);
         } else {
             $query['search'] = $search;
+        }
+
+        if (!empty($selected_status)) {
+            $query['status-dropdown'] = $selected_status;
         }
 
         $current_month_start = strtotime(date('Y-m-01 00:00:00'));
@@ -229,12 +369,22 @@ class DashboardForm extends FormBase {
             ];
         }
 
-        if (!empty($search)) {
+        if (!empty($search) || !empty($selected_status)) {
             $search_lower = strtolower($search);
-            $rows = array_filter($rows, function ($row) use ($search_lower) {
-            return
-                str_contains(strtolower($row['branch_column']), $search_lower) ||
-                str_contains(strtolower($row['status']), $search_lower);
+            
+            $rows = array_filter($rows, function ($row) use ($search_lower, $selected_status) {
+                $search_match = true;
+                if (!empty($search_lower)) {
+                    $search_match = str_contains(strtolower($row['branch_column']), $search_lower) ||
+                                    str_contains(strtolower($row['status']), $search_lower);
+                }
+
+                $status_match = true;
+                if (!empty($selected_status)) {
+                    $status_match = ($row['status'] === $selected_status);
+                }
+            
+                return $search_match && $status_match;
             });
         }
 
@@ -266,6 +416,9 @@ class DashboardForm extends FormBase {
         $pager_parameters = [];
         if (!empty($search)) {
             $pager_parameters['search'] = $search;
+        }
+        if (!empty($selected_status)) {
+            $pager_parameters['status'] = $selected_status; 
         }
 
         $build['pager'] = [
