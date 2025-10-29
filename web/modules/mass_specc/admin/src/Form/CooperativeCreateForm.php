@@ -5,9 +5,11 @@ use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
+use Drupal\Core\Form\FormStateInterface;
 
 class CooperativeCreateForm extends CooperativeBaseForm
 {
+
 
     /**
      * {@inheritdoc}
@@ -20,7 +22,7 @@ class CooperativeCreateForm extends CooperativeBaseForm
     /**
      * {@inheritdoc}
      */
-    public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state)
+    public function buildForm(array $form, FormStateInterface $form_state)
     {
 
         $form['#title'] = $this->t('Add New Cooperative');
@@ -65,7 +67,7 @@ class CooperativeCreateForm extends CooperativeBaseForm
     /**
      * {@inheritdoc}
      */
-    public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state)
+    public function submitForm(array &$form, FormStateInterface $form_state)
     {
         $keyAscii = $_ENV['FTPS_PW_ENCRYPT_KEY'];
         $key = Key::loadFromAsciiSafeString($keyAscii);
@@ -109,6 +111,11 @@ class CooperativeCreateForm extends CooperativeBaseForm
             $node->save();
 
             \Drupal::messenger()->addMessage($this->t('Cooperative created successfully.'));
+
+
+            $action = 'Created new cooperative ' . $node->get('field_coop_name')->value . ' - ' . $node->get('field_coop_code')->value;
+            $this->activityLogger->log($action, 'node', $node->id(), [], NULL, $this->currentUser);
+
         } catch (\Exception $e) {
             \Drupal::messenger()->addError($this->t('Error: @message', [
                 '@message' => $e->getMessage(),

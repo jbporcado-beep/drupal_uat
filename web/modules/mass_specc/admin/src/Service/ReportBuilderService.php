@@ -1,17 +1,35 @@
 <?php
 
 namespace Drupal\admin\Service;
+
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\node\Entity\Node;
+use Drupal\admin\Service\UserActivityLogger;
+use Drupal\Core\Session\AccountProxyInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ReportBuilderService
 {
 
     protected $entityTypeManager;
 
-    public function __construct(EntityTypeManagerInterface $entityTypeManager)
+    protected $currentUser;
+    protected $activityLogger;
+
+    public function __construct(EntityTypeManagerInterface $entityTypeManager, UserActivityLogger $activityLogger, AccountProxyInterface $currentUser)
     {
         $this->entityTypeManager = $entityTypeManager;
+        $this->activityLogger = $activityLogger;
+        $this->currentUser = $currentUser;
+    }
+
+    public static function create(ContainerInterface $container)
+    {
+        return new static(
+            $container->get('entity_type.manager'),
+            $container->get('admin.user_activity_logger'),
+            $container->get('current_user')
+        );
     }
     public function downloadReportTemplate(int $id): array
     {
@@ -110,6 +128,14 @@ class ReportBuilderService
             ]);
 
             $node->save();
+
+            $data = [
+                'changed_fields' => [],
+                'performed_by_name' => $this->currentUser->getDisplayName(),
+            ];
+            $action = 'Created custom field ' . $field['name'] . ' in Report Builder';
+            $this->activityLogger->log($action, 'node', $node->id(), $data, NULL, $this->currentUser);
+
         }
     }
 

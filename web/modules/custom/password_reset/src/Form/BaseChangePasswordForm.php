@@ -6,9 +6,26 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\user\Entity\User;
 use Drupal\Core\Render\Markup;
-
+use Drupal\admin\Service\UserActivityLogger;
+use Drupal\Core\Session\AccountProxyInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class BaseChangePasswordForm extends FormBase
 {
+    protected $currentUser;
+    protected $activityLogger;
+    public function __construct(UserActivityLogger $activityLogger, AccountProxyInterface $currentUser)
+    {
+        $this->activityLogger = $activityLogger;
+        $this->currentUser = $currentUser;
+    }
+
+    public static function create(ContainerInterface $container)
+    {
+        return new static(
+            $container->get('admin.user_activity_logger'),
+            $container->get('current_user')
+        );
+    }
     public function buildForm(array $form, FormStateInterface $form_state, bool $resetPassword = FALSE)
     {
         $form['#attributes']['novalidate'] = 'novalidate';
@@ -117,5 +134,8 @@ abstract class BaseChangePasswordForm extends FormBase
                 'timestamp' => \Drupal::time()->getRequestTime(),
             ])
             ->execute();
+
+        $email = $account->getEmail();
+        $this->activityLogger->log('Successfully updated password', 'user', $account->id(), [], NULL, $email);
     }
 }

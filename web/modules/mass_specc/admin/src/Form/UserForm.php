@@ -8,8 +8,12 @@ use Drupal\Core\Url;
 use Drupal\admin\Plugin\Validation\Constraint\AlphaNumericConstraintValidator;
 use Drupal\admin\Plugin\Validation\Constraint\EmailConstraintValidator;
 use Drupal\admin\Plugin\Validation\Constraint\PhMobileNumberConstraintValidator;
+use Drupal\node\Entity\Node;
 
-class UserCreateForm extends FormBase
+use Drupal\admin\Service\UserActivityLogger;
+use Drupal\Core\Session\AccountProxyInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+class UserForm extends FormBase
 {
 
     /**
@@ -17,7 +21,23 @@ class UserCreateForm extends FormBase
      */
     public function getFormId()
     {
-        return 'mass_specc_user_create_form';
+        return 'mass_specc_user_form';
+    }
+
+    protected $currentUser;
+    protected $activityLogger;
+    public function __construct(UserActivityLogger $activityLogger, AccountProxyInterface $currentUser)
+    {
+        $this->activityLogger = $activityLogger;
+        $this->currentUser = $currentUser;
+    }
+
+    public static function create(ContainerInterface $container)
+    {
+        return new static(
+            $container->get('admin.user_activity_logger'),
+            $container->get('current_user')
+        );
     }
 
     /**
@@ -207,6 +227,16 @@ class UserCreateForm extends FormBase
 
         try {
             if ($user) {
+                $old_role = '';
+                foreach ($user->getRoles() as $r) {
+                    if ($r !== 'authenticated') {
+                        $old_role = $r;
+                    }
+                }
+
+                $old_coop = $user->get('field_cooperative')->entity ? $user->get('field_cooperative')->entity->getTitle() : NULL;
+                $old_branch = $user->get('field_branch')->entity ? $user->get('field_branch')->entity->getTitle() : NULL;
+
                 $user->setEmail($email);
                 $user->setUsername($email);
                 $user->set('field_full_name', $fullname);
@@ -219,7 +249,45 @@ class UserCreateForm extends FormBase
                         $user->removeRole($r);
                     }
                 }
+
                 $user->addRole($role);
+
+                $data = [
+                    'changed_fields' => [],
+                    'performed_by_name' => $this->currentUser->getDisplayName(),
+                ];
+
+
+                $new_coop = $assigned_coop ? Node::load($assigned_coop)->getTitle() : NULL;
+                $new_branch = $assigned_branch ? Node::load($assigned_branch)->getTitle() : NULL;
+
+                if ($old_role !== $role) {
+                    $action = 'Updated ' . $old_role . ' user ' . $email . ' to ' . $role;
+                    $this->activityLogger->log(
+                        $action,
+                        'user',
+                        $user->id(),
+                        $data,
+                        NULL,
+                        $this->currentUser
+                    );
+                }
+
+                $action = '';
+                if (($new_coop && $new_branch) && ($old_coop !== $new_coop || $old_branch !== $new_branch)) {
+                    $action = 'Assigned ' . $email . ' to ' . $new_coop . ' - ' . $new_branch;
+                } elseif ($new_coop && !$new_branch && $old_coop !== $new_coop) {
+                    $action = 'Assigned ' . $email . ' to ' . $new_coop;
+                }
+
+                $this->activityLogger->log(
+                    $action,
+                    'user',
+                    $user->id(),
+                    $data,
+                    NULL,
+                    $this->currentUser
+                );
 
                 $user->save();
                 \Drupal::messenger()->addMessage($this->t('User account updated.'));
@@ -265,6 +333,35 @@ class UserCreateForm extends FormBase
                     NULL,
                     TRUE
                 );
+
+                $coop_label = NULL;
+                $branch_label = NULL;
+
+                if (!empty($assigned_coop)) {
+                    $coop_node = Node::load($assigned_coop);
+                    $coop_label = $coop_node ? $coop_node->getTitle() : NULL;
+                }
+
+                if (!empty($assigned_branch)) {
+                    $branch_node = Node::load($assigned_branch);
+                    $branch_label = $branch_node ? $branch_node->getTitle() : NULL;
+                }
+
+                $suffix = '';
+                if ($coop_label && $branch_label) {
+                    $suffix = ' for ' . $coop_label . ' - ' . $branch_label;
+                } elseif ($coop_label) {
+                    $suffix = ' for ' . $coop_label;
+                }
+
+                $data = [
+                    'changed_fields' => [],
+                    'performed_by_name' => $this->currentUser->getDisplayName(),
+                ];
+
+
+                $action = 'Created new ' . $role . ' user ' . $email . $suffix;
+                $this->activityLogger->log($action, 'node', NULL, $data, NULL, $this->currentUser);
 
                 \Drupal::messenger()->addMessage($this->t('User account created. Email sent to @email.', ['@email' => $email]));
             }

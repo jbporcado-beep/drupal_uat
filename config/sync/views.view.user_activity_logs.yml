@@ -232,7 +232,7 @@ display:
           hide_alter_empty: true
           date_format: custom
           custom_date_format: 'F d, Y; g:i A'
-          timezone: ''
+          timezone: Asia/Manila
         field_full_name:
           id: field_full_name
           table: user__field_full_name
@@ -279,7 +279,7 @@ display:
           element_wrapper_class: ''
           element_default_classes: true
           empty: ''
-          hide_empty: false
+          hide_empty: true
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
@@ -406,15 +406,13 @@ display:
         options: {  }
       empty: {  }
       sorts:
-        created:
-          id: created
-          table: users_field_data
+        created_1:
+          id: created_1
+          table: user_activity_log
           field: created
-          relationship: performed_by
+          relationship: none
           group_type: group
           admin_label: ''
-          entity_type: user
-          entity_field: created
           plugin_id: date
           order: DESC
           expose:

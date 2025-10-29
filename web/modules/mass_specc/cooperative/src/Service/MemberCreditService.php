@@ -10,6 +10,10 @@ use Drupal\cooperative\Service\MatchingService;
 use Drupal\cooperative\Utility\DomainLists;
 use Mpdf\Mpdf;
 use Mpdf\HTMLParserMode;
+
+use Drupal\admin\Service\UserActivityLogger;
+use Drupal\Core\Session\AccountProxyInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Service for finding Individuals based on form input.
  */
@@ -19,11 +23,21 @@ class MemberCreditService
     protected $database;
     protected $matchingService;
 
-    public function __construct(EntityTypeManagerInterface $entityTypeManager, Connection $database, MatchingService $matchingService)
-    {
+    protected $currentUser;
+    protected $activityLogger;
+
+    public function __construct(
+        EntityTypeManagerInterface $entityTypeManager,
+        Connection $database,
+        MatchingService $matchingService,
+        UserActivityLogger $activityLogger,
+        AccountProxyInterface $currentUser
+    ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->database = $database;
         $this->matchingService = $matchingService;
+        $this->activityLogger = $activityLogger;
+        $this->currentUser = $currentUser;
     }
 
     public function getMatchingIndividual(array $data): array
@@ -416,6 +430,14 @@ class MemberCreditService
         ];
         $data['contract_details'] = $contracts_payload['contract_details'];
 
+        $msp_member_code = $subject['msp_member_code'] ?? '';
+        $action = "Generated Member Credit report for {$msp_member_code}";
+        $log_data = [
+            'changed_fields' => [],
+            'performed_by_name' => $this->currentUser->getAccountName(),
+        ];
+
+        $this->activityLogger->log($action, 'node', NULL, $log_data);
         return $data;
     }
 
@@ -662,6 +684,7 @@ class MemberCreditService
 
         $pdfContent = $mpdf->Output('', 'S');
 
+        // Generated Member Credit report for 
         return [
             'content' => $pdfContent,
             'filename' => 'member_report_' . date('Ymd_His') . '.pdf',

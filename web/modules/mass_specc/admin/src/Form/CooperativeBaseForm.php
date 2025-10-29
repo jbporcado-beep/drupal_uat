@@ -1,12 +1,15 @@
 <?php
 namespace Drupal\admin\Form;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\Node;
 use Drupal\admin\Plugin\Validation\Constraint\AlphaNumericConstraintValidator;
 use Drupal\admin\Plugin\Validation\Constraint\PhMobileNumberConstraintValidator;
 use Drupal\admin\Plugin\Validation\Constraint\EmailConstraintValidator;
+use Drupal\admin\Service\UserActivityLogger;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\field\Entity\FieldConfig;
 
 abstract class CooperativeBaseForm extends FormBase
@@ -15,6 +18,21 @@ abstract class CooperativeBaseForm extends FormBase
     /**
      * Builds the cooperative form fields.
      */
+    protected $currentUser;
+    protected $activityLogger;
+    public function __construct(UserActivityLogger $activityLogger, AccountProxyInterface $currentUser)
+    {
+        $this->activityLogger = $activityLogger;
+        $this->currentUser = $currentUser;
+    }
+
+    public static function create(ContainerInterface $container)
+    {
+        return new static(
+            $container->get('admin.user_activity_logger'),
+            $container->get('current_user')
+        );
+    }
     protected function buildCooperativeForm(array &$form, FormStateInterface $form_state, $existing_coop = NULL)
     {
         $form['#attached']['library'][] = 'common/char-count';

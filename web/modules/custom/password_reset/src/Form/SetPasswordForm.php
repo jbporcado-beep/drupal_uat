@@ -5,6 +5,9 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\user\Entity\User;
 use Drupal\Core\Render\Markup;
+use Drupal\admin\Service\UserActivityLogger;
+use Drupal\Core\Session\AccountProxyInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SetPasswordForm extends FormBase
 {
@@ -12,6 +15,21 @@ class SetPasswordForm extends FormBase
     /**
      * {@inheritdoc}
      */
+    protected $currentUser;
+    protected $activityLogger;
+    public function __construct(UserActivityLogger $activityLogger, AccountProxyInterface $currentUser)
+    {
+        $this->activityLogger = $activityLogger;
+        $this->currentUser = $currentUser;
+    }
+
+    public static function create(ContainerInterface $container)
+    {
+        return new static(
+            $container->get('admin.user_activity_logger'),
+            $container->get('current_user')
+        );
+    }
     public function getFormId()
     {
         return 'set_password_form';
@@ -183,6 +201,15 @@ class SetPasswordForm extends FormBase
             $form_state->setRedirect('user.login');
             return;
         }
+
+        $data = [
+            'changed_fields' => [],
+            'performed_by_name' => $account->getAccountName(),
+        ];
+
+        $email = $account->getEmail();
+        $this->activityLogger->log('Successfully updated password', 'user', $account->id(), $data, NULL, $email);
+
 
         $this->messenger()->addStatus($this->t('Your password has been changed successfully. Please try to log in with your new password.'));
         $form_state->setRedirect('user.login');

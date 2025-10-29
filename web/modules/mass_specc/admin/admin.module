@@ -1,40 +1,32 @@
 <?php
 
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\diff\DiffEntityComparison;
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Url;
+use Drupal\admin\Service\UserActivityLogger;
+use Drupal\Core\Session\AccountInterface;
 
-/**
- * Cooperative Fields Entity Validation.
- */
-function admin_entity_bundle_field_info_alter(array &$fields, EntityTypeInterface $entity_type, $bundle) {
-  if ($entity_type->id() === 'node' && $bundle === 'cooperative') {
-    // Fields that must be alphanumeric.
-    $alphanumeric_fields = [
-      'field_coop_code',
-      'field_cic_provider_code',
-    ];
+function admin_user_logout(AccountInterface $account) {
+  $activity_logger = \Drupal::service('admin.user_activity_logger');
 
-    foreach ($alphanumeric_fields as $field_name) {
-      if (isset($fields[$field_name])) {
-        $fields[$field_name]->setPropertyConstraints('value', [
-          'Alphanumeric' => [],
-        ]);
-      }
-    }
+  $data = [
+    'changed_fields' => [],
+  ];
 
-    $ph_mobile_fields = [
-      'field_coop_contact_number',
-    ];
-
-    foreach ($ph_mobile_fields as $field_name) {
-      if (isset($fields[$field_name])) {
-        $fields[$field_name]->setPropertyConstraints('value', [
-          'PhMobileNumber' => [],
-        ]);
-      }
-    }
-  }
+  $activity_logger->log('Successfully logged out.', 'user', $account->id(), $data, NULL, $account);
 }
 
+function admin_user_login(AccountInterface $account) {
+  $activity_logger = \Drupal::service('admin.user_activity_logger');
+
+  $data = [
+    'changed_fields' => [],
+    'performed_by_name' => $account->getDisplayName(),
+  ];
+  $activity_logger->log('Successfully logged in.', 'user', $account->id(), $data, NULL, $account);
+}
 
 /**
  * Implements hook_mail().
@@ -64,9 +56,6 @@ function admin_mail($key, &$message, $params) {
   }
 }
 
-/**
- * Example helper to mask username/email partially.
- */
 function mask_username($username) {
   if (strpos($username, '@') !== FALSE) {
     $parts = explode('@', $username);
@@ -78,10 +67,23 @@ function mask_username($username) {
   return $username;
 }
 
+function admin_init() {
+  $current_path = \Drupal::service('path.current')->getPath();
 
-/**
- * Implements hook_views_data().
- */
+  if ($current_path === '/login-summary/download') {
+    $current_user = \Drupal::currentUser();
+    $activityLogger = \Drupal::service('admin.user_activity_logger');
+
+    $data = [
+      'changed_fields' => [],
+      'performed_by_name' => $current_user->getDisplayName(),
+    ];
+
+    $action = 'Generated System Logins report.';
+    $activityLogger->log($action, 'system', NULL, $data);
+  }
+}
+
 function admin_views_data() {
   $data = [];
   
@@ -214,6 +216,15 @@ function admin_views_data() {
       'id' => 'standard',
     ],
   ];
+
+  $data['user_activity_log']['summary'] = [
+    'title' => t('Summary'),
+    'help' => t('Preformatted human readable summary.'),
+    'field' => [
+      'id' => 'standard',
+    ],
+  ];
+
   
   $data['user_activity_log']['created'] = [
     'title' => t('Created'),
@@ -240,3 +251,123 @@ function admin_views_data() {
   
   return $data;
 }
+
+function admin_entity_update(EntityInterface $entity) {
+  $watched_fields = [
+    'user' => ['mail', 'roles', 'field_bio'],
+    'node' => ['title', 'field_coop_code', 'field_coop_name', 'body'],
+  ];
+
+  $entity_type = $entity->getEntityTypeId();
+  if (empty($watched_fields[$entity_type])) {
+    return;
+  }
+
+  if (empty($entity->original)) {
+    return;
+  }
+  $original = $entity->original;
+
+  $use_diff = \Drupal::moduleHandler()->moduleExists('diff');
+  $diff_builder = NULL;
+  if ($use_diff) {
+    try {
+      $diff_builder = \Drupal::service('diff.diff_builder');
+    } catch (\Throwable $e) {
+      $use_diff = FALSE;
+    }
+  }
+
+  $changed_fields = [];
+
+  foreach ($watched_fields[$entity_type] as $field_name) {
+    if ($entity_type === 'user' && $field_name === 'roles') {
+      $old_roles = $original->getRoles();
+      $new_roles = $entity->getRoles();
+      sort($old_roles);
+      sort($new_roles);
+      if ($old_roles !== $new_roles) {
+        $changed_fields['roles'] = [
+          'from' => implode(', ', $old_roles),
+          'to' => implode(', ', $new_roles),
+        ];
+      }
+      continue;
+    }
+
+    $handled_by_diff = FALSE;
+    if ($use_diff && $diff_builder) {
+      try {
+        $comparison = new DiffEntityComparison($entity, $original, $diff_builder);
+        $differences = $comparison->getDiff();
+        if (!empty($differences[$field_name])) {
+
+          $left_html = $differences[$field_name]['left'] ?? '';
+          $right_html = $differences[$field_name]['right'] ?? '';
+          $left_text = trim(strip_tags((string) $left_html));
+          $right_text = trim(strip_tags((string) $right_html));
+          if ($left_text !== $right_text) {
+            $changed_fields[$field_name] = ['from' => $left_text, 'to' => $right_text];
+          }
+          $handled_by_diff = TRUE;
+        }
+      } catch (\Throwable $t) {
+        $handled_by_diff = FALSE;
+      }
+    }
+
+    if ($handled_by_diff) {
+      continue;
+    }
+
+    $old_raw = NULL;
+    $new_raw = NULL;
+    try {
+      if ($original->hasField($field_name)) {
+        $old_raw = $original->get($field_name)->getValue();
+        $new_raw = $entity->get($field_name)->getValue();
+      } else {
+        $old_raw = $original->get($field_name)->getValue();
+        $new_raw = $entity->get($field_name)->getValue();
+      }
+    } catch (\Throwable $e) {
+      continue;
+    }
+
+    $old_text = _admin_normalize_field_value($old_raw);
+    $new_text = _admin_normalize_field_value($new_raw);
+    if ($old_text !== $new_text) {
+      $changed_fields[$field_name] = ['from' => $old_text, 'to' => $new_text];
+    }
+  }
+
+  if (!empty($changed_fields)) {
+    $key = 'admin_changed_fields:' . $entity_type . ':' . $entity->id();
+    \Drupal::request()->attributes->set($key, $changed_fields);
+  }
+}
+
+
+function _admin_normalize_field_value($raw) {
+  if (is_null($raw)) {
+    return '';
+  }
+  if (is_scalar($raw)) {
+    return (string) $raw;
+  }
+  if (is_array($raw)) {
+    $items = [];
+    foreach ($raw as $item) {
+      if (is_array($item) && isset($item['value'])) {
+        $items[] = (string) $item['value'];
+      } elseif (is_array($item) && isset($item['target_id'])) {
+        $items[] = (string) $item['target_id'];
+      } else {
+        $items[] = Json::encode($item);
+      }
+    }
+    return implode(', ', $items);
+  }
+  return Json::encode($raw);
+}
+

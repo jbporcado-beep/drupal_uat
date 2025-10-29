@@ -5,10 +5,30 @@ namespace Drupal\admin\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\user\Entity\User;
+use Drupal\node\Entity\Node;
 use Symfony\Component\HttpFoundation\Response;
+
+use Drupal\admin\Service\UserActivityLogger;
+use Drupal\Core\Session\AccountProxyInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class GeneralReportViewerForm extends FormBase
 {
+    protected $currentUser;
+    protected $activityLogger;
+    public function __construct(UserActivityLogger $activityLogger, AccountProxyInterface $currentUser)
+    {
+        $this->activityLogger = $activityLogger;
+        $this->currentUser = $currentUser;
+    }
+
+    public static function create(ContainerInterface $container)
+    {
+        return new static(
+            $container->get('admin.user_activity_logger'),
+            $container->get('current_user')
+        );
+    }
     private $individual_field_labels = [
         'address' => 'Address',
         'branch_code' => 'Branch Code',
@@ -279,7 +299,7 @@ class GeneralReportViewerForm extends FormBase
     /**
      * {@inheritdoc}
      */
-    public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state)
+    public function submitForm(array &$form, FormStateInterface $form_state)
     {
         $coop_id = $form_state->getValue(['coop_dropdown']);
         $branch_id = $form_state->getValue(['branch_dropdown']);
@@ -358,6 +378,35 @@ class GeneralReportViewerForm extends FormBase
         $response->headers->set('Content-Type', 'text/csv');
         $response->headers->set('Content-Disposition', 'attachment; filename="report.csv"');
         $response->send();
+
+
+        $data = [
+            'changed_fields' => [],
+            'performed_by_name' => $this->currentUser->getDisplayName(),
+        ];
+
+        $coop_name = '';
+        $branch_name = '';
+
+        if (!empty($coop_id)) {
+            $coop_node = Node::load($coop_id);
+            $coop_name = $coop_node ? $coop_node->getTitle() : '';
+        }
+
+        if (!empty($branch_id)) {
+            $branch_node = Node::load($branch_id);
+            $branch_name = $branch_node ? $branch_node->getTitle() : '';
+        }
+
+        if ($coop_name && $branch_name) {
+            $action = 'Generated database report for ' . $coop_name . ' - ' . $branch_name;
+        } elseif ($coop_name) {
+            $action = 'Generated database report for ' . $coop_name;
+        } else {
+            $action = 'Generated database report for ALL cooperatives';
+        }
+
+        $this->activityLogger->log($action, 'node', NULL, $data, NULL, $this->currentUser);
 
         exit;
     }

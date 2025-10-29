@@ -1,8 +1,5 @@
 <?php
 
-/**
- * Implements hook_schema().
- */
 function admin_schema() {
   $schema['user_activity_log'] = [
     'description' => 'Stores user activity logs.',
@@ -14,39 +11,51 @@ function admin_schema() {
         'not null' => TRUE,
       ],
       'user_id' => [
-        'description' => 'User who performed the action',
+        'description' => 'User affected by the action (e.g., target user or entity owner).',
         'type' => 'int',
         'not null' => TRUE,
       ],
       'action' => [
-        'description' => 'Action performed (uploaded file, changed role, etc.)',
+        'description' => 'Action performed (uploaded file, changed role, requested OTP, etc.).',
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
       ],
       'entity_type' => [
-        'description' => 'Entity type affected (file, user, content)',
+        'description' => 'Entity type affected (file, user, content, etc.).',
         'type' => 'varchar',
         'length' => 50,
         'not null' => FALSE,
       ],
       'entity_id' => [
-        'description' => 'ID of the entity affected',
+        'description' => 'ID of the entity affected.',
         'type' => 'int',
         'not null' => FALSE,
       ],
+      'summary' => [
+        'description' => 'Human readable summary for quick Views display.',
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+      ],
       'data' => [
-        'description' => 'JSON-encoded extra information (file name, role from/to)',
+        'description' => 'JSON-encoded extra information (e.g., file name, role changes, form data).',
         'type' => 'text',
         'not null' => FALSE,
       ],
       'performed_by' => [
-        'description' => 'User ID who performed the action (can be same as user_id)',
+        'description' => 'User ID who performed the action (can be same as user_id or anonymous).',
         'type' => 'int',
         'not null' => TRUE,
       ],
+      'performed_by_name' => [
+        'description' => 'Display name or email of the actor who performed the action.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
       'created' => [
-        'description' => 'Timestamp of the action',
+        'description' => 'Timestamp of when the action occurred.',
         'type' => 'int',
         'not null' => TRUE,
       ],
@@ -56,6 +65,7 @@ function admin_schema() {
       'user_id' => ['user_id'],
       'entity' => ['entity_type', 'entity_id'],
       'performed_by' => ['performed_by'],
+      'performed_by_name' => ['performed_by_name'],
     ],
   ];
 
@@ -63,66 +73,3 @@ function admin_schema() {
 }
 
 
-/**
- * Create user_activity_log table for logging user activity.
- */
-function admin_update_9002() {
-  $schema = [
-    'fields' => [
-      'id' => [
-        'description' => 'Primary Key',
-        'type' => 'serial',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-      ],
-      'user_id' => [
-        'description' => 'User who performed the action',
-        'type' => 'int',
-        'not null' => TRUE,
-      ],
-      'action' => [
-        'description' => 'Action performed (uploaded file, changed role, etc.)',
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-      ],
-      'entity_type' => [
-        'description' => 'Entity type affected (file, user, content)',
-        'type' => 'varchar',
-        'length' => 50,
-        'not null' => FALSE,
-      ],
-      'entity_id' => [
-        'description' => 'ID of the entity affected',
-        'type' => 'int',
-        'not null' => FALSE,
-      ],
-      'data' => [
-        'description' => 'JSON-encoded extra information (file name, role from/to)',
-        'type' => 'text',
-        'not null' => FALSE,
-      ],
-      'performed_by' => [
-        'description' => 'User ID who performed the action (can be same as user_id)',
-        'type' => 'int',
-        'not null' => TRUE,
-      ],
-      'created' => [
-        'description' => 'Timestamp of the action',
-        'type' => 'int',
-        'not null' => TRUE,
-      ],
-    ],
-    'primary key' => ['id'],
-    'indexes' => [
-      'user_id' => ['user_id'],
-      'entity' => ['entity_type', 'entity_id'],
-      'performed_by' => ['performed_by'],
-    ],
-  ];
-
-  $schema_api = \Drupal::database()->schema();
-  if (!$schema_api->tableExists('user_activity_log')) {
-    $schema_api->createTable('user_activity_log', $schema);
-  }
-}

@@ -4,13 +4,31 @@ namespace Drupal\admin\Service;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\user\Entity\User;
 use Drupal\node\NodeInterface;
+use Drupal\admin\Service\UserActivityLogger;
+use Drupal\Core\Session\AccountProxyInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 class CooperativeService
 {
     protected $entity_type_manager;
+    protected $activityLogger;
+    protected $currentUser;
 
-    public function __construct(EntityTypeManager $entity_type_manager)
-    {
+    public function __construct(
+        EntityTypeManager $entity_type_manager,
+        UserActivityLogger $activityLogger,
+        AccountProxyInterface $currentUser
+    ) {
         $this->entity_type_manager = $entity_type_manager;
+        $this->activityLogger = $activityLogger;
+        $this->currentUser = $currentUser;
+    }
+    public static function create(ContainerInterface $container, )
+    {
+        return new static(
+            $container->get('entity_type.manager'),
+            $container->get('admin.user_activity_logger'),
+            $container->get('current_user')
+        );
     }
 
     public function deactivateCooperative(
@@ -37,6 +55,9 @@ class CooperativeService
                     $user->save();
                 }
             }
+
+            $action = 'Deactivated cooperative ' . $node->get('field_coop_name')->value . ' - ' . $node->get('field_coop_code')->value;
+            $this->activityLogger->log($action, 'node', $node->id(), [], NULL, $this->currentUser);
 
             \Drupal::messenger()->addMessage(t('Cooperative deactivated.'));
         } else {
@@ -65,6 +86,8 @@ class CooperativeService
                     $user->save();
                 }
             }
+            $action = 'Activated cooperative ' . $node->get('field_coop_name')->value . ' - ' . $node->get('field_coop_code')->value;
+            $this->activityLogger->log($action, 'node', $node->id(), [], NULL, $this->currentUser);
 
             \Drupal::messenger()->addMessage(t('Cooperative activated.'));
         } else {

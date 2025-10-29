@@ -1,15 +1,22 @@
 services:
-  admin.cooperative_service:
-    class: Drupal\admin\Service\CooperativeService
-    arguments: ["@entity_type.manager"]
-
   admin.user_activity_logger:
     class: Drupal\admin\Service\UserActivityLogger
-    arguments: ["@database", "@current_user"]
+    arguments:
+      - "@database"
+      - "@current_user"
+      - "@datetime.time"
+      - "@date.formatter"
+      - "@entity_type.manager"
+
+  admin.cooperative_service:
+    class: Drupal\admin\Service\CooperativeService
+    arguments:
+      ["@entity_type.manager", "@admin.user_activity_logger", "@current_user"]
 
   admin.report_builder:
     class: Drupal\admin\Service\ReportBuilderService
-    arguments: ["@entity_type.manager"]
+    arguments:
+      ["@entity_type.manager", "@admin.user_activity_logger", "@current_user"]
 
   admin.report_controller:
     class: Drupal\admin\Controller\ReportsController
@@ -27,9 +34,11 @@ services:
   admin.cic_report_generation_service:
     class: Drupal\admin\Service\CicReportGenerationService
     arguments:
-    - '@cooperative.installment_contract_repository'
-    - '@cooperative.non_installment_contract_repository'
-    - '@cooperative.file_history_repository'
+      - "@cooperative.installment_contract_repository"
+      - "@cooperative.non_installment_contract_repository"
+      - "@cooperative.file_history_repository"
+      - "@admin.user_activity_logger"
+      - "@current_user"
 
   cooperative.installment_contract_repository:
     class: 'Drupal\cooperative\Repository\InstallmentContractRepository'

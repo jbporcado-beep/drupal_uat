@@ -12,18 +12,26 @@ use Drupal\node\Entity\Node;
 use Drupal\admin\Plugin\Validation\Constraint\AlphaNumericConstraintValidator;
 use Drupal\admin\Service\ReportBuilderService;
 
+use Drupal\admin\Service\UserActivityLogger;
+use Drupal\Core\Session\AccountProxyInterface;
+
 class ReportBuilderForm extends FormBase
 {
     protected $reportBuilderService;
-
-    public function __construct(ReportBuilderService $reportBuilderService)
+    protected $currentUser;
+    protected $activityLogger;
+    public function __construct(ReportBuilderService $reportBuilderService, UserActivityLogger $activityLogger, AccountProxyInterface $currentUser)
     {
         $this->reportBuilderService = $reportBuilderService;
+        $this->activityLogger = $activityLogger;
+        $this->currentUser = $currentUser;
     }
     public static function create(ContainerInterface $container)
     {
         return new static(
-            $container->get('admin.report_builder')
+            $container->get('admin.report_builder'),
+            $container->get('admin.user_activity_logger'),
+            $container->get('current_user')
         );
     }
 
@@ -415,7 +423,6 @@ class ReportBuilderForm extends FormBase
                 'selected' => $selected,
             ];
         }
-
         $new_custom_fields = $form_state->get('new_custom_fields') ?? [];
         foreach ($new_custom_fields as $index => $custom_field) {
             $key = "custom:$index";
@@ -461,6 +468,7 @@ class ReportBuilderForm extends FormBase
             if ($node) {
                 $node->setTitle($form_state->getValue('template_name') ?: 'Untitled Report');
                 $node->set('field_report_config', json_encode($report_config, JSON_PRETTY_PRINT));
+                $action = 'Updated report builder template ' . $node->getTitle();
             }
         } else {
             $node_values = [
@@ -470,9 +478,12 @@ class ReportBuilderForm extends FormBase
                 'status' => 1,
             ];
             $node = Node::create($node_values);
+
+            $action = 'Created report builder template ' . $node->getTitle();
         }
         $node->save();
 
+        $this->activityLogger->log($action);
 
         $form_state->setRedirect('report-builder.list');
     }

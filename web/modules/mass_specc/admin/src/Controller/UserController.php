@@ -12,7 +12,7 @@ class UserController extends ControllerBase
 
     public function createUser(): array
     {
-        return $this->formBuilder()->getForm(\Drupal\admin\Form\UserCreateForm::class);
+        return $this->formBuilder()->getForm(\Drupal\admin\Form\UserForm::class);
     }
 
     public function viewAllUsers(): array
@@ -33,7 +33,7 @@ class UserController extends ControllerBase
     public function editUser(string $id): array
     {
         $user = User::load($id);
-        return $this->formBuilder()->getForm(\Drupal\admin\Form\UserCreateForm::class, $user);
+        return $this->formBuilder()->getForm(\Drupal\admin\Form\UserForm::class, $user);
     }
 
     public function userRoles()

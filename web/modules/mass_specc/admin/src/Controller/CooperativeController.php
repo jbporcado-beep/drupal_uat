@@ -36,7 +36,7 @@ class CooperativeController extends ControllerBase
 
     public function editCooperative($id): array
     {
-        return $this->formBuilder()->getForm('Drupal\admin\Form\CooperativeEditForm', $id);
+        return $this->formBuilder()->getForm(\Drupal\admin\Form\CooperativeEditForm::class, $id);
     }
     public function editCooperativeBranches($id): array
     {

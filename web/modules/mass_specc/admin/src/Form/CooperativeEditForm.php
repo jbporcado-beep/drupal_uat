@@ -7,30 +7,42 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Drupal\Core\Session\AccountProxyInterface;
 
 use Drupal\admin\Component\CoopBranchesTable;
 use Drupal\admin\Service\CooperativeService;
+use Drupal\admin\Service\UserActivityLogger;
 
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 
 class CooperativeEditForm extends CooperativeBaseForm
 {
-  protected $confirm_modal;
 
+  protected $confirm_modal;
   protected $cooperative_service;
 
-  public function __construct(ConfirmActionForm $confirm_action_form, CooperativeService $cooperative_service)
-  {
+  protected $currentUser;
+
+  public function __construct(
+    ConfirmActionForm $confirm_action_form,
+    CooperativeService $cooperative_service,
+    UserActivityLogger $activityLogger,
+    AccountProxyInterface $currentUser
+  ) {
     $this->confirm_modal = $confirm_action_form;
     $this->cooperative_service = $cooperative_service;
+    parent::__construct($activityLogger, $currentUser);
+    $this->currentUser = $currentUser;
   }
 
   public static function create(ContainerInterface $container)
   {
     return new static(
       $container->get('class_resolver')->getInstanceFromDefinition(ConfirmActionForm::class),
-      $container->get('admin.cooperative_service')
+      $container->get('admin.cooperative_service'),
+      $container->get('admin.user_activity_logger'),
+      $container->get('current_user')
     );
   }
 
@@ -326,6 +338,9 @@ class CooperativeEditForm extends CooperativeBaseForm
       }
 
       $tempstore->delete($coop_id);
+
+      $action = 'Updated cooperative ' . $node->get('field_coop_name')->value . ' - ' . $node->get('field_coop_code')->value;
+      $this->activityLogger->log($action, 'node', $node->id(), [], NULL, $this->currentUser);
 
       \Drupal::messenger()->addMessage($this->t('Cooperative and branches saved successfully.'));
     } catch (\Exception $e) {

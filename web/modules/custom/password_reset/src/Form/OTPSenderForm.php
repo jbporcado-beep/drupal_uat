@@ -3,6 +3,9 @@ namespace Drupal\password_reset\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\admin\Service\UserActivityLogger;
+use Drupal\Core\Session\AccountProxyInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 class OTPSenderForm extends FormBase
 {
 
@@ -14,6 +17,21 @@ class OTPSenderForm extends FormBase
         return 'mass_specc_otp_sender_form';
     }
 
+    protected $currentUser;
+    protected $activityLogger;
+    public function __construct(UserActivityLogger $activityLogger, AccountProxyInterface $currentUser)
+    {
+        $this->activityLogger = $activityLogger;
+        $this->currentUser = $currentUser;
+    }
+
+    public static function create(ContainerInterface $container)
+    {
+        return new static(
+            $container->get('admin.user_activity_logger'),
+            $container->get('current_user')
+        );
+    }
     /**
      * {@inheritdoc}
      */
@@ -96,6 +114,13 @@ class OTPSenderForm extends FormBase
                 $form_state->setRedirect('forgotpassword.otp_validator_form', [
                     'key' => $transaction_key,
                 ]);
+
+                $this->activityLogger->log(
+                    'Requested for OTP',
+                    'user',
+                    NULL,
+                    ['performed_by_email' => $form_state->getValue('email')]
+                );
             } else {
                 $this->messenger()->addError($this->t(
                     'Could not send the verification code. Please try again.'

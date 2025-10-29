@@ -2,7 +2,7 @@
 
 namespace Drupal\cooperative\Form;
 
-use Drupal\Core\Url; 
+use Drupal\Core\Url;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\file\Entity\File;
@@ -20,12 +20,15 @@ use Drupal\cooperative\Service\InstallmentContractService;
 use Drupal\cooperative\Service\NonInstallmentContractService;
 use Drupal\cooperative\Service\FileHistoryService;
 
+use Drupal\admin\Service\UserActivityLogger;
+
 
 /**
  * Provides a simple upload form example with a submit handler.
  */
 
-class UploadForm extends FormBase {
+class UploadForm extends FormBase
+{
   /**
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
@@ -50,19 +53,21 @@ class UploadForm extends FormBase {
    * @var \Drupal\cooperative\Service\NonInstallmentContractService
    */
   protected $nonInstallmentContractService;
-    /**
+  /**
    * @var \Drupal\cooperative\Service\FileHistoryService
    */
   protected $fileHistoryService;
+  protected $activityLogger;
 
   public function __construct(
-    AccountProxyInterface $current_user, 
+    AccountProxyInterface $current_user,
     HeaderService $headerService,
     IndividualService $individualService,
     CompanyService $companyService,
     InstallmentContractService $installmentContractService,
     NonInstallmentContractService $nonInstallmentContractService,
     FileHistoryService $fileHistoryService,
+    UserActivityLogger $activityLogger
   ) {
     $this->currentUser = $current_user;
     $this->headerService = $headerService;
@@ -71,9 +76,11 @@ class UploadForm extends FormBase {
     $this->installmentContractService = $installmentContractService;
     $this->nonInstallmentContractService = $nonInstallmentContractService;
     $this->fileHistoryService = $fileHistoryService;
+    $this->activityLogger = $activityLogger;
   }
 
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container)
+  {
     return new static(
       $container->get('current_user'),
       $container->get('cooperative.header_service'),
@@ -81,11 +88,13 @@ class UploadForm extends FormBase {
       $container->get('cooperative.company_service'),
       $container->get('cooperative.installment_contract_service'),
       $container->get('cooperative.non_installment_contract_service'),
-      $container->get('cooperative.file_history_service')
+      $container->get('cooperative.file_history_service'),
+      $container->get('admin.user_activity_logger'),
     );
   }
 
-  private function branchExists(string $branch_code): bool {
+  private function branchExists(string $branch_code): bool
+  {
     $field_name = 'field_branch_code';
 
     $query = \Drupal::entityQuery('node')
@@ -99,7 +108,8 @@ class UploadForm extends FormBase {
     return !empty($result);
   }
 
-  private function doesBranchBelongToCoop(string $branch_code, string $provider_code): bool {
+  private function doesBranchBelongToCoop(string $branch_code, string $provider_code): bool
+  {
     $query = \Drupal::entityQuery('node')
       ->condition('type', 'branch')
       ->condition('field_branch_code', $branch_code)
@@ -112,7 +122,8 @@ class UploadForm extends FormBase {
     return !empty($result);
   }
 
-  private function getCooperatives(): array {
+  private function getCooperatives(): array
+  {
     $node_storage = \Drupal::entityTypeManager()->getStorage('node');
     $options = [];
     $query = \Drupal::entityQuery('node')
@@ -128,7 +139,8 @@ class UploadForm extends FormBase {
     return $options;
   }
 
-  private function getBranches(): array {
+  private function getBranches(): array
+  {
     $node_storage = \Drupal::entityTypeManager()->getStorage('node');
     $options = [];
     $query = \Drupal::entityQuery('node')
@@ -144,7 +156,8 @@ class UploadForm extends FormBase {
     return $options;
   }
 
-  private function getReports(): array {
+  private function getReports(): array
+  {
     $node_storage = \Drupal::entityTypeManager()->getStorage('node');
     $options = [];
     $query = \Drupal::entityQuery('node')
@@ -160,7 +173,8 @@ class UploadForm extends FormBase {
     return $options;
   }
 
-  public function exportErrors(array &$form, FormStateInterface $form_state) {
+  public function exportErrors(array &$form, FormStateInterface $form_state)
+  {
     $tempstore = \Drupal::service('tempstore.private')->get('errors_store');
     $error_array = $tempstore->get('validation_errors');
     $filename = $tempstore->get('current_file');
@@ -168,36 +182,39 @@ class UploadForm extends FormBase {
     if (!empty($error_array)) {
       $content = '[' . $filename . ']';
       $content .= "\n" . implode("\n", $error_array);
-  
+
       $fileName = '[Errors] ' . date('Y-m-d_H-i-s') . '.txt';
 
-      $tempstore->delete('validation_errors'); 
-      $tempstore->delete('current_file'); 
-  
+      $tempstore->delete('validation_errors');
+      $tempstore->delete('current_file');
+
       $response = new Response($content);
-  
+
       $disposition = $response->headers->makeDisposition(
         ResponseHeaderBag::DISPOSITION_ATTACHMENT,
         $fileName
       );
       $response->headers->set('Content-Type', 'text/plain');
       $response->headers->set('Content-Disposition', $disposition);
-  
-      $form_state->setResponse($response); 
+
+      $form_state->setResponse($response);
 
       return $response;
     }
   }
 
-  public function updateDropdownsFromCoop(array &$form, FormStateInterface $form_state) {
+  public function updateDropdownsFromCoop(array &$form, FormStateInterface $form_state)
+  {
     return $form['layout']['dropdowns_wrapper'];
   }
 
-  public function updateDropdownsFromBranch(array &$form, FormStateInterface $form_state) {
+  public function updateDropdownsFromBranch(array &$form, FormStateInterface $form_state)
+  {
     return $form['layout']['dropdowns_wrapper'];
   }
 
-  private function getCoopNidByProviderCode(string $provider_code): ?int {
+  private function getCoopNidByProviderCode(string $provider_code): ?int
+  {
     $node_storage = \Drupal::entityTypeManager()->getStorage('node');
     $query = \Drupal::entityQuery('node')
       ->condition('type', 'cooperative')
@@ -206,12 +223,13 @@ class UploadForm extends FormBase {
       ->range(0, 1);
     $nids = $query->execute();
     if (!empty($nids)) {
-      return (int) reset($nids); 
+      return (int) reset($nids);
     }
     return NULL;
   }
 
-  private function getBranchOptionsByCoop(string $provider_code): array {
+  private function getBranchOptionsByCoop(string $provider_code): array
+  {
     $coop_nid = $this->getCoopNidByProviderCode($provider_code);
     if (!$coop_nid) {
       return [];
@@ -232,7 +250,8 @@ class UploadForm extends FormBase {
     return $options;
   }
 
-  private function getCoopOptionsByBranch(string $branch_code): array {
+  private function getCoopOptionsByBranch(string $branch_code): array
+  {
     $node_storage = \Drupal::entityTypeManager()->getStorage('node');
     $options = [];
     $query = \Drupal::entityQuery('node')
@@ -256,14 +275,16 @@ class UploadForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId(): string {
+  public function getFormId(): string
+  {
     return 'cooperative_upload_form';
   }
 
   /** 
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state): array {
+  public function buildForm(array $form, FormStateInterface $form_state): array
+  {
     $form['#attached']['library'][] = 'mass_specc_bootstrap_sass/file-upload-styles';
     $form['layout'] = [
       '#type' => 'container',
@@ -304,8 +325,7 @@ class UploadForm extends FormBase {
       if ($branch) {
         $branch_options[$branch->get('field_branch_code')->value] = $branch->get('field_branch_name')->value;
       }
-    }
-    else if ($is_admin) {
+    } else if ($is_admin) {
       $selected_coop_provider_code = $form_state->getValue('coop_dropdown');
       $selected_branch_code = $form_state->getValue('branch_dropdown');
       $triggering_element = $form_state->getTriggeringElement();
@@ -315,7 +335,7 @@ class UploadForm extends FormBase {
       } else {
         $branch_options = $this->getBranches();
       }
-  
+
       if ($selected_branch_code) {
         $coop_options = $this->getCoopOptionsByBranch($selected_branch_code);
       } else {
@@ -343,7 +363,7 @@ class UploadForm extends FormBase {
         'wrapper' => 'dropdowns-wrapper',
         'event' => 'change',
         'progress' => [
-          'type' => 'none', 
+          'type' => 'none',
         ],
       ],
       '#empty_option' => $this->t('- Select a cooperative -'),
@@ -359,7 +379,7 @@ class UploadForm extends FormBase {
         'wrapper' => 'dropdowns-wrapper',
         'event' => 'change',
         'progress' => [
-          'type' => 'none', 
+          'type' => 'none',
         ],
       ],
       '#empty_option' => $this->t('- Select a branch -'),
@@ -378,8 +398,7 @@ class UploadForm extends FormBase {
       $form['layout']['dropdowns_wrapper']['coop_dropdown']['#default_value'] = key($coop_options);
 
       $form['layout']['dropdowns_wrapper']['branch_dropdown']['#default_value'] = key($branch_options);
-    }
-    else  {
+    } else {
       $form['layout']['dropdowns_wrapper']['coop_dropdown']['#empty_option'] = $this->t('- Select a cooperative -');
       $form['layout']['dropdowns_wrapper']['branch_dropdown']['#empty_option'] = $this->t('- Select a branch -');
     }
@@ -472,10 +491,11 @@ class UploadForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state): void {
+  public function submitForm(array &$form, FormStateInterface $form_state): void
+  {
     $tempstore = \Drupal::service('tempstore.private')->get('errors_store');
-    $tempstore->delete('validation_errors'); 
-    $tempstore->delete('current_file'); 
+    $tempstore->delete('validation_errors');
+    $tempstore->delete('current_file');
     $fids = $form_state->getValue('csv_file');
     $coop_dropdown = $form_state->getValue('coop_dropdown');
     $branch_dropdown = $form_state->getValue('branch_dropdown');
@@ -483,8 +503,8 @@ class UploadForm extends FormBase {
     $current_user = \Drupal::currentUser();
     $user_id = $current_user->id();
 
-    $trigger = $form_state->getTriggeringElement();                                                                         
-    $clicked_value = $trigger['#value'];                                                                              
+    $trigger = $form_state->getTriggeringElement();
+    $clicked_value = $trigger['#value'];
     $is_verify = ($clicked_value === 'Verify');
 
     if (empty($fids) || !is_array($fids)) {
@@ -534,7 +554,7 @@ class UploadForm extends FormBase {
     $report_type = $form_state->getValue('report_dropdown');
 
     if ($report_type === 'standard_credit_data') {
-      
+
       if (!in_array('record type', $normalized_header)) {
         $errors[] = "MISSING 'RECORD TYPE' COLUMN IN THE CSV HEADER";
         $tempstore->set('validation_errors', $errors);
@@ -550,7 +570,7 @@ class UploadForm extends FormBase {
 
       $connection = \Drupal::database();
       $transaction = $connection->startTransaction();
-      
+
       while (($row = fgetcsv($stream)) !== FALSE) {
         $row_number++;
         $row_with_header = array_combine($normalized_header, $row);
@@ -563,8 +583,8 @@ class UploadForm extends FormBase {
         }
 
         try {
-          $provider_code  = trim((string) ($row_with_header['provider code'] ?? ''));
-          $branch_code    = trim((string) ($row_with_header['branch code'] ?? ''));
+          $provider_code = trim((string) ($row_with_header['provider code'] ?? ''));
+          $branch_code = trim((string) ($row_with_header['branch code'] ?? ''));
           $reference_date = trim((string) ($row_with_header['reference date'] ?? ''));
 
           if (!empty($branch_code) && !$this->branchExists($branch_code)) {
@@ -582,18 +602,14 @@ class UploadForm extends FormBase {
 
           if ($record_type === 'ID') {
             $this->individualService->import($row_with_header, $row_number, $errors);
-          }
-          else if ($record_type === 'BD') {
+          } else if ($record_type === 'BD') {
             $this->companyService->import($row_with_header, $row_number, $errors);
-          }
-          else if ($record_type === 'CI') {
+          } else if ($record_type === 'CI') {
             $this->installmentContractService->import($row_with_header, $row_number, $errors);
-          }
-          else if ($record_type === 'CN') {
+          } else if ($record_type === 'CN') {
             $this->nonInstallmentContractService->import($row_with_header, $row_number, $errors);
           }
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
           $errors[] = $this->t('Row @row: failed to save. @msg', [
             '@row' => $row_number,
             '@msg' => $e->getMessage(),
@@ -613,11 +629,17 @@ class UploadForm extends FormBase {
       if ($is_verify) {
         $transaction->rollBack();
         $this->messenger()->addStatus($this->t('File verified with no errors!'));
-      }
-      else {
+      } else {
         unset($transaction);
         $this->fileHistoryService->create($file, $row_with_header);
         $this->messenger()->addStatus($this->t('File upload successful!'));
+
+        $data = [
+          'changed_fields' => [],
+        ];
+
+        $action = 'Uploaded ' . $file->getFilename() . ' for ' . $coop_dropdown . ' - ' . $branch_dropdown;
+        $this->activityLogger->log($action, 'node', NULL, $data, NULL, $this->currentUser);
       }
     }
   }

@@ -10,7 +10,13 @@ services:
   cooperative.member_credit_service:
     class: Drupal\cooperative\Service\MemberCreditService
     arguments:
-      ["@entity_type.manager", "@database", "@cooperative.matching_service"]
+      [
+        "@entity_type.manager",
+        "@database",
+        "@cooperative.matching_service",
+        "@admin.user_activity_logger",
+        "@current_user",
+      ]
 
   cooperative.member_profile_service:
     class: 'Drupal\cooperative\Service\MemberProfileService'

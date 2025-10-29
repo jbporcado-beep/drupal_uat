@@ -12,29 +12,43 @@ use Drupal\Core\Ajax\CloseModalDialogCommand;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\admin\Service\UserActivityLogger;
+use Drupal\Core\Session\AccountProxyInterface;
 
 use Drupal\admin\Service\CicReportGenerationService;
 
-class ManualCicGenerationModalForm extends FormBase {
+class ManualCicGenerationModalForm extends FormBase
+{
     private CicReportGenerationService $cicReportGenerationService;
+    protected $currentUser;
+    protected $activityLogger;
 
     public function __construct(
         CicReportGenerationService $cicReportGenerationService,
+        UserActivityLogger $activityLogger,
+        AccountProxyInterface $currentUser
     ) {
         $this->cicReportGenerationService = $cicReportGenerationService;
+        $this->activityLogger = $activityLogger;
+        $this->currentUser = $currentUser;
     }
 
-    public static function create(ContainerInterface $container) {
+    public static function create(ContainerInterface $container)
+    {
         return new static(
             $container->get('admin.cic_report_generation_service'),
+            $container->get('admin.user_activity_logger'),
+            $container->get('current_user')
         );
     }
 
-    public function getFormId() {
+    public function getFormId()
+    {
         return 'manual_cic_generation_modal_form';
     }
 
-    public function buildForm(array $form, FormStateInterface $form_state) {
+    public function buildForm(array $form, FormStateInterface $form_state)
+    {
         $form['#attached']['library'][] = 'mass_specc_bootstrap_sass/cic-report-generation';
 
         $form['message'] = [
@@ -85,15 +99,27 @@ class ManualCicGenerationModalForm extends FormBase {
         return $form;
     }
 
-    public function submitForm(array &$form, FormStateInterface $form_state) {
+    public function submitForm(array &$form, FormStateInterface $form_state)
+    {
         date_default_timezone_set('Asia/Manila');
         $start_date = new \DateTime($form_state->getValue('start_date'));
         $end_date = new \DateTime($form_state->getValue('end_date'));
 
+
+
+        $data = [
+            'changed_fields' => [],
+            'performed_by_name' => $this->currentUser->getAccountName(),
+        ];
+
+        $action = "Started manual CIC Report Generation task for " . $start_date->format('Y-m-d') . " to " . $end_date->format('Y-m-d');
+        $this->activityLogger->log($action, 'node', NULL, $data, NULL, $this->currentUser);
         $this->cicReportGenerationService->create($start_date, $end_date, "Manual");
+
     }
 
-    public function closeModal(array &$form, FormStateInterface $form_state) {
+    public function closeModal(array &$form, FormStateInterface $form_state)
+    {
         $response = new AjaxResponse();
         $response->addCommand(new CloseModalDialogCommand());
 
