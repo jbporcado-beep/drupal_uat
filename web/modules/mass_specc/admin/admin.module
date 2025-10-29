@@ -8,6 +8,7 @@ use Drupal\Core\Url;
 use Drupal\admin\Service\UserActivityLogger;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AccountProxy;
+use Drupal\Core\Form\FormStateInterface;
 
 function admin_user_logout(AccountInterface $account) {
   $activity_logger = \Drupal::service('admin.user_activity_logger');
@@ -32,9 +33,6 @@ function admin_user_login(AccountInterface $account) {
   $activity_logger->log('Successfully logged in.', 'user', $account->id(), $data, NULL, $account);
 }
 
-/**
- * Implements hook_mail().
- */
 function admin_mail($key, &$message, $params) {
   switch ($key) {
     case 'custom_password_reset':
@@ -375,11 +373,6 @@ function _admin_normalize_field_value($raw) {
   return Json::encode($raw);
 }
 
-
-
-/**
- * Implements hook_page_top().
- */
 function admin_page_top(array &$page_top) {
   $current_path = \Drupal::service('path.current')->getPath();
   $route_name = \Drupal::routeMatch()->getRouteName();
@@ -389,3 +382,123 @@ function admin_page_top(array &$page_top) {
     $tempstore->delete('coop_dropdown');
   }
 }
+
+function admin_form_user_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if (!isset($form['field_cooperative']) || !isset($form['field_branch'])) {
+    return;
+  }
+
+  $roles = \Drupal::currentUser()->getRoles();
+  $is_super = in_array('superadmin', $roles, TRUE) || in_array('mass_specc', $roles, TRUE);
+
+  $cooperative_options = ['' => t('- Select a cooperative -')];
+  $coop_nids = \Drupal::entityQuery('node')
+    ->condition('type', 'cooperative')
+    ->condition('field_coop_status', 1)
+    ->accessCheck(FALSE)
+    ->execute();
+  if ($coop_nids) {
+    $coops = \Drupal\node\Entity\Node::loadMultiple($coop_nids);
+    foreach ($coops as $n) {
+      if ($n instanceof \Drupal\node\NodeInterface) {
+        $cooperative_options[$n->id()] = $n->label();
+      }
+    }
+  }
+
+  $coop_el = &$form['field_cooperative']['widget'][0]['target_id'];
+  $branch_el = &$form['field_branch']['widget'][0]['target_id'];
+
+  $coop_el['#type'] = 'select';
+  $coop_el['#options'] = $cooperative_options;
+  $coop_el['#empty_option'] = t('- Select a cooperative -');
+  $coop_el['#ajax'] = ['callback' => 'admin_update_branch_field', 'event' => 'change', 'wrapper' => 'branch-wrapper', 'progress' => ['type' => 'throbber']];
+  $coop_el['#disabled'] = $is_super;
+
+  $branch_el['#type'] = 'select';
+  $branch_el['#options'] = ['' => t('- Select a branch -')];
+  $branch_el['#empty_option'] = t('- Select a branch -');
+  $branch_el['#prefix'] = '<div id="branch-wrapper">';
+  $branch_el['#suffix'] = '</div>';
+  $branch_el['#disabled'] = $is_super;
+
+  $selected_coop = _admin_normalize_coop_value($form_state->getValue('field_cooperative'));
+  if ($selected_coop && is_numeric($selected_coop)) {
+    $branch_nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+      'type' => 'branch',
+      'field_branch_coop' => (int) $selected_coop,
+      'status' => 1,
+    ]);
+    $opts = ['' => t('- Select a branch -')];
+    foreach ($branch_nodes as $bn) {
+      if ($bn instanceof \Drupal\node\NodeInterface) {
+        $opts[$bn->id()] = $bn->label();
+      }
+    }
+    $branch_el['#options'] = $opts;
+    $branch_el['#default_value'] = $form_state->getValue(['field_branch', 0, 'target_id']) ?? ($branch_el['#default_value'] ?? '');
+    $branch_el['#required'] = !empty($selected_coop);
+  } else {
+    $branch_el['#options'] = ['' => t('- Select a branch -')];
+    $branch_el['#default_value'] = '';
+    $branch_el['#required'] = FALSE;
+  }
+}
+
+function admin_update_branch_field(array &$form, FormStateInterface $form_state) {
+  $coop_val = _admin_normalize_coop_value($form_state->getValue('field_cooperative'));
+  $branch_el = $form['field_branch']['widget'][0]['target_id'];
+
+  $options = ['' => t('- Select a branch -')];
+  if (!empty($coop_val) && is_numeric($coop_val)) {
+    $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+      'type' => 'branch',
+      'field_branch_coop' => (int) $coop_val,
+      'status' => 1,
+    ]);
+    foreach ($nodes as $n) {
+      if ($n instanceof \Drupal\node\NodeInterface) {
+        $options[$n->id()] = $n->label();
+      }
+    }
+  }
+
+  $select = [
+    '#type' => 'select',
+    '#title' => $branch_el['#title'] ?? t('Branch'),
+    '#options' => $options,
+    '#empty_option' => t('- Select a branch -'),
+    '#parents' => $branch_el['#parents'] ?? ['field_branch', 0, 'target_id'],
+    '#default_value' => $form_state->getValue(['field_branch', 0, 'target_id']) ?? ($branch_el['#default_value'] ?? ''),
+    '#name' => $branch_el['#name'] ?? NULL,
+    '#prefix' => '<div id="branch-wrapper">',
+    '#suffix' => '</div>',
+  ];
+
+  $role_val = $form_state->getValue('roles') ?: $form_state->getValue('role');
+  $is_approver = ($role_val === 'approver') || (is_array($role_val) && in_array('approver', $role_val, TRUE));
+  if (!$is_approver) {
+    $select['#required'] = TRUE;
+  } else {
+    $select['#required'] = FALSE;
+  }
+
+  return $select;
+}
+
+function _admin_normalize_coop_value($val) {
+  if (is_array($val)) {
+    if (isset($val[0]) && is_array($val[0]) && isset($val[0]['target_id'])) {
+      return $val[0]['target_id'];
+    }
+    if (isset($val['target_id'])) {
+      return $val['target_id'];
+    }
+    if (!empty($val)) {
+      return reset($val);
+    }
+    return NULL;
+  }
+  return $val;
+}
+
