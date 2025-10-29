@@ -8,6 +8,7 @@ use Drupal\node\Entity\Node;
 use Drupal\cooperative\Utility\DateStringFormatter;
 use Drupal\cooperative\Service\MatchingService;
 use Drupal\cooperative\Utility\DomainLists;
+use Drupal\Core\File\FileSystemInterface;
 use Mpdf\Mpdf;
 use Mpdf\HTMLParserMode;
 
@@ -688,7 +689,15 @@ class MemberCreditService
 
         $css = preg_replace('/@page\s*\{[^}]*margin[^}]*\}/is', '', $css);
 
+        $file_system = \Drupal::service('file_system');
+        $mpdf_subdir = 'temporary://mpdf_temp';
+
+        $file_system->prepareDirectory($mpdf_subdir, FileSystemInterface::CREATE_DIRECTORY);
+
+        $temp_dir = $file_system->realpath($mpdf_subdir);
+
         $mpdf = new Mpdf([
+            'tempDir' => $temp_dir,
             'mode' => 'utf-8',
             'format' => $format,
             'orientation' => $orientation,
