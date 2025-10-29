@@ -250,7 +250,7 @@ class MemberCreditForm extends FormBase
         if (!empty($dob_input)) {
             $date = \DateTime::createFromFormat('Y-m-d', $dob_input);
             if ($date) {
-                $dob_formatted = $date->format('jnY');
+                $dob_formatted = $date->format('jmY');
             }
         }
 
@@ -317,7 +317,7 @@ class MemberCreditForm extends FormBase
         if (!empty($dob_input)) {
             $date = \DateTime::createFromFormat('Y-m-d', $dob_input);
             if ($date) {
-                $dob_formatted = $date->format('jnY');
+                $dob_formatted = $date->format('jmY');
             }
         }
 
@@ -363,17 +363,21 @@ class MemberCreditForm extends FormBase
 
         ];
 
+        \Drupal::logger('cooperative')->debug('Matching input data: @data', [
+            '@data' => json_encode($data),
+        ]);
+
         $service = \Drupal::service('cooperative.member_credit_service');
         $matching_nids = $service->getMatchingIndividual($data);
 
         $matching_count = count($matching_nids);
+
         $form_state->set('matching_count', $matching_count);
 
         if ($matching_count === 1) {
             $nid = reset($matching_nids);
             $form_state->set('matched_nid', $nid);
-        } elseif ($matching_count === 0) {
-            $form_state->setErrorByName('first_name', $this->t('No matching member found for the provided details. Please adjust the fields and try again.'));
+            \Drupal::logger('cooperative')->notice('Single match found: NID @nid', ['@nid' => $nid]);
         }
 
         $form_state->set('matching_count', count($matching_nids));

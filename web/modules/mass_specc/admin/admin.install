@@ -73,3 +73,34 @@ function admin_schema() {
 }
 
 
+function admin_update_9004() {
+  $schema = \Drupal::database()->schema();
+  $table = 'user_activity_log';
+
+  if (!$schema->tableExists($table)) {
+    return;
+  }
+
+  $columns = $schema->getFieldNames($table);
+
+  if (!in_array('performed_by_name', $columns)) {
+    $spec = [
+      'description' => 'Display name or email of the actor who performed the action.',
+      'type' => 'varchar',
+      'length' => 255,
+      'not null' => FALSE,
+    ];
+    $schema->addField($table, 'performed_by_name', $spec);
+  }
+
+  if (!in_array('summary', $columns)) {
+    $spec = [
+      'description' => 'Human readable summary for quick Views display.',
+      'type' => 'text',
+      'size' => 'big',
+      'not null' => FALSE,
+    ];
+    $schema->addField($table, 'summary', $spec);
+  }
+}
+

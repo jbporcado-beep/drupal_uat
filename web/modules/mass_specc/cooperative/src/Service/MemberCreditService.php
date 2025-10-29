@@ -432,12 +432,8 @@ class MemberCreditService
 
         $msp_member_code = $subject['msp_member_code'] ?? '';
         $action = "Generated Member Credit report for {$msp_member_code}";
-        $log_data = [
-            'changed_fields' => [],
-            'performed_by_name' => $this->currentUser->getAccountName(),
-        ];
 
-        $this->activityLogger->log($action, 'node', NULL, $log_data);
+        $this->activityLogger->log($action, 'node', NULL, [], NULL, $this->currentUser);
         return $data;
     }
 
@@ -584,6 +580,20 @@ class MemberCreditService
             return null;
         }
 
+        $theme_name = 'mass_specc_bootstrap_sass';
+        $theme_rel_path = \Drupal::service('extension.list.theme')->getPath($theme_name);
+        $logo_fs_path = DRUPAL_ROOT . '/' . $theme_rel_path . '/images/new-logo.png';
+        $request = \Drupal::request();
+        $base = $request->getSchemeAndHttpHost();
+        $base_path = rtrim($base . $request->getBasePath(), '/');
+
+        if (file_exists($logo_fs_path) && is_readable($logo_fs_path)) {
+            $data['logo_file_uri'] = 'file://' . $logo_fs_path;
+        } else {
+            $data['logo_file_uri'] = $base_path . '/' . $theme_rel_path . '/images/new-logo.png';
+        }
+
+        $data['logo_abs_url'] = $base_path . '/' . $theme_rel_path . '/images/new-logo.png';
         $render_array = [
             '#theme' => 'member_credit_report',
             '#data' => $data,
@@ -684,7 +694,6 @@ class MemberCreditService
 
         $pdfContent = $mpdf->Output('', 'S');
 
-        // Generated Member Credit report for 
         return [
             'content' => $pdfContent,
             'filename' => 'member_report_' . date('Ymd_His') . '.pdf',

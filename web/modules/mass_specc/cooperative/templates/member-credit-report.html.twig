@@ -33,6 +33,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  margin-bottom: 2rem;
   min-width: 120px;
 }
 
@@ -120,8 +121,8 @@ body {
 <div class="page">
   <div class="report-header">
     <div class="logo-wrapper">
-    
-        <img src="/themes/custom/mass_specc_bootstrap_sass/images/new-logo.png" alt="Site Logo" class="site-logo" />
+    {% set logo_src = data.logo_file_uri ?? ('/' ~ 'themes/custom/mass_specc_bootstrap_sass/images/new-logo.png') %}
+    <img src="{{ logo_src }}" alt="Site Logo" class="site-logo" />
     </div>
     <div class="report-title">MEMBER CREDIT REPORT</div>
     <div class="meta">Request Date: {{ data.request_date|default('') }}</div>

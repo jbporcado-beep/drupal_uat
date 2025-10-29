@@ -31,15 +31,18 @@ class MatchingService
         if (!empty($data['first_name'])) {
             $query->condition('field_first_name', mb_strtolower(trim($data['first_name'])), '=');
         }
+
         if (!empty($data['last_name'])) {
             $query->condition('field_last_name', mb_strtolower(trim($data['last_name'])), '=');
         }
+
         if (!empty($data['dob'])) {
             $query->condition('field_date_of_birth', trim($data['dob']), '=');
         }
 
         if (!empty($data['gender'])) {
-            $query->condition('field_gender', mb_strtolower(trim($data['gender'])), '=');
+            $gender = strtoupper(trim($data['gender']));
+            $query->condition('field_gender', $gender, '=');
         }
 
         return array_values($query->execute());
@@ -65,10 +68,13 @@ class MatchingService
         if (!empty($data['dob'])) {
             $query->condition('field_date_of_birth', trim($data['dob']), '=');
         }
+        if (!empty($data['gender'])) {
+            $query->condition('field_gender', strtoupper(trim($data['gender'])), '=');
+        }
+
         if (!empty($data['individual_id'])) {
             $query->condition('field_individual', $data['individual_id']);
         }
-
         return array_values($query->execute());
     }
 

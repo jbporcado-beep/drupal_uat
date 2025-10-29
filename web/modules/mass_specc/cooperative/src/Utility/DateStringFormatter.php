@@ -14,7 +14,7 @@ class DateStringFormatter
 
         [, $month, $day, $year] = $matches;
 
-        $dt = \DateTime::createFromFormat('Y-m-d', '1978-04-10');
+        $dt = \DateTime::createFromFormat('Y-m-d', $date);
 
         if (!$dt) {
             return '';
