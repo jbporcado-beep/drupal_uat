@@ -49,6 +49,7 @@ class GeneralReportViewerForm extends FormBase
         'place_of_birth' => 'Place of Birth',
         'previous_last_name' => 'Previous Last Name',
         'provider_code' => 'Provider Code',
+        'provider_subject_no' => 'Provider Subject Number',
         'resident' => 'Resident',
         'title' => 'Title',
     ];
@@ -70,7 +71,6 @@ class GeneralReportViewerForm extends FormBase
         'identification1_type' => 'Identification 1: Type',
         'identification2_number' => 'Identification 2: Number',
         'identification2_type' => 'Identification 2: Type',
-        'provider_subject_no' => 'Provider Subject Number'
     ];
 
     private $installment_contract_field_labels = [
@@ -347,7 +347,7 @@ class GeneralReportViewerForm extends FormBase
         }
         foreach ($identification_fields as $field) {
             if (trim($field) !== "0") {
-                $header_row[] = 'field_ ' . $field;
+                $header_row[] = 'field_' . $field;
             }
         }
         foreach ($installment_contract_fields as $field) {
