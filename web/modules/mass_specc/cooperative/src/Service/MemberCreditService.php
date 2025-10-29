@@ -82,11 +82,28 @@ class MemberCreditService
             return $individual_ids;
         }
 
-        $member_ids = $this->matchingService->matchMember($data);
-        if (!empty($member_ids) && count($member_ids) === 1) {
-            $individual_ids = $member_ids;
+        $nodes = Node::loadMultiple($individual_ids);
+        $member_profile_ids = [];
+
+        foreach ($nodes as $nid => $node) {
+            if ($node && $node->hasField('field_member_profile') && !$node->get('field_member_profile')->isEmpty()) {
+                $mpid = $node->get('field_member_profile')->target_id;
+                $member_profile_ids[] = (string) $mpid;
+            } else {
+                $member_profile_ids[] = null;
+            }
         }
 
+        $non_empty_count = count(array_filter($member_profile_ids, function ($v) {
+            return $v !== null && $v !== '';
+        }));
+
+        if ($non_empty_count === count($member_profile_ids)) {
+            $unique = array_values(array_unique($member_profile_ids));
+            if (count($unique) === 1) {
+                return [(int) $unique[0]];
+            }
+        }
 
         return array_values($individual_ids);
     }
@@ -150,19 +167,29 @@ class MemberCreditService
             'first_name' => $nodeFieldValue($member, 'field_first_name'),
             'middle_name' => $nodeFieldValue($member, 'field_middle_name'),
             'dob' => DateStringFormatter::formatDateString($nodeFieldValue($member, 'field_date_of_birth')),
-            'gender' => $nodeFieldValue($member, 'field_gender') === 'M' ? 'Male' : ($nodeFieldValue($member, 'field_gender') === 'F' ? 'Female' : ''),
+            'gender' => match (strtolower($nodeFieldValue($member, 'field_gender'))) {
+                'm' => 'Male',
+                'f' => 'Female',
+                default => '',
+            },
             'code' => $nodeFieldValue($member, 'field_subject_code'),
             'last_update' => $member->getChangedTime() ? date('d/m/Y', $member->getChangedTime()) : '',
-            'title' => $primary_individual ? $nodeFieldValue($primary_individual, 'field_title') : $nodeFieldValue($member, 'field_title'),
+            'title' => DomainLists::TITLE_DOMAIN[$primary_individual ? $nodeFieldValue($primary_individual, 'field_title') : $nodeFieldValue($member, 'field_title')] ?? '',
             'prev_last_name' => $primary_individual ? $nodeFieldValue($primary_individual, 'field_previous_last_name') : $nodeFieldValue($member, 'field_previous_last_name'),
-            'suffix' => $primary_individual ? $nodeFieldValue($primary_individual, 'field_suffix') : $nodeFieldValue($member, 'field_suffix'),
+            'suffix' => $nodeFieldValue($member, 'field_suffix'),
             'alias' => $primary_individual ? $nodeFieldValue($primary_individual, 'field_alias') : $nodeFieldValue($member, 'field_alias'),
             'nationality' => $primary_individual ? $nodeFieldValue($primary_individual, 'field_nationality') : $nodeFieldValue($member, 'field_nationality'),
             'dob_raw' => $nodeFieldValue($member, 'field_date_of_birth'),
             'pob' => $primary_individual ? $nodeFieldValue($primary_individual, 'field_place_of_birth') : $nodeFieldValue($member, 'field_place_of_birth'),
-            'cob' => $primary_individual ? $nodeFieldValue($primary_individual, 'field_country_of_birth') : $nodeFieldValue($member, 'field_country_of_birth'),
-            'resident' => $primary_individual ? $nodeFieldValue($primary_individual, 'field_resident') : $nodeFieldValue($member, 'field_resident'),
-            'civ_status' => $primary_individual ? $nodeFieldValue($primary_individual, 'field_civil_status') : $nodeFieldValue($member, 'field_civil_status'),
+            'cob' => $primary_individual ? $nodeFieldValue($primary_individual, 'field_country_of_birth_code') : $nodeFieldValue($member, 'field_country_of_birth_code'),
+            'resident' => (function () use ($primary_individual, $member, $nodeFieldValue) {
+                $raw = $primary_individual
+                    ? $nodeFieldValue($primary_individual, 'field_resident')
+                    : $nodeFieldValue($member, 'field_resident');
+                $value = strtolower(trim((string) $raw));
+                return in_array($value, ['1', 'yes', 'true'], true) ? 'Resident' : 'Non Resident';
+            })(),
+            'civ_status' => DomainLists::CIVIL_STATUS_DOMAIN[$primary_individual ? $nodeFieldValue($primary_individual, 'field_civil_status') : $nodeFieldValue($member, 'field_civil_status')] ?? '',
             'dependents' => $primary_individual ? $nodeFieldValue($primary_individual, 'field_number_of_dependents') : $nodeFieldValue($member, 'field_number_of_dependents'),
             'cars' => $primary_individual ? $nodeFieldValue($primary_individual, 'field_cars_owned') : $nodeFieldValue($member, 'field_cars_owned'),
         ];
@@ -221,7 +248,7 @@ class MemberCreditService
                 if ($contact_node) {
                     $cGet = fn($f) => $contact_node->hasField($f) && !$contact_node->get($f)->isEmpty() ? ($contact_node->get($f)->value ?? '') : '';
                     $contacts[] = [
-                        'type' => $cGet('field_contact1_type'),
+                        'type' => DomainLists::CONTACT_TYPE_DOMAIN[$cGet('field_contact1_type')] ?? '',
                         'contact' => $cGet('field_contact1_value'),
                         'last_update' => $last_update,
                     ];
@@ -287,7 +314,7 @@ class MemberCreditService
                     $employment = [
                         'trade_name' => $employee_get('field_employ_trade_name'),
                         'occupation' => $employee_get('field_employ_occupation'),
-                        'occupation_status' => $employee_get('field_employ_occupation_status'),
+                        'occupation_status' => DomainLists::OCCUPATION_STATUS_DOMAIN[$employee_get('field_employ_occupation_status')] ?? '',
                         'psic' => $employee_get('field_employ_psic'),
                     ];
                 }
@@ -433,7 +460,15 @@ class MemberCreditService
         $msp_member_code = $subject['msp_member_code'] ?? '';
         $action = "Generated Member Credit report for {$msp_member_code}";
 
-        $this->activityLogger->log($action, 'node', NULL, [], NULL, $this->currentUser);
+        $this->activityLogger->log(
+            $action,
+            'node',
+            NULL,
+            [],
+            NULL,
+            $this->currentUser
+        );
+
         return $data;
     }
 

@@ -1,5 +1,6 @@
+{% if data.contract is not empty %}
 <div class="section-title">Contracts Details - Installments</div>
-
+{% endif %}
 {# --- Installments Detail--- #}
 {% if data.contracts_requested_refused is not empty %}
   <p class="table-label">Installments Detail (Requested, Renounced and Refused)</p>
