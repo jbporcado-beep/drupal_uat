@@ -511,7 +511,7 @@ abstract class CooperativeBaseForm extends FormBase
             '#min' => 0,
             '#max' => 9999,
             '#attributes' => [
-                'style' => 'width: 49.5%;'
+                'style' => $existing_coop ? '' : 'width: 49.5%;',
             ],
         ];
 

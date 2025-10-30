@@ -406,7 +406,7 @@ display:
         options:
           perm: 'view activity log'
       cache:
-        type: tag
+        type: none
         options: {  }
       empty: {  }
       sorts:
