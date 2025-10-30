@@ -65,11 +65,10 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_cda_firm_size:
-    type: number
-    weight: 128
+    type: options_select
+    weight: 151
     region: content
-    settings:
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
   field_cda_registration_date:
     type: datetime_default

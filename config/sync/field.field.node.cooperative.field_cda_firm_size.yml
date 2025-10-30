@@ -1,10 +1,12 @@
-uuid: 5872e11b-3e77-4eb0-afe1-3d313b7b49cf
+uuid: a5e66af5-a489-4808-9c68-7a43a9eb9014
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_cda_firm_size
     - node.type.cooperative
+  module:
+    - options
 id: node.cooperative.field_cda_firm_size
 field_name: field_cda_firm_size
 entity_type: node
@@ -15,9 +17,5 @@ required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
-settings:
-  min: 1
-  max: 9999
-  prefix: ''
-  suffix: ''
-field_type: integer
+settings: {  }
+field_type: list_string

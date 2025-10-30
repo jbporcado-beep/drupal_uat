@@ -1,17 +1,27 @@
-uuid: ccded482-dff4-41da-9891-d8f2ffb2a549
+uuid: 7edcf1ae-bf57-46d1-a8e5-d9cbe34077a3
 langcode: en
 status: true
 dependencies:
   module:
     - node
+    - options
 id: node.field_cda_firm_size
 field_name: field_cda_firm_size
 entity_type: node
-type: integer
+type: list_string
 settings:
-  unsigned: false
-  size: normal
-module: core
+  allowed_values:
+    -
+      value: small
+      label: Small
+    -
+      value: medium
+      label: Medium
+    -
+      value: large
+      label: Large
+  allowed_values_function: ''
+module: options
 locked: false
 cardinality: 1
 translatable: true
