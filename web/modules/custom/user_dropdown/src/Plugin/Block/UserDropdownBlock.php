@@ -13,8 +13,10 @@ use Drupal\Core\Url;
  *   admin_label = @Translation("User Dropdown")
  * )
  */
-class UserDropdownBlock extends BlockBase {
-  public function build() {
+class UserDropdownBlock extends BlockBase
+{
+  public function build()
+  {
     $current_user = \Drupal::currentUser();
     if ($current_user->isAuthenticated()) {
       $username = $current_user->getDisplayName();
@@ -44,7 +46,8 @@ class UserDropdownBlock extends BlockBase {
           ],
         ],
         '#cache' => [
-          'contexts' => ['user'],
+          'contexts' => ['user', 'user.permissions'],
+          'tags' => ['user:' . $current_user->id()],
         ],
       ];
     }
