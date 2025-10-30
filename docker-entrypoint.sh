@@ -28,6 +28,7 @@ drush pm:enable common login password_reset user_dropdown admin cooperative
 # Config import
 drush cim
 drush cim
+drush updb
 drush cr
 gpg --import CIC_TestEnv_PubKey.asc
 apache2-foreground
