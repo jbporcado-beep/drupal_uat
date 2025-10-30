@@ -1,6 +1,7 @@
 <?php
 namespace Drupal\admin\Form;
 
+use Drupal\admin\Plugin\Validation\Constraint\TinNumberConstraintValidator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -38,7 +39,15 @@ abstract class CooperativeBaseForm extends FormBase
         $form['#attached']['library'][] = 'common/char-count';
         $form['#attached']['library'][] = 'common/contact-number';
 
-        $article_options = [];
+        $bundle = $existing_coop ? $existing_coop->bundle() : 'cooperative';
+
+        $coop_types = $this->getListFieldOptions('field_coop_type', 'node', $bundle);
+        $coop_types = ['' => $this->t('- Select Type -')] + $coop_types;
+
+        $cda_firm_sizes = $this->getListFieldOptions('field_cda_firm_size', 'node', $bundle);
+        $cda_firm_sizes = ['' => $this->t('- Select Size -')] + $cda_firm_sizes;
+
+        $report_templates = [];
         $nids = \Drupal::entityQuery('node')
             ->condition('type', ['report', 'report_template'], 'IN')
             ->accessCheck(FALSE)
@@ -47,7 +56,7 @@ abstract class CooperativeBaseForm extends FormBase
         if (!empty($nids)) {
             $nodes = Node::loadMultiple($nids);
             foreach ($nodes as $node) {
-                $article_options[$node->id()] = $node->getTitle();
+                $report_templates[$node->id()] = $node->getTitle();
             }
         }
 
@@ -78,12 +87,13 @@ abstract class CooperativeBaseForm extends FormBase
             '#required' => TRUE,
             '#attributes' => [
                 'class' => ['js-char-count'],
-                'data-maxlength' => 20,
+                'data-maxlength' => 10,
+                'maxlength' => 10,
             ],
             '#description' => [
-                '#markup' => '<span class="char-counter">0/20</span>',
+                '#markup' => '<span class="char-counter">0/10</span>',
             ],
-            "#maxlength" => 20,
+            "#maxlength" => 10,
             '#element_validate' => [
                 [AlphaNumericConstraintValidator::class, 'validate'],
             ],
@@ -166,10 +176,12 @@ abstract class CooperativeBaseForm extends FormBase
         ];
 
         $form['basic-details']['cda_group']['cda_firm_size'] = [
-            '#type' => 'number',
+            '#type' => 'select',
             '#title' => $this->t('CDA Firm Size'),
-            '#min' => 0,
-            '#max' => 9999,
+            '#options' => $cda_firm_sizes,
+            '#attributes' => [
+                'class' => ['form-select', 'chosen-enable'],
+            ],
         ];
 
         $form['address_details'] = [
@@ -458,27 +470,26 @@ abstract class CooperativeBaseForm extends FormBase
             '#type' => 'textfield',
             '#title' => $this->t('TIN Number'),
             '#attributes' => [
-                'class' => ['js-char-count'],
+                'class' => ['js-numeric-only', 'js-char-count'],
                 'data-maxlength' => 12,
+                'maxlength' => 12,
+                'inputmode' => 'numeric',
+                'pattern' => '[0-9]*',
             ],
             '#description' => [
                 '#markup' => '<span class="char-counter">0/12</span>',
             ],
             "#maxlength" => 12,
+
             '#element_validate' => [
-                [AlphaNumericConstraintValidator::class, 'validate'],
+                [TinNumberConstraintValidator::class, 'validate'],
             ],
         ];
-
-        $bundle = $existing_coop ? $existing_coop->bundle() : 'cooperative';
-        $options = $this->getListFieldOptions('field_coop_type', 'node', $bundle);
-
-        $options = ['' => $this->t('- Select Type -')] + $options;
 
         $form['other_details']['coop_type'] = [
             '#type' => 'select',
             '#title' => $this->t('Type of Cooperative'),
-            '#options' => $options,
+            '#options' => $coop_types,
             '#attributes' => [
                 'class' => ['form-select', 'chosen-enable'],
                 'style' => 'width: 49.5%;'
@@ -499,19 +510,30 @@ abstract class CooperativeBaseForm extends FormBase
             '#title' => $this->t('Number of Branches'),
             '#min' => 0,
             '#max' => 9999,
+            '#attributes' => [
+                'style' => 'width: 49.5%;'
+            ],
         ];
 
-        $form['other_details']['branches_and_members']['no_of_members'] = [
-            '#type' => 'number',
-            '#title' => $this->t('Number of Members'),
-            '#min' => 0,
-            '#max' => 9999,
-        ];
+        if ($existing_coop) {
+            $form['other_details']['branches_and_members']['no_of_members'] = [
+                '#type' => 'number',
+                '#title' => $this->t('Number of Members'),
+                '#min' => 0,
+                '#disabled' => TRUE,
+                '#attributes' => [
+                    'id' => 'coop-no-of-members',
+                    'readonly' => 'readonly',
+                    'style' => 'background-color:#f8f9fa;',
+                ],
+                '#default_value' => $this->computeTotalMembers($existing_coop->id()),
+            ];
+        }
 
         $form['other_details']['assigned_report_templates'] = [
             '#type' => 'select',
             '#title' => $this->t('Assigned Report Templates'),
-            '#options' => $article_options,
+            '#options' => $report_templates,
             '#multiple' => TRUE,
             '#attributes' => [
                 'class' => ['form-select', 'chosen-enable'],
@@ -751,12 +773,6 @@ abstract class CooperativeBaseForm extends FormBase
                         $existing_coop->get('field_number_of_branches')->value;
                 }
             }
-            if (isset($form['other_details']['branches_and_members']['no_of_members'])) {
-                if ($existing_coop->hasField('field_number_of_members')) {
-                    $form['other_details']['branches_and_members']['no_of_members']['#default_value'] =
-                        $existing_coop->get('field_number_of_members')->value;
-                }
-            }
 
             if (isset($form['other_details']['assigned_report_templates'])) {
                 if ($existing_coop->hasField('field_assigned_report_templates')) {
@@ -881,4 +897,33 @@ abstract class CooperativeBaseForm extends FormBase
 
         return [];
     }
+
+    protected function computeTotalMembers($coop_id = NULL): int
+    {
+        $total = 0;
+
+        if (!empty($coop_id)) {
+            $nids = \Drupal::entityQuery('node')
+                ->condition('type', 'branch')
+                ->condition('field_branch_coop', $coop_id)
+                ->accessCheck(FALSE)
+                ->execute();
+
+            if (!empty($nids)) {
+                $nodes = Node::loadMultiple($nids);
+                foreach ($nodes as $node) {
+                    $total += intval($node->get('field_branch_number_of_members')->value ?? 0);
+                }
+            }
+        }
+
+        $tempstore = \Drupal::service('tempstore.private')->get('coop_branches');
+        $staged = $tempstore->get($coop_id) ?? [];
+        foreach ($staged as $b) {
+            $total += intval($b['no_of_members'] ?? 0);
+        }
+
+        return $total;
+    }
+
 }

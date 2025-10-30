@@ -75,7 +75,8 @@
   margin-right: 0;
   width: 100%;
 }
-.main-header .region-main-header.row > * {
+
+.main-header .region-main-header.row>* {
   padding-left: 0;
   padding-right: 0;
   width: auto;
@@ -137,6 +138,7 @@ body.role-administrator #main-wrapper {
 .coop-nav {
   margin-bottom: 1rem;
 }
+
 .coop-tab {
   display: inline-block;
   margin-right: 1rem;
@@ -144,10 +146,12 @@ body.role-administrator #main-wrapper {
   font-weight: 400;
   color: #000;
 }
+
 .coop-tab.active {
   color: #293990;
   border-bottom: 3px solid #293990;
 }
+
 .coop-section {
   display: none;
 }
@@ -184,7 +188,7 @@ body.role-administrator #main-wrapper {
   gap: 1rem;
 }
 
-.row-fields > div {
+.row-fields>div {
   flex: 1 1 0;
   min-width: 0;
 }
@@ -292,57 +296,51 @@ form label {
   display: none !important;
 }
 
-.report-builder-form input[type="checkbox"] {
-  appearance: checkbox !important;
-  -webkit-appearance: checkbox !important;
-  width: auto;
-  height: auto;
-  background: initial;
-  border: 1px solid #ccc;
-  border-radius: 2px;
-}
-.report-builder-form table th,
-.report-builder-form table td {
-  vertical-align: middle;
+.report-builder-form table {
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
 }
 
-.report-builder-form input[type="checkbox"] {
-  margin: 0;
-  vertical-align: middle;
+.report-builder-form td .js-form-item.mb-3 {
+  margin-bottom: 0 !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .report-builder-form th,
 .report-builder-form td {
-  padding: 6px 8px;
-}
-
-.report-builder-form table,
-.report-builder-form th,
-.report-builder-form td {
+  vertical-align: middle !important;
+  padding: 12px 8px !important;
   border: none !important;
   box-shadow: none !important;
 }
 
-.selectify-checkbox-wrapper {
+.report-builder-form td>.js-form-item {
+  margin-top: 5px !important;
   display: flex !important;
   align-items: center !important;
-  height: 100% !important;
-  margin-top: 20px !important;
 }
 
-.report-builder-form .form-checkbox {
+.report-builder-form input[type="checkbox"] {
+  -webkit-appearance: checkbox !important;
+  appearance: checkbox !important;
   width: 18px !important;
   height: 18px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  top: 0 !important;
 }
 
-.report-builder-form table {
-  border-collapse: collapse;
-  border-spacing: 0;
+.report-builder-form td .js-form-item input.form-control {
+  display: block !important;
+  width: 100% !important;
 }
 
-.report-builder-form th,
-.report-builder-form td {
-  padding: 4px 8px;
+.report-builder-form td .js-form-item.form-type-textfield {
+  gap: 10px !important;
+  width: 100% !important;
 }
 
 table {
@@ -389,6 +387,7 @@ table {
   padding: 0.5rem 1rem !important;
   position: relative;
 }
+
 .ui-dialog-titlebar .ui-dialog-title {
   font-size: 2rem !important;
   font-weight: 600 !important;
@@ -405,9 +404,7 @@ table {
   width: 2.5rem !important;
   height: 2.5rem !important;
   padding: 0.5rem !important;
-  background: transparent
-    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293 1.293a1 1 0 0 1 1.414 0L8 7.586l6.293-6.293a1 1 0 0 1 1.414 1.414L9.414 9l6.293 6.293a1 1 0 0 1-1.414 1.414L8 10.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 9 .293 2.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e")
-    center/1em auto no-repeat !important;
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293 1.293a1 1 0 0 1 1.414 0L8 7.586l6.293-6.293a1 1 0 0 1 1.414 1.414L9.414 9l6.293 6.293a1 1 0 0 1-1.414 1.414L8 10.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 9 .293 2.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat !important;
   background-size: 1em 1em !important;
   box-sizing: content-box !important;
   overflow: visible !important;
@@ -575,9 +572,9 @@ table {
   z-index: 1;
 }
 
-.member-credit-wrapper .form-group > .form-wrapper,
-.member-credit-wrapper .form-group > .form-item,
-.member-credit-wrapper .form-group > .form-container {
+.member-credit-wrapper .form-group>.form-wrapper,
+.member-credit-wrapper .form-group>.form-item,
+.member-credit-wrapper .form-group>.form-container {
   width: 100%;
 }
 
@@ -730,4 +727,11 @@ input[type="password"]::-webkit-textfield-decoration-container {
   width: 0 !important;
   height: 0 !important;
   visibility: hidden !important;
+}
+
+label.form-required::after {
+  content: " *";
+  color: #e57373;
+  font-weight: 600;
+  position: absolute;
 }

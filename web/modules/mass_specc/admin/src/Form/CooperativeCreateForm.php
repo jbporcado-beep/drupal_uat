@@ -99,7 +99,6 @@ class CooperativeCreateForm extends CooperativeBaseForm
                 'field_cooperative_tin' => $values['coop_tin'],
                 'field_coop_type' => $values['coop_type'],
                 'field_number_of_branches' => $values['no_of_branches'],
-                'field_number_of_members' => $values['no_of_members'],
                 'field_coop_status' => TRUE,
                 'field_cda_registration_date' => $values['cda_registration_date'],
                 'field_cda_firm_size' => $values['cda_firm_size'],

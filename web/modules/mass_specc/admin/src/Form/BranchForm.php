@@ -173,7 +173,6 @@ class BranchForm extends FormBase
       '#title' => $this->t('No. of Members'),
       '#default_value' => $defaults('no_of_members'),
       '#min' => 0,
-      '#max' => 9999,
     ];
 
     $form['coop_id'] = ['#type' => 'hidden', '#value' => $id];
@@ -310,6 +309,15 @@ class BranchForm extends FormBase
     ];
 
     $response->addCommand(new ReplaceCommand('#branches-table-wrapper', $wrapper));
+
+    $total_members = 0;
+    foreach ($all_branches as $branch) {
+      $total_members += intval($branch['no_of_members'] ?? 0);
+    }
+
+    $response->addCommand(new InvokeCommand('#coop-no-of-members', 'val', [$total_members]));
+    $response->addCommand(new InvokeCommand('#coop-no-of-members', 'prop', ['value', $total_members]));
+
     $response->addCommand(new MessageCommand($this->t('Branch staged successfully.'), NULL, ['type' => 'status']));
     $response->addCommand(new InvokeCommand('#save-branches-btn', 'prop', ['disabled', false]));
     $response->addCommand(new CloseDialogCommand());

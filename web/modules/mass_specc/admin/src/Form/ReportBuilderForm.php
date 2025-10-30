@@ -357,13 +357,18 @@ class ReportBuilderForm extends FormBase
                 continue;
             }
 
-            $field_name = trim($row['field_name'] ?? '');
-            if ($field_name === '') {
+            if (empty($row['select'])) {
                 continue;
             }
 
+            $field_name = trim($row['field_name'] ?? '');
             $field_type = trim($row['field_type'] ?? '');
             $tooltip = trim($row['tooltip'] ?? '');
+
+            if ($field_name === '') {
+                $form_state->setErrorByName("fields][$key][field_name", $this->t('Please provide a field name.'));
+                continue;
+            }
 
             if ($field_type === '') {
                 $form_state->setErrorByName("fields][$key][field_type", $this->t('Please select a field type.'));
@@ -388,6 +393,7 @@ class ReportBuilderForm extends FormBase
             }
         }
     }
+
 
 
 
