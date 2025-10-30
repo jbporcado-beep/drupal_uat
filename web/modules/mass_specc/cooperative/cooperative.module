@@ -56,6 +56,7 @@ function cooperative_theme($existing, $type, $theme, $path) {
 function cooperative_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
   
   if ($view->id() === 'file_history') {
+    $view->element['#cache']['contexts'][] = 'user';
     $account = \Drupal::currentUser();
     $user = User::load($account->id());
 
@@ -64,9 +65,11 @@ function cooperative_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
 
     if ($account->hasRole('approver') && $user_coop_id) {
       $query->addWhere(0, 'node__field_cooperative.field_cooperative_target_id', $user_coop_id, '=');
+      return;
     }
     elseif ($account->hasRole('uploader') && $user_branch_id) {
       $query->addWhere(0, 'node__field_branch.field_branch_target_id', $user_branch_id, '=');
+      return;
     }
   } 
 
