@@ -50,7 +50,7 @@ class MemberCreditService
             $individual_ids = $base_ids;
         }
 
-        if (!empty($data['address'])) {
+        if (!empty($data['address']) && !empty($individual_ids)) {
             $address_ids = $this->matchingService->matchAddress($data['address']);
             if (empty($address_ids)) {
                 return [];
@@ -58,7 +58,7 @@ class MemberCreditService
             $individual_ids = $this->filterIndividualsByField($individual_ids, 'field_address', $address_ids);
         }
 
-        if (!empty($data['contact_type']) && !empty($data['contact_value'])) {
+        if (!empty($data['contact_type']) && !empty($data['contact_value']) && !empty($individual_ids)) {
             $contact_ids = $this->matchingService->matchContact($data);
             if (empty($contact_ids)) {
                 return [];
@@ -66,7 +66,7 @@ class MemberCreditService
             $individual_ids = $this->filterIndividualsByField($individual_ids, 'field_contact', $contact_ids);
         }
 
-        if (!empty($data['ids'])) {
+        if (!empty($data['ids']) && !empty($individual_ids)) {
             $matched_identifications = $this->matchingService->matchIdentification($data['ids']);
             if (empty($matched_identifications)) {
                 return [];
@@ -164,9 +164,9 @@ class MemberCreditService
 
         $subject = [
             'msp_member_code' => $nodeFieldValue($member, 'field_msp_subject_code'),
-            'last_name' => $nodeFieldValue($member, 'field_last_name'),
-            'first_name' => $nodeFieldValue($member, 'field_first_name'),
-            'middle_name' => $nodeFieldValue($member, 'field_middle_name'),
+            'last_name' => ucwords(strtolower($nodeFieldValue($member, 'field_last_name'))),
+            'first_name' => ucwords(strtolower($nodeFieldValue($member, 'field_first_name'))),
+            'middle_name' => ucwords(strtolower($nodeFieldValue($member, 'field_middle_name'))),
             'dob' => DateStringFormatter::formatDateString($nodeFieldValue($member, 'field_date_of_birth')),
             'gender' => match (strtolower($nodeFieldValue($member, 'field_gender'))) {
                 'm' => 'Male',
