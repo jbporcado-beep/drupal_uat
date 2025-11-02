@@ -8,6 +8,9 @@ use Drupal\Core\Render\Markup;
 use Drupal\admin\Service\UserActivityLogger;
 use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\Core\Url;
+
 
 class SetPasswordForm extends FormBase
 {
@@ -57,6 +60,19 @@ class SetPasswordForm extends FormBase
             $this->messenger()->addError($this->t('Invalid or expired link.'));
             $form_state->setRedirect('user.login');
             return;
+        }
+
+        if ($this->currentUser->isAuthenticated() && ((int) $this->currentUser->id() !== (int) $uid)) {
+            $this->messenger()->addWarning($this->t(
+                'You are currently signed in as @name. To set up the new account, please open the setup link in a browser where you are not signed in, or sign out first.',
+                ['@name' => $this->currentUser->getDisplayName()]
+            ));
+            $url = Url::fromRoute('<front>')->setAbsolute()->toString();
+
+            $response = new RedirectResponse($url);
+            $response->send();
+
+            exit;
         }
 
         $form['title'] = [
