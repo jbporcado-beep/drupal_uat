@@ -293,7 +293,10 @@ class DashboardForm extends FormBase {
 
         $all_coops = \Drupal::entityTypeManager()
             ->getStorage('node')
-            ->loadByProperties(['type' => 'cooperative']);
+            ->loadByProperties([
+                'type' => 'cooperative',
+                'field_coop_status' => 1,
+            ]);
 
         foreach ($all_coops as $coop) {
             $coop_id = $coop->id();
