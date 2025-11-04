@@ -4,9 +4,11 @@
   margin-bottom: 0 !important;
 }
 .accts-container {
-  width: 35%;
+  width: 50%;
   max-width: 400px;
   margin-bottom: 0 !important;
+  flex: 1;
+  text-align: left;
 }
 .acct-topside {
   display: flex;
@@ -16,9 +18,16 @@
 }
 .acct-botside {
   width: 100%;
-  border: 1px solid black;
-  min-width: 220px;
-  padding: 20px 30px;
+  min-width: 350px;
+}
+.acct-filters {
+  display: flex;
+  gap: 0.7rem;
+  margin-bottom: 0px !important;
+}
+.total-coop-filter-container {
+  display: inline-block;
+  width: auto;
 }
 
 .account-stat {
@@ -26,6 +35,11 @@
 }
 .coop-stat-header {
   margin-bottom: 1rem;
+}
+
+.total-coop-container {
+  width: 50%;
+  margin-bottom: 0 !important;
 }
 
 .left-p {

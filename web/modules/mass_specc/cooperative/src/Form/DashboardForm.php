@@ -219,35 +219,55 @@ class DashboardForm extends FormBase {
         $total_indiv = $this->getTotalSubjectCount('individual');
         $total_company = $this->getTotalSubjectCount('company');
         $total_contracts = $this->getTotalContractCount();
-        $total = $total_indiv + $total_company + $total_contracts;
 
         if ($selected_branch && $is_approver) {
             $total_indiv = $this->getSubjCountByBranch($selected_branch, 'individual');
             $total_company = $this->getSubjCountByBranch($selected_branch, 'company');
             $total_contracts = $this->getContractCountByBranch($selected_branch);
-            $total = $total_indiv + $total_company + $total_contracts;
         }
 
+        $charts_settings = $this->config('charts.settings');
+        $library = $charts_settings->get('charts_default_settings.library');
+
+        // Bar graph - Accounts
+        $xaxis = [
+            '#type' => 'chart_xaxis',
+            '#labels' => [
+                $this->t('Individual Accounts'),
+                $this->t('Coop Accounts'),
+                $this->t('Contract Accounts'),
+            ],
+        ];
+
+        $yaxis = [
+            '#type' => 'chart_yaxis',
+        ];
+
+        $series_one = [
+            '#type' => 'chart_data',
+            '#title' => $this->t(''),
+            '#data' => [$total_indiv, $total_company, $total_contracts],
+            '#color' => '#63B3ED',
+        ];
+
+        $chart = [
+            '#type' => 'chart',
+            '#chart_type' => 'column',
+            '#chart_library' => $library,
+            'series_one' => $series_one,
+            'x_axis' => $xaxis,
+            'y_axis' => $yaxis,
+            '#raw_options' => [
+                'options' => [
+                    'legend' => ['position' => 'none'],
+                    'height' => 300,
+                    'width' => '50%',
+                ],
+            ],
+        ];
+
         $form['accts-container']['bot-side']['stats'] = [
-            '#type' => 'markup',
-            '#markup' => "
-                <div class='account-stat'>
-                    <p class='left-p'>Individual Accounts</p>
-                    <p class='right-p'>{$total_indiv}</p>
-                </div>
-                <div class='account-stat'>
-                    <p class='left-p'>Coop Accounts</p>
-                    <p class='right-p'>{$total_company}</p>
-                </div>
-                <div class='account-stat'>
-                    <p class='left-p'>Contract Accounts</p>
-                    <p class='right-p'>{$total_contracts}</p>
-                </div>
-                <div class='account-stat'>
-                    <p class='left-p total'>TOTAL</p>
-                    <p class='right-p'>{$total}</p>
-                </div>
-            ",
+            '#markup' => \Drupal::service('renderer')->render($chart),
         ];
 
         if ($is_approver) {

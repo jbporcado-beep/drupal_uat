@@ -21,6 +21,8 @@ function admin_user_logout(AccountInterface $account) {
   
   $tempstore = \Drupal::service('tempstore.private')->get('dashboard_store');
   $tempstore->delete('coop_dropdown');
+  $tempstore->delete('branch_dropdown');
+  $tempstore->delete('total_coop_dropdown');
 }
 
 function admin_user_login(AccountInterface $account) {
@@ -380,6 +382,8 @@ function admin_page_top(array &$page_top) {
   if ($route_name !== 'massspecc.home') {
     $tempstore = \Drupal::service('tempstore.private')->get('dashboard_store');
     $tempstore->delete('coop_dropdown');
+    $tempstore->delete('branch_dropdown');
+    $tempstore->delete('total_coop_dropdown');
   }
 }
 

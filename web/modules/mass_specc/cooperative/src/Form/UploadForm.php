@@ -128,6 +128,7 @@ class UploadForm extends FormBase
     $options = [];
     $query = \Drupal::entityQuery('node')
       ->condition('type', 'cooperative')
+      ->condition('field_coop_status', 1)
       ->accessCheck(TRUE);
     $nids = $query->execute();
     if (!empty($nids)) {

@@ -24,6 +24,24 @@
                     "type": "zip"
                 }
             }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "google/charts",
+                "version": "45",
+                "type": "drupal-library",
+                "extra": {
+                    "installer-name": "google_charts"
+                },
+                "dist": {
+                    "url": "https://www.gstatic.com/charts/loader.js",
+                    "type": "file"
+                },
+                "require": {
+                    "composer/installers": "^1.0 || ^2.0"
+                }
+            }
         }
     ],
     "require": {
@@ -33,6 +51,7 @@
         "drupal/better_exposed_filters": "^7.0",
         "drupal/bootstrap_barrio": "^5.5",
         "drupal/bootstrap_sass": "^5.0",
+        "drupal/charts": "^5.1",
         "drupal/chosen": "^5.0",
         "drupal/chosen_lib": "^5.0",
         "drupal/core-composer-scaffold": "^11.2",
@@ -72,6 +91,7 @@
         "drupal/views_core_entity_reference": "1.0.0-alpha3",
         "drupal/views_data_export": "^1.6",
         "drush/drush": "^13.6",
+        "google/charts": "45",
         "mpdf/mpdf": "^8.2",
         "noli42/chosen": "3.0.0",
         "oomphinc/composer-installers-extender": "^2.0",
