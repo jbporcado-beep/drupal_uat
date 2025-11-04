@@ -502,3 +502,33 @@ function _admin_normalize_coop_value($val) {
   return $val;
 }
 
+
+function admin_views_post_execute(\Drupal\views\ViewExecutable $view) {
+  $targets = [
+    'login_summary' => [
+      'display' => 'login_summary_export',
+      'message' => 'Generated System Logins report.',
+    ],
+    'user_activity_logs' => [
+      'display' => 'activity_logs_export',
+      'message' => 'Generated Activity Log report.',
+    ],
+  ];
+
+  $view_id = $view->id();
+  $display_id = $view->current_display;
+
+  if (!isset($targets[$view_id]) || $targets[$view_id]['display'] !== $display_id) {
+    return;
+  }
+
+  $current_uid = \Drupal::currentUser()->id();
+  $current_user_entity = \Drupal\user\Entity\User::load($current_uid);
+  $data = [];
+  $activity_logger = \Drupal::service('admin.user_activity_logger');
+  $message = $targets[$view_id]['message'];
+
+  $activity_logger->log($message, 'export', $current_uid, $data, NULL, $current_user_entity);
+}
+
+

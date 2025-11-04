@@ -253,15 +253,14 @@ class CicReportGenerationService
         ];
         if (empty($failed_coop_uploads)) {
             \Drupal::messenger()->addMessage('Successfully generated CIC report!');
-            $action = "Finished CIC Report Generation task for " . $file_name;
-
+            $action = "Finished CIC Report Generation task for " . basename($zip_uri);
 
             $this->activityLogger->log($action, 'node', NULL, $data, NULL, $this->currentUser);
 
         } else {
 
             $group_list = implode(', ', $failed_coop_uploads);
-            $action = "Failed CIC Report Generation task for " . $file_name;
+            $action = "Failed CIC Report Generation task for " . basename($zip_uri);
             $this->activityLogger->log($action, 'node', NULL, $data, NULL, $this->currentUser);
 
             $message = "CIC report generated. **Failed to upload for the following groups:** [{$group_list}]";

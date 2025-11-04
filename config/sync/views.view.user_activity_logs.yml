@@ -519,8 +519,8 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.user.field_full_name'
-  data_export_1:
-    id: data_export_1
+  activity_logs_export:
+    id: activity_logs_export
     display_title: 'Data export'
     display_plugin: data_export
     position: 2
