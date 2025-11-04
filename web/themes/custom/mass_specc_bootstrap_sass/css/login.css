@@ -113,3 +113,10 @@ body {
 .content {
   padding: 0;
 }
+
+
+.login-error-msg {
+  color: var(--bs-form-invalid-color);
+  font-size: 14px;
+  margin-bottom: 0.5rem;
+}

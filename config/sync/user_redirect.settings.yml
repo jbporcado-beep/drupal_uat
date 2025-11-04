@@ -3,7 +3,7 @@ login:
     redirect_url: ''
     weight: '-10'
   administrator:
-    redirect_url: ''
+    redirect_url: /admin
     weight: '-10'
   mass_specc_admin:
     redirect_url: /dashboard/mass-specc

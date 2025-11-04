@@ -8,11 +8,6 @@ use Drupal\user\UserInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\password_reset\Form\ExpiredPasswordForm;
 
-
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
 function login_form_user_login_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $form['forgot_password'] = [
     '#type' => 'markup',
@@ -22,34 +17,105 @@ function login_form_user_login_form_alter(&$form, FormStateInterface $form_state
 
   $form['name']['#attributes']['placeholder'] = t('Email address');
   $form['pass']['#attributes']['placeholder'] = t('Password');
-
   $form['name']['#title_display'] = 'invisible';
   $form['pass']['#title_display'] = 'invisible';
 
   $form['#validate'][] = 'login_user_login_validate';
   $form['#validate'][] = 'login_user_login_authenticate_validate';
-   $form['#after_build'][] = 'login_login_replace_error_messages';
+  $form['#after_build'][] = 'login_login_replace_error_messages';
+
+  if (!isset($form['#validate']) || !is_array($form['#validate'])) {
+    $form['#validate'] = [];
+  }
+  if (!in_array('login_exponential_login_validate', $form['#validate'])) {
+    $form['#validate'][] = 'login_exponential_login_validate';
+  }
+  if (!isset($form['#submit']) || !is_array($form['#submit'])) {
+    $form['#submit'] = [];
+  }
+  if (!in_array('login_exponential_login_submit', $form['#submit'])) {
+    $form['#submit'][] = 'login_exponential_login_submit';
+  }
+
+  $request = \Drupal::request();
+  $ip = $request->getClientIp();
+  $username = isset($form['name']['#default_value']) ? $form['name']['#default_value'] : '';
+  if (empty($username)) {
+    $username = $request->request->get('name', '');
+  }
+  $identifier = 'ip:' . $ip;
+  if (!empty($username)) {
+    $identifier .= '|user:' . strtolower($username);
+  }
+
+  $state = \Drupal::state();
+  $key = 'login_exponential.' . md5($identifier);
+  $data = $state->get($key, ['count' => 0, 'last_attempt' => 0, 'blocked_until' => 0]);
+  $now = time();
+
+  if (!empty($data['blocked_until']) && $now < $data['blocked_until']) {
+    $user_storage = \Drupal::entityTypeManager()->getStorage('user');
+    $users = $user_storage->loadByProperties(['name' => $username]);
+    $account = $users ? reset($users) : NULL;
+
+    if ($account && $account->isBlocked()) {
+      $form_state->setErrorByName('name', t('Your account has been deactivated or blocked. Please contact your site administrator for assistance.'));
+      $state->delete($key);
+      $flood = \Drupal::service('flood');
+      $ip_only_identifier = 'ip:' . $ip;
+      $flood->clear('login.attempt', $identifier);
+      $flood->clear('login.attempt', $ip_only_identifier);
+      $flood->clear('user.failed_login_ip', $ip);
+      $flood->clear('user.failed_login_user', strtolower($username));
+      $state->delete('login_exponential.' . md5($ip_only_identifier));
+      $state->delete('login_identifiers_for_user.' . strtolower($username));
+      return;
+    }
+
+    $remaining = $data['blocked_until'] - $now;
+    $form['login_block_timer'] = [
+      '#type' => 'markup',
+      '#markup' => '<div id="login-block-timer" data-remaining="' . $remaining . '" class="login-error-msg">Too many failed login attempts. Try again in <span id="login-block-seconds">' . $remaining . '</span> seconds.</div>',
+      '#weight' => -10,
+    ];
+    if (isset($form['actions']['submit'])) {
+      $form['actions']['submit']['#attributes']['disabled'] = 'disabled';
+    }
+    $form['#attached']['library'][] = 'login/login-block-timer';
+  }
 }
 
 function login_user_login_validate($form, \Drupal\Core\Form\FormStateInterface $form_state) {
   \Drupal::service('module_handler')->invokeAll('form_validate', [$form, $form_state]);
 
+  $name = $form_state->getValue('name');
+  $user_storage = \Drupal::entityTypeManager()->getStorage('user');
+  $users = $user_storage->loadByProperties(['name' => $name]);
+  $account = $users ? reset($users) : NULL;
+
   foreach ($form_state->getErrors() as $field => $message) {
-    if (strpos($message, 'Unrecognized username or password') !== FALSE) {
-      $form_state->setErrorByName($field, t('Unrecognized username or password.'));
+    $msg = (string) $message;
+    if (strpos($msg, 'Unrecognized username or password') !== FALSE || strpos($msg, 'has not been activated or is blocked') !== FALSE) {
+      if (method_exists($form_state, 'clearErrors')) {
+        $form_state->clearErrors();
+      }
+      if ($account && $account->isBlocked()) {
+        $form_state->setErrorByName('name', t('Your account has been deactivated or blocked. Please contact your site administrator for assistance.'));
+      }
+      else {
+        $form_state->setErrorByName('name', t('The email and password you entered did not match. Please double-check and try again.'));
+      }
+      $form_state->setErrorByName('pass', '');
+      return;
     }
   }
 }
 
-/**
- * Custom login validator without "Forgot password?" link.
- */
 function login_user_login_authenticate_validate($form, FormStateInterface $form_state) {
   $name = $form_state->getValue('name');
   $password = $form_state->getValue('pass');
 
   $user_storage = \Drupal::entityTypeManager()->getStorage('user');
-
   $users = $user_storage->loadByProperties(['name' => $name]);
   $account = $users ? reset($users) : NULL;
 
@@ -58,20 +124,19 @@ function login_user_login_authenticate_validate($form, FormStateInterface $form_
   }
 }
 
-
 function login_login_replace_error_messages($form, FormStateInterface $form_state) {
   $errors = $form_state->getErrors();
   if (!empty($errors)) {
     foreach ($errors as $field => $message) {
-      $form_state->setErrorByName($field, t('Unrecognized username or password.'));
+      $msg = (string) $message;
+      if (strpos($msg, 'Unrecognized username or password') !== FALSE || strpos($msg, 'has not been activated or is blocked') !== FALSE) {
+        $form_state->setErrorByName($field, t('The email and password you entered did not match. Please double-check and try again.'));
+      }
     }
   }
   return $form;
 }
 
-/**
- * Implements hook_user_login().
- */
 function login_user_login(\Drupal\user\UserInterface $account) {
   if ($account->get('field_password_expiration')->value == 1) {
     $url = Url::fromRoute('expired_password.form', ['uid' => $account->id()])->toString();
@@ -81,15 +146,184 @@ function login_user_login(\Drupal\user\UserInterface $account) {
   }
 }
 
-/**
- * Implements hook_page_attachments_alter().
- * Essentially, this disables drupal messenger on login page.
- */
 function login_page_attachments_alter(array &$attachments) {
   $route_name = \Drupal::routeMatch()->getRouteName();
-
   if ($route_name === 'user.login') {
     $messenger = \Drupal::messenger();
     $messenger->deleteAll();
+  }
+}
+
+function login_exponential_login_validate(array &$form, FormStateInterface $form_state) {
+  if ($form_state->get('login_exponential_handled')) {
+    return;
+  }
+  $form_state->set('login_exponential_handled', TRUE);
+
+  $request = \Drupal::request();
+  $ip = $request->getClientIp();
+  $username = $form_state->getValue('name') ?? '';
+  $identifier = 'ip:' . $ip;
+  if (!empty($username)) {
+    $identifier .= '|user:' . strtolower($username);
+  }
+
+  $request_guard_key = 'login_exponential_handled_' . md5($identifier);
+  if ($request->attributes->get($request_guard_key)) {
+    return;
+  }
+  $request->attributes->set($request_guard_key, TRUE);
+
+  $config = \Drupal::config('login.settings');
+  $base_delay = (int) $config->get('base_delay') ?: 30;
+  $max_delay = (int) $config->get('max_delay') ?: 300;
+  $reset_window = (int) $config->get('reset_window') ?: 3600;
+  $block_every = max(1, (int) $config->get('block_every') ?: 5);
+  $permanent_block_at = (int) $config->get('permanent_block_at') ?: 50;
+  $flood_register_window = (int) $config->get('flood_register_window') ?: 3600;
+
+  $state = \Drupal::state();
+  $key = 'login_exponential.' . md5($identifier);
+  $data = $state->get($key, ['count' => 0, 'last_attempt' => 0, 'blocked_until' => 0]);
+  $now = time();
+
+  if (!empty($data['last_attempt']) && ($now - $data['last_attempt'] > $reset_window)) {
+    $data['count'] = 0;
+    $data['blocked_until'] = 0;
+  }
+
+  if (!empty($data['blocked_until']) && $now < $data['blocked_until']) {
+    $form_state->setErrorByName('name', '');
+    $state->set($key, $data);
+    return;
+  }
+
+  $errors = $form_state->getErrors();
+  if (empty($errors)) {
+    return;
+  }
+
+  $should_count = FALSE;
+  foreach ($errors as $msg) {
+    $msg = (string) $msg;
+    if (strpos($msg, 'Unrecognized username or password') !== FALSE || strpos($msg, 'did not match') !== FALSE) {
+      $should_count = TRUE;
+      break;
+    }
+  }
+  if (!$should_count) {
+    return;
+  }
+
+  $lock = \Drupal::service('lock');
+  $lock_name = 'login_exponential_lock_' . md5($identifier);
+  $got_lock = $lock->acquire($lock_name, 30);
+  try {
+    $data = $state->get($key, ['count' => 0, 'last_attempt' => 0, 'blocked_until' => 0]);
+    $now = time();
+    if (!empty($data['last_attempt']) && ($now - $data['last_attempt'] > $reset_window)) {
+      $data['count'] = 0;
+    }
+
+    $old_count = (int) ($data['count'] ?? 0);
+    $new_count = $old_count + 1;
+    $data['count'] = $new_count;
+    $data['last_attempt'] = $now;
+
+    if ($new_count >= $permanent_block_at) {
+      $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['name' => $username]);
+      $account = $users ? reset($users) : NULL;
+      if ($account) {
+        $account->block();
+        $account->save();
+        $flood = \Drupal::service('flood');
+        $ip_only = 'ip:' . $ip;
+        $map_key = 'login_identifiers_for_user.' . strtolower($username);
+        $identifiers = $state->get($map_key, []);
+        foreach ($identifiers as $id) {
+          try { $flood->clear('login.attempt', $id); } catch (\Exception $e) {}
+          try { $state->delete('login_exponential.' . md5($id)); } catch (\Exception $e) {}
+        }
+        try { $flood->clear('login.attempt', $identifier); } catch (\Exception $e) {}
+        try { $flood->clear('login.attempt', $ip_only); } catch (\Exception $e) {}
+        try { $flood->clear('user.failed_login_ip', $ip); } catch (\Exception $e) {}
+        try { $flood->clear('user.failed_login_user', strtolower($username)); } catch (\Exception $e) {}
+        $state->delete($map_key);
+        $state->delete($key);
+        $state->delete('login_exponential.' . md5($ip_only));
+        $form_state->setErrorByName('name', t('Your account has been deactivated. Please contact your site administrator for assistance.'));
+        return;
+      }
+    }
+
+    if ($new_count % $block_every === 0) {
+      $stage = (int) ceil($new_count / max(1, $block_every));
+      if ($stage < 1) {
+        $stage = 1;
+      }
+      $delay = (int) ($base_delay * pow(2, max(0, $stage - 1)));
+      if ($delay > $max_delay) {
+        $delay = (int) $max_delay;
+      }
+      $data['blocked_until'] = $now + $delay;
+      $state->set($key, $data);
+      \Drupal::service('flood')->register('login.attempt', $flood_register_window, $identifier);
+      $map_key = 'login_identifiers_for_user.' . strtolower($username);
+      $existing = $state->get($map_key, []);
+      if (!in_array($identifier, $existing)) {
+        $existing[] = $identifier;
+      }
+      $ip_only = 'ip:' . $ip;
+      if (!in_array($ip_only, $existing)) {
+        $existing[] = $ip_only;
+      }
+      $state->set($map_key, $existing);
+      $form_state->setErrorByName('name', '');
+      $form_state->setErrorByName('pass', '');
+      return;
+    }
+
+    $state->set($key, $data);
+  }
+  finally {
+    if (!empty($got_lock)) {
+      $lock->release($lock_name);
+    }
+  }
+}
+
+function login_exponential_login_submit(array &$form, FormStateInterface $form_state) {
+  $current_user = \Drupal::currentUser();
+  $is_authenticated = $current_user->isAuthenticated();
+
+  $request = \Drupal::request();
+  $ip = $request->getClientIp();
+  $username = $form_state->getValue('name') ?? '';
+  $identifier = 'ip:' . $ip;
+  if (!empty($username)) {
+    $identifier .= '|user:' . strtolower($username);
+  }
+
+  $state = \Drupal::state();
+  $key = 'login_exponential.' . md5($identifier);
+
+  if ($is_authenticated) {
+    $state->delete($key);
+    $flood = \Drupal::service('flood');
+    try { $flood->clear('login.attempt', $identifier); } catch (\Exception $e) {}
+    $ip_only_identifier = 'ip:' . $ip;
+    try { $flood->clear('login.attempt', $ip_only_identifier); } catch (\Exception $e) {}
+    try { $state->delete('login_exponential.' . md5($ip_only_identifier)); } catch (\Exception $e) {}
+    try { $flood->clear('user.failed_login_ip', $ip); } catch (\Exception $e) {}
+    if (!empty($username)) {
+      $map_key = 'login_identifiers_for_user.' . strtolower($username);
+      $ids = $state->get($map_key, []);
+      foreach ($ids as $id) {
+        try { $flood->clear('login.attempt', $id); } catch (\Exception $e) {}
+        try { $state->delete('login_exponential.' . md5($id)); } catch (\Exception $e) {}
+      }
+      try { $flood->clear('user.failed_login_user', strtolower($username)); } catch (\Exception $e) {}
+      $state->delete($map_key);
+    }
   }
 }

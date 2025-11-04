@@ -1,0 +1,6 @@
+login.settings:
+  title: 'Login settings'
+  description: 'Configure exponential backoff and login lockout settings.'
+  parent: user.admin_index
+  route_name: login.settings
+  weight: 100

@@ -21,7 +21,6 @@ class RedirectUserPathSubscriber implements EventSubscriberInterface {
     }
 
     public function onKernelRequest(RequestEvent $event) {
-        // Only process master requests so that redirect happens only once per request
         $isAdmin = $this->currentUser->hasRole('administrator');
         if (!$event->isMainRequest()) {
             return;

@@ -1,0 +1,4 @@
+access login settings:
+  title: 'Access login settings'
+  description: 'Manage exponential backoff and lockout settings for login.'
+  restrict access: true

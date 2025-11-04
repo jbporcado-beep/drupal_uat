@@ -1,0 +1,22 @@
+login.settings:
+  type: config_object
+  label: 'Login settings'
+  mapping:
+    block_every:
+      type: integer
+      label: 'Number of attempts per stage'
+    base_delay:
+      type: integer
+      label: 'Base delay in seconds'
+    max_delay:
+      type: integer
+      label: 'Maximum delay in seconds'
+    reset_window:
+      type: integer
+      label: 'Reset window in seconds'
+    permanent_block_at:
+      type: integer
+      label: 'Permanent block threshold'
+    flood_register_window:
+      type: integer
+      label: 'Flood register window in seconds'

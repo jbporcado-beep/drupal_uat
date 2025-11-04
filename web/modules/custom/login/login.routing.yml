@@ -1,0 +1,7 @@
+login.settings:
+  path: '/admin/config/people/login-settings'
+  defaults:
+    _form: '\Drupal\login\Form\LoginSettingsForm'
+    _title: 'Login settings'
+  requirements:
+    _permission: 'access login settings'

@@ -1,0 +1,6 @@
+block_every: 3
+base_delay: 30
+max_delay: 300
+reset_window: 3600
+permanent_block_at: 50
+flood_register_window: 3600
