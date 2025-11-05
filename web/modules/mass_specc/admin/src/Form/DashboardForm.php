@@ -268,7 +268,6 @@ class DashboardForm extends FormBase {
                 'event' => 'change',
                 'progress' => ['type' => 'none']
             ],
-            '#attributes' => ['class' => ['coop-select']],
         ];
         $form['stats-container']['accts-container']['filters']['branch_dropdown'] = [
             '#type' => 'select',
@@ -281,7 +280,6 @@ class DashboardForm extends FormBase {
                 'event' => 'change',
                 'progress' => ['type' => 'none']
             ],
-            '#attributes' => ['class' => ['coop-select']],
         ];
 
         $stored_total_coop = $tempstore->get('total_coop_dropdown');
