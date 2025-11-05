@@ -29,6 +29,13 @@ class MemberProfileService
         $expected_subject = $this->normalize($individual_data['provider_subj_no'] ?? '');
 
         $incomingKeys = $this->collectIdentificationKeys($individual_data['identification'] ?? null);
+        $incomingMap = [];
+        foreach ($incomingKeys as $k) {
+            $parts = explode('|', $k, 2);
+            if (count($parts) === 2) {
+                $incomingMap[$this->normalize($parts[0])] = $this->normalize($parts[1]);
+            }
+        }
 
         $query = $this->entityTypeManager->getStorage('node')->getQuery()
             ->accessCheck(FALSE)
@@ -78,18 +85,20 @@ class MemberProfileService
                     }
 
                     $coop_val = $indiv->hasField('field_provider_code') ? $this->normalize($indiv->get('field_provider_code')->value ?? '') : '';
-                    $branch_val = $indiv->hasField('field_branch_code') ? $this->normalize($indiv->get('field_branch_code')->value ?? '') : '';
                     $subject_val = $indiv->hasField('field_provider_subject_no') ? $this->normalize($indiv->get('field_provider_subject_no')->value ?? '') : '';
 
+                    if ($subject_val !== '' && $subject_val === $expected_subject) {
+                        if ($coop_val !== '' && $coop_val === $expected_coop) {
+                            $isExactMatch = TRUE;
+                            break;
+                        }
+                        continue;
+                    }
+
                     if ($coop_val !== '' && $coop_val === $expected_coop) {
-                        if ($branch_val !== '' && $branch_val === $expected_branch) {
-                            if ($subject_val !== '' && $subject_val === $expected_subject) {
-                                $isExactMatch = TRUE;
-                                break;
-                            } else {
-                                $shouldSkipMember = TRUE;
-                                break;
-                            }
+                        if ($subject_val !== '') {
+                            $shouldSkipMember = TRUE;
+                            break;
                         }
                     }
                 }
@@ -102,7 +111,10 @@ class MemberProfileService
                     continue;
                 }
 
-                if (!empty($incomingKeys)) {
+                if (!empty($incomingMap)) {
+                    $memberMatchedByIdentification = FALSE;
+                    $memberHasConflictingIdentification = FALSE;
+
                     foreach ($refs as $ref) {
                         $target_id = $ref['target_id'] ?? NULL;
                         if (empty($target_id)) {
@@ -126,7 +138,7 @@ class MemberProfileService
                             continue;
                         }
 
-                        $refKeys = [];
+                        $refMap = [];
                         foreach ($idRefs as $idRef) {
                             $idNid = $idRef['target_id'] ?? null;
                             if (empty($idNid)) {
@@ -141,14 +153,38 @@ class MemberProfileService
                                 }
                             }
                             if (!empty($identificationCache[$idNid])) {
-                                $refKeys = array_merge($refKeys, $identificationCache[$idNid]);
+                                foreach ($identificationCache[$idNid] as $kk) {
+                                    $parts = explode('|', $kk, 2);
+                                    if (count($parts) === 2) {
+                                        $t = $this->normalize($parts[0]);
+                                        $n = $this->normalize($parts[1]);
+                                        $refMap[$t] = $n;
+                                    }
+                                }
                             }
                         }
 
-                        $refKeys = array_values(array_unique($refKeys));
-                        if (!empty($refKeys) && !empty(array_intersect($incomingKeys, $refKeys))) {
-                            return $memberProfile;
+                        if (!empty($refMap)) {
+                            foreach ($incomingMap as $inType => $inNumber) {
+                                if (isset($refMap[$inType])) {
+                                    if ($refMap[$inType] === $inNumber) {
+                                        $memberMatchedByIdentification = TRUE;
+                                        break 2;
+                                    } else {
+                                        $memberHasConflictingIdentification = TRUE;
+                                        break 2;
+                                    }
+                                }
+                            }
                         }
+                    }
+
+                    if ($memberMatchedByIdentification) {
+                        return $memberProfile;
+                    }
+
+                    if ($memberHasConflictingIdentification) {
+                        continue;
                     }
                 }
             }
@@ -167,6 +203,7 @@ class MemberProfileService
 
         return $profile;
     }
+
     protected function collectIdentificationKeys($identificationDto): array
     {
         $keys = [];
@@ -195,12 +232,10 @@ class MemberProfileService
 
             $type = trim($type);
             $num = preg_replace('/\s+/', '', trim($num));
+            $num = preg_replace('/[^\PC\s]/u', '', $num);
 
-            if ($num !== '') {
-                if ($type !== '') {
-                    $keys[] = "{$type}|{$num}";
-                }
-                $keys[] = $num;
+            if ($type !== '' && $num !== '') {
+                $keys[] = "{$type}|{$num}";
             }
         }
 
@@ -225,17 +260,16 @@ class MemberProfileService
 
             $type = trim($type);
             $num = preg_replace('/\s+/', '', trim($num));
+            $num = preg_replace('/[^\PC\s]/u', '', $num);
 
-            if ($num !== '') {
-                if ($type !== '') {
-                    $keys[] = "{$type}|{$num}";
-                }
-                $keys[] = $num;
+            if ($type !== '' && $num !== '') {
+                $keys[] = "{$type}|{$num}";
             }
         }
 
         return array_values(array_unique($keys));
     }
+
 
     protected function normalize(string $s): string
     {

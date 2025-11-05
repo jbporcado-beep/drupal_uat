@@ -1,6 +1,6 @@
-block_every: 3
+block_every: 2
 base_delay: 30
-max_delay: 300
+max_delay: 3000
 reset_window: 3600
 permanent_block_at: 50
 flood_register_window: 3600
