@@ -46,7 +46,6 @@ class OTPValidatorForm extends FormBase
         $form['otp'] = [
             '#type' => 'textfield',
             '#placeholder' => $this->t('Enter your OTP'),
-            '#required' => TRUE,
         ];
 
         $form['actions']['submit'] = [
@@ -66,7 +65,7 @@ class OTPValidatorForm extends FormBase
         $attempts_key = 'otp_attempts:' . $transaction_key;
         $attempts = $session->get($attempts_key, 0);
 
-        if ($attempts >= 3) {
+        if ($attempts >= 2) {
             $this->messenger()->addError($this->t('Too many failed attempts. Please request a new code.'));
             $form_state->setRedirect('forgotpassword.otp_sender_form');
             return;
@@ -80,7 +79,6 @@ class OTPValidatorForm extends FormBase
         $uid = $session->get('otp_validation_key:' . $transaction_key);
 
         if (empty($uid)) {
-            $this->messenger()->addError($this->t('Too many failed attempts. Please request a new code.'));
             $form_state->setRedirect('forgotpassword.otp_sender_form');
             return;
         }
@@ -89,7 +87,7 @@ class OTPValidatorForm extends FormBase
         if (!$stored_otp || $otp != $stored_otp) {
             $attempts++;
             $session->set($attempts_key, $attempts);
-            if ($attempts >= 3) {
+            if ($attempts >= 2) {
                 $this->messenger()->addError($this->t('Too many failed attempts. Please request a new code.'));
                 $form_state->setRedirect('forgotpassword.otp_sender_form');
             } else {
@@ -109,7 +107,7 @@ class OTPValidatorForm extends FormBase
         $attempts_key = 'otp_attempts:' . $transaction_key;
         $attempts = $session->get($attempts_key, 0);
 
-        if ($attempts >= 3) {
+        if ($attempts >= 2) {
             $this->messenger()->addError($this->t('Too many failed attempts. Please request a new code.'));
             $form_state->setRedirect('forgotpassword.otp_sender_form');
             return;
@@ -121,9 +119,8 @@ class OTPValidatorForm extends FormBase
         if (!$stored_otp || $form_state->getValue('otp') != $stored_otp) {
             $attempts++;
             $session->set($attempts_key, $attempts);
-            $this->messenger()->addError($this->t('The OTP you entered is incorrect. Please try again.'));
 
-            if ($attempts >= 3) {
+            if ($attempts >= 2) {
                 $form_state->setRedirect('forgotpassword.otp_sender_form');
             } else {
                 $form_state->setRebuild();
