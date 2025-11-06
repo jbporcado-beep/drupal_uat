@@ -320,7 +320,7 @@ class MemberCreditForm extends FormBase
         if (!empty($dob_input)) {
             $date = \DateTime::createFromFormat('Y-m-d', $dob_input);
             if ($date) {
-                $dob_formatted = $date->format('jmY');
+                $dob_formatted = $date->format('dmY');
             }
         }
 
