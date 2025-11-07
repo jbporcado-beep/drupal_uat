@@ -22,6 +22,12 @@ use Drupal\cooperative\Service\FileHistoryService;
 
 use Drupal\admin\Service\UserActivityLogger;
 
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Ajax\CloseModalDialogCommand;
+use Drupal\Core\Ajax\RedirectCommand;
+
 
 /**
  * Provides a simple upload form example with a submit handler.
@@ -286,7 +292,10 @@ class UploadForm extends FormBase
    */
   public function buildForm(array $form, FormStateInterface $form_state): array
   {
+    $form['#attached']['library'][] = 'core/drupal.dialog';
+    $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#attached']['library'][] = 'mass_specc_bootstrap_sass/file-upload-styles';
+
     $form['layout'] = [
       '#type' => 'container',
       '#attributes' => ['class' => ['form-page-layout']],
@@ -374,6 +383,7 @@ class UploadForm extends FormBase
       '#title' => $this->t('Branch'),
       '#options' => $branch_options,
       '#attributes' => ['class' => ['dropdown-item']],
+      '#required' => TRUE,
       '#disabled' => $is_uploader,
       '#ajax' => [
         'callback' => '::updateDropdownsFromBranch',
@@ -437,9 +447,13 @@ class UploadForm extends FormBase
 
     $error_display = [];
 
+    $form['actions']['right-side'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['actions-right-side-group']],
+    ];
 
     if (!empty($errors_to_export)) {
-      $form['actions']['export'] = [
+      $form['actions']['right-side']['export'] = [
         '#type' => 'submit',
         '#value' => $this->t('Download Error Logs'),
         '#weight' => 10,
@@ -485,8 +499,110 @@ class UploadForm extends FormBase
       ];
     }
 
+    $form['actions']['hidden_submit'] = [
+      '#type' => 'submit',
+      '#value' => 'Bypass Validation Submit',
+      '#attributes' => [
+        'style' => 'display:none;',
+        'id' => 'upload-without-validation-submit',
+      ],
+    ];
+
+    $show_bypass_button = $tempstore->get('last_upload_has_errors');
+
+    if ($show_bypass_button) {
+      $form['actions']['right-side']['upload-without-validation'] = [
+        '#type' => 'button',
+        '#value' => 'Upload without Validation',
+        '#weight' => 11,
+        '#limit_validation_errors' => [],
+        '#attributes' => [
+          'class' => ['bypass-validation-button', 'use-ajax'],
+          'data-dialog-type' => 'modal',
+          'data-dialog-options' => Json::encode([
+            'width' => 700,
+          ]),
+        ],
+        '#ajax' => [
+          'callback' => '::openConfirmationModal',
+          'event' => 'click',
+          'progress' => ['type' => 'none']
+        ],
+      ];
+    }
 
     return $form;
+  }
+
+  public function openConfirmationModal(array &$form, FormStateInterface $form_state) {
+    $response = new AjaxResponse();
+
+    $form['confirmation_modal'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['confirmation-modal']],
+    ];
+
+    $form['confirmation_modal']['message'] = [
+      '#markup' => '
+        <p>The selected file did not pass validation checks.</p>
+        <p>Proceeding will <strong>ignore all validation rules,</strong> including missing or non-standard field values.<br/>
+        This may cause issues in reports or data consistency and any errors this will cause needs to be tracked manually.</p>
+        <p>Are you sure you want to continue?</p>
+      ',
+      '#attached' => [
+        'library' => [
+          'cooperative/bypass_validation_modal_actions',
+        ],
+      ],
+    ];
+
+    $form['confirmation_modal']['checkbox'] = [
+      '#type' => 'checkbox',
+      '#title' => 'I understand that this upload will bypass validation checks.',
+      '#attributes' => [
+        'class' => ['confirmation-checkbox'],
+        'id' => 'confirmation-checkbox',
+      ],
+      '#required' => TRUE,
+      '#prefix' => '<div class="confirmation-checkbox-container">',
+      '#suffix' => '</div>',
+    ];
+
+    $form['confirmation_modal']['actions'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['modal-buttons-container']],
+    ];
+    $form['confirmation_modal']['actions']['submit'] = [
+      '#type' => 'button',
+      '#value' => 'Yes, proceed to upload without validation',
+      '#button_type' => 'primary',
+      '#ajax' => [
+          'callback' => '::closeModal',
+          'progress' => ['type' => 'none']
+      ],
+      '#attributes' => [
+        'class' => ['modal-button', 'modal-submit-button'],
+        'id' => 'proceed-without-validation-modal-button',
+      ],
+      '#states' => [
+        'disabled' => [
+          ':input[id="confirmation-checkbox"]' => ['checked' => FALSE],
+        ],
+      ],
+    ];
+    $form['confirmation_modal']['actions']['cancel'] = [
+      '#type' => 'button',
+      '#value' => 'Cancel',
+      '#attributes' => [
+        'class' => ['modal-button', 'modal-cancel-button'],
+        'id' => 'cancel-without-validation-modal-button',
+      ],
+    ];
+    
+
+    $response->addCommand(new OpenModalDialogCommand('Proceed without Validation?', $form['confirmation_modal'], ['width' => '700']));
+
+    return $response;
   }
 
   /**
@@ -507,6 +623,7 @@ class UploadForm extends FormBase
     $trigger = $form_state->getTriggeringElement();
     $clicked_value = $trigger['#value'];
     $is_verify = ($clicked_value === 'Verify');
+    $is_bypass_validation = ($clicked_value === 'Bypass Validation Submit');
 
     if (empty($fids) || !is_array($fids)) {
       $this->messenger()->addError($this->t('No file uploaded.'));
@@ -551,6 +668,8 @@ class UploadForm extends FormBase
     $row_number = 1;
     $row_with_header = [];
     $errors = [];
+    $cannot_bypass_errors = [];
+    $db_errors = [];
     $filename = $file->getFilename();
     $report_type = $form_state->getValue('report_dropdown');
 
@@ -566,6 +685,7 @@ class UploadForm extends FormBase
 
       if (!empty($branch_dropdown) && !$this->doesBranchBelongToCoop($branch_dropdown, $coop_dropdown)) {
         $errors[] = "SELECTED BRANCH DOES NOT BELONG TO THE SELECTED COOPERATIVE";
+        $cannot_bypass_errors[] = "SELECTED BRANCH DOES NOT BELONG TO THE SELECTED COOPERATIVE";
       }
 
 
@@ -580,6 +700,7 @@ class UploadForm extends FormBase
 
         if (!in_array($record_type, ['ID', 'BD', 'CI', 'CN'])) {
           $errors[] = "Row $row_number | 30-009: 'RECORD TYPE' IS NOT VALID";
+          $cannot_bypass_errors[] = "Row $row_number | 30-009: 'RECORD TYPE' IS NOT VALID";
           continue;
         }
 
@@ -590,50 +711,84 @@ class UploadForm extends FormBase
 
           if (!empty($branch_code) && !$this->branchExists($branch_code)) {
             $errors[] = "Row $row_number | THE BRANCH WITH BRANCH CODE $branch_code DOESN'T EXIST";
+            $cannot_bypass_errors[] = "Row $row_number | THE BRANCH WITH BRANCH CODE $branch_code DOESN'T EXIST";
           }
           if ((string) $branch_dropdown !== (string) $branch_code) {
             $errors[] = "Row $row_number | BRANCH CODE INSIDE THE FILE IS NOT CONSISTENT WITH THE SELECTED BRANCH";
+            $cannot_bypass_errors[] = "Row $row_number | BRANCH CODE INSIDE THE FILE IS NOT CONSISTENT WITH THE SELECTED BRANCH";
           }
           if (!empty($provider_code) && $coop_dropdown !== $provider_code) {
             $errors[] = "Row $row_number | PROVIDER CODE INSIDE THE FILE IS NOT CONSISTENT WITH THE SELECTED COOPERATIVE";
+            $cannot_bypass_errors[] = "Row $row_number | PROVIDER CODE INSIDE THE FILE IS NOT CONSISTENT WITH THE SELECTED COOPERATIVE";
           }
 
-
-          $this->headerService->import($row_with_header, $row_number, $errors);
+          $this->headerService->import($row_with_header, $row_number, $errors, $is_bypass_validation);
 
           if ($record_type === 'ID') {
-            $this->individualService->import($row_with_header, $row_number, $errors);
+            $this->individualService->import($row_with_header, $row_number, $errors, $is_bypass_validation);
           } else if ($record_type === 'BD') {
-            $this->companyService->import($row_with_header, $row_number, $errors);
+            $this->companyService->import($row_with_header, $row_number, $errors, $is_bypass_validation);
           } else if ($record_type === 'CI') {
-            $this->installmentContractService->import($row_with_header, $row_number, $errors);
+            $this->installmentContractService->import($row_with_header, $row_number, $errors, $is_bypass_validation);
           } else if ($record_type === 'CN') {
-            $this->nonInstallmentContractService->import($row_with_header, $row_number, $errors);
+            $this->nonInstallmentContractService->import($row_with_header, $row_number, $errors, $is_bypass_validation);
           }
         } catch (\Throwable $e) {
-          $errors[] = $this->t('Row @row: failed to save. @msg', [
-            '@row' => $row_number,
-            '@msg' => $e->getMessage(),
-          ]);
+          $db_errors[] = "Row $row_number: " . $e->getMessage();
+
+          $cannot_bypass_errors[] = "Row $row_number: A database error occurred while trying to insert this row of data. " .
+          "Please review the data in your file. Ensure fields are within their specified maximum length. ";
         }
       }
 
       fclose($stream);
 
+      if ($is_bypass_validation) {
+        if (empty($cannot_bypass_errors)) {
+          unset($transaction);
+          $this->fileHistoryService->create($file, $row_with_header, $is_bypass_validation);
+          $this->messenger()->addStatus($this->t('File successfully uploaded without validation!'));
+          $tempstore->delete('last_upload_has_errors');
+  
+          $data = [
+            'changed_fields' => [],
+          ];
+  
+          $action = 'Uploaded without validation ' . $file->getFilename() . ' for ' . $coop_dropdown . ' - ' . $branch_dropdown;
+          $this->activityLogger->log($action, 'node', NULL, $data, NULL, $this->currentUser);
+        }
+        else {
+          $transaction->rollBack();
+          $tempstore->set('validation_errors', $cannot_bypass_errors);
+          $tempstore->set('current_file', $file->getFilename());
+          $tempstore->set('last_upload_has_errors', TRUE);
+          foreach ($db_errors as $db_error) {
+            \Drupal::logger('File Upload')->error($db_error);
+          }
+        }
+        return;
+      }
+
       if (!empty($errors)) {
         $transaction->rollBack();
         $tempstore->set('validation_errors', $errors);
         $tempstore->set('current_file', $file->getFilename());
+        if (!$is_verify) {
+          $tempstore->set('last_upload_has_errors', TRUE);
+        }
         return;
       }
 
       if ($is_verify) {
         $transaction->rollBack();
         $this->messenger()->addStatus($this->t('File verified with no errors!'));
-      } else {
+        $tempstore->delete('last_upload_has_errors');
+      }
+      else {
         unset($transaction);
-        $this->fileHistoryService->create($file, $row_with_header);
+        $this->fileHistoryService->create($file, $row_with_header, $is_bypass_validation);
         $this->messenger()->addStatus($this->t('File upload successful!'));
+        $tempstore->delete('last_upload_has_errors');
 
         $data = [
           'changed_fields' => [],

@@ -42,9 +42,9 @@ class IndividualService
         $this->memberProfileService = $memberProfileService;
     }
 
-    public function import(array $row, int $row_number, array &$errors)
+    public function import(array $row, int $row_number, array &$errors, bool $is_bypass_validation)
     {
-
+        
         $individualDto = CsvToDtoMapper::mapToIndividualDto($row);
         $provider_code = $individualDto->providerCode;
         $provider_subj_no = $individualDto->providerSubjectNo;
@@ -65,8 +65,8 @@ class IndividualService
 
         $is_provider_subj_no_taken = $this->individualRepository
             ->isProviderSubjNoTakenInCoopOrBranch($provider_code, $provider_subj_no, $branch_code);
-
-        if (!$is_provider_subj_no_taken && empty($errors)) {
+        
+        if (!$is_provider_subj_no_taken && (empty($errors) || $is_bypass_validation)) {
             $individual_node = $this->individualRepository->save($individualDto);
             $identity = [
                 'first_name' => $individualDto->firstName,

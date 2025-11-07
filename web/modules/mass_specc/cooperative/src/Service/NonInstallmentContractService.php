@@ -32,7 +32,7 @@ class NonInstallmentContractService {
         $this->nonInstallmentContractValidator = $nonInstallmentContractValidator;
     }
 
-    public function import(array $row, int $row_number, array &$errors) {
+    public function import(array $row, int $row_number, array &$errors, bool $is_bypass_validation) {
 
         $provider_code        = $row['provider code'] ?? '';
         $provider_subj_no     = $row['provider subject no'] ?? '';
@@ -53,7 +53,7 @@ class NonInstallmentContractService {
         $existingContract = $this->nonInstallmentContractRepository
             ->findByCodes($provider_code, $provider_contract_no, $branch_code);
 
-        if (empty($errors)) {
+        if (empty($errors) || $is_bypass_validation) {
             if ($existingContract === null) {
                 $this->nonInstallmentContractRepository->save($nonInstallmentContractDto);
             }

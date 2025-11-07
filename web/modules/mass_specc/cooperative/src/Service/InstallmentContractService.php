@@ -32,8 +32,7 @@ class InstallmentContractService {
         $this->installmentContractValidator = $installmentContractValidator;
     }
 
-    public function import(array $row, int $row_number, array &$errors) {
-
+    public function import(array $row, int $row_number, array &$errors, bool $is_bypass_validation) {
         $provider_code        = $row['provider code'] ?? '';
         $provider_subj_no     = $row['provider subject no'] ?? '';
         $provider_contract_no = $row['provider contract no'] ?? '';
@@ -47,13 +46,13 @@ class InstallmentContractService {
         }
 
         $installmentContractDto = CsvToDtoMapper::mapToInstallmentContractDto($row, $header, $subject);
-
+        
         $this->installmentContractValidator->validate($installmentContractDto, $errors, $row_number);
 
         $existingContract = $this->installmentContractRepository
             ->findByCodes($provider_code, $provider_contract_no, $branch_code);
 
-        if (empty($errors)) {
+        if (empty($errors) || $is_bypass_validation) {
             if ($existingContract === null) {
                 $this->installmentContractRepository->save($installmentContractDto);
             }

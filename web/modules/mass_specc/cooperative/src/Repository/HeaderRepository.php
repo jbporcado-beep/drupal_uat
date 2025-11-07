@@ -37,8 +37,11 @@ class HeaderRepository {
             $query->condition('field_branch_code', $branchCode);
         }
 
-        $query->condition('field_reference_date', $referenceDate)
-            ->accessCheck(TRUE)
+        if (!empty($referenceDate)) {
+            $query->condition('field_reference_date', $referenceDate);
+        }
+
+        $query->accessCheck(TRUE)
             ->range(0, 1);
 
         $result = $query->execute();

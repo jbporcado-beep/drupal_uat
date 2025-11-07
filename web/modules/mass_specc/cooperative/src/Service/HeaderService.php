@@ -18,7 +18,7 @@ class HeaderService {
         $this->headerValidator = $headerValidator;
     }
 
-    public function import(array $row, int $row_number, array &$errors) {
+    public function import(array $row, int $row_number, array &$errors, bool $is_bypass_validation) {
         $headerDto = CsvToDtoMapper::mapToHeaderDto($row);
         $provider_code = $headerDto->providerCode ?? '';
         $reference_date = $headerDto->referenceDate ?? '';
@@ -29,7 +29,7 @@ class HeaderService {
         $header_node = $this->headerRepository
             ->findByCodesAndDate($provider_code, $reference_date, $branch_code);
     
-        if ($header_node === null && empty($errors)) {
+        if ($header_node === null && (empty($errors) || $is_bypass_validation)) {
             $this->headerRepository->save($headerDto);
         }
     }

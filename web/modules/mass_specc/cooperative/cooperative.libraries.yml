@@ -22,3 +22,13 @@ dashboard_autosubmit:
     - core/jquery
     - core/once
     - core/drupal.debounce
+
+bypass_validation_modal_actions:
+  version: 1.0
+  js:
+    js/bypass_validation_modal_actions.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once
+    - core/drupal.dialog.ajax

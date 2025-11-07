@@ -19,15 +19,15 @@ class FileHistoryService {
         $this->headerRepository = $headerRepository;
     }
 
-    public function create(FileInterface $file, array $row) {
+    public function create(FileInterface $file, array $row, bool $is_bypass_validation) {
         $provider_code  = trim((string) ($row['provider code'] ?? ''));
         $branch_code    = trim((string) ($row['branch code'] ?? ''));
         $reference_date = trim((string) ($row['reference date'] ?? ''));
 
         $header_node = $this->headerRepository
             ->findByCodesAndDate($provider_code, $reference_date, $branch_code);
-        
-        if ($header_node !== null) {
+
+        if ($header_node !== null && $is_bypass_validation) {
             $this->fileHistoryRepository->save($file, $header_node);
         }
     }
