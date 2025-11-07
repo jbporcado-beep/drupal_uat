@@ -11,7 +11,7 @@ entity_type: node
 bundle: installment_contract
 label: 'Installments number'
 description: 'Must be greater than 0 and must be an integer. No commas, no dots.'
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
