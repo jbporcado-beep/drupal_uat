@@ -248,7 +248,7 @@ class DashboardForm extends FormBase {
         if ($selected_coop) {
             $branch_options = $this->getBranchOptionsByCoop($selected_coop);
         }
-        else if ($selected_branch) {
+        if ($selected_branch) {
             $branch_coop = $this->getCoopOptionsByBranch($selected_branch);
         }
 
