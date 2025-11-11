@@ -147,8 +147,8 @@ class MatchingService
         $identification_type_keys = array_map('strval', array_keys(DomainLists::IDENTIFICATION_TYPE_DOMAIN));
         $id_type_keys = array_map('strval', array_keys(DomainLists::ID_TYPE_DOMAIN));
 
-
         foreach ($ids as $id_item) {
+            $group = strtolower(trim((string) ($id_item['group'] ?? '')));
             $id_type = trim((string) ($id_item['id_type'] ?? ''));
             $id_value = trim((string) ($id_item['id_number'] ?? ''));
 
@@ -161,7 +161,22 @@ class MatchingService
                 ->condition('type', 'identification')
                 ->condition('status', 1);
 
-            if (in_array($id_type, $identification_type_keys, true)) {
+            $use_identification_branch = null;
+            if ($group === 'identification') {
+                $use_identification_branch = true;
+            } elseif ($group === 'id' || $group === 'other_id') {
+                $use_identification_branch = false;
+            } else {
+                if (in_array($id_type, $identification_type_keys, true) && !in_array($id_type, $id_type_keys, true)) {
+                    $use_identification_branch = true;
+                } elseif (in_array($id_type, $id_type_keys, true) && !in_array($id_type, $identification_type_keys, true)) {
+                    $use_identification_branch = false;
+                } else {
+                    $use_identification_branch = false;
+                }
+            }
+
+            if ($use_identification_branch) {
                 $and1 = $query->andConditionGroup()
                     ->condition('field_identification1_type', $id_type)
                     ->condition('field_identification1_number', $id_value);
@@ -171,7 +186,8 @@ class MatchingService
 
                 $or = $query->orConditionGroup()->condition($and1)->condition($and2);
                 $query->condition($or);
-            } elseif (in_array($id_type, $id_type_keys, true)) {
+            } else {
+                // use id fields
                 $and1 = $query->andConditionGroup()
                     ->condition('field_id1_type', $id_type)
                     ->condition('field_id1_number', $id_value);
@@ -181,8 +197,6 @@ class MatchingService
 
                 $or = $query->orConditionGroup()->condition($and1)->condition($and2);
                 $query->condition($or);
-            } else {
-                continue;
             }
 
             $result = $query->execute();
@@ -194,6 +208,7 @@ class MatchingService
 
         return array_unique($query_ids);
     }
+
 
     public function matchContact(array $contact_data): array
     {
