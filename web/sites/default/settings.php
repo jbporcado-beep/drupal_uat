@@ -4,6 +4,12 @@
 
 // DDEV-created Drupal 10 settings.php from upstream default.settings.php
 
+if ($_ENV['DRUPAL_SMTP_USERNAME']) {
+  $config['smtp.settings']['smtp_host'] = $_ENV['DRUPAL_SMTP_HOST'];
+  $config['smtp.settings']['smtp_port'] = $_ENV['DRUPAL_SMTP_PORT'];
+  $config['smtp.settings']['smtp_username'] = $_ENV['DRUPAL_SMTP_USERNAME'];
+  $config['smtp.settings']['smtp_password'] = $_ENV['DRUPAL_SMTP_PASSWORD'];
+}
 /**
  * @file
  * Drupal site-specific configuration file.
