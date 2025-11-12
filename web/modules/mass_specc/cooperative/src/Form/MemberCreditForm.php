@@ -8,6 +8,7 @@ use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\cooperative\Utility\DomainLists;
+use Drupal\admin\Plugin\Validation\Constraint\AlphaNumericConstraintValidator;
 /**
  * Provides a Member Credit form.
  */
@@ -72,12 +73,18 @@ class MemberCreditForm extends FormBase
             '#type' => 'textfield',
             '#title' => $this->t('First Name'),
             '#required' => TRUE,
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
         ];
 
         $form['individual_details']['container']['last_name'] = [
             '#type' => 'textfield',
             '#title' => $this->t('Last Name'),
             '#required' => TRUE,
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
         ];
 
         $form['individual_details']['container']['dob'] = [
@@ -135,6 +142,9 @@ class MemberCreditForm extends FormBase
                     ':input[name="identification[id1][id_type]"]' => ['value' => ''],
                 ],
             ],
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
         ];
 
         $form['identification']['id2'] = [
@@ -162,6 +172,9 @@ class MemberCreditForm extends FormBase
                     ':input[name="identification[id2][id_type]"]' => ['value' => ''],
                 ],
             ],
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
         ];
 
         $form['address_data'] = [
@@ -173,6 +186,9 @@ class MemberCreditForm extends FormBase
         $form['address_data']['address'] = [
             '#type' => 'textfield',
             '#title' => $this->t('Address'),
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
         ];
 
         $form['contact_data'] = [
@@ -213,7 +229,9 @@ class MemberCreditForm extends FormBase
                     ':input[name="contact_type"]' => ['value' => ''],
                 ],
             ],
-
+            '#element_validate' => [
+                [AlphaNumericConstraintValidator::class, 'validate'],
+            ],
         ];
 
 
@@ -245,6 +263,7 @@ class MemberCreditForm extends FormBase
      */
     public function validateForm(array &$form, FormStateInterface $form_state)
     {
+        \Drupal::messenger()->deleteAll();
         $dob_input = $form_state->getValue('dob');
         $dob_formatted = '';
 
@@ -312,83 +331,18 @@ class MemberCreditForm extends FormBase
         }
     }
 
-
     public function submitForm(array &$form, FormStateInterface $form_state)
     {
-        $dob_input = $form_state->getValue(['dob']);
-        $dob_formatted = '';
-        if (!empty($dob_input)) {
-            $date = \DateTime::createFromFormat('Y-m-d', $dob_input);
-            if ($date) {
-                $dob_formatted = $date->format('dmY');
-            }
-        }
-
-        $id_entries = $form_state->getValue(['identification']) ?? [];
-
-        $ids = [];
-        foreach (['id1', 'id2'] as $field_key) {
-            $entry = $id_entries[$field_key] ?? [];
-            $raw_type = $entry['id_type'] ?? '';
-            $id_number = trim($entry['id_number'] ?? '');
-
-            if (empty($raw_type) || empty($id_number)) {
-                continue;
-            }
-
-            if (str_starts_with($raw_type, 'ident_')) {
-                $group = 'identification';
-                $key = substr($raw_type, strlen('ident_'));
-            } elseif (str_starts_with($raw_type, 'id_')) {
-                $group = 'id';
-                $key = substr($raw_type, strlen('id_'));
-            } else {
-                continue;
-            }
-
-            $ids[] = [
-                'group' => $group,
-                'id_type' => $key,
-                'id_number' => $id_number,
-            ];
-        }
-
-
-        $data = [
-            'first_name' => $form_state->getValue(['first_name']),
-            'last_name' => $form_state->getValue(['last_name']),
-            'dob' => $dob_formatted,
-            'gender' => $form_state->getValue(['gender']),
-            'ids' => $ids,
-            'address' => $form_state->getValue(['address']),
-            'contact_type' => $form_state->getValue(['contact_type']),
-            'contact_value' => $form_state->getValue(['contact_value']),
-
-        ];
-
-        $service = \Drupal::service('cooperative.member_credit_service');
-        $matching_nids = $service->getMatchingIndividual($data);
-
-        $matching_count = count($matching_nids);
-
-        $form_state->set('matching_count', $matching_count);
-
-        if ($matching_count === 1) {
-            $nid = reset($matching_nids);
-            $form_state->set('matched_nid', $nid);
-        }
-
-        $form_state->set('matching_count', count($matching_nids));
         $form_state->setRebuild(TRUE);
     }
 
     public function submitAjaxCallback(array &$form, FormStateInterface $form_state)
     {
         $response = new AjaxResponse();
+        $messenger = \Drupal::messenger();
         if ($form_state->hasAnyErrors()) {
-            $messenger = \Drupal::messenger();
-            $message_list = $messenger->all();
 
+            $message_list = $messenger->all();
             $render_array = [
                 '#theme' => 'status_messages',
                 '#message_list' => $message_list,
@@ -407,6 +361,11 @@ class MemberCreditForm extends FormBase
         if ($count === 1) {
             $nid = $form_state->get('matched_nid');
             $member_node = \Drupal\node\Entity\Node::load($nid);
+            $form_state->clearErrors();
+            $messenger->deleteAll();
+
+            $response->addCommand(new HtmlCommand('#member-credit-form-wrapper', \Drupal::service('renderer')->renderRoot($form)));
+
 
             if ($member_node) {
                 $get_safe = function ($entity, string $field_name) {
