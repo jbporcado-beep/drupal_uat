@@ -1,0 +1,29 @@
+uuid: 1b63c2f1-5bd2-4b6c-805e-a5c21ec33c43
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_type
+    - node.type.others_file_upload_history
+    - node.type.report_template
+id: node.others_file_upload_history.field_report_type
+field_name: field_report_type
+entity_type: node
+bundle: others_file_upload_history
+label: 'Report Type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      report_template: report_template
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: report
+field_type: entity_reference

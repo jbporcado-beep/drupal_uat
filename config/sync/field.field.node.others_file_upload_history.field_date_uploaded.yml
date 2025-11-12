@@ -1,0 +1,19 @@
+uuid: 4d3e50b0-3e1f-4f88-aeff-4078f04ed640
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_date_uploaded
+    - node.type.others_file_upload_history
+id: node.others_file_upload_history.field_date_uploaded
+field_name: field_date_uploaded
+entity_type: node
+bundle: others_file_upload_history
+label: 'Date Uploaded'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

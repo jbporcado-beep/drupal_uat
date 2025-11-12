@@ -1,0 +1,29 @@
+uuid: 728bb3be-8357-44cf-a561-3d30073b149c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_branch
+    - node.type.branch
+    - node.type.others_file_upload_history
+id: node.others_file_upload_history.field_branch
+field_name: field_branch
+entity_type: node
+bundle: others_file_upload_history
+label: Branch
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      branch: branch
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

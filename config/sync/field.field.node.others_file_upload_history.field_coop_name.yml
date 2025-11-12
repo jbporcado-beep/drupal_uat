@@ -1,0 +1,19 @@
+uuid: 74cef972-ebb8-480e-92d1-f3c0f1c5553f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_coop_name
+    - node.type.others_file_upload_history
+id: node.others_file_upload_history.field_coop_name
+field_name: field_coop_name
+entity_type: node
+bundle: others_file_upload_history
+label: 'Cooperative Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

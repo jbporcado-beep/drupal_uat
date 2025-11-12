@@ -1,0 +1,27 @@
+uuid: 07077113-3e3d-41a0-a881-e2e417d3d2dd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_file
+    - node.type.others_file_upload_history
+  module:
+    - file
+id: node.others_file_upload_history.field_file
+field_name: field_file
+entity_type: node
+bundle: others_file_upload_history
+label: File
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: branch-file-uploads
+  file_extensions: csv
+  max_filesize: '100 MB'
+  description_field: false
+field_type: file

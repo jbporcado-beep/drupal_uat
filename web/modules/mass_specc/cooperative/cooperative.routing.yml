@@ -29,12 +29,12 @@ cooperative.upload:
   requirements:
     _role: "uploader"
 
-admin.upload:
-  path: "/ms_admin/upload/form"
+cooperative.upload.others:
+  path: "/cooperative/upload/form/others"
   defaults:
-    _controller: '\Drupal\cooperative\Controller\UploadController::form'
+    _controller: '\Drupal\cooperative\Controller\OthersUploadController::form'
   requirements:
-    _role: "mass_specc_admin"
+    _permission: "view and upload other reports"
 
 cooperative.upload.history:
   path: "/cooperative/upload/history"
@@ -42,13 +42,6 @@ cooperative.upload.history:
     _view: "file_history.page_1"
   requirements:
     _role: "uploader+approver"
-
-admin.upload.history:
-  path: "/ms_admin/upload/history"
-  defaults:
-    _view: "file_history.page_2"
-  requirements:
-    _role: "mass_specc_admin"
 
 cooperative.file_status_approve:
   path: "/cooperative/file-status/approve/{node}"

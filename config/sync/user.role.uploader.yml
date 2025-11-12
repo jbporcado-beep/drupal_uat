@@ -12,5 +12,6 @@ is_admin: false
 permissions:
   - 'access cooperative dashboard'
   - 'view and upload file'
+  - 'view and upload other reports'
   - 'view file history'
   - 'view report builder templates'

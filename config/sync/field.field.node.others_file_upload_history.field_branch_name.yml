@@ -1,0 +1,19 @@
+uuid: 41e829b6-4304-43fa-8dd6-b7eef95a3f65
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_branch_name
+    - node.type.others_file_upload_history
+id: node.others_file_upload_history.field_branch_name
+field_name: field_branch_name
+entity_type: node
+bundle: others_file_upload_history
+label: 'Branch Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

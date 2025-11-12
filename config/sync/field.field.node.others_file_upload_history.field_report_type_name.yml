@@ -1,0 +1,19 @@
+uuid: 9384268b-eadb-4d31-82fb-e456873bbbf6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_type_name
+    - node.type.others_file_upload_history
+id: node.others_file_upload_history.field_report_type_name
+field_name: field_report_type_name
+entity_type: node
+bundle: others_file_upload_history
+label: 'Report Type Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

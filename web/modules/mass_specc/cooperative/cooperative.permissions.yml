@@ -6,6 +6,10 @@ view and upload file:
   title: "View and upload files"
   description: "Allows the user to access the File Upload page. Allows the user to upload files in the File Upload page."
 
+view and upload other reports:
+  title: "View and upload reports other than Standard Credit Data"
+  description: "Allows the user to access the Others File Upload page. Allows the user to upload reports made from Reports Builder."
+
 view file history:
   title: "View File History"
   description: "Allows the user to view file history"

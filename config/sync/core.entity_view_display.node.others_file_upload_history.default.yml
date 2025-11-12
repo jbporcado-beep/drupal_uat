@@ -1,0 +1,101 @@
+uuid: 544959dd-7dde-4337-be84-f6d682e727ae
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.others_file_upload_history.field_branch
+    - field.field.node.others_file_upload_history.field_branch_name
+    - field.field.node.others_file_upload_history.field_coop_name
+    - field.field.node.others_file_upload_history.field_cooperative
+    - field.field.node.others_file_upload_history.field_date_uploaded
+    - field.field.node.others_file_upload_history.field_file
+    - field.field.node.others_file_upload_history.field_file_name
+    - field.field.node.others_file_upload_history.field_report_type
+    - field.field.node.others_file_upload_history.field_report_type_name
+    - node.type.others_file_upload_history
+  module:
+    - file
+    - user
+id: node.others_file_upload_history.default
+targetEntityType: node
+bundle: others_file_upload_history
+mode: default
+content:
+  field_branch:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_branch_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_coop_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_cooperative:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_date_uploaded:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_file:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_file_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 139
+    region: content
+  field_report_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_report_type_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 140
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

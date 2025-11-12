@@ -1,0 +1,17 @@
+uuid: 39d38850-bfb0-4aad-9645-f25bea805abd
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Others File Upload History'
+type: others_file_upload_history
+description: null
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false

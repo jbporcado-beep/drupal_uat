@@ -185,3 +185,20 @@ cic.view:
     _title: "View CIC Files"
   requirements:
     _permission: "view and trigger cic"
+
+# File Upload Route
+admin.file-upload:
+  path: "/ms_admin/upload/form"
+  defaults:
+    _controller: '\Drupal\cooperative\Controller\UploadController::form'
+  requirements:
+    _role: 'mass_specc_admin+administrator'
+
+# File History Routes
+admin.file-history:
+  path: '/ms_admin/upload/history'
+  defaults:
+    _view: 'file_history.page_2'
+    _title: 'File History'
+  requirements:
+    _role: 'mass_specc_admin+administrator'
