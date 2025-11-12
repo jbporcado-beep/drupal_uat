@@ -179,9 +179,9 @@ class OthersUploadForm extends FormBase
     $report_options = $this->getReports();
 
     if ($is_uploader) {
-      $coop_entity = $user->get('field_cooperative')->referencedEntities();
-      $coop = reset($coop_entity);
+      $coop = $user->get('field_cooperative')->entity;
       $coop_options = [];
+      $report_options = [];
       if ($coop) {
         $coop_options[$coop->id()] = $coop->get('field_coop_name')->value;
         $coop_reports = $coop->get('field_assigned_report_templates')->referencedEntities();
@@ -189,9 +189,6 @@ class OthersUploadForm extends FormBase
             foreach ($coop_reports as $report) {
               $report_options[$report->id()] = $report->getTitle();
             }
-        }
-        else {
-            $report_options = [];
         }
       }
 
