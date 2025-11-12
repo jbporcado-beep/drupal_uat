@@ -1,5 +1,5 @@
 stages:
-- build
+  - build
 
 variables:
   DOCKER_HOST: tcp://docker:2375
@@ -13,7 +13,10 @@ build:drupal:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
   services:
     - docker:24.0.7-dind
-  # before_script:
-  #   - echo ${CI_REGISTRY_PASSWORD} | docker login --username ${CI_REGISTRY_USER} --password-stdin ${CI_REGISTRY}
+  before_script:
+  # - echo ${CI_REGISTRY_PASSWORD} | docker login --username ${CI_REGISTRY_USER} --password-stdin ${CI_REGISTRY}
+    - echo "Waiting for Docker daemon to be reachable at $DOCKER_HOST..."
+    - timeout 120s sh -c 'until docker info >/dev/null 2>&1; do echo "Still waiting for Docker daemon..."; sleep 2; done'
+    - echo "Docker daemon is up!"
   script:
     - docker buildx build --platform linux/amd64 --provenance=false -t ${IMAGE_TAG} .
