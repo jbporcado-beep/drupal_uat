@@ -221,6 +221,19 @@ menus:
     uuid: b9f296a3-5e43-4342-83f0-4bc138eda12e
     options: {  }
   -
+    menu_name: mass-specc-menu
+    title: 'Others File History'
+    parent: 'menu_link_content:a3c0249c-69f5-4f46-88b5-e85992f13993'
+    uri: 'internal:/ms_admin/upload/history/others'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -48
+    langcode: en
+    uuid: 408cb359-f1af-4894-89cd-7a0a15eb9d57
+    options: {  }
+  -
     menu_name: coop-menu
     title: Dashboard
     parent: null

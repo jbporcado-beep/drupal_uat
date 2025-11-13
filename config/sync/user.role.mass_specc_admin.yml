@@ -27,6 +27,7 @@ permissions:
   - 'view cooperative profile'
   - 'view dashboard'
   - 'view file history'
+  - 'view others file history'
   - 'view own login history'
   - 'view report builder templates'
   - 'view user email addresses'

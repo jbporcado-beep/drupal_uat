@@ -55,3 +55,8 @@ view and manage member credit report:
 view dashboard:
   title: "View Dashboard"
   description: "Allows the user to access the dashboard."
+
+# Others file history
+view others file history:
+  title: "View Others File History"
+  description: "Allows the user to view others file history"

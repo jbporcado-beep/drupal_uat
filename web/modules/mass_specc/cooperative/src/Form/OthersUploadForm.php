@@ -261,7 +261,7 @@ class OthersUploadForm extends FormBase
     ];
     $form['layout']['dropdowns_wrapper']['report_dropdown'] = [
       '#type' => 'select',
-      '#title' => $this->t('Report'),
+      '#title' => $this->t('Report Type'),
       '#options' => $report_options,
       '#attributes' => ['class' => ['dropdown-item']],
       '#required' => TRUE,
