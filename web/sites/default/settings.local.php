@@ -5,11 +5,16 @@ use Symfony\Component\Dotenv\Dotenv;
 $dotenv = new Dotenv();
 $dotenv->load(DRUPAL_ROOT . '/../.env');
 
-if ($_ENV['DRUPAL_SMTP_USERNAME']) {
-  $config['smtp.settings']['smtp_host'] = $_ENV['DRUPAL_SMTP_HOST'];
-  $config['smtp.settings']['smtp_port'] = $_ENV['DRUPAL_SMTP_PORT'];
-  $config['smtp.settings']['smtp_username'] = $_ENV['DRUPAL_SMTP_USERNAME'];
-  $config['smtp.settings']['smtp_password'] = $_ENV['DRUPAL_SMTP_PASSWORD'];
+if (getenv('DRUPAL_SMTP_USERNAME')) {
+  $config['smtp.settings']['smtp_on'] = TRUE;
+  $config['smtp.settings']['smtp_host'] = getenv('DRUPAL_SMTP_HOST') ?: '';
+  $config['smtp.settings']['smtp_port'] = getenv('DRUPAL_SMTP_PORT') ?: 25;
+  $config['smtp.settings']['smtp_protocol'] = getenv('DRUPAL_SMTP_PROTOCOL') ?: 'tls';
+  $config['smtp.settings']['smtp_username'] = getenv('DRUPAL_SMTP_USERNAME') ?: '';
+  $config['smtp.settings']['smtp_password'] = getenv('DRUPAL_SMTP_PASSWORD') ?: '';
+  $config['smtp.settings']['smtp_from'] = getenv('DRUPAL_SMTP_FROM') ?: (getenv('DRUPAL_SMTP_USERNAME') ?: 'noreply@example.com');
+  $config['smtp.settings']['smtp_fromname'] = getenv('DRUPAL_SMTP_FROMNAME') ?: 'Drupal';
+  $config['smtp.settings']['smtp_timeout'] = intval(getenv('DRUPAL_SMTP_TIMEOUT') ?: 30);
 }
 
 // Local development overrides to disable caches and enable verbose debugging.

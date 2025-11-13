@@ -26,9 +26,11 @@ services:
       - DB_USERNAME=drupal
       - DB_PASSWORD=drupal
     depends_on:
-      - postgresql
+      postgresql:
+        condition: service_healthy
     env_file:
       - .env
+    restart: unless-stopped
 
   postgresql:
     image: bitnamilegacy/postgresql:17.5.0-debian-12-r12
@@ -41,6 +43,11 @@ services:
       - POSTGRESQL_PASSWORD=drupal
     ports:
       - "15432:5432"
-
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRESQL_USERNAME:-postgres} -d ${POSTGRESQL_DATABASE:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
 volumes:
   postgresql: {}

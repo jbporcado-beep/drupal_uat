@@ -847,14 +847,28 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 # if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
-$databases['default']['default'] = array (
+$databases['default']['default'] = array(
   'driver' => 'pgsql',
   'database' => getenv('DB_NAME'),
   'host' => getenv('DB_HOST'),
   'port' => getenv('DB_PORT'),
-  'username' => getenv('DB_USERNAME'),   
+  'username' => getenv('DB_USERNAME'),
   'password' => getenv('DB_PASSWORD'),
 );
 $settings['hash_salt'] = getenv('HASH_SALT');
 $settings['trusted_host_patterns'] = ['.*'];
 $settings['config_sync_directory'] = '/opt/drupal/config/sync';
+
+if (getenv('DRUPAL_SMTP_USERNAME')) {
+  $config['smtp.settings']['smtp_on'] = TRUE;
+  $config['smtp.settings']['smtp_host'] = getenv('DRUPAL_SMTP_HOST') ?: '';
+  $config['smtp.settings']['smtp_port'] = getenv('DRUPAL_SMTP_PORT') ?: 25;
+  $config['smtp.settings']['smtp_protocol'] = getenv('DRUPAL_SMTP_PROTOCOL') ?: 'tls';
+  $config['smtp.settings']['smtp_username'] = getenv('DRUPAL_SMTP_USERNAME') ?: '';
+  $raw_smtp_password = getenv('DRUPAL_SMTP_PASSWORD');
+  $smtp_password = ($raw_smtp_password === false) ? '' : rtrim($raw_smtp_password, "\r\n");
+  $config['smtp.settings']['smtp_password'] = $smtp_password;
+  $config['smtp.settings']['smtp_from'] = getenv('DRUPAL_SMTP_FROM') ?: (getenv('DRUPAL_SMTP_USERNAME') ?: 'noreply@example.com');
+  $config['smtp.settings']['smtp_fromname'] = getenv('DRUPAL_SMTP_FROMNAME') ?: 'Drupal';
+  $config['smtp.settings']['smtp_timeout'] = intval(getenv('DRUPAL_SMTP_TIMEOUT') ?: 30);
+}

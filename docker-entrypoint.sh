@@ -32,4 +32,27 @@ drush im
 drush updb
 drush cr
 gpg --import CIC_TestEnv_PubKey.asc
+
+drush ev "\$e = \\Drupal::configFactory()->getEditable('smtp.settings'); \$e->set('smtp_password','')->save();" || true
+drush cr || true
+
+drush cget smtp.settings --format=yaml > /opt/drupal/config/sync/smtp.settings.yml || true
+chown www-data:www-data /opt/drupal/config/sync/smtp.settings.yml || true
+chmod 644 /opt/drupal/config/sync/smtp.settings.yml || true
+
+if [ -f /run/secrets/drupal_smtp_password ]; then
+  RAW_PW="$(cat /run/secrets/drupal_smtp_password)"
+else
+  RAW_PW="${DRUPAL_SMTP_PASSWORD:-}"
+fi
+CLEAN_PW="$(printf '%s' "$RAW_PW" | tr -d '\r' | sed -e 's/[[:space:]]\+$//')"
+unset RAW_PW
+
+if [ -n "$CLEAN_PW" ]; then
+  export CLEAN_PW
+  drush ev "\$p = trim(getenv('CLEAN_PW') ?: ''); if (\$p) { \\Drupal::configFactory()->getEditable('smtp.settings')->set('smtp_password', \$p)->save(); }" || true
+  unset CLEAN_PW
+  drush cr || true
+fi
+
 apache2-foreground
