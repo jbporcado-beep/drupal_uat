@@ -7,6 +7,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\user\UserInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\password_reset\Form\ExpiredPasswordForm;
+use Drupal\Core\Messenger\MessengerInterface;
 
 function login_form_user_login_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $form['forgot_password'] = [
@@ -150,7 +151,8 @@ function login_page_attachments_alter(array &$attachments) {
   $route_name = \Drupal::routeMatch()->getRouteName();
   if ($route_name === 'user.login') {
     $messenger = \Drupal::messenger();
-    $messenger->deleteAll();
+    $messenger->deleteByType(MessengerInterface::TYPE_ERROR);
+    $messenger->deleteByType(MessengerInterface::TYPE_WARNING);
   }
 }
 
