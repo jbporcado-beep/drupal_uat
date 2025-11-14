@@ -149,10 +149,19 @@ function login_user_login(\Drupal\user\UserInterface $account) {
 
 function login_page_attachments_alter(array &$attachments) {
   $route_name = \Drupal::routeMatch()->getRouteName();
-  if ($route_name === 'user.login') {
+  $routes_to_clear = [
+    'user.login',
+    'forgotpassword.otp_sender_form',
+    'forgotpassword.otp_validator_form',
+    'expired_password.form',
+    'reset_password.form',
+    'set_password.form',
+  ];
+
+  if (in_array($route_name, $routes_to_clear, TRUE)) {
     $messenger = \Drupal::messenger();
-    $messenger->deleteByType(MessengerInterface::TYPE_ERROR);
-    $messenger->deleteByType(MessengerInterface::TYPE_WARNING);
+    $messenger->deleteByType(\Drupal\Core\Messenger\MessengerInterface::TYPE_ERROR);
+    $messenger->deleteByType(\Drupal\Core\Messenger\MessengerInterface::TYPE_WARNING);
   }
 }
 
