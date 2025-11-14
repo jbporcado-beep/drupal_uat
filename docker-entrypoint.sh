@@ -11,7 +11,6 @@ if [[ "$BOOTSTRAP_STATUS" != "Successful" ]]; then
   echo "Drupal not installed; running site:install..."
 
   drush site:install --account-name=${ADMIN_USERNAME:-drupal} --account-pass=${ADMIN_PASSWORD:-drupal}
-  drush user:role:add administrator "${ADMIN_USERNAME:-drupal}"
   drush cset system.site uuid "${SITE_UUID}"
   drush ev "\Drupal::entityTypeManager()->getStorage('shortcut')->delete(\Drupal::entityTypeManager()->getStorage('shortcut')->loadMultiple());"
   drush ev "\Drupal::entityTypeManager()->getStorage('shortcut')->delete(\Drupal::entityTypeManager()->getStorage('shortcut')->loadMultiple());"
@@ -28,10 +27,11 @@ drush pm:enable common login password_reset user_dropdown admin cooperative
 # Config import
 drush cim
 drush cim
-drush im
 drush updb
+drush im --choice=full
 drush cr
 gpg --import CIC_TestEnv_PubKey.asc
+drush user:role:add administrator "${ADMIN_USERNAME:-drupal}"
 
 drush ev "\$e = \\Drupal::configFactory()->getEditable('smtp.settings'); \$e->set('smtp_password','')->save();" || true
 drush cr || true
@@ -54,5 +54,4 @@ if [ -n "$CLEAN_PW" ]; then
   unset CLEAN_PW
   drush cr || true
 fi
-
 apache2-foreground
