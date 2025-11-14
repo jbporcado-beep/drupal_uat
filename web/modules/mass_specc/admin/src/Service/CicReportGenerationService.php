@@ -259,14 +259,14 @@ class CicReportGenerationService
 
         } else {
 
-            $group_list = implode(', ', $failed_coop_uploads);
+            $coop_list = implode(', ', $failed_coop_uploads);
             $action = "Failed CIC Report Generation task for " . basename($zip_uri);
             $this->activityLogger->log($action, 'node', NULL, $data, NULL, $this->currentUser);
 
-            $message = "CIC report generated. **Failed to upload for the following groups:** [{$group_list}]";
+            $message = "CIC report generated. **Failed to upload for the following coops:** [{$coop_list}]";
 
             \Drupal::messenger()->addWarning($message);
-            \Drupal::logger('FTPS')->warning('CIC report generated with failed uploads for: @groups', ['@groups' => $group_list]);
+            \Drupal::logger('FTPS')->warning('CIC report generated with failed uploads for: @coops', ['@coops' => $coop_list]);
         }
     }
 
