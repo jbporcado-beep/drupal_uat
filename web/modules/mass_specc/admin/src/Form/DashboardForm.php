@@ -585,7 +585,7 @@ class DashboardForm extends FormBase {
             foreach ($uploads as $upload) {
                 $branch_id = $upload->get('field_branch')->target_id ?? 'default';
 
-                if (isset($latest_approved_per_branch[$branch_id])) {
+                if (isset($latest_approved_per_branch[$branch_id]) || isset($latest_pending_per_branch[$branch_id]) ) {
                     continue;
                 }
 
