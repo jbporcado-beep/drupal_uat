@@ -2,8 +2,6 @@
 
 use Symfony\Component\Dotenv\Dotenv;
 
-$dotenv = new Dotenv();
-$dotenv->load(DRUPAL_ROOT . '/../.env');
 
 // Local development overrides to disable caches and enable verbose debugging.
 

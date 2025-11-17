@@ -1,5 +1,11 @@
 <?php
 
+use Symfony\Component\Dotenv\Dotenv;
+
+$dotenv = new Dotenv();
+$dotenv->load(DRUPAL_ROOT . '/../.env');
+
+
 $databases = [];
 $settings['hash_salt'] = 'gkBtVxMl8U9V74tbwK_Pmfwmt2Zwk_UXGtyyGpMSv9f8GjenT5z3TK1ph-pXsbCld4u2kNS7lw';
 $settings['update_free_access'] = FALSE;
