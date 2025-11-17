@@ -19,7 +19,7 @@ class FileHistoryService {
         $this->headerRepository = $headerRepository;
     }
 
-    public function create(FileInterface $file, array $row, bool $is_bypass_validation) {
+    public function create(FileInterface $file, array $row) {
         $provider_code  = trim((string) ($row['provider code'] ?? ''));
         $branch_code    = trim((string) ($row['branch code'] ?? ''));
         $reference_date = trim((string) ($row['reference date'] ?? ''));

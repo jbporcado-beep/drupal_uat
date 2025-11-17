@@ -746,7 +746,7 @@ class UploadForm extends FormBase
       if ($is_bypass_validation) {
         if (empty($cannot_bypass_errors)) {
           unset($transaction);
-          $this->fileHistoryService->create($file, $row_with_header, $is_bypass_validation);
+          $this->fileHistoryService->create($file, $row_with_header);
           $this->messenger()->addStatus($this->t('File successfully uploaded without validation!'));
           $tempstore->delete('last_upload_has_errors');
   
@@ -786,7 +786,7 @@ class UploadForm extends FormBase
       }
       else {
         unset($transaction);
-        $this->fileHistoryService->create($file, $row_with_header, $is_bypass_validation);
+        $this->fileHistoryService->create($file, $row_with_header);
         $this->messenger()->addStatus($this->t('File upload successful!'));
         $tempstore->delete('last_upload_has_errors');
 
