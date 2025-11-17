@@ -27,7 +27,7 @@ class FileHistoryService {
         $header_node = $this->headerRepository
             ->findByCodesAndDate($provider_code, $reference_date, $branch_code);
 
-        if ($header_node !== null && $is_bypass_validation) {
+        if ($header_node !== null) {
             $this->fileHistoryRepository->save($file, $header_node);
         }
     }
