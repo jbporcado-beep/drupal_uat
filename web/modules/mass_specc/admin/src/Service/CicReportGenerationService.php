@@ -289,14 +289,14 @@ class CicReportGenerationService
                 $key = Key::loadFromAsciiSafeString($keyAscii);
             }
             catch (\Exception $e) {
-                \Drupal::messenger()->addError($this->t('Invalid encryption key for FTPS password. Please contact the site administrator.'));
+                \Drupal::messenger()->addError('Invalid encryption key for FTPS password. Please contact the site administrator.');
                 \Drupal::logger('cic_report_generation')->error('Invalid encryption key for FTPS password: @message', ['@message' => $e->getMessage()]);
                 return FALSE;
             }
         }
 
         if (!$key) {
-            \Drupal::messenger()->addError($this->t('Encryption key for FTPS password is not set. Please contact the site administrator.'));
+            \Drupal::messenger()->addError('Encryption key for FTPS password is not set. Please contact the site administrator.');
             return FALSE;
         }
 
@@ -306,12 +306,12 @@ class CicReportGenerationService
 
         if (empty($host)) {
             \Drupal::logger('cic_report_generation')->error('CIC_HOST is not set in environment variables.');
-            \Drupal::messenger()->addError($this->t('An error occured while trying to connect to FTPS host. Please contact the site administrator.'));
+            \Drupal::messenger()->addError('An error occured while trying to connect to FTPS host. Please contact the site administrator.');
             return FALSE;
         }
         if (empty($port)) {
             \Drupal::logger('cic_report_generation')->error('CIC_PORT is not set in environment variables.');
-            \Drupal::messenger()->addError($this->t('An error occured while trying to connect to FTPS host. Please contact the site administrator.'));
+            \Drupal::messenger()->addError('An error occured while trying to connect to FTPS host. Please contact the site administrator.');
             return FALSE;
         }
 
@@ -355,7 +355,7 @@ class CicReportGenerationService
         $submission_dir = $_ENV['CIC_SUBMISSION_DIR'] ?? null;
         if (empty($submission_dir)) {
             \Drupal::logger('cic_report_generation')->error('CIC_SUBMISSION_DIR is not set in environment variables.');
-            \Drupal::messenger()->addError($this->t('An error occured while trying to upload to FTPS. Please contact the site administrator.'));
+            \Drupal::messenger()->addError('An error occured while trying to upload to FTPS. Please contact the site administrator.');
             @ftp_close($conn);
             return FALSE;
         }
