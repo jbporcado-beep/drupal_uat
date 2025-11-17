@@ -69,8 +69,24 @@ class CooperativeCreateForm extends CooperativeBaseForm
      */
     public function submitForm(array &$form, FormStateInterface $form_state)
     {
-        $keyAscii = $_ENV['FTPS_PW_ENCRYPT_KEY'];
-        $key = Key::loadFromAsciiSafeString($keyAscii);
+        $key = null;
+        if (isset($_ENV['FTPS_PW_ENCRYPT_KEY'])) {
+            $keyAscii = $_ENV['FTPS_PW_ENCRYPT_KEY'];
+            try {
+                $key = Key::loadFromAsciiSafeString($keyAscii);
+            }
+            catch (\Exception $e) {
+                \Drupal::messenger()->addError($this->t('Invalid encryption key for FTPS password. Please contact the site administrator.'));
+                \Drupal::logger('create_coop')->error('Invalid encryption key for FTPS password: @message', ['@message' => $e->getMessage()]);
+                return;
+            }
+        }
+
+        if (!$key) {
+            \Drupal::messenger()->addError($this->t('Encryption key for FTPS password is not set. Please contact the site administrator.'));
+            return;
+        }
+
 
         $values = $form_state->getValues();
 

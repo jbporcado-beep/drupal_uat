@@ -62,7 +62,7 @@ class CicReportGenerationService
             $ftps_password = $coop_node->get('field_ftps_password')->value;
 
             if (empty($ftps_username) || empty($ftps_password)) {
-                \Drupal::logger('FTPS')->error('@coop has incomplete FTPS credentials', ['@coop' => $provider_code]);
+                \Drupal::logger('cic_report_generation')->error('@coop has incomplete FTPS credentials', ['@coop' => $provider_code]);
                 \Drupal::messenger()->addError("Incomplete FTPS credentials for $provider_code");
                 $failed_coop_uploads[] = $provider_code;
                 continue;
@@ -155,7 +155,7 @@ class CicReportGenerationService
                 $zip->addFile($text_file, basename($text_file));
                 $zip->close();
             } else {
-                \Drupal::logger('zip')->error('Failed to create zip archive.');
+                \Drupal::logger('cic_report_generation')->error('Failed to create zip archive.');
                 \Drupal::messenger()->addError("Failed to zip the file for $provider_code");
                 @unlink($text_file);
                 return FALSE;
@@ -163,7 +163,17 @@ class CicReportGenerationService
 
             @unlink($text_file);
 
-            $recipient = $_ENV['GPG_RECIPIENT_KEY'];
+            $recipient = null;
+            if (isset($_ENV['GPG_RECIPIENT_KEY'])) {
+                $recipient = $_ENV['GPG_RECIPIENT_KEY'];
+            }
+            if (empty($recipient)) {
+                \Drupal::logger('cic_report_generation')->error('GPG_RECIPIENT_KEY was not found in environment variables.');
+                \Drupal::messenger()->addError('Failed to encrypt file. Encryption key not found. Please contact the site administrator.');
+                @unlink($zip_file);
+                return FALSE;
+            }
+
             $command_array = [
                 'gpg',
                 '--batch',
@@ -185,8 +195,8 @@ class CicReportGenerationService
             exec($command, $output, $gpg_status);
 
             if ($gpg_status !== 0) {
-                \Drupal::logger('encryption')->error('GPG encryption failed. @output', ['@output' => implode("\n", $output)]);
-                \Drupal::messenger()->addError('Failed to encrypt file due to an unexpected error');
+                \Drupal::logger('cic_report_generation')->error('GPG encryption failed. @output', ['@output' => implode("\n", $output)]);
+                \Drupal::messenger()->addError('Failed to encrypt file due to an unexpected error. Please contact the site administrator.');
                 @unlink($zip_file);
                 return FALSE;
             }
@@ -266,18 +276,44 @@ class CicReportGenerationService
             $message = "CIC report generated. **Failed to upload for the following coops:** [{$coop_list}]";
 
             \Drupal::messenger()->addWarning($message);
-            \Drupal::logger('FTPS')->warning('CIC report generated with failed uploads for: @coops', ['@coops' => $coop_list]);
+            \Drupal::logger('cic_report_generation')->warning('CIC report generated with failed uploads for: @coops', ['@coops' => $coop_list]);
         }
     }
 
     function upload_file_via_ftps(string $localFile, string $username, string $encrypted_pw, string $provider_code)
     {
-        $keyAscii = $_ENV['FTPS_PW_ENCRYPT_KEY'];
-        $key = Key::loadFromAsciiSafeString($keyAscii);
+        $key = null;
+        if (isset($_ENV['FTPS_PW_ENCRYPT_KEY'])) {
+            $keyAscii = $_ENV['FTPS_PW_ENCRYPT_KEY'];
+            try {
+                $key = Key::loadFromAsciiSafeString($keyAscii);
+            }
+            catch (\Exception $e) {
+                \Drupal::messenger()->addError($this->t('Invalid encryption key for FTPS password. Please contact the site administrator.'));
+                \Drupal::logger('cic_report_generation')->error('Invalid encryption key for FTPS password: @message', ['@message' => $e->getMessage()]);
+                return FALSE;
+            }
+        }
+
+        if (!$key) {
+            \Drupal::messenger()->addError($this->t('Encryption key for FTPS password is not set. Please contact the site administrator.'));
+            return FALSE;
+        }
 
         $password = Crypto::decrypt($encrypted_pw, $key);
-        $host = $_ENV['CIC_HOST'];
-        $port = $_ENV['CIC_PORT'];
+        $host = $_ENV['CIC_HOST'] ?? null;
+        $port = $_ENV['CIC_PORT'] ?? null;
+
+        if (empty($host)) {
+            \Drupal::logger('cic_report_generation')->error('CIC_HOST is not set in environment variables.');
+            \Drupal::messenger()->addError($this->t('An error occured while trying to connect to FTPS host. Please contact the site administrator.'));
+            return FALSE;
+        }
+        if (empty($port)) {
+            \Drupal::logger('cic_report_generation')->error('CIC_PORT is not set in environment variables.');
+            \Drupal::messenger()->addError($this->t('An error occured while trying to connect to FTPS host. Please contact the site administrator.'));
+            return FALSE;
+        }
 
         $max_attempts = 3;
         $delay_seconds = 5;
@@ -293,7 +329,7 @@ class CicReportGenerationService
             }
 
             if ($i < $max_attempts - 1) {
-                \Drupal::logger('FTPS')->warning('FTPS connection attempt @attempt failed to @host. Retrying in @delay seconds.', [
+                \Drupal::logger('cic_report_generation')->warning('FTPS connection attempt @attempt failed to @host. Retrying in @delay seconds.', [
                     '@attempt' => $i + 1,
                     '@host' => $host,
                     '@delay' => $delay_seconds,
@@ -303,20 +339,27 @@ class CicReportGenerationService
         }
 
         if (!$conn) {
-            \Drupal::logger('FTPS')->error('Could not connect to FTPS server: @host', ['@host' => $host]);
+            \Drupal::logger('cic_report_generation')->error('Could not connect to FTPS server: @host', ['@host' => $host]);
             \Drupal::messenger()->addError("Could not connect to the FTPS server with coop $provider_code. Try again later.");
             return FALSE;
         }
 
         if (!ftp_login($conn, $username, $password)) {
-            \Drupal::logger('FTPS')->error('Invalid FTPS login credentials for coop @coop', ['@coop' => $provider_code]);
+            \Drupal::logger('cic_report_generation')->error('Invalid FTPS login credentials for coop @coop', ['@coop' => $provider_code]);
             \Drupal::messenger()->addError("Invalid FTPS login credentials for coop $provider_code");
             @ftp_close($conn);
             return FALSE;
         }
 
         ftp_pasv($conn, TRUE);
-        ftp_chdir($conn, $_ENV['CIC_SUBMISSION_DIR']);
+        $submission_dir = $_ENV['CIC_SUBMISSION_DIR'] ?? null;
+        if (empty($submission_dir)) {
+            \Drupal::logger('cic_report_generation')->error('CIC_SUBMISSION_DIR is not set in environment variables.');
+            \Drupal::messenger()->addError($this->t('An error occured while trying to upload to FTPS. Please contact the site administrator.'));
+            @ftp_close($conn);
+            return FALSE;
+        }
+        ftp_chdir($conn, $submission_dir);
         $remoteFile = basename($localFile);
 
         if (@ftp_put($conn, $remoteFile, $localFile, FTP_BINARY)) {
@@ -326,12 +369,12 @@ class CicReportGenerationService
             $local_size = filesize($localFile);
 
             if ($remote_size > 0 && $remote_size === $local_size) {
-                \Drupal::logger('FTPS')->info('FTPS upload successful and verified for @file', ['@file' => $remoteFile]);
+                \Drupal::logger('cic_report_generation')->info('FTPS upload successful and verified for @file', ['@file' => $remoteFile]);
             } else {
-                \Drupal::logger('FTPS')->warning('FTPS upload unverified for @file', ['@file' => $remoteFile]);
+                \Drupal::logger('cic_report_generation')->warning('FTPS upload unverified for @file', ['@file' => $remoteFile]);
             }
         } else {
-            \Drupal::logger('FTPS')->error('FTPS upload failed for @file', [
+            \Drupal::logger('cic_report_generation')->error('FTPS upload failed for @file', [
                 '@file' => $localFile,
             ]);
             \Drupal::messenger()->addError("FTPS upload failed for $provider_code");
