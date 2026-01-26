@@ -28,7 +28,6 @@ services:
       - ./config:/etc/drupal/config
       - ./web/modules:/opt/drupal/web/modules
       - ./web/themes:/opt/drupal/web/themes
-      - ./web/sites/default/docker.settings.php:/opt/drupal/web/sites/default/settings.php
     deploy:
       replicas: 1
       restart_policy:
