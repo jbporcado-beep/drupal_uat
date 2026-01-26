@@ -17,10 +17,15 @@ services:
       - DB_NAME=drupal
       - DB_USERNAME=drupal
       - DB_PASSWORD=drupal
+      - GPG_RECIPIENT_KEY=${GPG_RECIPIENT_KEY:-}
+      - CIC_HOST=${CIC_HOST:-}
+      - CIC_SUBMISSION_DIR=${CIC_SUBMISSION_DIR:-}
+      - CIC_PORT=${CIC_PORT:-}
+      - FTPS_PW_ENCRYPT_KEY=${FTPS_PW_ENCRYPT_KEY:-}
+      - TEST_USERNAME=${TEST_USERNAME:-}
+      - TEST_PASSWORD=${TEST_PASSWORD:-}
     depends_on:
       - postgresql
-    env_file:
-      - .env
     restart: unless-stopped
     volumes:
       - ./config:/etc/drupal/config
