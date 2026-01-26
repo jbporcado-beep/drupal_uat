@@ -23,7 +23,7 @@ RUN mkdir -p /var/www/.gnupg \
     && chown -R www-data:www-data /var/www/.gnupg \
     && chmod 700 /var/www/.gnupg
 
-COPY CIC_TestEnv_PubKey.asc CIC_TestEnv_PubKey.asc
+COPY CICPublicProdKey2023-2025.asc CICPublicProdKey2023-2025.asc
 
 # Set permissions
 RUN chown -R www-data:www-data /opt/drupal/web

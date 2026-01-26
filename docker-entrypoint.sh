@@ -30,7 +30,7 @@ drush cim
 drush updb
 drush im --choice=full
 drush cr
-gpg --import CIC_TestEnv_PubKey.asc
+gpg --import CICPublicProdKey2023-2025.asc
 drush user:role:add administrator "${ADMIN_USERNAME:-drupal}"
 
 drush ev "\$e = \\Drupal::configFactory()->getEditable('smtp.settings'); \$e->set('smtp_password','')->save();" || true

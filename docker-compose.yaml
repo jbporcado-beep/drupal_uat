@@ -1,8 +1,8 @@
 services:
   drupal:
-    # build:
-    #   context: .
-    image: mass-specc/cms:1.0.0
+    build:
+      context: .
+    # image: mass-specc/cms:1.0.0  # Uncomment to use pre-built image instead of building
     ports:
       - 8080:80
     volumes:
