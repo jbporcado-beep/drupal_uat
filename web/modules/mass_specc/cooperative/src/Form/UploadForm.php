@@ -654,6 +654,16 @@ class UploadForm extends FormBase
       return trim($label);
     };
 
+    // Ensure a string is valid UTF-8 so mb_* and other functions do not throw.
+    $ensure_utf8 = static function ($value): string {
+      $value = trim((string) $value);
+      if ($value === '') {
+        return '';
+      }
+      $converted = @mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+      return $converted !== false ? $converted : $value;
+    };
+
     // Read header.
     $header = fgetcsv($stream); //an array
     if ($header === FALSE) {
@@ -681,6 +691,8 @@ class UploadForm extends FormBase
 
     if ($report_type === 'standard_credit_data') {
 
+      try {
+
       if (!in_array('record type', $normalized_header)) {
         $errors[] = "MISSING 'RECORD TYPE' COLUMN IN THE CSV HEADER";
         $tempstore->set('validation_errors', $errors);
@@ -707,7 +719,8 @@ class UploadForm extends FormBase
           $cannot_bypass_errors[] = "Row $row_number | COLUMN COUNT MISMATCH: expected $header_count columns, got " . count($row) . ".";
           continue;
         }
-        $row_with_header = array_combine($normalized_header, $row);
+        $row_sanitized = array_map($ensure_utf8, $row);
+        $row_with_header = array_combine($normalized_header, $row_sanitized);
 
         $record_type = trim((string) ($row_with_header['record type'] ?? ''));
 
@@ -809,6 +822,19 @@ class UploadForm extends FormBase
 
         $action = 'Uploaded ' . $file->getFilename() . ' for ' . $coop_dropdown . ' - ' . $branch_dropdown;
         $this->activityLogger->log($action, 'node', NULL, $data, NULL, $this->currentUser);
+      }
+
+      } catch (\Throwable $e) {
+        if (isset($stream) && is_resource($stream)) {
+          fclose($stream);
+        }
+        \Drupal::logger('cooperative')->error('Upload/verify processing failed: @message', ['@message' => $e->getMessage()]);
+        $this->messenger()->addError($this->t('An error occurred while processing the file. Please ensure the file is UTF-8 encoded and has consistent column counts. You can download the error details from the log.'));
+        $tempstore->set('validation_errors', array_merge(
+          $errors,
+          ['Processing error: ' . $e->getMessage()]
+        ));
+        $tempstore->set('current_file', $file->getFilename());
       }
     }
   }
