@@ -7,7 +7,34 @@ use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountProxy;
+use Drupal\file\FileInterface;
 
+/**
+ * Validates CSV upload by extension and size only (no MIME check).
+ * Allows files to stay in the field so Verify can run and show data errors.
+ *
+ * @param \Drupal\file\FileInterface $file
+ *   The file entity.
+ * @param int $max_size
+ *   Maximum file size in bytes.
+ *
+ * @return array
+ *   Array of error messages, or empty array if valid.
+ */
+function cooperative_validate_csv_upload(FileInterface $file, $max_size) {
+  $errors = [];
+  $filename = $file->getFilename();
+  $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+  if ($ext !== 'csv') {
+    $errors[] = t('Only CSV files are allowed. Found extension: @ext', ['@ext' => $ext ?: 'none']);
+  }
+  if ($file->getSize() > $max_size) {
+    $errors[] = t('The file is too large. Maximum size is @max MB.', [
+      '@max' => round($max_size / 1048576, 1),
+    ]);
+  }
+  return $errors;
+}
 
 /**
  * Implements hook_entity_presave().

@@ -284,8 +284,7 @@ class OthersUploadForm extends FormBase
       '#title' => $this->t('CSV File'),
       '#upload_location' => 'public://branch-file-uploads/',
       '#upload_validators' => [
-        'FileExtension' => ['extensions' => 'csv'],
-        'FileSizeLimit' => ['fileLimit' => $max_filesize],
+        'cooperative_validate_csv_upload' => [$max_filesize],
       ],
       '#required' => TRUE,
     ];
