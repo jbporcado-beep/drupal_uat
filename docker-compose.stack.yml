@@ -27,10 +27,8 @@ services:
       - TEST_USERNAME=${TEST_USERNAME:-}
       - TEST_PASSWORD=${TEST_PASSWORD:-}
     restart: unless-stopped
-    volumes:
-      - ./config:/etc/drupal/config
-      - ./web/modules:/opt/drupal/web/modules
-      - ./web/themes:/opt/drupal/web/themes
+    # No bind mounts: themes/modules come from the image (baked in at build).
+    # Bind mounts fail in Docker Swarm when project dir doesn't exist on the node.
     deploy:
       replicas: 1
       restart_policy:
