@@ -610,21 +610,9 @@ class UploadForm extends FormBase
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void
   {
-    try {
-      $this->doSubmitForm($form, $form_state);
-    }
-    catch (\Throwable $e) {
-      \Drupal::logger('cooperative')->error('CSV upload/verify failed: @message in @file:@line', [
-        '@message' => $e->getMessage(),
-        '@file' => $e->getFile(),
-        '@line' => $e->getLine(),
-      ]);
-      $this->messenger()->addError($this->t('An unexpected error occurred while processing the file. Please check that the CSV format is correct (e.g. fields containing commas must be quoted). Error: @message', ['@message' => $e->getMessage()]));
-    }
-  }
+    // Prevent 502 from PHP timeout when processing large CSV files.
+    @set_time_limit(300);
 
-  private function doSubmitForm(array &$form, FormStateInterface $form_state): void
-  {
     $tempstore = \Drupal::service('tempstore.private')->get('errors_store');
     $tempstore->delete('validation_errors');
     $tempstore->delete('current_file');
@@ -660,9 +648,10 @@ class UploadForm extends FormBase
       return;
     }
 
+    try {
     // Normalize a header/field name to a canonical key.
     $normalize = static function (string $label): string {
-      $label = trim(mb_strtolower($label));
+      $label = trim(mb_strtolower($label, 'UTF-8'));
       $label = str_replace(['_', '-',], ' ', $label);
       $label = str_replace(['/', '(', ')', '.', '\'', ':', '?'], '', $label);
       $label = preg_replace('/\s+/', ' ', $label);
@@ -671,13 +660,13 @@ class UploadForm extends FormBase
 
     // Read header.
     $header = fgetcsv($stream); //an array
-    $normalized_header = array_map($normalize, $header);
-
     if ($header === FALSE) {
       $this->messenger()->addError($this->t('The CSV appears to be empty.'));
       fclose($stream);
       return;
     }
+
+    $normalized_header = array_map($normalize, $header);
 
     // Stats and errors collection.
     $row_number = 1;
@@ -709,13 +698,17 @@ class UploadForm extends FormBase
 
       while (($row = fgetcsv($stream)) !== FALSE) {
         $row_number++;
-        if (count($row) !== count($normalized_header)) {
-          $errors[] = "Row $row_number | CSV format error: inconsistent number of columns (expected " . count($normalized_header) . ", got " . count($row) . "). Ensure fields containing commas are properly quoted.";
-          $cannot_bypass_errors[] = "Row $row_number | CSV format error: inconsistent number of columns. Ensure fields containing commas are properly quoted.";
+
+        // PHP 8+ array_combine() throws ValueError when array lengths differ,
+        // which can cause 502 Bad Gateway. Handle column count mismatch gracefully.
+        if (count($normalized_header) !== count($row)) {
+          $errors[] = "Row $row_number | COLUMN COUNT MISMATCH: row has " . count($row) .
+            " columns but header has " . count($normalized_header) . ". Check for unquoted commas in fields.";
+          $cannot_bypass_errors[] = "Row $row_number | COLUMN COUNT MISMATCH";
           continue;
         }
-        $row_with_header = array_combine($normalized_header, $row);
 
+        $row_with_header = array_combine($normalized_header, $row);
         $record_type = trim((string) ($row_with_header['record type'] ?? ''));
 
         if (!in_array($record_type, ['ID', 'BD', 'CI', 'CN'])) {
@@ -817,6 +810,20 @@ class UploadForm extends FormBase
         $action = 'Uploaded ' . $file->getFilename() . ' for ' . $coop_dropdown . ' - ' . $branch_dropdown;
         $this->activityLogger->log($action, 'node', NULL, $data, NULL, $this->currentUser);
       }
+    }
+    }
+    catch (\Throwable $e) {
+      if (isset($stream) && is_resource($stream)) {
+        fclose($stream);
+      }
+      \Drupal::logger('cooperative')->error('CSV processing failed: @message', [
+        '@message' => $e->getMessage(),
+        'exception' => $e,
+      ]);
+      $this->messenger()->addError($this->t(
+        'File processing failed. Please check the file format and try again. If the problem persists, contact support. Error: @message',
+        ['@message' => $e->getMessage()]
+      ));
     }
   }
 }
