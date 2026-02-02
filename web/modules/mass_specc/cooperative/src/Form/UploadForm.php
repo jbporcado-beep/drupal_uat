@@ -287,6 +287,25 @@ class UploadForm extends FormBase
     return 'cooperative_upload_form';
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state): void
+  {
+    $fids = $form_state->getValue('csv_file');
+    if (empty($fids) || !is_array($fids)) {
+      return;
+    }
+    $file = File::load(reset($fids));
+    if (!$file) {
+      return;
+    }
+    $ext = strtolower(pathinfo($file->getFilename(), PATHINFO_EXTENSION));
+    if ($ext !== 'csv') {
+      $form_state->setErrorByName('csv_file', $this->t('Only CSV files are allowed. Found extension: @ext', ['@ext' => $ext ?: 'none']));
+    }
+  }
+
   /** 
    * {@inheritdoc}
    */
@@ -421,7 +440,7 @@ class UploadForm extends FormBase
       '#title' => $this->t('CSV File'),
       '#upload_location' => 'public://branch-file-uploads/',
       '#upload_validators' => [
-        'cooperative_validate_csv_upload' => [$max_filesize],
+        'file_validate_size' => [$max_filesize],
       ],
       '#required' => TRUE,
     ];
