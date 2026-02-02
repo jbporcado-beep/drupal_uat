@@ -656,10 +656,16 @@ class UploadForm extends FormBase
 
     // Read header.
     $header = fgetcsv($stream); //an array
-    $normalized_header = array_map($normalize, $header);
-
     if ($header === FALSE) {
       $this->messenger()->addError($this->t('The CSV appears to be empty.'));
+      fclose($stream);
+      return;
+    }
+
+    try {
+      $normalized_header = array_map($normalize, $header);
+    } catch (\Throwable $e) {
+      $this->messenger()->addError($this->t('The CSV header could not be read. Ensure the file is UTF-8 encoded.'));
       fclose($stream);
       return;
     }
@@ -692,8 +698,15 @@ class UploadForm extends FormBase
       $connection = \Drupal::database();
       $transaction = $connection->startTransaction();
 
+      $header_count = count($normalized_header);
+
       while (($row = fgetcsv($stream)) !== FALSE) {
         $row_number++;
+        if (count($row) !== $header_count) {
+          $errors[] = "Row $row_number | COLUMN COUNT MISMATCH: expected $header_count columns, got " . count($row) . ". Check for unquoted commas or invalid characters in this row.";
+          $cannot_bypass_errors[] = "Row $row_number | COLUMN COUNT MISMATCH: expected $header_count columns, got " . count($row) . ".";
+          continue;
+        }
         $row_with_header = array_combine($normalized_header, $row);
 
         $record_type = trim((string) ($row_with_header['record type'] ?? ''));
