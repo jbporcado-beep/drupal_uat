@@ -859,6 +859,17 @@ $settings['hash_salt'] = getenv('HASH_SALT');
 $settings['trusted_host_patterns'] = ['.*'];
 $settings['config_sync_directory'] = '/opt/drupal/config/sync';
 
+/**
+ * Reverse proxy configuration (required when behind Cloudflare + reverse proxy).
+ * Trusts common proxy IPs: loopback, Docker bridge, and private networks.
+ */
+$settings['reverse_proxy'] = TRUE;
+$settings['reverse_proxy_addresses'] = ['127.0.0.1', '::1', '10.0.0.0/8', '172.16.0.0/12'];
+$settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR
+  | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST
+  | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT
+  | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO;
+
 if (getenv('DRUPAL_SMTP_USERNAME')) {
   $config['smtp.settings']['smtp_on'] = TRUE;
   $config['smtp.settings']['smtp_host'] = getenv('DRUPAL_SMTP_HOST') ?: '';
