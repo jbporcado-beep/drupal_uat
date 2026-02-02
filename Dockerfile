@@ -13,7 +13,6 @@ COPY web/themes/ /opt/drupal/web/themes/
 COPY web/sites/ /opt/drupal/web/sites/
 COPY web/sites/default/docker.settings.php /opt/drupal/web/sites/default/settings.php
 COPY docker-entrypoint.sh /
-COPY apache-drupal.conf /etc/apache2/sites-available/000-default.conf
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gnupg libssl-dev ca-certificates \
@@ -25,9 +24,6 @@ RUN mkdir -p /var/www/.gnupg \
     && chmod 700 /var/www/.gnupg
 
 COPY CICPublicProdKey2023-2025.asc CICPublicProdKey2023-2025.asc
-
-# Favicon at web root for browser requests to /favicon.ico
-COPY web/sites/default/files/favicon.ico /opt/drupal/web/favicon.ico
 
 # Set permissions
 RUN chown -R www-data:www-data /opt/drupal/web
