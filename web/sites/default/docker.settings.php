@@ -860,6 +860,19 @@ $settings['trusted_host_patterns'] = ['.*'];
 $settings['config_sync_directory'] = '/opt/drupal/config/sync';
 
 /**
+ * Ensure HTTPS scheme for asset URLs when behind reverse proxy.
+ * Without this, Drupal may generate http:// URLs for CSS/JS, causing browsers
+ * to block them (mixed content) when the page is served over HTTPS.
+ */
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+  $_SERVER['HTTPS'] = 'on';
+}
+// Cloudflare fallback when X-Forwarded-Proto is not set
+elseif (isset($_SERVER['HTTP_CF_VISITOR']) && strpos($_SERVER['HTTP_CF_VISITOR'], '"scheme":"https"') !== false) {
+  $_SERVER['HTTPS'] = 'on';
+}
+
+/**
  * Reverse proxy configuration (required when behind Cloudflare + reverse proxy).
  * Trusts common proxy IPs: loopback, Docker bridge, and private networks.
  */
