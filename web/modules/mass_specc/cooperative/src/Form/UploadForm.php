@@ -421,8 +421,8 @@ class UploadForm extends FormBase
       '#title' => $this->t('CSV File'),
       '#upload_location' => 'public://branch-file-uploads/',
       '#upload_validators' => [
-        'file_validate_extensions' => ['csv'],
-        'file_validate_size' => [$max_filesize],
+        'FileExtension' => ['extensions' => 'csv'],
+        'FileSizeLimit' => ['fileLimit' => $max_filesize]
       ],
       '#required' => TRUE,
     ];
@@ -647,7 +647,7 @@ class UploadForm extends FormBase
 
     // Normalize a header/field name to a canonical key.
     $normalize = static function (string $label): string {
-      $label = trim(mb_strtolower($label, 'UTF-8'));
+      $label = trim(mb_strtolower($label));
       $label = str_replace(['_', '-',], ' ', $label);
       $label = str_replace(['/', '(', ')', '.', '\'', ':', '?'], '', $label);
       $label = preg_replace('/\s+/', ' ', $label);
@@ -656,13 +656,13 @@ class UploadForm extends FormBase
 
     // Read header.
     $header = fgetcsv($stream); //an array
+    $normalized_header = array_map($normalize, $header);
+
     if ($header === FALSE) {
       $this->messenger()->addError($this->t('The CSV appears to be empty.'));
       fclose($stream);
       return;
     }
-
-    $normalized_header = array_map($normalize, $header);
 
     // Stats and errors collection.
     $row_number = 1;
