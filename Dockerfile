@@ -14,6 +14,7 @@ COPY web/sites/ /opt/drupal/web/sites/
 COPY web/sites/default/docker.settings.php /opt/drupal/web/sites/default/settings.php
 COPY docker-entrypoint.sh /
 COPY apache-drupal.conf /etc/apache2/sites-available/000-default.conf
+COPY php-csv-upload.ini /usr/local/etc/php/conf.d/99-csv-upload.ini
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gnupg libssl-dev ca-certificates \

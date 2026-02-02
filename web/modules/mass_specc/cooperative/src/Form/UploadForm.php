@@ -610,6 +610,21 @@ class UploadForm extends FormBase
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void
   {
+    try {
+      $this->doSubmitForm($form, $form_state);
+    }
+    catch (\Throwable $e) {
+      \Drupal::logger('cooperative')->error('CSV upload/verify failed: @message in @file:@line', [
+        '@message' => $e->getMessage(),
+        '@file' => $e->getFile(),
+        '@line' => $e->getLine(),
+      ]);
+      $this->messenger()->addError($this->t('An unexpected error occurred while processing the file. Please check that the CSV format is correct (e.g. fields containing commas must be quoted). Error: @message', ['@message' => $e->getMessage()]));
+    }
+  }
+
+  private function doSubmitForm(array &$form, FormStateInterface $form_state): void
+  {
     $tempstore = \Drupal::service('tempstore.private')->get('errors_store');
     $tempstore->delete('validation_errors');
     $tempstore->delete('current_file');
@@ -694,6 +709,11 @@ class UploadForm extends FormBase
 
       while (($row = fgetcsv($stream)) !== FALSE) {
         $row_number++;
+        if (count($row) !== count($normalized_header)) {
+          $errors[] = "Row $row_number | CSV format error: inconsistent number of columns (expected " . count($normalized_header) . ", got " . count($row) . "). Ensure fields containing commas are properly quoted.";
+          $cannot_bypass_errors[] = "Row $row_number | CSV format error: inconsistent number of columns. Ensure fields containing commas are properly quoted.";
+          continue;
+        }
         $row_with_header = array_combine($normalized_header, $row);
 
         $record_type = trim((string) ($row_with_header['record type'] ?? ''));
