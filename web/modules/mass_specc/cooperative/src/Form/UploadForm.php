@@ -308,8 +308,8 @@ class UploadForm extends FormBase
 
     $uid = \Drupal::currentUser()->id();
     $user = $uid > 0 ? User::load($uid) : NULL;
-    $is_uploader = $user->hasRole('uploader') && !$user->hasRole('administrator') && !$user->hasRole('mass_specc_admin');
-    $is_admin = $user->hasRole('administrator') || $user->hasRole('mass_specc_admin');
+    $is_uploader = $user && $user->hasRole('uploader') && !$user->hasRole('administrator') && !$user->hasRole('mass_specc_admin');
+    $is_admin = $user && ($user->hasRole('administrator') || $user->hasRole('mass_specc_admin'));
 
     $coop_options = $this->getCooperatives();
     $branch_options = $this->getBranches();
@@ -421,8 +421,8 @@ class UploadForm extends FormBase
       '#title' => $this->t('CSV File'),
       '#upload_location' => 'public://branch-file-uploads/',
       '#upload_validators' => [
-        'file_validate_extensions' => ['csv'],
-        'file_validate_size' => [$max_filesize],
+        'FileExtension' => ['extensions' => 'csv'],
+        'FileSizeLimit' => ['fileLimit' => $max_filesize],
       ],
       '#required' => TRUE,
     ];
