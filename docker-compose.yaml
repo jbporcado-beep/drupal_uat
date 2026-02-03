@@ -21,7 +21,7 @@ services:
       - ADMIN_PASSWORD=drupal
       - HASH_SALT=qD8QuzN0uncuWGdYACnN
       - DB_HOST=postgresql
-      - DB_PORT=5432
+      - DB_PORT=5434
       - DB_NAME=drupal
       - DB_USERNAME=drupal
       - DB_PASSWORD=drupal
@@ -42,7 +42,7 @@ services:
       - POSTGRESQL_USERNAME=drupal
       - POSTGRESQL_PASSWORD=drupal
     ports:
-      - "15432:5432"
+      - "15434:5434"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRESQL_USERNAME:-postgres} -d ${POSTGRESQL_DATABASE:-postgres}"]
       interval: 5s

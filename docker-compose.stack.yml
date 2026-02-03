@@ -9,7 +9,7 @@ services:
       postgresql:
         condition: service_healthy
     ports:
-      - "8080:80"
+      - "8080:81"
     environment:
       - ADMIN_USERNAME=drupal
       - ADMIN_PASSWORD=drupal
